@@ -12,6 +12,8 @@ import {
   GOOGLE_WEB_ID
 } from '@env';
 
+//TODO: https://docs.expo.io/guides/authentication/#facebook
+
 export default function Login() {
   const [jsonObject, setJsonObject] = React.useState({});
   const _onAuthFacebook = async () => {
