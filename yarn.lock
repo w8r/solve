@@ -6155,6 +6155,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dotenv@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "dotenv@npm:10.0.0"
+  checksum: 9c45712e213de63bdb646b8e5344749b7566e25a67bbd3f03711d54e40eff10066c1f23eff0081d0949fda7c8efcc6e9e8bf18d0f023a8274f55f5d5f97bb6db
+  languageName: node
+  linkType: hard
+
 "ecc-jsbn@npm:~0.1.1":
   version: 0.1.2
   resolution: "ecc-jsbn@npm:0.1.2"
@@ -10949,6 +10956,15 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"react-native-dotenv@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "react-native-dotenv@npm:3.1.1"
+  dependencies:
+    dotenv: ^10.0.0
+  checksum: cec612a8d91eef7b3da1933d50703f7288ba2bf4fa18327aaeb7c421b029ad830da2c7b0dfc55a9dc63198738f66b6bfe1c1912e763ca04bc4498bc3f7fa9935
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:~1.10.2":
   version: 1.10.3
   resolution: "react-native-gesture-handler@npm:1.10.3"
@@ -11472,6 +11488,7 @@ resolve@1.1.7:
     "@react-navigation/stack": ^5.14.5
     "@types/react": ~16.9.35
     "@types/react-native": ~0.63.2
+    dotenv: ^10.0.0
     expo: ~42.0.1
     expo-asset: ~8.3.2
     expo-constants: ~11.0.1
@@ -11486,6 +11503,7 @@ resolve@1.1.7:
     react-dom: 16.13.1
     react-native: "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz"
     react-native-auth0: ^2.9.0
+    react-native-dotenv: ^3.1.1
     react-native-gesture-handler: ~1.10.2
     react-native-reanimated: ~2.2.0
     react-native-safe-area-context: 3.2.0
