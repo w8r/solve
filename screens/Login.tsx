@@ -26,26 +26,6 @@ maybeCompleteAuthSession();
 
 export default function Login() {
   const [jsonObject, setJsonObject] = React.useState({});
-  //   try {
-  //     await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID });
-  //     const loginResult = await Facebook.logInWithReadPermissionsAsync({
-  //       permissions: ['public_profile', 'email']
-  //     });
-  //     if (loginResult.type === 'success') {
-  //       console.log(loginResult);
-  //       const response = await fetch(
-  //         `https://graph.facebook.com/me?access_token=${loginResult.token}`
-  //       );
-  //       const json_rep = await response.json();
-  //       setJsonObject(json_rep);
-  //       alert(`Hi ${json_rep.name}, your id is ${json_rep.id}!`);
-  //     } else {
-  //       alert(`Cancel`);
-  //     }
-  //   } catch ({ message }) {
-  //     alert(`Facebook Login Error: ${message}`);
-  //   }
-  // };
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
