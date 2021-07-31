@@ -55,7 +55,9 @@ export default function Login() {
       const { access_token } = response.params;
       console.log(response);
       setJsonObject(response.params);
-      fetch(`https://graph.facebook.com/me?access_token=${access_token}`)
+      fetch(
+        `https://graph.facebook.com/me?access_token=${access_token}&fields=id,name,email,picture.height(500)`
+      )
         .then((d) => d.json())
         .then((json) => console.log(json));
     }
