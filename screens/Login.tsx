@@ -43,10 +43,13 @@ export default function Login() {
   React.useEffect(() => {
     if (fbResponse?.type === 'success') {
       const { access_token } = fbResponse.params;
-      fetch(
-        `https://graph.facebook.com/me?access_token=${access_token}&fields=id,name,email,picture.height(500)`
-      )
-        .then((d) => d.json())
+      axios
+        .get(`https://graph.facebook.com/me`, {
+          params: {
+            access_token,
+            fields: ['id', 'name', 'email', 'picture.height(500)'].join(',')
+          }
+        })
         .then((json) => setJsonObject(json));
     }
     if (googleResponse?.type === 'success') {
