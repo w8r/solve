@@ -5043,7 +5043,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-js@npm:^1.1.2, base64-js@npm:^1.2.3, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
+"base64-js@npm:^1.1.2, base64-js@npm:^1.2.3, base64-js@npm:^1.3.0, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
   checksum: c1b41a26ddc6620eb7f1ee6c29c812f5942a4e328e74263f995872cfb8ca3aee08542beb25cd10fd7ef16e4f16603e25c35a26e776c01fd55277e5035e829e0e
@@ -6535,6 +6535,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-app-auth@npm:~10.2.2":
+  version: 10.2.2
+  resolution: "expo-app-auth@npm:10.2.2"
+  dependencies:
+    "@expo/config-plugins": ^3.0.0
+    expo-modules-core: ~0.2.0
+    invariant: ^2.2.4
+  checksum: 728d50b8a6660cf0a1d65062b13cf9d428a6f4e5caeef8de9b8da2e714b74c7801d764b6f564f7df9ae9fe4698d5c38e4967bba74a19a6ad12d86639b561ff93
+  languageName: node
+  linkType: hard
+
 "expo-application@npm:~3.2.0":
   version: 3.2.0
   resolution: "expo-application@npm:3.2.0"
@@ -6555,6 +6566,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-auth-session@npm:~3.3.1":
+  version: 3.3.1
+  resolution: "expo-auth-session@npm:3.3.1"
+  dependencies:
+    expo-constants: ~11.0.1
+    expo-crypto: ~9.2.0
+    expo-linking: ~2.3.1
+    expo-web-browser: ~9.2.0
+    invariant: ^2.2.4
+    qs: 6.9.1
+  peerDependencies:
+    expo-random: "*"
+  peerDependenciesMeta:
+    expo-random:
+      optional: true
+  checksum: bf422bbcc714c7764689da2f70794c6d03928d06bc0bd5d23892a28c71fe9995f8fe8a0f68dc085544288364cc2f03ae11739e3e65676ac5c4e64405defe2331
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~11.0.1":
   version: 11.0.1
   resolution: "expo-constants@npm:11.0.1"
@@ -6566,6 +6596,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-crypto@npm:~9.2.0":
+  version: 9.2.0
+  resolution: "expo-crypto@npm:9.2.0"
+  checksum: 61d37455f7a1e3ec194b16d6ef50728ac8b202a718b54365ac034503443bfd370637cdbd7bf6e14ee1f781c23e279453b2bf60a8a0ea27928f979d7a1078e302
+  languageName: node
+  linkType: hard
+
 "expo-error-recovery@npm:~2.2.0":
   version: 2.2.0
   resolution: "expo-error-recovery@npm:2.2.0"
@@ -6573,7 +6610,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-facebook@npm:^11.3.1":
+"expo-facebook@npm:~11.3.1":
   version: 11.3.1
   resolution: "expo-facebook@npm:11.3.1"
   dependencies:
@@ -6601,6 +6638,15 @@ __metadata:
     expo-modules-core: ~0.2.0
     fontfaceobserver: ^2.1.0
   checksum: ba0405e2a07a18a7cb0b1039ffe8498ff73f33264130325334e684a7524e05f302917ee132d380994f3a76c14e37239410f1aecb7e9ea27a0847c09cfdb710fd
+  languageName: node
+  linkType: hard
+
+"expo-google-app-auth@npm:^8.2.2":
+  version: 8.2.2
+  resolution: "expo-google-app-auth@npm:8.2.2"
+  dependencies:
+    expo-app-auth: ~10.2.2
+  checksum: 307484be7afd5fa2dd1f075afe6c743ffc28878c43921daadc833668dd44a90442ca1dc15944d96f7e83768561fb2bd86e5dd0b357e690a7d2930893d27a65ec
   languageName: node
   linkType: hard
 
@@ -6642,6 +6688,15 @@ __metadata:
   version: 0.2.0
   resolution: "expo-modules-core@npm:0.2.0"
   checksum: 03d3091c2a1f936a64b2c7b0bba4e4bd71c4be7eed5a9ebe288845ba7958382fb6beca0365cff35fac25e1b1006a47b167a0b1fc37ba92b1d1d05ff03e104f43
+  languageName: node
+  linkType: hard
+
+"expo-random@npm:~11.2.0":
+  version: 11.2.0
+  resolution: "expo-random@npm:11.2.0"
+  dependencies:
+    base64-js: ^1.3.0
+  checksum: 987758e448df7c48e1957a5be032e665e911bed88797a720431af5de9bdd7d8ff58c81dc4e36d363bede8c0c6a7cd28b1fb07417ea5c890fdc8ab77475ebfdd5
   languageName: node
   linkType: hard
 
@@ -10938,6 +10993,13 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"qs@npm:6.9.1":
+  version: 6.9.1
+  resolution: "qs@npm:6.9.1"
+  checksum: acc162048da4faa4cf65544b2bc7f3df35dd167c1796a0ef82c857e77844bb002ce14b678cd9be442ddc31cb8cb71d719c68a460cf11ada63b3e69ca1f70aa3b
+  languageName: node
+  linkType: hard
+
 "qs@npm:^6.5.0":
   version: 6.10.1
   resolution: "qs@npm:6.10.1"
@@ -11607,10 +11669,13 @@ resolve@1.1.7:
     dotenv: ^10.0.0
     expo: ~42.0.1
     expo-asset: ~8.3.2
+    expo-auth-session: ~3.3.1
     expo-constants: ~11.0.1
-    expo-facebook: ^11.3.1
+    expo-facebook: ~11.3.1
     expo-font: ~9.2.1
+    expo-google-app-auth: ^8.2.2
     expo-linking: ~2.3.1
+    expo-random: ~11.2.0
     expo-splash-screen: ~0.11.2
     expo-status-bar: ~1.0.4
     expo-web-browser: ~9.2.0
