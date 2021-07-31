@@ -7,6 +7,7 @@ import { Text, View } from '../components/Themed';
 
 import { maybeCompleteAuthSession } from 'expo-web-browser';
 import * as Facebook from 'expo-auth-session/providers/facebook';
+import * as Google from 'expo-auth-session/providers/google';
 import { ResponseType } from 'expo-auth-session';
 import { Button } from 'native-base';
 
@@ -17,6 +18,7 @@ import {
   GOOGLE_WEB_ID,
   GOOGLE_EXPO_ID
 } from '@env';
+import axios from 'axios';
 
 maybeCompleteAuthSession();
 
@@ -45,27 +47,42 @@ export default function Login() {
   //   }
   // };
 
-  const [request, response, promptAsync] = Facebook.useAuthRequest({
+  const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
     responseType: ResponseType.Token
   });
 
+  const [googleRequest, googleResponse, googlePromptAsync] =
+    Google.useAuthRequest({
+      expoClientId: GOOGLE_EXPO_ID,
+      iosClientId: GOOGLE_IOS_ID,
+      androidClientId: GOOGLE_ANDROID_ID,
+      webClientId: GOOGLE_WEB_ID
+    });
+
   React.useEffect(() => {
-    if (response?.type === 'success') {
-      const { access_token } = response.params;
-      console.log(response);
-      setJsonObject(response.params);
+    if (fbResponse?.type === 'success') {
+      const { access_token } = fbResponse.params;
       fetch(
         `https://graph.facebook.com/me?access_token=${access_token}&fields=id,name,email,picture.height(500)`
       )
         .then((d) => d.json())
-        .then((json) => console.log(json));
+        .then((json) => setJsonObject(json));
     }
-  }, [response]);
+    if (googleResponse?.type === 'success') {
+      const { access_token } = googleResponse.params;
+      axios
+        .get('https://www.googleapis.com/oauth2/v2/userinfo', {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
+        })
+        .then((json) => setJsonObject(json));
+    }
+  }, [fbResponse, googleResponse]);
 
-  const _onAuthFacebook = async () => {
-    promptAsync();
-  };
+  const onAuthFacebook = () => fbPromptAsync();
+  const onAuthGoogle = () => googlePromptAsync();
 
   return (
     <View style={styles.container}>
@@ -76,12 +93,20 @@ export default function Login() {
         darkColor="rgba(255,255,255,0.1)"
       />
       <Button
-        disabled={!request}
-        onPress={_onAuthFacebook}
+        disabled={!fbRequest}
+        onPress={onAuthFacebook}
         style={[styles.button, { backgroundColor: '#3b5998' }]}
       >
         {/* <FontAwesome name="facebook" size={17} color="#ffffff" /> */}
         Sign in with Facebook
+      </Button>
+      <Button
+        disabled={!googleRequest}
+        onPress={onAuthGoogle}
+        style={[styles.button, { backgroundColor: '#ff3b59' }]}
+      >
+        {/* <FontAwesome name="google" size={17} color="#ffffff" /> */}
+        Sign in with Google
       </Button>
       <View>
         <Text>{JSON.stringify(jsonObject, undefined, 2)}</Text>
