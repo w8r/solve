@@ -24,7 +24,6 @@ maybeCompleteAuthSession();
 
 export default function Login() {
   const [jsonObject, setJsonObject] = React.useState({});
-  // const _onAuthFacebook = async () => {
   //   try {
   //     await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID });
   //     const loginResult = await Facebook.logInWithReadPermissionsAsync({
@@ -48,13 +47,17 @@ export default function Login() {
 
   const [request, response, promptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
-    responseType: ResponseType.Code
+    responseType: ResponseType.Token
   });
 
   React.useEffect(() => {
     if (response?.type === 'success') {
-      const { code } = response.params;
+      const { access_token } = response.params;
+      console.log(response);
       setJsonObject(response.params);
+      fetch(`https://graph.facebook.com/me?access_token=${access_token}`)
+        .then((d) => d.json())
+        .then((json) => console.log(json));
     }
   }, [response]);
 
