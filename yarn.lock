@@ -3358,6 +3358,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-async-storage/async-storage@npm:~1.15.0":
+  version: 1.15.5
+  resolution: "@react-native-async-storage/async-storage@npm:1.15.5"
+  dependencies:
+    deep-assign: ^3.0.0
+  peerDependencies:
+    react-native: ^0.60.6 || ^0.61.5 || ^0.62.2 || ^0.63.2 || ^0.64.0 || 1000.0.0
+  checksum: c4794e1aa9cf8b2ce000b4b473cb91f1ec472776c3378f9c121f6ce419631d02e3285dd6076aa05f3ef836f07664a12860cee19686a8d9faefad180677562d7e
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-debugger-ui@npm:^4.13.1":
   version: 4.13.1
   resolution: "@react-native-community/cli-debugger-ui@npm:4.13.1"
@@ -11679,6 +11690,7 @@ resolve@1.1.7:
   dependencies:
     "@babel/core": ^7.9.0
     "@expo/vector-icons": ^12.0.0
+    "@react-native-async-storage/async-storage": ~1.15.0
     "@react-native-community/masked-view": 0.1.10
     "@react-navigation/bottom-tabs": 5.11.2
     "@react-navigation/native": ^5.9.4
