@@ -14,3 +14,4 @@ __tests__
 
 # macOS
 .DS_Store
+__generated__

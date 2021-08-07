@@ -18,11 +18,10 @@ import {
   GOOGLE_WEB_ID,
   GOOGLE_EXPO_ID
 } from '@env';
+
 import axios from 'axios';
 
 maybeCompleteAuthSession();
-
-//TODO: https://docs.expo.io/guides/authentication/#facebook
 
 export default function Login() {
   const [jsonObject, setJsonObject] = React.useState({});
@@ -32,16 +31,13 @@ export default function Login() {
     responseType: ResponseType.Token
   });
 
-  const [
-    googleRequest,
-    googleResponse,
-    googlePromptAsync
-  ] = Google.useAuthRequest({
-    expoClientId: GOOGLE_EXPO_ID,
-    iosClientId: GOOGLE_IOS_ID,
-    androidClientId: GOOGLE_ANDROID_ID,
-    webClientId: GOOGLE_WEB_ID
-  });
+  const [googleRequest, googleResponse, googlePromptAsync] =
+    Google.useAuthRequest({
+      expoClientId: GOOGLE_EXPO_ID,
+      iosClientId: GOOGLE_IOS_ID,
+      androidClientId: GOOGLE_ANDROID_ID,
+      webClientId: GOOGLE_WEB_ID
+    });
 
   React.useEffect(() => {
     if (fbResponse?.type === 'success') {
