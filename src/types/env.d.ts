@@ -6,4 +6,7 @@ declare module '@env' {
   export const GOOGLE_WEB_ID: string;
   export const FACEBOOK_APP_ID: string;
   export const API_URL: string;
+  export const DB_URL: string;
+  export const DB_USER: string;
+  export const DB_PASS: string;
 }

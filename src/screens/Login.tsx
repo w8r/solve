@@ -32,13 +32,16 @@ export default function Login() {
     responseType: ResponseType.Token
   });
 
-  const [googleRequest, googleResponse, googlePromptAsync] =
-    Google.useAuthRequest({
-      expoClientId: GOOGLE_EXPO_ID,
-      iosClientId: GOOGLE_IOS_ID,
-      androidClientId: GOOGLE_ANDROID_ID,
-      webClientId: GOOGLE_WEB_ID
-    });
+  const [
+    googleRequest,
+    googleResponse,
+    googlePromptAsync
+  ] = Google.useAuthRequest({
+    expoClientId: GOOGLE_EXPO_ID,
+    iosClientId: GOOGLE_IOS_ID,
+    androidClientId: GOOGLE_ANDROID_ID,
+    webClientId: GOOGLE_WEB_ID
+  });
 
   React.useEffect(() => {
     if (fbResponse?.type === 'success') {
