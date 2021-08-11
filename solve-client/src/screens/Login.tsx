@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 //import * as Facebook from 'expo-facebook';
 
@@ -24,7 +24,7 @@ import axios from 'axios';
 maybeCompleteAuthSession();
 
 export default function Login() {
-  const [jsonObject, setJsonObject] = React.useState({});
+  const [jsonObject, setJsonObject] = useState({});
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
@@ -39,7 +39,7 @@ export default function Login() {
       webClientId: GOOGLE_WEB_ID
     });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (fbResponse?.type === 'success') {
       const { access_token } = fbResponse.params;
       axios

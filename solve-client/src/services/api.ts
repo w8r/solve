@@ -5,6 +5,7 @@ import AppConfig from '../constants/config';
 import { TOKEN_KEY } from '../constants';
 import { isWeb } from '../constants/device';
 import { Graph, GraphEdge, GraphNode } from '../types/graph';
+import { User } from '../contexts/AuthContext';
 
 const transport = axios.create({
   baseURL: AppConfig.apiUrl,
@@ -16,11 +17,11 @@ export function setToken(token: string) {
   transport.defaults.headers.common['x-auth-token'] = token;
 }
 
-function request(
+function request<T>(
   path: string,
   method: 'get' | 'post' | 'delete' | 'put' = 'get',
   data: Record<string, unknown> = {}
-) {
+): Promise<T> {
   return AsyncStorage.getItem(TOKEN_KEY).then((token) => {
     return new Promise((resolve, reject) => {
       console.log('api: ', method.toUpperCase(), AppConfig.apiUrl, path);
@@ -34,22 +35,22 @@ function request(
           },
           data: method === 'get' ? undefined : data
         })
-        .then((response) => resolve(response))
+        .then((response) => resolve(response as unknown as T))
         .catch((error) => reject(error));
     });
   });
 }
 
-function get(path: string, data?: Record<string, unknown>) {
-  return request(path, 'get', data);
+function get<T>(path: string, data?: Record<string, unknown>) {
+  return request<T>(path, 'get', data);
 }
 
-function post(path: string, data?: Record<string, unknown>) {
-  return request(path, 'post', data);
+function post<T>(path: string, data?: Record<string, unknown>): Promise<T> {
+  return request<T>(path, 'post', data);
 }
 
-function put(path: string, data: Record<string, unknown>) {
-  return request(path, 'put', data);
+function put<T>(path: string, data: Record<string, unknown>) {
+  return request<T>(path, 'put', data);
 }
 
 export function status() {
@@ -59,8 +60,8 @@ export function status() {
   });
 }
 
-export function login(email: string, password: string) {
-  return post('/api/user/login', { email, password });
+export function login(email: string, password: string): Promise<User> {
+  return post<User>('/api/user/login', { email, password });
 }
 
 export function logout() {
