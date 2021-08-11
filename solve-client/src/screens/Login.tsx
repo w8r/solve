@@ -19,7 +19,7 @@ import {
   GOOGLE_EXPO_ID
 } from '@env';
 
-import axios from 'axios';
+import transport from 'axios';
 
 maybeCompleteAuthSession();
 
@@ -42,7 +42,7 @@ export default function Login() {
   useEffect(() => {
     if (fbResponse?.type === 'success') {
       const { access_token } = fbResponse.params;
-      axios
+      transport
         .get(`https://graph.facebook.com/me`, {
           params: {
             access_token,
@@ -53,7 +53,7 @@ export default function Login() {
     }
     if (googleResponse?.type === 'success') {
       const { access_token } = googleResponse.params;
-      axios
+      transport
         .get('https://www.googleapis.com/oauth2/v2/userinfo', {
           headers: {
             Authorization: `Bearer ${access_token}`
