@@ -41,7 +41,8 @@ export default function Login() {
 
   useEffect(() => {
     if (fbResponse?.type === 'success') {
-      const { access_token } = fbResponse.params;
+      const { access_token, refresh_token } = fbResponse.params;
+      console.log(access_token, fbResponse.params);
       transport
         .get(`https://graph.facebook.com/me`, {
           params: {
@@ -49,7 +50,10 @@ export default function Login() {
             fields: ['id', 'name', 'email', 'picture.height(500)'].join(',')
           }
         })
-        .then((json) => setJsonObject(json));
+        .then((json) => {
+          console.log(json);
+          setJsonObject(json);
+        });
     }
     if (googleResponse?.type === 'success') {
       const { access_token } = googleResponse.params;

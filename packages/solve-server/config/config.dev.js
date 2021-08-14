@@ -8,7 +8,7 @@ const constants = require('../core/constants');
 let devConfig = {
   auth: {
     appleSignIn: false,
-    facebookSignIn: false,
+    facebookSignIn: true,
     googleSignIn: false,
     resetPassword: false, // If true, be able to reset password via email
     verifyEmail: false // If true, require email verification when signing up

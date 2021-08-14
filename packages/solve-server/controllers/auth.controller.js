@@ -18,7 +18,7 @@ const resetPasswordSchema = Joi.object({
   password: Joi.string()
     .required()
     .min(8)
-    .messages(constants.ERROR_MESSAGE_PASSWORD),
+    .messages(constants.ERROR_MESSAGE_PASSWORD)
 });
 
 /**
@@ -50,7 +50,7 @@ module.exports.resetPassword = (req, res, next) => {
       return User.findOne({
         email: req.body.email,
         token: req.params.token,
-        tokenPurpose: constants.TOKEN_PURPOSE_RESET_PASSWORD,
+        tokenPurpose: constants.TOKEN_PURPOSE_RESET_PASSWORD
       });
     })
     .then((user) => {
@@ -84,7 +84,7 @@ const sendTokenSchema = Joi.object({
     .valid(
       constants.TOKEN_PURPOSE_VERIFY_EMAIL,
       constants.TOKEN_PURPOSE_RESET_PASSWORD
-    ),
+    )
 });
 
 /**
@@ -129,6 +129,7 @@ module.exports.sendToken = (req, res, next) => {
  *
  */
 module.exports.invalidateAllJwtTokens = (req, res, next) => {
+  console.log('here');
   if (req.user) {
     // Invalidate all JWT tokens by set new subId
     req.user.setSubId();
@@ -148,7 +149,7 @@ module.exports.invalidateAllJwtTokens = (req, res, next) => {
  */
 const verifyTokenSchema = Joi.object({
   refreshToken: Joi.boolean().default(false),
-  refreshUser: Joi.boolean().default(false),
+  refreshUser: Joi.boolean().default(false)
 });
 
 /**
@@ -169,14 +170,14 @@ module.exports.verifyJwtToken = (req, res, next) => {
         if (req.body.refreshToken) {
           result = {
             ...result,
-            ...req.user.generateJwtToken(req.user.signedInWithProvider),
+            ...req.user.generateJwtToken(req.user.signedInWithProvider)
           };
         }
 
         if (req.body.refreshUser) {
           result = {
             ...result,
-            user: req.user.toJsonFor(req.user),
+            user: req.user.toJsonFor(req.user)
           };
         }
 
@@ -194,7 +195,7 @@ const localSignInSchema = Joi.object({
     .pattern(/^[a-zA-Z0-9.\-_]{4,30}$/)
     .messages(constants.ERROR_MESSAGE_USERNAME),
   email: Joi.string().email().messages(constants.ERROR_MESSAGE_EMAIL),
-  password: Joi.string().required().messages(constants.ERROR_MESSAGE_PASSWORD),
+  password: Joi.string().required().messages(constants.ERROR_MESSAGE_PASSWORD)
 })
   .xor('username', 'email')
   .messages({ 'object.missing': 'Either username or email must be provided' });
@@ -228,9 +229,9 @@ const appleSignInSchema = Joi.object({
   user: Joi.object({
     name: Joi.object({
       firstName: Joi.string().allow(null),
-      lastName: Joi.string().allow(null),
-    }),
-  }),
+      lastName: Joi.string().allow(null)
+    })
+  })
 });
 
 /**
@@ -254,7 +255,7 @@ module.exports.validateAppleSignInPayload = (req, res, next) => {
  * JOI schema for validating googleSignIn payload
  */
 const googleSignInSchema = Joi.object({
-  idToken: Joi.string().required(),
+  idToken: Joi.string().required()
 });
 
 /**
@@ -279,7 +280,7 @@ module.exports.validateGoogleSignInPayload = (req, res, next) => {
  */
 const facebookSignInSchema = Joi.object({
   accessToken: Joi.string().required(),
-  refreshToken: Joi.string(),
+  refreshToken: Joi.string()
 });
 
 /**
@@ -311,7 +312,7 @@ module.exports.signIn = (req, res, next) => {
     res.status(200).json({
       ...req.user.generateJwtToken(req.user.signedInWithProvider),
       signedInWith: req.user.signedInWithProvider,
-      user: req.user.toJsonFor(req.user),
+      user: req.user.toJsonFor(req.user)
     });
   }
 };
@@ -333,7 +334,7 @@ const signUpSchema = Joi.object({
     .min(8)
     .messages(constants.ERROR_MESSAGE_PASSWORD),
   firstName: Joi.string().trim(),
-  lastName: Joi.string().trim(),
+  lastName: Joi.string().trim()
 });
 
 /**
@@ -353,7 +354,7 @@ module.exports.signUp = (req, res, next) => {
     .then((payload) => {
       req.body = payload;
       return User.findOne({
-        $or: [{ email: payload.email }, { username: payload.username }],
+        $or: [{ email: payload.email }, { username: payload.username }]
       });
     })
     .then((existingUser) => {
@@ -373,7 +374,7 @@ module.exports.signUp = (req, res, next) => {
       }
 
       newUser.provider.local = {
-        userId: newUser._id,
+        userId: newUser._id
       };
       return newUser.setPasswordAsync(req.body.password);
     })
@@ -388,13 +389,13 @@ module.exports.signUp = (req, res, next) => {
       if (config.auth.verifyEmail) {
         return sendVerificationEmailAsync(user).then((result) => {
           res.status(201).json({
-            message: 'A verification email has been sent to your email',
+            message: 'A verification email has been sent to your email'
           });
         });
       }
 
       res.status(201).json({
-        message: 'Your account has been created successfully',
+        message: 'Your account has been created successfully'
       });
     })
     .catch(next);
@@ -404,7 +405,7 @@ module.exports.signUp = (req, res, next) => {
  * JOI schema for validating verifyEmail payload
  */
 const verifyEmailSchema = Joi.object({
-  password: Joi.string().required().messages(constants.ERROR_MESSAGE_PASSWORD),
+  password: Joi.string().required().messages(constants.ERROR_MESSAGE_PASSWORD)
 });
 
 /**
@@ -432,7 +433,7 @@ module.exports.verifyEmail = (req, res, next) => {
 
       return User.findOne({
         token: req.params.token,
-        tokenPurpose: constants.TOKEN_PURPOSE_VERIFY_EMAIL,
+        tokenPurpose: constants.TOKEN_PURPOSE_VERIFY_EMAIL
       });
     })
     .then((user) => {
@@ -492,7 +493,7 @@ const sendPasswordResetToken = (req, res, next) => {
     })
     .then((result) => {
       res.status(200).json({
-        message: 'A password-reset email has been sent to your email',
+        message: 'A password-reset email has been sent to your email'
       });
     })
     .catch(next);
@@ -530,7 +531,7 @@ const sendVerificationEmailToken = (req, res, next) => {
     })
     .then((result) => {
       res.status(200).json({
-        message: 'A verification email has been sent to your email',
+        message: 'A verification email has been sent to your email'
       });
     })
     .catch(next);
@@ -590,7 +591,7 @@ const sendEmailHelperAsync = (
       url,
       signature: config.email.signature,
       appTitle: config.app.title,
-      publicUrl: config.server.publicUrl,
-    },
+      publicUrl: config.server.publicUrl
+    }
   });
 };
