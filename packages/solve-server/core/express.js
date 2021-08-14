@@ -57,7 +57,7 @@ app.use((req, res, next) => {
     'text/html': () => {
       res.sendFile(path.resolve(__dirname, '../public/404.html'));
     },
-    default: () => next(createError(404, 'Not Found')),
+    default: () => next(createError(404, 'Not Found'))
   });
 });
 

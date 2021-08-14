@@ -11,10 +11,10 @@ let devConfig = {
     facebookSignIn: false,
     googleSignIn: false,
     resetPassword: false, // If true, be able to reset password via email
-    verifyEmail: false, // If true, require email verification when signing up
+    verifyEmail: false // If true, require email verification when signing up
   },
   morgan: {
-    format: constants.MORGAN_FORMAT_DEV, // TODO: possible values: combined, common, dev, short, tiny
+    format: constants.MORGAN_FORMAT_DEV // TODO: possible values: combined, common, dev, short, tiny
   },
   oauth: {},
   seed: {
@@ -26,7 +26,7 @@ let devConfig = {
         password: 'password',
         firstName: 'Root',
         lastName: 'Account',
-        role: constants.ROLE_ROOT,
+        role: constants.ROLE_ROOT
       },
       {
         username: 'admin',
@@ -34,7 +34,7 @@ let devConfig = {
         password: 'password',
         firstName: 'Admin',
         lastName: 'Account',
-        role: constants.ROLE_ADMIN,
+        role: constants.ROLE_ADMIN
       },
       {
         username: 'user',
@@ -42,10 +42,10 @@ let devConfig = {
         password: 'password',
         firstName: 'User',
         lastName: 'Account',
-        role: constants.ROLE_USER,
-      },
-    ],
-  },
+        role: constants.ROLE_USER
+      }
+    ]
+  }
 };
 
 devConfig = _.merge({}, defaultConfig, devConfig);
