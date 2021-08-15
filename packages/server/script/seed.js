@@ -18,7 +18,7 @@ module.exports.createUsers = (users) => {
       return sequence
         .then(() => {
           return Users.findOne({
-            $or: [{ name: userInfo.username }, { email: userInfo.email }]
+            $or: [{ name: userInfo.name }, { email: userInfo.email }]
           });
         })
         .then((existingUser) => {
@@ -30,12 +30,8 @@ module.exports.createUsers = (users) => {
             );
           }
           const user = new Users(userInfo);
-          user.provider.local = {
-            userId: user._id
-          };
-          return user
-            .setPasswordAsync(userInfo.password)
-            .then(() => user.save());
+          user.provider.local = { userId: user._id };
+          return user.save();
         })
         .then((user) => {
           if (config.debug)

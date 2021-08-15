@@ -32,24 +32,19 @@ before((done) => {
   });
 });
 
-beforeEach((done) => {
+beforeEach(() => {
   const Users = mongoose.model('Users');
-  Users.deleteMany({}).then((res) => {
-    done();
-  });
+  return Users.deleteMany({});
 });
 
-beforeEach((done) => {
-  seed.createUsers(users).then((users) => {
+beforeEach(() => {
+  return seed.createUsers(users).then((users) => {
     app.locals.existing = {};
     users.forEach((user) => {
       user.jwtToken = generateJwtToken(user, 'local');
       app.locals.existing[[user.name]] = user;
     });
-    done();
   });
 });
 
-after((done) => {
-  mongoose.connection.db.dropDatabase((err, result) => done());
-});
+after(() => mongoose.connection.db.dropDatabase());

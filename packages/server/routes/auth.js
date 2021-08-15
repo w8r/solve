@@ -9,18 +9,24 @@ const router = express.Router();
 const jwtAuthenticate = authStrategy('jwt');
 const localAuthenticate = authStrategy('local');
 
-const rateLimiter = createRateLimiter({
+const failRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 20,
   skipSuccessfulRequests: true
 });
 
-router.post('/signup', authController.signupLocal);
+const successRateLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  skipFailedRequests: true
+});
+
+router.post('/signup', successRateLimiter, authController.signupLocal);
 router.post('/logout', authController.logout);
 
 router.post(
   '/signin',
-  rateLimiter,
+  failRateLimiter,
   authController.validateLocalSignInPayload,
   localAuthenticate,
   authController.signIn

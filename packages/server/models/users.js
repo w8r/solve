@@ -165,7 +165,7 @@ usersSchema.methods.toJSON = function () {
  * @returns {Promise} Resolve with null value
  */
 usersSchema.methods.setPasswordAsync = function (password) {
-  const saltRounds = 10;
+  const saltRounds = 8;
   return bcrypt.hash(password, saltRounds).then((hash) => {
     this.password = hash;
   });

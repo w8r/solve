@@ -110,23 +110,56 @@ describe('ENDPOINT: POST /api/auth/signup', function () {
 describe('ENDPOINT: POST /api/auth/signin', () => {
   const endpoint = '/api/auth/signin';
 
-  it.only('POST /api/auth/signin - Success with name/pass', () => {
+  it(`POST ${endpoint} - fails with wrong name`, () => {
+    const user = { name: 'random', password: 'password' };
     return request(app)
       .post(endpoint)
-      .send({ name: 'root', password: 'password' })
+      .send(user)
       .expect(401)
-      .expect((res) => {
-        console.log(res.body);
+      .expect({ error: { message: 'Username or email does not exist' } });
+  });
+
+  it(`POST ${endpoint} - fails with wrong email`, () => {
+    const user = { email: 'random@tdev.app', password: 'password' };
+    return request(app)
+      .post(endpoint)
+      .send(user)
+      .expect(401)
+      .expect({ error: { message: 'Username or email does not exist' } });
+  });
+
+  it(`POST ${endpoint} - fails with wrong name`, () => {
+    const user = { name: 'root', password: 'wrongpassword' };
+    return request(app)
+      .post(endpoint)
+      .send(user)
+      .expect(401)
+      .expect({ error: { message: 'Password is incorrect' } });
+  });
+
+  it(`POST ${endpoint} - Success with name/pass`, () => {
+    const user = { name: 'root', password: 'password' };
+    return request(app)
+      .post(endpoint)
+      .send(user)
+      .expect(200)
+      .expect(({ body: res }) => {
+        assert.isString(res.token);
+        assert.equal(res.signedInWith, 'local');
+        assert.equal(res.user.name, user.name);
       });
   });
 
-  it('POST /api/auth/signin - Success with email/pass', () => {
+  it(`POST ${endpoint} - Success with email/pass`, () => {
+    const user = { email: 'root@tdev.app', password: 'password' };
     return request(app)
       .post(endpoint)
-      .send({ email: 'root@tdev.app', password: 'password' })
+      .send(user)
       .expect(200)
       .expect(({ body: res }) => {
-        console.log(res);
+        assert.isString(res.token);
+        assert.equal(res.signedInWith, 'local');
+        assert.equal(res.user.email, user.email);
       });
   });
 });
