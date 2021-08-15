@@ -1,19 +1,26 @@
 require('dotenv').config({
-  path: `${__dirname}/../../../.env`
+  path: `${__dirname}/../../../.env${
+    process.env.NODE_ENV === 'test' ? '.test' : ''
+  }`
 });
 
-console.log(process.env);
+console.log(
+  process.env.NODE_ENV,
+  `${__dirname}/../../../.env${process.env.NODE_ENV === 'test' ? '.test' : ''}`,
+  process.env
+);
 
 module.exports = {
   env: process.env.NODE_ENV,
-  port: 3001,
+  port: process.env.PORT,
   //DB_URI: 'mongodb://localhost:27017/solve-dev',
   DB_URI: process.env.MONGO_URI,
   jwt: {
     secret: process.env.JWT_SECRET,
     name: 'solve',
     headerName: 'x-auth-token',
-    tokenLifeTime: 60 * 60 * 24 * 365
+    algorithm: 'HS512',
+    expiresIn: 60 * 24 * 60 * 60 // seconds
   },
   auth: {
     googleId: process.env.GOOGLE_CLIENT_ID,

@@ -7,29 +7,29 @@ const constants = require('../config/constants');
 
 const providerDataSchema = new Schema({
   userId: {
-    type: String,
+    type: Schema.Types.String,
     required: [true, 'Provider userId is required']
   },
   accessToken: {
-    type: String
+    type: Schema.Types.String
   },
   refreshToken: {
-    type: String
+    type: Schema.Types.String
   },
   picture: {
-    type: String
+    type: Schema.Types.String
   }
 });
 
 const usersSchema = new Schema(
   {
     name: {
-      type: String,
+      type: Schema.Types.String,
       required: true,
       maxlength: 100
     },
     email: {
-      type: String,
+      type: Schema.Types.String,
       lowercase: true,
       unique: true,
       required: true,
@@ -40,7 +40,7 @@ const usersSchema = new Schema(
       }
     },
     password: {
-      type: String,
+      type: Schema.Types.String,
       required: false,
       minlength: 6,
       trim: true
@@ -48,13 +48,13 @@ const usersSchema = new Schema(
     tokens: [
       {
         token: {
-          type: String,
+          type: Schema.Types.String,
           required: true
         }
       }
     ],
     status: {
-      type: String,
+      type: Schema.Types.String,
       enum: [
         constants.STATUS_ACTIVE,
         constants.STATUS_DISABLED,
@@ -65,14 +65,14 @@ const usersSchema = new Schema(
     },
     score: {
       type: Schema.Types.Number,
-      required: true
+      default: 0
     },
     // token for veryfication email or reset password purpose, NOT JWT token
     // Do NOT set directly, call user.setToken(tokenPurpose) user.clearToken()
     // to set and clear token and tokenPurpose
-    token: { type: String, index: true },
+    token: { type: Schema.Types.String, index: true },
     tokenPurpose: {
-      type: String,
+      type: Schema.Types.String,
       enum: [
         constants.TOKEN_PURPOSE_VERIFY_EMAIL,
         constants.TOKEN_PURPOSE_RESET_PASSWORD
@@ -100,13 +100,15 @@ const usersSchema = new Schema(
 
 usersSchema.pre('save', function (next) {
   if (!this.isModified('password')) return next();
-  const user = this;
   return bcrypt
     .hash(this.password, 8)
     .then((password) => {
-      user.password = password;
+      this.password = password;
     })
-    .then(() => next(null, user));
+    .then(() => {
+      this.score = this.score || 0;
+    })
+    .then(() => next(null, this));
 });
 
 usersSchema.statics.findByCredentials = ({ email, password }) => {
@@ -129,7 +131,7 @@ usersSchema.methods.generateAuthToken = function () {
     },
     config.jwt.secret,
     {
-      expiresIn: config.jwt.tokenLifeTime
+      expiresIn: config.jwt.expiresIn
     }
   );
 
@@ -149,6 +151,23 @@ usersSchema.methods.toJSON = function () {
   delete data.__v;
 
   return data;
+};
+
+/**
+ * Set password to this user
+ * The password will be hashed and assigned to password field
+ *
+ * Call this function when updating the user password
+ *
+ * @param {*} password
+ *
+ * @returns {Promise} Resolve with null value
+ */
+usersSchema.methods.setPasswordAsync = function (password) {
+  const saltRounds = 10;
+  return bcrypt.hash(password, saltRounds).then((hash) => {
+    this.password = hash;
+  });
 };
 
 const Users = model('Users', usersSchema);

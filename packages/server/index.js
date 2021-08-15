@@ -5,10 +5,6 @@ const cors = require('cors');
 const listEndpoints = require('express-list-endpoints');
 const chalk = require('chalk');
 
-require('dotenv').config({
-  path: `${__dirname}/../../../.env`
-});
-
 require('./db');
 const passport = require('./db/passport');
 
@@ -48,3 +44,5 @@ app.listen(config.port, () => {
   displayAllEndpoints(app);
   console.log(`Server listening on port ${config.port}`);
 });
+
+global.app = app;

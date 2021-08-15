@@ -10,14 +10,14 @@ const config = require('../config/development');
  * @returns {Promise} Resolve with a list of newly added users
  */
 module.exports.createUsers = (users) => {
-  const User = mongoose.model('User');
+  const Users = mongoose.model('Users');
   const addedUsers = [];
 
   return users
     .reduce((sequence, userInfo) => {
       return sequence
         .then(() => {
-          return User.findOne({
+          return Users.findOne({
             $or: [{ name: userInfo.username }, { email: userInfo.email }]
           });
         })

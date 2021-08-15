@@ -4195,6 +4195,8 @@ __metadata:
   resolution: "@solve/server@workspace:packages/server"
   dependencies:
     "@nicokaiser/passport-apple": ^0.2.1
+    "@types/bcryptjs": ^2.4.2
+    "@types/jsonwebtoken": ^8.5.4
     bcrypt: ^5.0.1
     bcryptjs: ^2.4.3
     chai: ^4.3.4
@@ -4402,6 +4404,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/bcryptjs@npm:^2.4.2":
+  version: 2.4.2
+  resolution: "@types/bcryptjs@npm:2.4.2"
+  checksum: 91013aa8a5e8185137af1fb011de7f794f5bc71400e0aebba2252985a4d0c5eb4c477617c4aa4c20fdb21f05320ac0095eb8b596c004ff5e3315b656e58a0c72
+  languageName: node
+  linkType: hard
+
 "@types/bson@npm:*":
   version: 4.0.5
   resolution: "@types/bson@npm:4.0.5"
@@ -4483,6 +4492,15 @@ __metadata:
   version: 7.0.9
   resolution: "@types/json-schema@npm:7.0.9"
   checksum: 3252f0faa7aada7ad27c59bb64ff7bee0c9ad0fb7c21a3b7d255f56c732b94fe94a876f5a5f6fee27a41feac09efac082fad54314c3ce542db02445d7a6059f8
+  languageName: node
+  linkType: hard
+
+"@types/jsonwebtoken@npm:^8.5.4":
+  version: 8.5.4
+  resolution: "@types/jsonwebtoken@npm:8.5.4"
+  dependencies:
+    "@types/node": "*"
+  checksum: 605ab698b007f04a1d1665b6af0dd31b0787c700c44dbca4474cebff6ae0e8435cc1166ae7d6895de3b6241f5a9ab62bea154ae5fdc7ac09cb13ab59dea4864d
   languageName: node
   linkType: hard
 

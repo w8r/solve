@@ -12,6 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "@nicokaiser/passport-apple": "^0.2.1",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^8.5.4",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "chai": "^4.3.4",
