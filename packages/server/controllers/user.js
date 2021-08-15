@@ -17,6 +17,28 @@ const toHeader = (graph) => ({
   data: graph.data
 });
 
+/**
+ * @function preloadTargetUser
+ * Preload the target user object and assign it to res.locals.targetUser.
+ *
+ * @param {string} userId The target user ID
+ */
+// module.exports.preloadTargetUser = (req, res, next, userId) => {
+//   if (!mongoose.Types.ObjectId.isValid(userId)) {
+//     return next({(422, 'Invalid user ID'));
+//   }
+
+//   User.findById(userId)
+//     .then((targetUser) => {
+//       if (!targetUser) {
+//         throw createError(422, 'User ID does not exist');
+//       }
+//       res.locals.targetUser = targetUser;
+//       next();
+//     })
+//     .catch(next);
+// };
+
 module.exports.getUserGraphs = (userId) =>
   Graphs.findByUser(userId)
     .then((graphs) => {

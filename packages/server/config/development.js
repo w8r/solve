@@ -4,11 +4,11 @@ require('dotenv').config({
   }`
 });
 
-console.log(
-  process.env.NODE_ENV,
-  `${__dirname}/../../../.env${process.env.NODE_ENV === 'test' ? '.test' : ''}`,
-  process.env
-);
+const isDev = process.env.NODE_ENV === 'development';
+
+// console.log(process.env);
+
+const isNotTest = process.env.NODE_ENV !== 'test';
 
 module.exports = {
   env: process.env.NODE_ENV,
@@ -22,10 +22,14 @@ module.exports = {
     algorithm: 'HS512',
     expiresIn: 60 * 24 * 60 * 60 // seconds
   },
+  rateLimit: {
+    enabled: isNotTest
+  },
   auth: {
     googleId: process.env.GOOGLE_CLIENT_ID,
     googleSecret: process.env.GOOGLE_CLIENT_SECRET,
     facebookId: process.env.FACEBOOK_APP_ID,
     facebookSecret: process.env.FACEBOOK_APP_SECRET
-  }
+  },
+  debug: isNotTest
 };

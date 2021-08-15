@@ -149,6 +149,7 @@ usersSchema.methods.toJSON = function () {
   data.uuid = data._id;
   delete data._id;
   delete data.__v;
+  delete data.provider;
 
   return data;
 };
@@ -168,6 +169,60 @@ usersSchema.methods.setPasswordAsync = function (password) {
   return bcrypt.hash(password, saltRounds).then((hash) => {
     this.password = hash;
   });
+};
+
+/**
+ * Compare candidate password with the stored one
+ *
+ * @param {string} candidatePassword The candidate password
+ *
+ * @returns {Promise} Resolve with a boolean value
+ */
+usersSchema.methods.comparePasswordAsync = function (candidatePassword) {
+  if (!this.password) Promise.resolve(false);
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+/**
+ * Generate JWT token for authentication
+ *
+ * @param {string} provider Default value: 'local'
+ *
+ * @returns {object} An object contains JWT token and expiresAt (seconds) property
+ */
+usersSchema.methods.generateJwtToken = function (
+  provider = constants.PROVIDER_LOCAL
+) {
+  const expiresIn = config.jwt.expiresIn;
+  const iat = Math.floor(Date.now() / 1000);
+  const expiresAt = iat + expiresIn;
+  const token = jwt.sign(
+    { userId: this._id, iat, provider },
+    config.jwt.secret,
+    {
+      algorithm: config.jwt.algorithm,
+      expiresIn // seconds
+    }
+  );
+  return { token, expiresAt };
+};
+
+/**
+ * Set token and token purpose field based on given token purpose
+ *
+ * @param {string} purpose The purpose of the token.
+ */
+usersSchema.methods.setToken = function (purpose) {
+  this.token = uuidv4();
+  this.tokenPurpose = purpose;
+};
+
+/**
+ * Clear token and token purpose field
+ */
+usersSchema.methods.clearToken = function () {
+  this.token = undefined;
+  this.tokenPurpose = undefined;
 };
 
 const Users = model('Users', usersSchema);

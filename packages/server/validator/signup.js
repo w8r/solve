@@ -1,4 +1,4 @@
-const Validator = require("validator");
+const Validator = require('validator');
 
 module.exports = ({
   name = '',
@@ -8,31 +8,30 @@ module.exports = ({
   score = 0
 }) => {
   const errors = {};
-
   // Name checks
-  if (Validator.isEmpty(name)) {
-    errors.name = "Name field is required";
+  if (Validator.isEmpty(name) && Validator.isEmpty(email)) {
+    errors.name = 'Name field is required';
   }
 
   // Email checks
   if (Validator.isEmpty(email)) {
-    errors.email = "Email field is required";
+    errors.email = 'Email field is required';
   } else if (!Validator.isEmail(email)) {
-    errors.email = "Email is invalid";
+    errors.email = 'Email is invalid';
   }
 
   // Password checks
   if (Validator.isEmpty(password)) {
-    errors.password = "Password field is required";
+    errors.password = 'Password field is required';
   }
   if (Validator.isEmpty(password2)) {
-    errors.password2 = "Confirm password field is required";
+    errors.password2 = 'Confirm password field is required';
   }
   if (!Validator.isLength(password, { min: 6, max: 30 })) {
-    errors.password = "Password must be at least 6 characters";
+    errors.password = 'Password must be at least 6 characters';
   }
-  if (!Validator.equals(password, password2)) {
-    errors.password2 = "Passwords must match";
+  if (!Validator.isEmpty(password2) && !Validator.equals(password, password2)) {
+    errors.password2 = 'Passwords must match';
   }
 
   return {

@@ -22,7 +22,7 @@ module.exports.createUsers = (users) => {
           });
         })
         .then((existingUser) => {
-          if (existingUser) {
+          if (existingUser && config.debug) {
             throw new Error(
               chalk.yellow(
                 `[-] [Warning] Database seeding: Email (${userInfo.email}) or username (${userInfo.name}) already in use.`
@@ -38,11 +38,12 @@ module.exports.createUsers = (users) => {
             .then(() => user.save());
         })
         .then((user) => {
-          console.log(
-            chalk.green(
-              `[+] Database Seeding: A new user added (${userInfo.name} - ${userInfo.email} - ${userInfo.password})`
-            )
-          );
+          if (config.debug)
+            console.log(
+              chalk.green(
+                `[+] Database Seeding: A new user added (${userInfo.name} - ${userInfo.email} - ${userInfo.password})`
+              )
+            );
           addedUsers.push(user);
         })
         .catch((err) => {

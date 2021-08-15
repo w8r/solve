@@ -5,8 +5,8 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const FacebookTokenStrategy = require('passport-facebook-token');
 const GoogleIdTokenStrategy = require('passport-google-id-token');
-const config = require('../config/development');
-const constants = require('../config/constants');
+const config = require('../../config/development');
+const constants = require('../../config/constants');
 
 const Users = mongoose.model('Users');
 
@@ -68,8 +68,6 @@ const jwtStrategy = new JwtStrategy(
 );
 
 passport.use(jwtStrategy);
-
-console.log(config);
 
 // Create Facebook Token Strategy
 const facebookTokenStrategy = new FacebookTokenStrategy(

@@ -4196,7 +4196,9 @@ __metadata:
   dependencies:
     "@nicokaiser/passport-apple": ^0.2.1
     "@types/bcryptjs": ^2.4.2
+    "@types/chai": ^4.2.21
     "@types/jsonwebtoken": ^8.5.4
+    "@types/supertest": ^2.0.11
     bcrypt: ^5.0.1
     bcryptjs: ^2.4.3
     chai: ^4.3.4
@@ -4209,6 +4211,7 @@ __metadata:
     express-list-endpoints: ^5.0.0
     express-rate-limit: ^5.3.0
     helmet: ^4.6.0
+    http-errors: ^1.8.0
     joi: ^17.4.0
     jsonwebtoken: ^8.5.1
     localtunnel: ^2.0.0
@@ -4417,6 +4420,20 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 8d2ab35839edce071373e37af5f1e3f6306a309302bf516d83b258fcd06e9a69d93e55d14ee5ef88ddec34a877f8020c489c419186c8140145d19c116d32eea9
+  languageName: node
+  linkType: hard
+
+"@types/chai@npm:^4.2.21":
+  version: 4.2.21
+  resolution: "@types/chai@npm:4.2.21"
+  checksum: fc7d32fbae47ad6d3576bcb8cf24a243af03c93bb97cd9456a5415da888ab78a03800dcc4cc25a21ad1b493bcdaee7377f163bc4dd8db463c3530dafddea205c
+  languageName: node
+  linkType: hard
+
+"@types/cookiejar@npm:*":
+  version: 2.1.2
+  resolution: "@types/cookiejar@npm:2.1.2"
+  checksum: 4bb5d0d07e5df5866b96d20592d25075ef47a699ec6d8ac87b0f6ebec4bb30aa548b51fbbc908580ea2274e7ef0c55e25d564399751dfef70e811d04b7958280
   languageName: node
   linkType: hard
 
@@ -4631,6 +4648,25 @@ __metadata:
   dependencies:
     csstype: ^3.0.2
   checksum: 2f2dae4b4448b53d71537e1b7ba7d8fd087102149788ed864c624a61ab057185a30ab025b391ff2dd62dab790d415c19095a927028a839b913108dc443c8517d
+  languageName: node
+  linkType: hard
+
+"@types/superagent@npm:*":
+  version: 4.1.12
+  resolution: "@types/superagent@npm:4.1.12"
+  dependencies:
+    "@types/cookiejar": "*"
+    "@types/node": "*"
+  checksum: 5b00ceb9db268bd4b47c250bfedb56558f85f1c2052db73fba488c19bb5d11fe76f53c86c60ab635d613144d6a5da7fb4ae9e54060a8178b9ba2af10c65a4ef0
+  languageName: node
+  linkType: hard
+
+"@types/supertest@npm:^2.0.11":
+  version: 2.0.11
+  resolution: "@types/supertest@npm:2.0.11"
+  dependencies:
+    "@types/superagent": "*"
+  checksum: a4b001038d8972d9efbfe73590961718f59923ed9c44356a0280e7a042dd1862cc9ea4c8a5c1ef3f7813f25e8b3b0b483bdafec089efe544c12207763c8ea6b1
   languageName: node
   linkType: hard
 
@@ -10259,6 +10295,19 @@ fsevents@^1.2.7:
     statuses: ">= 1.5.0 < 2"
     toidentifier: 1.0.0
   checksum: 8ce4a4af05a3652c81768a2754ced24b86ff62e7bee147a27b6ef8cde24e7a48f9fbfcb87ec6f67781879b95f1b35d3f8d6378e8555eb7d469ce875f4e184418
+  languageName: node
+  linkType: hard
+
+"http-errors@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "http-errors@npm:1.8.0"
+  dependencies:
+    depd: ~1.1.2
+    inherits: 2.0.4
+    setprototypeof: 1.2.0
+    statuses: ">= 1.5.0 < 2"
+    toidentifier: 1.0.0
+  checksum: 95ad78508b2929923dac83edd7ce513db87c4214df83a6664559810566da73d9a6892ffdcd76738d9ab9d33172b4c7e304436a4031d471569a7344396fea0ecb
   languageName: node
   linkType: hard
 
@@ -16946,6 +16995,13 @@ resolve@1.1.7:
   version: 1.1.1
   resolution: "setprototypeof@npm:1.1.1"
   checksum: 0efed4da5aec7535828ac07c3b560f0a54257a4a7d5390ffabe5530a083974aef577651507974215edb92a51efa142f22fb3242e24d630ba6adcbfc9e7f1ff2b
+  languageName: node
+  linkType: hard
+
+"setprototypeof@npm:1.2.0":
+  version: 1.2.0
+  resolution: "setprototypeof@npm:1.2.0"
+  checksum: 72691439857719aa33ec11ebc97960347f0f96e75c2fe65d0f2ca5c9c44fb1aa026e2ae528959624ed3ae3820fe06bfb1aded306402c5c941afd3dfdf47f79d0
   languageName: node
   linkType: hard
 

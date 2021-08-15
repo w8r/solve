@@ -1,6 +1,27 @@
 const messages = {
   LOGIN_FIRST: 'Please login first',
-  GRAPH_NOT_FOUND: 'Graph not found'
+  GRAPH_NOT_FOUND: 'Graph not found',
+  ERROR_MESSAGE_CURRENT_PASSWORD: {
+    'string.empty': 'Current Password cannot be empty',
+    'string.min': 'Current Password must be at least 8 characters',
+    'any.required': 'Current Password is required'
+  },
+  ERROR_MESSAGE_EMAIL: {
+    'string.empty': 'Email cannot be empty',
+    'string.email': 'Email is invalid',
+    'any.required': 'Email is required'
+  },
+  ERROR_MESSAGE_PASSWORD: {
+    'string.empty': 'Password cannot be empty',
+    'string.min': 'Password must be at least 8 characters',
+    'any.required': 'Password is required'
+  },
+  ERROR_MESSAGE_USERNAME: {
+    'string.empty': 'Username cannot be empty',
+    'string.pattern.base':
+      'Username must be between 4 to 30 characters and may contain only alphanumeric chacracters, hyphen, dot or underscore',
+    'any.required': 'Username is required'
+  }
 };
 
 const STATUS_ACTIVE = 'active';

@@ -45,4 +45,10 @@ app.listen(config.port, () => {
   console.log(`Server listening on port ${config.port}`);
 });
 
+// error handler
+// no stracktrace sent to client
+app.use((err, req, res, next) => {
+  res.status(err.status || 400).json({ error: { message: err.message } });
+});
+
 global.app = app;
