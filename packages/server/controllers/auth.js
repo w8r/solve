@@ -3,6 +3,28 @@ const validateSignup = require('../validator/signup');
 const validate = require('joi');
 const constants = require('../config/constants');
 
+const localSignUpSchema = validate
+  .object({
+    name: validate
+      .string()
+      .pattern(/^[a-zA-Z0-9.\@\-_]{4,30}$/)
+      .messages(constants.messages.ERROR_MESSAGE_USERNAME),
+    email: validate
+      .string()
+      .email()
+      .messages(constants.messages.ERROR_MESSAGE_EMAIL),
+    password: validate
+      .string()
+      .required()
+      .messages(constants.messages.ERROR_MESSAGE_PASSWORD),
+    password2: validate
+      .string()
+      .required()
+      .messages(constants.messages.ERROR_MESSAGE_PASSWORD)
+  })
+  .equal('password', 'password2')
+  .messages({ 'object.missing': 'Either username or email must be provided' });
+
 module.exports.signupLocal = (req, res) => {
   const { errors, isValid } = validateSignup(req.body);
   if (!isValid) return res.status(400).json(errors);
@@ -80,4 +102,34 @@ module.exports.validateLocalSignInPayload = (req, res, next) => {
       next();
     })
     .catch(next);
+};
+
+/**
+ * JOI schema for validating facebookSignIn payload
+ */
+const facebookSchema = validate.object({
+  accessToken: validate.string().required(),
+  refreshToken: validate.string()
+});
+
+module.exports.validateFacebookPayload = (req, res, next) => {
+  facebookSchema
+    .validateAsync(req.body)
+    .then((payload) => {
+      req.body = { access_token: payload.accessToken };
+      if (payload.refreshToken) {
+        req.body.refresh_token = payload.refreshToken;
+      }
+      next();
+    })
+    .catch(next);
+};
+
+module.exports.signupFacebook = (req, res, next) => {
+  console.log('signup facebook', req, res);
+  // validate payload
+  // validate required user data
+  // create user
+
+  return res.status(200).json({ dd: 'facebook' });
 };

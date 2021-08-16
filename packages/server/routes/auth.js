@@ -32,4 +32,11 @@ router.post(
   authController.signIn
 );
 
+router.post(
+  '/signup/facebook',
+  successRateLimiter,
+  authController.validateFacebookPayload,
+  authController.signupFacebook
+);
+
 module.exports = router;
