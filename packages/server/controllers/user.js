@@ -1,13 +1,7 @@
 const Graphs = require('../models/graphs');
 
-module.exports.status = ({ token, user }, res) => {
-  if (token && user) {
-    res
-      // .cookie(config.jwt.name, token, {
-      //   httpOnly: true
-      // })
-      .send({ user, token });
-  }
+module.exports.status = ({ user }, res, next) => {
+  if (user) res.send(user);
 };
 
 const toHeader = (graph) => ({

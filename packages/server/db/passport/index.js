@@ -57,11 +57,6 @@ const jwtStrategy = new JwtStrategy(
     Users.findById(jwtPayload.userId)
       .then((user) => {
         if (!user) return done(null, false, { message: 'Invalid credentials' });
-
-        if (!jwtPayload.sub || user.subId !== jwtPayload.sub) {
-          return done(null, false, { message: 'Invalid JWT token' });
-        }
-
         handleAuthByCheckingUserStatus(user, done, jwtPayload.provider);
       })
       .catch(done);

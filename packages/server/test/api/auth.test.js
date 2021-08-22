@@ -185,7 +185,7 @@ describe('ENDPOINT: POST /api/auth/facebook', () => {
 describe('ENDPOINT: POST /api/auth/google', () => {
   const endpoint = '/api/auth/google';
 
-  it(`POST ${endpoint} - google auth ne user`, () => {
+  it(`POST ${endpoint} - google auth new user`, () => {
     const user = {
       email: 'root@ndev.app',
       family_name: 'Surname',

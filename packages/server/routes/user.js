@@ -1,6 +1,6 @@
 const express = require('express');
 
-const auth = require('../middleware/auth');
+const authMiddleware = require('../middleware/auth');
 const UserController = require('../controllers/user');
 
 const router = express.Router();
@@ -11,11 +11,11 @@ const router = express.Router();
 // });
 
 // status
-router.post('/status', auth, UserController.status);
-router.post('/graphs', auth, ({ user }, res) =>
+router.post('/status', authMiddleware, UserController.status);
+router.post('/graphs', authMiddleware, ({ user }, res) =>
   UserController.getUserGraphs(user._id)
 );
-router.post('/:id/graphs', auth, ({ user, params }, res) =>
+router.post('/:id/graphs', authMiddleware, ({ user, params }, res) =>
   UserController.getUserGraphs(params.id)
 );
 

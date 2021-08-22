@@ -18,7 +18,7 @@ module.exports = {
   jwt: {
     secret: process.env.JWT_SECRET,
     name: 'solve',
-    headerName: 'x-auth-token',
+    headerName: 'Authorization',
     algorithm: 'HS512',
     expiresIn: 60 * 24 * 60 * 60 // seconds
   },
