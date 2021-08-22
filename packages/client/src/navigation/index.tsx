@@ -16,7 +16,8 @@ import Login from '../screens/Login';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from './types';
 import BottomTabNavigator from './BottomTabNavigator';
-import AuthNavigator from './AuthNavigator';
+import { Spinner } from 'native-base';
+//import AuthNavigator from './AuthNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import { useAuth } from '../hooks/useAuth';
 
@@ -37,21 +38,23 @@ export default function Navigation({
 
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
-const Stack = createStackNavigator<RootStackParamList>();
+const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-  const { authenticated } = useAuth();
+  const { authenticated, loading } = useAuth();
+  if (loading) return <Spinner size="large" />;
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {authenticated && (
-        <Stack.Screen name="Root" component={BottomTabNavigator} />
+    <Navigator screenOptions={{ headerShown: false }}>
+      {authenticated ? (
+        <Screen name="Root" component={BottomTabNavigator} />
+      ) : (
+        <Screen name="Login" component={Login} />
       )}
-      {!authenticated && <Stack.Screen name="Login" component={Login} />}
-      <Stack.Screen
+      <Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: 'Oops!' }}
       />
-    </Stack.Navigator>
+    </Navigator>
   );
 }
