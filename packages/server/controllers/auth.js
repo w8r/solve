@@ -1,7 +1,9 @@
 const Users = require('../models/users');
 const validateSignup = require('../validator/signup');
 const validate = require('joi');
+const createError = require('http-errors');
 const constants = require('../config/constants');
+const { googleSignInStrategy } = require('../db/passport/utils');
 
 const localSignUpSchema = validate
   .object({
@@ -125,11 +127,40 @@ module.exports.validateFacebookPayload = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.signupFacebook = (req, res, next) => {
-  console.log('signup facebook', req, res);
-  // validate payload
-  // validate required user data
-  // create user
+/**
+ * JOI schema for validating googleSignIn payload
+ */
+const googleSignInSchema = validate.object({
+  email: validate
+    .string()
+    .email()
+    .messages(constants.messages.ERROR_MESSAGE_EMAIL),
+  family_name: validate.string().required(),
+  given_name: validate.string().required(),
+  id: validate.string().required(),
+  locale: validate.string(),
+  name: validate.string().required(),
+  picture: validate.string(),
+  verified_email: validate.boolean()
+});
 
-  return res.status(200).json({ dd: 'facebook' });
+/**
+ * Validate Google sign-in payload
+ *
+ * @param {string} req.body.accessToken The Google accessToken
+ * @param {string} [req.body.refreshToken] The Google refreshToken
+ */
+module.exports.validateGooglePayload = (req, res, next) => {
+  googleSignInSchema
+    .validateAsync(req.body)
+    .then((payload) => next())
+    .catch(next);
+};
+
+module.exports.googleSignIn = (req, res, next) => {
+  return googleSignInStrategy(req.body, (err, user) => {
+    if (err) throw createError(422, err);
+    req.user = user;
+    next();
+  });
 };

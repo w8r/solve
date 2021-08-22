@@ -57,13 +57,17 @@ export default function Login() {
     }
     if (googleResponse?.type === 'success') {
       const { access_token } = googleResponse.params;
+      console.log(access_token, googleResponse.params);
       transport
         .get('https://www.googleapis.com/oauth2/v2/userinfo', {
           headers: {
             Authorization: `Bearer ${access_token}`
           }
         })
-        .then((json) => setJsonObject(json));
+        .then((json) => {
+          console.log('dd', json.data);
+          setJsonObject(json.data);
+        });
     }
   }, [fbResponse, googleResponse]);
 

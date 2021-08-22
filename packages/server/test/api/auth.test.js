@@ -163,3 +163,69 @@ describe('ENDPOINT: POST /api/auth/signin', () => {
       });
   });
 });
+
+describe('ENDPOINT: POST /api/auth/facebook', () => {
+  const endpoint = '/api/auth/facebook';
+
+  // not possible to maintain the tocken in the test
+  it.skip(`POST ${endpoint} - facebook auth`, () => {
+    const user = {
+      accessToken:
+        'EAAHiUJyDW6cBAGxRyBrj6MRAHRZAAEDEZAB4ZC4dOhBQ96LyqGrzw1wZC9KmOWCghsqhM2sEJBsCt3qrzehWQJl6y6tzDmZCjbROrRy3FLjMBojys5ywIC7Vk6ZCgmcVZBpOsyTXwZA0RWIEJS9j8vBPT3ziTOnhZAsi03TeXgEIjEDf4woS5z9u0'
+    };
+    return request(app)
+      .post(endpoint)
+      .send(user)
+      .expect((res) => {
+        console.log(res.body);
+      });
+  });
+});
+
+describe('ENDPOINT: POST /api/auth/google', () => {
+  const endpoint = '/api/auth/google';
+
+  it.only(`POST ${endpoint} - google auth ne user`, () => {
+    const user = {
+      email: 'root@ndev.app',
+      family_name: 'Surname',
+      given_name: 'Name',
+      id: 'googleId',
+      locale: 'en-GB',
+      name: 'Surname Name',
+      picture: 'https://google.picture',
+      verified_email: true
+    };
+    return request(app)
+      .post(endpoint)
+      .send(user)
+      .expect(({ body: data }) => {
+        console.log(data);
+        assert.equal(data.user.email, user.email);
+        assert.equal(data.signedInWith, 'google');
+        assert.isTrue(data.user.name.indexOf(user.name) !== -1);
+      });
+  });
+
+  it.only(`POST ${endpoint} - google auth existing user`, () => {
+    const user = {
+      email: 'root@tdev.app',
+      family_name: 'Surname',
+      given_name: 'Name',
+      id: 'googleId',
+      locale: 'en-GB',
+      name: 'Surname Name',
+      picture: 'https://google.picture',
+      verified_email: true
+    };
+    return request(app)
+      .post(endpoint)
+      .send(user)
+      .expect(({ body: data }) => {
+        console.log(data);
+        assert.equal(data.user.email, user.email);
+        assert.equal(data.signedInWith, 'google');
+        assert.equal(data.user.name, 'root');
+      });
+  });
+});

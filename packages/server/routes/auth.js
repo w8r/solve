@@ -8,6 +8,8 @@ const router = express.Router();
 
 const jwtAuthenticate = authStrategy('jwt');
 const localAuthenticate = authStrategy('local');
+const fbAuthenticate = authStrategy('facebook-token');
+const googleAuthenticate = authStrategy('google');
 
 const failRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
@@ -33,10 +35,19 @@ router.post(
 );
 
 router.post(
-  '/signup/facebook',
+  '/facebook',
   successRateLimiter,
   authController.validateFacebookPayload,
-  authController.signupFacebook
+  fbAuthenticate,
+  authController.signIn
+);
+
+router.post(
+  '/google',
+  successRateLimiter,
+  authController.validateGooglePayload,
+  authController.googleSignIn,
+  authController.signIn
 );
 
 module.exports = router;
