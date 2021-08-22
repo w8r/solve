@@ -24,7 +24,7 @@ export default {
           }
         }
       },
-      Login: {
+      Auth: {
         screens: {
           Login: 'login'
         }

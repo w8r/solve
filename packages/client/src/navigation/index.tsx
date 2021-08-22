@@ -16,7 +16,9 @@ import Login from '../screens/Login';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from './types';
 import BottomTabNavigator from './BottomTabNavigator';
+import AuthNavigator from './AuthNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Navigation({
   colorScheme
@@ -38,15 +40,18 @@ export default function Navigation({
 const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const { authenticated } = useAuth();
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      {authenticated && (
+        <Stack.Screen name="Root" component={BottomTabNavigator} />
+      )}
+      {!authenticated && <Stack.Screen name="Login" component={Login} />}
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
         options={{ title: 'Oops!' }}
       />
-      <Stack.Screen name="Login" component={Login} />
     </Stack.Navigator>
   );
 }

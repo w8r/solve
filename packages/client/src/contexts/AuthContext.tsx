@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import * as api from '../services/api';
 
-type AuthState = {
+export type AuthState = {
   //token: string;
   authenticated: boolean;
   user: User;
