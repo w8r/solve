@@ -1,5 +1,5 @@
 {
-  "name": "solve-client",
+  "name": "@solve/client",
   "main": "__generated__/AppEntry.js",
   "scripts": {
     "start": "expo start",

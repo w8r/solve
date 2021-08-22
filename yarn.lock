@@ -4190,6 +4190,53 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@solve/client@workspace:packages/client":
+  version: 0.0.0-use.local
+  resolution: "@solve/client@workspace:packages/client"
+  dependencies:
+    "@babel/core": ^7.9.0
+    "@expo/vector-icons": ^12.0.0
+    "@react-native-async-storage/async-storage": ~1.15.0
+    "@react-native-community/masked-view": 0.1.10
+    "@react-navigation/bottom-tabs": 5.11.2
+    "@react-navigation/native": ^5.9.4
+    "@react-navigation/stack": ^5.14.5
+    "@types/react": ~16.9.35
+    "@types/react-native": ~0.63.2
+    axios: ^0.21.1
+    dotenv: ^10.0.0
+    expo: ~42.0.1
+    expo-asset: ~8.3.2
+    expo-auth-session: ~3.3.1
+    expo-constants: ~11.0.1
+    expo-facebook: ~11.3.1
+    expo-font: ~9.2.1
+    expo-google-app-auth: ^8.2.2
+    expo-linking: ~2.3.1
+    expo-random: ~11.2.0
+    expo-splash-screen: ~0.11.2
+    expo-status-bar: ~1.0.4
+    expo-web-browser: ~9.2.0
+    expo-yarn-workspaces: ^1.5.2
+    jest-expo: ~41.0.0-beta.0
+    native-base: ^3.0.6
+    react: 16.13.1
+    react-dom: 16.13.1
+    react-native: "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz"
+    react-native-auth0: ^2.9.0
+    react-native-dotenv: ^3.1.1
+    react-native-gesture-handler: ~1.10.2
+    react-native-reanimated: ~2.2.0
+    react-native-safe-area-context: 3.2.0
+    react-native-screens: ~3.4.0
+    react-native-svg: ^12.1.1
+    react-native-web: ~0.13.12
+    styled-components: ^5.3.0
+    styled-system: ^5.1.5
+    typescript: ~4.0.0
+  languageName: unknown
+  linkType: soft
+
 "@solve/server@workspace:packages/server":
   version: 0.0.0-use.local
   resolution: "@solve/server@workspace:packages/server"
@@ -17426,53 +17473,6 @@ resolve@1.1.7:
   checksum: 9a5735cf9be6f756006b4c5ed23f17c15ffbfc0afb04b5d1b49516b7a27818c807a6a5b5419a65a140a1964149ec9ebb6cd8f0e06d7c60282912204d781371db
   languageName: node
   linkType: hard
-
-"solve-client@workspace:packages/solve-client":
-  version: 0.0.0-use.local
-  resolution: "solve-client@workspace:packages/solve-client"
-  dependencies:
-    "@babel/core": ^7.9.0
-    "@expo/vector-icons": ^12.0.0
-    "@react-native-async-storage/async-storage": ~1.15.0
-    "@react-native-community/masked-view": 0.1.10
-    "@react-navigation/bottom-tabs": 5.11.2
-    "@react-navigation/native": ^5.9.4
-    "@react-navigation/stack": ^5.14.5
-    "@types/react": ~16.9.35
-    "@types/react-native": ~0.63.2
-    axios: ^0.21.1
-    dotenv: ^10.0.0
-    expo: ~42.0.1
-    expo-asset: ~8.3.2
-    expo-auth-session: ~3.3.1
-    expo-constants: ~11.0.1
-    expo-facebook: ~11.3.1
-    expo-font: ~9.2.1
-    expo-google-app-auth: ^8.2.2
-    expo-linking: ~2.3.1
-    expo-random: ~11.2.0
-    expo-splash-screen: ~0.11.2
-    expo-status-bar: ~1.0.4
-    expo-web-browser: ~9.2.0
-    expo-yarn-workspaces: ^1.5.2
-    jest-expo: ~41.0.0-beta.0
-    native-base: ^3.0.6
-    react: 16.13.1
-    react-dom: 16.13.1
-    react-native: "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz"
-    react-native-auth0: ^2.9.0
-    react-native-dotenv: ^3.1.1
-    react-native-gesture-handler: ~1.10.2
-    react-native-reanimated: ~2.2.0
-    react-native-safe-area-context: 3.2.0
-    react-native-screens: ~3.4.0
-    react-native-svg: ^12.1.1
-    react-native-web: ~0.13.12
-    styled-components: ^5.3.0
-    styled-system: ^5.1.5
-    typescript: ~4.0.0
-  languageName: unknown
-  linkType: soft
 
 "solve@workspace:.":
   version: 0.0.0-use.local
