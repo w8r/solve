@@ -185,7 +185,7 @@ describe('ENDPOINT: POST /api/auth/facebook', () => {
 describe('ENDPOINT: POST /api/auth/google', () => {
   const endpoint = '/api/auth/google';
 
-  it.only(`POST ${endpoint} - google auth ne user`, () => {
+  it(`POST ${endpoint} - google auth ne user`, () => {
     const user = {
       email: 'root@ndev.app',
       family_name: 'Surname',
@@ -200,14 +200,13 @@ describe('ENDPOINT: POST /api/auth/google', () => {
       .post(endpoint)
       .send(user)
       .expect(({ body: data }) => {
-        console.log(data);
         assert.equal(data.user.email, user.email);
         assert.equal(data.signedInWith, 'google');
         assert.isTrue(data.user.name.indexOf(user.name) !== -1);
       });
   });
 
-  it.only(`POST ${endpoint} - google auth existing user`, () => {
+  it(`POST ${endpoint} - google auth existing user`, () => {
     const user = {
       email: 'root@tdev.app',
       family_name: 'Surname',
@@ -222,7 +221,6 @@ describe('ENDPOINT: POST /api/auth/google', () => {
       .post(endpoint)
       .send(user)
       .expect(({ body: data }) => {
-        console.log(data);
         assert.equal(data.user.email, user.email);
         assert.equal(data.signedInWith, 'google');
         assert.equal(data.user.name, 'root');
