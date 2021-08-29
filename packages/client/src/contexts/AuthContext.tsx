@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as AuthSession from 'expo-auth-session';
 import * as api from '../services/api';
+import { TOKEN_KEY } from '../constants';
 
 export type AuthState = {
   //token: string;
@@ -31,7 +32,7 @@ export type User = {
 
 export const AuthContext = createContext<AuthState>({} as AuthState);
 
-export const AuthProvider: FC<{ value: AuthState }> = ({ children }) => {
+export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -52,9 +53,23 @@ export const AuthProvider: FC<{ value: AuthState }> = ({ children }) => {
 
   const loginWithFacebook = (access_token: string) =>
     Promise.resolve().then(() => setLoading(false));
+
   const loginWithGoogle = (access_token: string) =>
     Promise.resolve().then(() => setLoading(false));
+
   const logout = () => api.logout().then(() => setLoading(false));
+
+  useEffect(() => {
+    async function loadStorageData() {
+      api.status().then((a) => console.log(a));
+      const token = await AsyncStorage.getItem(TOKEN_KEY);
+      if (token) {
+        setToken(token);
+        setAuthenticated(true);
+      }
+    }
+    loadStorageData();
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -65,7 +80,7 @@ export const AuthProvider: FC<{ value: AuthState }> = ({ children }) => {
         loginWithGoogle,
         logout,
         loading,
-        user: user as unknown as User
+        user: (user as unknown) as User
       }}
     >
       {children}

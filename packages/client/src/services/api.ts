@@ -23,6 +23,7 @@ function request<T>(
   data: Record<string, unknown> = {}
 ): Promise<T> {
   return AsyncStorage.getItem(TOKEN_KEY).then((token) => {
+    console.log({ token, AppConfig });
     return new Promise((resolve, reject) => {
       console.log('api: ', method.toUpperCase(), AppConfig.apiUrl, path);
       transport
@@ -35,7 +36,7 @@ function request<T>(
           },
           data: method === 'get' ? undefined : data
         })
-        .then((response) => resolve(response as unknown as T))
+        .then((response) => resolve((response as unknown) as T))
         .catch((error) => reject(error));
     });
   });

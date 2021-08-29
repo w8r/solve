@@ -7,8 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "yarn workspace @solve/client start",
+    "tunnel": "node scripts/tunnel.js",
+    "client": "yarn tunnel & yarn workspace @solve/client start",
     "server": "yarn workspace @solve/server start"
   },
   "repository": {
@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/w8r/solve/issues"
   },
-  "homepage": "https://github.com/w8r/solve#readme"
+  "homepage": "https://github.com/w8r/solve#readme",
+  "dependencies": {
+    "localtunnel": "^2.0.1",
+    "ngrok": "^4.1.0"
+  }
 }

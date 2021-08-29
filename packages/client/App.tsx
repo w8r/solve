@@ -19,10 +19,10 @@ export default function App() {
     return (
       <NativeBaseProvider>
         <SafeAreaProvider>
-          {/* <AuthProvider value={}> */}
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
-          {/* </AuthProvider> */}
+          <AuthProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </AuthProvider>
         </SafeAreaProvider>
       </NativeBaseProvider>
     );

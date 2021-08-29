@@ -1,4 +1,7 @@
 import { isWeb } from './device';
+import { tunnel } from './env.json';
+import { SERVER_PUBLIC_URL, API_URL } from '@env';
+console.log(SERVER_PUBLIC_URL, API_URL, tunnel);
 
 // @ts-ignore
 const devMode = process.env.NODE_ENV !== 'development';
@@ -13,5 +16,5 @@ export default {
   // Google Analytics - uses a 'dev' account while we're testing
   gaTrackingId: devMode ? 'UA-84284256-2' : 'UA-84284256-1',
 
-  apiUrl: isWeb ? '' : 'http://286ddc3545b0.ngrok.io' //'http://192.168.0.13:3001'
+  apiUrl: tunnel || SERVER_PUBLIC_URL
 };
