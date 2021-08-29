@@ -22,21 +22,22 @@ const localStrategy = new LocalStrategy(
       $or: [{ name: usernameOrEmail }, { email: usernameOrEmail }]
     })
       .then((user) => {
-        if (!user) {
+        if (!user)
           return done(null, false, {
             message: 'Username or email does not exist'
           });
-        }
-        if (!user.provider.local) {
+
+        if (!user.provider.local)
           // not a local account (email and password)
           return done(null, false, {
             message: 'Username or email does not exist'
           });
-        }
+
         user.comparePasswordAsync(password).then((isMatch) => {
-          if (!isMatch) {
-            return done(null, false, { message: 'Password is incorrect' });
-          }
+          if (!isMatch)
+            return done(null, false, {
+              message: 'Password is incorrect'
+            });
 
           handleAuthByCheckingUserStatus(user, done, constants.PROVIDER_LOCAL);
         });

@@ -16,5 +16,5 @@ export default {
   // Google Analytics - uses a 'dev' account while we're testing
   gaTrackingId: devMode ? 'UA-84284256-2' : 'UA-84284256-1',
 
-  apiUrl: tunnel || SERVER_PUBLIC_URL
+  apiUrl: tunnel || SERVER_PUBLIC_URL //'http://645a-77-141-193-89.ngrok.io'
 };

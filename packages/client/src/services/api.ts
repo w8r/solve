@@ -8,13 +8,16 @@ import { Graph, GraphEdge, GraphNode } from '../types/graph';
 import { User } from '../contexts/AuthContext';
 
 const transport = axios.create({
-  baseURL: AppConfig.apiUrl,
-  withCredentials: true,
-  responseType: 'json'
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  },
+  responseType: 'json',
+  baseURL: AppConfig.apiUrl
 });
 
 export function setToken(token: string) {
-  transport.defaults.headers.common['x-auth-token'] = token;
+  transport.defaults.headers.common[TOKEN_KEY] = token;
 }
 
 function request<T>(
@@ -23,21 +26,19 @@ function request<T>(
   data: Record<string, unknown> = {}
 ): Promise<T> {
   return AsyncStorage.getItem(TOKEN_KEY).then((token) => {
-    console.log({ token, AppConfig });
     return new Promise((resolve, reject) => {
       console.log('api: ', method.toUpperCase(), AppConfig.apiUrl, path);
       transport
         .request({
+          url: path,
           method,
           headers: {
-            'Content-type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'x-auth-token': token
+            Authentication: `Bearer ${token}`
           },
           data: method === 'get' ? undefined : data
         })
         .then((response) => resolve((response as unknown) as T))
-        .catch((error) => reject(error));
+        .catch((error) => reject(error.response.data));
     });
   });
 }
@@ -55,9 +56,9 @@ function put<T>(path: string, data: Record<string, unknown>) {
 }
 
 export function status() {
-  return post('/api/user/status').catch((e) => {
-    console.log(e);
-    return null;
+  return post('/api/user/status').catch((err) => {
+    setToken('');
+    return AsyncStorage.setItem(TOKEN_KEY, '');
   });
 }
 
