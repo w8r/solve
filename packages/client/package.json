@@ -2,10 +2,10 @@
   "name": "@solve/client",
   "main": "__generated__/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --https",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
+    "web": "expo start --web --https",
     "eject": "expo eject",
     "test": "jest --watchAll",
     "postinstall": "expo-yarn-workspaces postinstall"
