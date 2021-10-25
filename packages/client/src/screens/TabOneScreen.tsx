@@ -3,11 +3,12 @@ import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
-import { Routes, StackNavigationProps } from '../navigation/AppRoutes';
+import { StackNavigationProps } from '../navigation/AppRoutes';
+import { RootStackParamList } from '../navigation/types';
 
 export default function TabOneScreen({
   navigation
-}: StackNavigationProps<Routes, 'TabOne'>) {
+}: StackNavigationProps<RootStackParamList, 'Root'>) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
@@ -16,7 +17,14 @@ export default function TabOneScreen({
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'Auth',
+            params: { screen: 'Login' }
+          })
+        }
+      >
         <Text>Login</Text>
       </TouchableOpacity>
       <EditScreenInfo path="/screens/TabOneScreen.tsx" />

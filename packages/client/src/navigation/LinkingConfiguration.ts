@@ -12,21 +12,29 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          App: {
             screens: {
-              TabOneScreen: 'one'
+              TabOne: {
+                screens: {
+                  TabOneScreen: 'one'
+                }
+              },
+              TabTwo: {
+                screens: {
+                  TabTwoScreen: 'two'
+                }
+              }
             }
           },
-          TabTwo: {
+          Auth: {
             screens: {
-              TabTwoScreen: 'two'
+              Login: 'login',
+              Signup: 'signup',
+              ForgotPassword: 'forgot-password',
+              Onboarding: 'onboarding',
+              PasswordChanged: 'password-changed'
             }
           }
-        }
-      },
-      Auth: {
-        screens: {
-          Login: 'login'
         }
       },
       NotFound: '*'

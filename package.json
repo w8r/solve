@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "tunnel": "node scripts/tunnel.js",
-    "client": "yarn tunnel & yarn workspace @solve/client start --https",
+    "client": "bash -c \"yarn tunnel & yarn workspace @solve/client start --https\"",
     "server": "yarn workspace @solve/server start"
   },
   "repository": {

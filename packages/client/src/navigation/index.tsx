@@ -20,6 +20,7 @@ import { Spinner } from 'native-base';
 //import AuthNavigator from './AuthNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import { useAuth } from '../hooks/useAuth';
+import AuthNavigator from './AuthNavigator';
 
 export default function Navigation({
   colorScheme
@@ -40,16 +41,29 @@ export default function Navigation({
 // Read more here: https://reactnavigation.org/docs/modal
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
+function RootSwitchNavigator() {
+  const { Navigator, Screen } = createStackNavigator();
+  const { authenticated } = useAuth();
+
+  console.log('authenticated', authenticated);
+
+  return (
+    <Navigator headerMode="none">
+      {authenticated ? (
+        <Screen name="App" component={BottomTabNavigator} />
+      ) : (
+        <Screen name="Auth" component={AuthNavigator} />
+      )}
+    </Navigator>
+  );
+}
+
 function RootNavigator() {
-  const { authenticated, loading } = useAuth();
+  const { loading } = useAuth();
   if (loading) return <Spinner size="large" />;
   return (
-    <Navigator screenOptions={{ headerShown: false }}>
-      {authenticated ? (
-        <Screen name="Root" component={BottomTabNavigator} />
-      ) : (
-        <Screen name="Login" component={Login} />
-      )}
+    <Navigator headerMode="none">
+      <Screen name="Root" component={RootSwitchNavigator} />
       <Screen
         name="NotFound"
         component={NotFoundScreen}
