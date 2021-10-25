@@ -42,7 +42,6 @@ const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const { authenticated, loading } = useAuth();
-  console.log({ authenticated, loading });
   if (loading) return <Spinner size="large" />;
   return (
     <Navigator screenOptions={{ headerShown: false }}>

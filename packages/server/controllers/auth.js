@@ -54,7 +54,6 @@ module.exports.signupLocal = (req, res) => {
 };
 
 module.exports.logout = ({ user, token }, res) => {
-  user.tokens = user.tokens.filter((t) => t.token !== token);
   return user
     .save()
     .catch((e) => res.status(400).send())

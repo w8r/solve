@@ -45,14 +45,6 @@ const usersSchema = new Schema(
       minlength: 6,
       trim: true
     },
-    tokens: [
-      {
-        token: {
-          type: Schema.Types.String,
-          required: true
-        }
-      }
-    ],
     status: {
       type: Schema.Types.String,
       enum: [
@@ -122,22 +114,6 @@ usersSchema.statics.findByCredentials = ({ email, password }) => {
       });
     });
   });
-};
-
-usersSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign(
-    {
-      _id: this._id.toString()
-    },
-    config.jwt.secret,
-    {
-      expiresIn: config.jwt.expiresIn
-    }
-  );
-
-  this.tokens.push({ token });
-
-  return this.save().then(() => token);
 };
 
 usersSchema.methods.toJSON = function () {

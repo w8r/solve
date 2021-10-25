@@ -16,15 +16,19 @@ import {
   GOOGLE_ANDROID_ID,
   GOOGLE_IOS_ID,
   GOOGLE_WEB_ID,
-  GOOGLE_EXPO_ID
+  GOOGLE_EXPO_ID,
+  API_URL
 } from '@env';
 
 import transport from 'axios';
+import { useAuth } from '../hooks/useAuth';
+import { GoogleAuthUser } from '../types/user';
 
 maybeCompleteAuthSession();
 
 export default function Login() {
   const [jsonObject, setJsonObject] = useState({});
+  const { loginWithGoogle } = useAuth();
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
@@ -69,6 +73,7 @@ export default function Login() {
         })
         .then((json) => {
           console.log('dd', json.data);
+          loginWithGoogle(json.data as GoogleAuthUser);
           setJsonObject(json.data);
         });
     }

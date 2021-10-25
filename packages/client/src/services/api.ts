@@ -7,6 +7,8 @@ import { isWeb } from '../constants/device';
 import { Graph, GraphEdge, GraphNode } from '../types/graph';
 import { User } from '../contexts/AuthContext';
 
+import { GoogleAuthUser } from '../types/user';
+
 const transport = axios.create({
   headers: {
     Accept: 'application/json',
@@ -16,8 +18,11 @@ const transport = axios.create({
   baseURL: AppConfig.apiUrl
 });
 
-export function setToken(token: string) {
-  transport.defaults.headers.common[TOKEN_KEY] = token;
+export function setHeaderToken(token: string | undefined) {
+  //transport.defaults.headers.common[TOKEN_KEY] = token;
+  transport.defaults.headers.common['authorization'] = token
+    ? `Bearer ${token}`
+    : undefined;
 }
 
 function request<T>(
@@ -27,17 +32,22 @@ function request<T>(
 ): Promise<T> {
   return AsyncStorage.getItem(TOKEN_KEY).then((token) => {
     return new Promise((resolve, reject) => {
-      console.log('api: ', method.toUpperCase(), AppConfig.apiUrl, path);
+      console.log(
+        '%c api: ',
+        'color: white; background-color: blue',
+        method.toUpperCase(),
+        AppConfig.apiUrl + path
+      );
       transport
         .request({
           url: path,
           method,
           headers: {
-            Authentication: `Bearer ${token}`
+            authorization: `Bearer ${token}`
           },
           data: method === 'get' ? undefined : data
         })
-        .then((response) => resolve((response as unknown) as T))
+        .then((response) => resolve((response.data as unknown) as T))
         .catch((error) => reject(error.response.data));
     });
   });
@@ -57,7 +67,7 @@ function put<T>(path: string, data: Record<string, unknown>) {
 
 export function status() {
   return post('/api/user/status').catch((err) => {
-    setToken('');
+    setHeaderToken(undefined);
     return AsyncStorage.setItem(TOKEN_KEY, '');
   });
 }
@@ -68,6 +78,17 @@ export function login(email: string, password: string): Promise<User> {
 
 export function logout() {
   return post('/api/user/logout');
+}
+
+export function facebookLogin(token: string): Promise<User> {
+  return post<User>('/api/user/facebook-login', { token });
+}
+
+export function googleAuth(userData: GoogleAuthUser): Promise<User> {
+  return post<User>(
+    '/api/auth/google',
+    (userData as any) as Record<string, unknown>
+  );
 }
 
 export function signup(
