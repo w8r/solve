@@ -3,12 +3,10 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-export type RootStackParamList = {
-  Root: undefined;
-  NotFound: undefined;
-  Auth: undefined;
-  Login: undefined;
-};
+import { NavigatorScreenParams } from "@react-navigation/native";
+import { StackScreenProps } from '@react-navigation/stack';
+
+
 
 export type BottomTabParamList = {
   TabOne: undefined;
@@ -30,4 +28,14 @@ export type AuthRoutes = {
   Signup: undefined;
   ForgotPassword: undefined;
   PasswordChanged: undefined;
+};
+
+
+export type AppRoutes = {
+  
+}
+
+export type RootStackParamList = {
+  Root: StackScreenProps<AuthRoutes & AppRoutes>,
+  NotFound: undefined;
 };
