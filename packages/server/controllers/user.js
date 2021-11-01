@@ -91,7 +91,7 @@ module.exports.verifyEmail = async (params, res) => {
         User.clearToken();
         User.status = constants.STATUS_ACTIVE;
         User.save();
-        res.status(200).json({ message: 'Email is verified.' });
+        res.status(200).redirect('/'); // json({ message: 'Email is verified.' });
       } else {
         console.log(User);
         res.status(400).json({

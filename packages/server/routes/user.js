@@ -2,6 +2,7 @@ const express = require('express');
 
 const authMiddleware = require('../middleware/auth');
 const UserController = require('../controllers/user');
+const { createRateLimiter } = require('../middleware/rateLimiter');
 
 const router = express.Router();
 
@@ -9,6 +10,12 @@ const router = express.Router();
 // app.post('/api/user/', auth, ({ user, body }, res) => {
 //   res.status(200).json(body);
 // });
+
+const successRateLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  skipFailedRequests: true
+});
 
 // status
 router.post('/req-email', authMiddleware, (params, res) =>

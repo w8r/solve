@@ -30,7 +30,7 @@ module.exports.sendVerificationEmail = async (toEmail, verificationCode) => {
     title: `${config.app.title}: Verify your email`,
     content: `Welcome to ${config.app.title}. Please verify your email by clicking the button below. Note: This verification link will expire in 1 hour.`,
     buttonText: 'Verify your email address',
-    url: `${config.app.publicUrl}/verify-email/?token=${verificationCode}`,
+    url: `${config.app.publicUrl}/api/user/verify-email/?token=${verificationCode}`,
     signature: config.email.signature,
     appTitle: config.app.title,
     publicUrl: config.app.publicUrl
