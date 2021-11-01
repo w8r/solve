@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config/development');
 const constants = require('../config/constants');
+const uuidv4 = require('uuidv4');
 
 const providerDataSchema = new Schema({
   userId: {
@@ -52,14 +53,14 @@ const usersSchema = new Schema(
         constants.STATUS_DISABLED,
         constants.STATUS_UNVERIFIED_EMAIL
       ],
-      default: constants.STATUS_ACTIVE,
+      default: constants.STATUS_UNVERIFIED_EMAIL,
       index: true
     },
     score: {
       type: Schema.Types.Number,
       default: 0
     },
-    // token for veryfication email or reset password purpose, NOT JWT token
+    // token for verification email or reset password purpose, NOT JWT token
     // Do NOT set directly, call user.setToken(tokenPurpose) user.clearToken()
     // to set and clear token and tokenPurpose
     token: { type: Schema.Types.String, index: true },
@@ -189,8 +190,9 @@ usersSchema.methods.generateJwtToken = function (
  * @param {string} purpose The purpose of the token.
  */
 usersSchema.methods.setToken = function (purpose) {
-  this.token = uuidv4();
+  this.token = uuidv4.uuid();
   this.tokenPurpose = purpose;
+  this.save();
 };
 
 /**

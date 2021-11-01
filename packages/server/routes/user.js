@@ -11,12 +11,15 @@ const router = express.Router();
 // });
 
 // status
+router.get('/verify-email', authMiddleware, (params, res) => UserController.requestEmail(params, res));
+router.post('/verify-email', authMiddleware, (params, res) => UserController.verifyEmail(params, res));
+
 router.post('/status', authMiddleware, UserController.status);
 router.post('/graphs', authMiddleware, ({ user }, res) =>
-  UserController.getUserGraphs(user._id)
+  UserController.getUserGraphs(user._id, res)
 );
 router.post('/:id/graphs', authMiddleware, ({ user, params }, res) =>
-  UserController.getUserGraphs(params.id)
+  UserController.getUserGraphs(params.id, res)
 );
 
 module.exports = router;
