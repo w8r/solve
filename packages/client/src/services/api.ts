@@ -7,7 +7,7 @@ import { isWeb } from '../constants/device';
 import { Graph, GraphEdge, GraphNode } from '../types/graph';
 import { User } from '../contexts/AuthContext';
 
-import { GoogleAuthUser } from '../types/user';
+import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 
 const transport = axios.create({
   headers: {
@@ -47,7 +47,7 @@ function request<T>(
           },
           data: method === 'get' ? undefined : data
         })
-        .then((response) => resolve((response.data as unknown) as T))
+        .then((response) => resolve(response.data as unknown as T))
         .catch((error) => reject(error.response.data));
     });
   });
@@ -80,14 +80,17 @@ export function logout() {
   return post('/api/user/logout');
 }
 
-export function facebookLogin(token: string): Promise<User> {
-  return post<User>('/api/user/facebook-login', { token });
+export function facebookAuth(userData: FacebookAuthUser): Promise<User> {
+  return post<User>(
+    '/api/auth/facebook',
+    userData as any as Record<string, unknown>
+  );
 }
 
 export function googleAuth(userData: GoogleAuthUser): Promise<User> {
   return post<User>(
     '/api/auth/google',
-    (userData as any) as Record<string, unknown>
+    userData as any as Record<string, unknown>
   );
 }
 

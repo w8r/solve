@@ -33,6 +33,25 @@ module.exports.googleSignInStrategy = (profile, done) => {
 
   handleOAuth(userProfile, done, constants.PROVIDER_GOOGLE);
 };
+
+module.exports.facebookSignInStrategy = (profile, done) => {
+  const userProfile = {
+    provider: constants.PROVIDER_FACEBOOK,
+    userId: profile.id,
+    email: profile.email,
+    name: generateUsername(
+      profile.name,
+      profile.email,
+      profile.first_name,
+      profile.last_name,
+      profile.id
+    ),
+    picture: profile.picture.data.url
+  };
+
+  handleOAuth(userProfile, done, constants.PROVIDER_FACEBOOK);
+};
+
 /**
  * @function generateRandomNumber
  * Generate a random number between 1 and 99
@@ -67,6 +86,8 @@ const generateUsername = (userName, email, firstName, lastName, id) => {
   }
   return username;
 };
+
+module.exports.generateUsername = generateUsername;
 
 /**
  * Find the unique username

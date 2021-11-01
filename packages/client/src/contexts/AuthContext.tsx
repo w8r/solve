@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as AuthSession from 'expo-auth-session';
 import * as api from '../services/api';
 import { TOKEN_KEY } from '../constants';
-import { GoogleAuthUser } from '../types/user';
+import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 
 export type AuthState = {
   //token: string;
@@ -19,7 +19,7 @@ export type AuthState = {
   user: User;
   loading: boolean;
   loginWithGoogle: (data: GoogleAuthUser) => Promise<void>;
-  loginWithFacebook: (accessToken: string) => Promise<void>;
+  loginWithFacebook: (data: FacebookAuthUser) => Promise<void>;
   login: (email: string, password: string) => void;
   logout: () => void;
 };
@@ -51,17 +51,22 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
     );
   }
 
-  const loginWithFacebook = (access_token: string) =>
-    api.facebookLogin(access_token).then(() => setLoading(false));
+  const onAuthSuccess = (user: User) => {
+    const token = user.token as string;
+    setToken(token);
+    return AsyncStorage.setItem(TOKEN_KEY, token);
+  };
+
+  const loginWithFacebook = (data: FacebookAuthUser) =>
+    api
+      .facebookAuth(data)
+      .then(onAuthSuccess)
+      .then(() => setLoading(false));
 
   const loginWithGoogle = (data: GoogleAuthUser) =>
     api
       .googleAuth(data)
-      .then((user) => {
-        const token = user.token as string;
-        setToken(token);
-        return AsyncStorage.setItem(TOKEN_KEY, token);
-      })
+      .then(onAuthSuccess)
       .then(() => setLoading(false));
 
   const logout = () => api.logout().then(() => setLoading(false));

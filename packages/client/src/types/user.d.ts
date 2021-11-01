@@ -8,3 +8,17 @@ export interface GoogleAuthUser {
   picture: string;
   verified_email: boolean;
 }
+
+export interface FacebookAuthUser {
+  email: string;
+  first_name: string;
+  last_name: string;
+  id: string;
+  name: string;
+  picture: {
+    data: {
+      url: string;
+      width: number;
+    };
+  };
+}

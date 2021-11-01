@@ -38,7 +38,7 @@ router.post(
   '/facebook',
   successRateLimiter,
   authController.validateFacebookPayload,
-  fbAuthenticate,
+  authController.facebookSignIn,
   authController.signIn
 );
 
