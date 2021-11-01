@@ -71,6 +71,7 @@ const usersSchema = new Schema(
         constants.TOKEN_PURPOSE_RESET_PASSWORD
       ]
     },
+    tokenExpiration: { type: Schema.Types.Date }, 
     provider: {
       apple: {
         type: providerDataSchema
@@ -192,6 +193,9 @@ usersSchema.methods.generateJwtToken = function (
 usersSchema.methods.setToken = function (purpose) {
   this.token = uuidv4.uuid();
   this.tokenPurpose = purpose;
+  const expirationDate = new Date();
+  expirationDate.setHours(expirationDate.getHours + 1);
+  this.tokenExpiration = expirationDate;
   this.save();
 };
 
@@ -201,6 +205,7 @@ usersSchema.methods.setToken = function (purpose) {
 usersSchema.methods.clearToken = function () {
   this.token = undefined;
   this.tokenPurpose = undefined;
+  this.tokenExpiration = undefined;
 };
 
 const Users = model('Users', usersSchema);

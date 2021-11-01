@@ -83,8 +83,9 @@ module.exports.verifyEmail = async (params, res) => {
     } else {
       const token = User.token;
       const tokenPurpose = User.tokenPurpose;
+      const tokenExpiration = User.tokenExpiration;
       
-      if (tokenPurpose === constants.TOKEN_PURPOSE_VERIFY_EMAIL) {
+      if (tokenPurpose === constants.TOKEN_PURPOSE_VERIFY_EMAIL && tokenExpiration > new Date()) {
         User.clearToken();
         User.status = constants.STATUS_ACTIVE;
         User.save();
@@ -92,12 +93,12 @@ module.exports.verifyEmail = async (params, res) => {
       } else {
         console.log(User);
         res.status(400).json({
-          error: 'Invalid token.'
+          error: 'Token is invalid or expired.'
         });
       }
     }
 
   } catch (err) {
-    res.status(500).send('Token is invalid or expired.');
+    res.status(400).send('Token is invalid or expired.');
   }
 };
