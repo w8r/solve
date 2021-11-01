@@ -36,9 +36,9 @@ const toHeader = (graph) => ({
 //     .catch(next);
 // };
 
-module.exports.getUserGraphs = async (userId, res) => {
+module.exports.getUserGraphs = async (req, res) => {
   try {
-    const graphs = await Graphs.findByUser(userId);
+    const graphs = await Graphs.findByUser(req.params.id ?? req.user._id);
     res.status(200).json(graphs.map(toHeader));
   } catch (err) {
     console.error(err);
@@ -74,7 +74,7 @@ module.exports.requestEmail = async (params, res) => {
 
 module.exports.verifyEmail = async (params, res) => {
   try {
-    const User = await Users.findById(params.user._id);
+    const User = await Users.findOne({ token: params.query.token });
     if (User.status !== constants.STATUS_UNVERIFIED_EMAIL) {
       res.status(400).json({
         error: 'Your email is already verified.'
@@ -82,10 +82,11 @@ module.exports.verifyEmail = async (params, res) => {
     } else {
       const token = User.token;
       const tokenPurpose = User.tokenPurpose;
+      const tokenExpiration = User.tokenExpiration;
 
       if (
-        params.body.token === token &&
-        tokenPurpose === constants.TOKEN_PURPOSE_VERIFY_EMAIL
+        tokenPurpose === constants.TOKEN_PURPOSE_VERIFY_EMAIL &&
+        tokenExpiration > new Date()
       ) {
         User.clearToken();
         User.status = constants.STATUS_ACTIVE;
@@ -94,14 +95,11 @@ module.exports.verifyEmail = async (params, res) => {
       } else {
         console.log(User);
         res.status(400).json({
-          error: 'Invalid token.'
+          error: 'Token is invalid or expired.'
         });
       }
     }
   } catch (err) {
-    res.status(500).json({
-      error: 'Error sending verification email',
-      data: err
-    });
+    res.status(400).send('Token is invalid or expired.');
   }
 };
