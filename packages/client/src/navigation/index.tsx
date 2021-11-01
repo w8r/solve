@@ -1,23 +1,15 @@
-/**
- * If you are not familiar with React Navigation, check out the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
+import * as React from 'react';
 import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme
 } from '@react-navigation/native';
+import AppLoading from 'expo-app-loading';
 import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
 import { ColorSchemeName } from 'react-native';
-
-import Login from '../screens/Login';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from './types';
 import BottomTabNavigator from './BottomTabNavigator';
-import { Spinner } from 'native-base';
-//import AuthNavigator from './AuthNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
 import { useAuth } from '../hooks/useAuth';
 import AuthNavigator from './AuthNavigator';
@@ -27,6 +19,9 @@ export default function Navigation({
 }: {
   colorScheme: ColorSchemeName;
 }) {
+  const { loading } = useAuth();
+  // TODO: Load resources
+  if (loading) return <AppLoading />;
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
@@ -41,24 +36,22 @@ export default function Navigation({
 // Read more here: https://reactnavigation.org/docs/modal
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
+const RootSwitch = createStackNavigator();
 function RootSwitchNavigator() {
-  const { Navigator, Screen } = createStackNavigator();
   const { authenticated } = useAuth();
 
   return (
-    <Navigator headerMode="none">
+    <RootSwitch.Navigator headerMode="none">
       {authenticated ? (
-        <Screen name="App" component={BottomTabNavigator} />
+        <RootSwitch.Screen name="App" component={BottomTabNavigator} />
       ) : (
-        <Screen name="Auth" component={AuthNavigator} />
+        <RootSwitch.Screen name="Auth" component={AuthNavigator} />
       )}
-    </Navigator>
+    </RootSwitch.Navigator>
   );
 }
 
 function RootNavigator() {
-  const { loading } = useAuth();
-  if (loading) return <Spinner size="large" />;
   return (
     <Navigator headerMode="none">
       <Screen name="Root" component={RootSwitchNavigator} />

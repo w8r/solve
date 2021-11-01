@@ -24,11 +24,11 @@ import transport from 'axios';
 import { useAuth } from '../hooks/useAuth';
 import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 import { facebookAuth } from '../services/api';
+import { LoginProps } from '../navigation/types';
 
 maybeCompleteAuthSession();
 
-export default function Login() {
-  const [jsonObject, setJsonObject] = useState({});
+export default function Login({ navigation }: LoginProps) {
   const { loginWithGoogle, loginWithFacebook } = useAuth();
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
@@ -46,8 +46,7 @@ export default function Login() {
 
   useEffect(() => {
     if (fbResponse?.type === 'success') {
-      const { access_token, refresh_token } = fbResponse.params;
-      console.log(access_token, fbResponse.params);
+      const { access_token } = fbResponse.params;
       transport
         .get(`https://graph.facebook.com/me`, {
           params: {
@@ -111,7 +110,9 @@ export default function Login() {
         Sign in with Google
       </Button>
       <View>
-        <Text>{JSON.stringify(jsonObject, undefined, 2)}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text>or Sign in</Text>
+        </TouchableOpacity>
       </View>
       <EditScreenInfo path="/screens/Login.tsx" />
     </View>

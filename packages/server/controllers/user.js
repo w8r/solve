@@ -41,13 +41,13 @@ module.exports.getUserGraphs = async (userId, res) => {
     const graphs = await Graphs.findByUser(userId);
     res.status(200).json(graphs.map(toHeader));
   } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        error: 'Error retrieving graphs',
-        data: err
-      });
+    console.error(err);
+    res.status(500).json({
+      error: 'Error retrieving graphs',
+      data: err
+    });
   }
-}
+};
 
 module.exports.requestEmail = async (params, res) => {
   try {
@@ -61,9 +61,8 @@ module.exports.requestEmail = async (params, res) => {
       const token = User.token;
       await emailer.sendVerificationEmail(User.email, token);
 
-      res.status(200).json({message: 'Email is sent.'});
+      res.status(200).json({ message: 'Email is sent.' });
     }
-
   } catch (err) {
     console.error(err);
     res.status(500).json({
@@ -83,12 +82,15 @@ module.exports.verifyEmail = async (params, res) => {
     } else {
       const token = User.token;
       const tokenPurpose = User.tokenPurpose;
-      
-      if (params.body.token === token && tokenPurpose === constants.TOKEN_PURPOSE_VERIFY_EMAIL) {
+
+      if (
+        params.body.token === token &&
+        tokenPurpose === constants.TOKEN_PURPOSE_VERIFY_EMAIL
+      ) {
         User.clearToken();
         User.status = constants.STATUS_ACTIVE;
         User.save();
-        res.status(200).json({message: 'Email is verified.'});
+        res.status(200).json({ message: 'Email is verified.' });
       } else {
         console.log(User);
         res.status(400).json({
@@ -96,7 +98,6 @@ module.exports.verifyEmail = async (params, res) => {
         });
       }
     }
-
   } catch (err) {
     res.status(500).json({
       error: 'Error sending verification email',

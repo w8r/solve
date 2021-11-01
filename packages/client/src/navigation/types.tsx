@@ -5,6 +5,7 @@
 
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
 export type BottomTabParamList = {
   TabOne: undefined;
@@ -14,6 +15,7 @@ export type BottomTabParamList = {
 export type TabOneParamList = {
   TabOneScreen: undefined;
 };
+export type TabOneProps = BottomTabScreenProps<BottomTabParamList, 'TabOne'>;
 
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
@@ -29,6 +31,12 @@ export type AuthRoutes = {
 };
 
 export type OnboardingProps = StackScreenProps<AuthRoutes, 'Onboarding'>;
+export type LoginProps = StackScreenProps<AuthRoutes, 'Login'>;
+export type SignupProps = StackScreenProps<AuthRoutes, 'Signup'>;
+
+// @ts-ignore
+// const d: SignupProps = {};
+// d.navigation.getParent()?.navigate()
 
 export type AppRoutes = {
   Dashboard: undefined;

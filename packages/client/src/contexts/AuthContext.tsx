@@ -54,6 +54,8 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
   const onAuthSuccess = (user: User) => {
     const token = user.token as string;
     setToken(token);
+    setAuthenticated(true);
+    setUser(user);
     return AsyncStorage.setItem(TOKEN_KEY, token);
   };
 
@@ -75,9 +77,13 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
     async function loadStorageData() {
       const token = await AsyncStorage.getItem(TOKEN_KEY);
       if (token) {
+        setLoading(true);
         const resp = await api.status();
         setToken(token);
         setAuthenticated(true);
+        setUser(resp as User);
+        setLoading(false);
+        //console.log(resp);
       }
     }
     loadStorageData();
