@@ -45,8 +45,6 @@ function RootSwitchNavigator() {
   const { Navigator, Screen } = createStackNavigator();
   const { authenticated } = useAuth();
 
-  console.log('authenticated', authenticated);
-
   return (
     <Navigator headerMode="none">
       {authenticated ? (

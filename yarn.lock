@@ -3367,10 +3367,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-aria/listbox@npm:^0.2.4-alpha.0":
-  version: 0.2.4-alpha.2
-  resolution: "@react-native-aria/listbox@npm:0.2.4-alpha.2"
+"@react-native-aria/listbox@npm:^0.2.4-alpha.3":
+  version: 0.2.4-alpha.3
+  resolution: "@react-native-aria/listbox@npm:0.2.4-alpha.3"
   dependencies:
+    "@react-aria/interactions": ^3.3.2
     "@react-aria/label": ^3.1.1
     "@react-aria/listbox": ^3.2.4
     "@react-aria/selection": ^3.3.2
@@ -3382,7 +3383,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: ca69d4bc5688cce7e0a86cb4a00c529888cc0337b0a9918b0ebab1f043b44146509a039818c251a656607702b71665af68487896c318dfc6c2a8637643a81dd6
+  checksum: 5922268127065639140520b8da2adcc68fb0f275c21362eff58e5c03ee2328e960f46235bb647bc0676da571b9a54b6490e59605d609d860a1e81e1290263727
   languageName: node
   linkType: hard
 
@@ -4236,11 +4237,10 @@ __metadata:
     expo-yarn-workspaces: ^1.5.2
     formik: ^2.2.9
     jest-expo: ~41.0.0-beta.0
-    native-base: ^3.0.6
+    native-base: ^3.2.1
     react: 16.13.1
     react-dom: 16.13.1
     react-native: "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz"
-    react-native-auth0: ^2.9.0
     react-native-dotenv: ^3.1.1
     react-native-gesture-handler: ~1.10.2
     react-native-reanimated: ~2.2.0
@@ -4669,7 +4669,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.175":
+"@types/lodash.has@npm:^4.5.6":
+  version: 4.5.6
+  resolution: "@types/lodash.has@npm:4.5.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 3d852f4d0ba8be9ddd7f5d62371c9802e10b24f041f1c69950145c8a1ca85a7d0fdf78aa2116468617a2dfdee9865e501a4647962c5444620bb3fc871d377f69
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.175":
   version: 4.14.176
   resolution: "@types/lodash@npm:4.14.176"
   checksum: cc3c9d7522a20814d1bbc5125a3d5a4a4eed72e7cf6a3b01b0810aa5dcff0cf23ab40ea4ab00fe2425dd0828cd915087d8d073757ab9c925e2872903dd3e15d0
@@ -6111,13 +6120,6 @@ __metadata:
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
   checksum: 690643f3009a04289ac401079de5a780aae452f7625fb2884051cc847b231e6521ee15dd6430b066d3cf4bd8bb00bb7ff55b7d134f34b8f0b8c043806796f94e
-  languageName: node
-  linkType: hard
-
-"base-64@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "base-64@npm:0.1.0"
-  checksum: 0051037083d6ce2978d7d5f828309e0ddfc929a2e9f3cf3567d4518a635deb534654ffb37e883c77f926bb95f1ba80eed85a99fee681d1592128ac4fef0fdc7e
   languageName: node
   linkType: hard
 
@@ -7711,13 +7713,6 @@ __metadata:
     randombytes: ^2.0.0
     randomfill: ^1.0.3
   checksum: 8b558367b3759652b7c8dfd8fa0dc55a69362ae3efe039ac44d4b010bc63143708f4748ef8efc079945bf61dbc53c829cda968cd2abc1f34fcf43f669a414f73
-  languageName: node
-  linkType: hard
-
-"crypto-js@npm:^3.3.0":
-  version: 3.3.0
-  resolution: "crypto-js@npm:3.3.0"
-  checksum: 7cf8de489f9f25084a3b22cc6e944e2e11e03b6374777a7a554739ee27e3b35d5dfdac490e0a66bc191c9ecbbea13ad716f59345657335b39d95f9bc19c40ac5
   languageName: node
   linkType: hard
 
@@ -12365,13 +12360,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jsbn@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "jsbn@npm:1.1.0"
-  checksum: 1400c412cdb40a703be30ec4faaaba99cdc63cb61caf8b8d5898d968d3ec50c2154fca5a7e4b950d1f55ee50668221001cf4054da5f49f73a05616361ff0a1c1
-  languageName: node
-  linkType: hard
-
 "jsbn@npm:~0.1.0":
   version: 0.1.1
   resolution: "jsbn@npm:0.1.1"
@@ -12638,13 +12626,6 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jwt-decode@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "jwt-decode@npm:2.2.0"
-  checksum: d3e8f2176740df81bffa6b3fe4b7305f0ab6c45a796670113046b0f1fb0dba0b610573d4cf4aa4676c3ba52fe678984c0e63b2525df059c224d3be9b685f45bf
-  languageName: node
-  linkType: hard
-
 "kareem@npm:2.3.2":
   version: 2.3.2
   resolution: "kareem@npm:2.3.2"
@@ -12907,6 +12888,13 @@ fsevents@^1.2.7:
   version: 4.4.2
   resolution: "lodash.get@npm:4.4.2"
   checksum: 447e575e3caa5131ef44e5a0c135b1614f3c937d86b3be0568f9da7b0fd015010af3b6b4e41edf6e2698c9ce2dcc061ca71b31f274f799c991dceb018be16e4f
+  languageName: node
+  linkType: hard
+
+"lodash.has@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "lodash.has@npm:4.5.2"
+  checksum: ed2cbed6f3f06fe2ae0a604464208a758197624810e58c4928de3ab9a00d2ac736ade10f49b6ea77f96c702f9d104189a57a7af0bfa1725e8554524aa9466f41
   languageName: node
   linkType: hard
 
@@ -14184,17 +14172,19 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"native-base@npm:^3.0.6":
-  version: 3.0.7
-  resolution: "native-base@npm:3.0.7"
+"native-base@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "native-base@npm:3.2.1"
   dependencies:
+    "@react-aria/focus": ^3.2.3
+    "@react-aria/utils": ^3.6.0
     "@react-aria/visually-hidden": ^3.2.1
     "@react-native-aria/button": ^0.2.4
     "@react-native-aria/checkbox": ^0.2.2
     "@react-native-aria/combobox": ^0.2.4-alpha.0
     "@react-native-aria/focus": ^0.2.4
     "@react-native-aria/interactions": ^0.2.2
-    "@react-native-aria/listbox": ^0.2.4-alpha.0
+    "@react-native-aria/listbox": ^0.2.4-alpha.3
     "@react-native-aria/overlays": ^0.2.9
     "@react-native-aria/radio": ^0.2.4
     "@react-native-aria/slider": ^0.2.5-alpha.1
@@ -14202,9 +14192,11 @@ fsevents@^1.2.7:
     "@react-native-aria/utils": ^0.2.7
     "@react-stately/combobox": ^3.0.0-alpha.1
     "@react-stately/radio": ^3.2.1
+    "@types/lodash.has": ^4.5.6
     "@types/styled-system": ^5.1.9
     lodash.clonedeep: ^4.5.0
     lodash.get: ^4.4.2
+    lodash.has: ^4.5.2
     lodash.isempty: ^4.4.0
     lodash.isequal: ^4.5.0
     lodash.isnil: ^4.0.0
@@ -14222,7 +14214,7 @@ fsevents@^1.2.7:
     react-native-svg: "*"
     styled-components: "*"
     styled-system: "*"
-  checksum: 043f9ca2a1b40f12b80bfe7439ad2edbc4e4bd0d5793f00377796af19ed2fada4622abf35298573fb4d00506608975ddf00a66b477fc27c41c1376424c0dd757
+  checksum: 7515ae474f02118a40904e016d283a77b4eb085f0fc21872945f78313de1772b745d9d6375d4121ba86463dddcf0353be20f88f3b99eb9b5d6eac555184a5ee3
   languageName: node
   linkType: hard
 
@@ -16494,22 +16486,6 @@ fsevents@^1.2.7:
   version: 17.0.2
   resolution: "react-is@npm:17.0.2"
   checksum: 3eff23f410d40ab9bc5177f147a92c7f42c356a21ecea340e0554566956d67e5e1ba56f26cc7fa22339ac3c7151744177bd6305eaa26d3cbf15f354358c9d9b6
-  languageName: node
-  linkType: hard
-
-"react-native-auth0@npm:^2.9.0":
-  version: 2.9.0
-  resolution: "react-native-auth0@npm:2.9.0"
-  dependencies:
-    base-64: ^0.1.0
-    crypto-js: ^3.3.0
-    jsbn: ^1.1.0
-    jwt-decode: ^2.2.0
-    url: ^0.11.0
-  peerDependencies:
-    react: ^16.11.0 || ^17
-    react-native: ">=0.62.2 <1.0.x"
-  checksum: 6b776c067e66733d7169ebe94d253cb3b2f53bfb2930a8f40fdc90986117b53b649761e582a386464d29bc76c693a32f26389535ac97a06115d0472a5d1712db
   languageName: node
   linkType: hard
 
