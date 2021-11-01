@@ -71,7 +71,7 @@ const usersSchema = new Schema(
         constants.TOKEN_PURPOSE_RESET_PASSWORD
       ]
     },
-    tokenExpiration: { type: Schema.Types.Date }, 
+    tokenExpiration: { type: Schema.Types.Date },
     provider: {
       apple: {
         type: providerDataSchema
@@ -194,7 +194,7 @@ usersSchema.methods.setToken = function (purpose) {
   this.token = uuidv4.uuid();
   this.tokenPurpose = purpose;
   const expirationDate = new Date();
-  expirationDate.setHours(expirationDate.getHours + 1);
+  expirationDate.setHours(expirationDate.getHours() + 1);
   this.tokenExpiration = expirationDate;
   this.save();
 };

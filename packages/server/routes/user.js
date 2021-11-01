@@ -11,8 +11,12 @@ const router = express.Router();
 // });
 
 // status
-router.get('/req-email', authMiddleware, (params, res) => UserController.requestEmail(params, res));
-router.get('/verify-email', (params, res) => UserController.verifyEmail(params, res));
+router.post('/req-email', authMiddleware, (params, res) =>
+  UserController.requestEmail(params, res)
+);
+router.get('/verify-email', (params, res) =>
+  UserController.verifyEmail(params, res)
+);
 
 router.post('/status', authMiddleware, UserController.status);
 router.post('/graphs', authMiddleware, (params, res) =>

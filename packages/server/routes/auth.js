@@ -1,15 +1,11 @@
 const express = require('express');
-const auth = require('../middleware/auth');
 const { authStrategy } = require('../db/passport/utils');
 const { createRateLimiter } = require('../middleware/rateLimiter');
 const authController = require('../controllers/auth');
 
 const router = express.Router();
 
-const jwtAuthenticate = authStrategy('jwt');
 const localAuthenticate = authStrategy('local');
-const fbAuthenticate = authStrategy('facebook-token');
-const googleAuthenticate = authStrategy('google');
 
 const failRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,

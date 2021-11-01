@@ -1,12 +1,9 @@
 {
   "root": true,
-  "extends": [
-    "fullstack",
-    "prettier",
-    "prettier/react"
-  ],
+  "extends": ["fullstack", "prettier", "prettier/react"],
   "rules": {
     "semi": 1,
+    "no-unused-vars": 1,
     "max-len": [
       "error",
       {
