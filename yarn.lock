@@ -3367,10 +3367,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-aria/listbox@npm:^0.2.4-alpha.0":
-  version: 0.2.4-alpha.2
-  resolution: "@react-native-aria/listbox@npm:0.2.4-alpha.2"
+"@react-native-aria/listbox@npm:^0.2.4-alpha.3":
+  version: 0.2.4-alpha.3
+  resolution: "@react-native-aria/listbox@npm:0.2.4-alpha.3"
   dependencies:
+    "@react-aria/interactions": ^3.3.2
     "@react-aria/label": ^3.1.1
     "@react-aria/listbox": ^3.2.4
     "@react-aria/selection": ^3.3.2
@@ -4236,11 +4237,10 @@ __metadata:
     expo-yarn-workspaces: ^1.5.2
     formik: ^2.2.9
     jest-expo: ~41.0.0-beta.0
-    native-base: ^3.0.6
+    native-base: ^3.2.1
     react: 16.13.1
     react-dom: 16.13.1
     react-native: "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz"
-    react-native-auth0: ^2.9.0
     react-native-dotenv: ^3.1.1
     react-native-gesture-handler: ~1.10.2
     react-native-reanimated: ~2.2.0
@@ -4671,7 +4671,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.175":
+"@types/lodash.has@npm:^4.5.6":
+  version: 4.5.6
+  resolution: "@types/lodash.has@npm:4.5.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 3d852f4d0ba8be9ddd7f5d62371c9802e10b24f041f1c69950145c8a1ca85a7d0fdf78aa2116468617a2dfdee9865e501a4647962c5444620bb3fc871d377f69
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.175":
   version: 4.14.176
   resolution: "@types/lodash@npm:4.14.176"
   checksum: 9e949704dfffab60365b5cdca0477926af6eabe82c64b7be8f74b3a117bb373d58371be962c2b159dd0cf8fad49a7dcacc748564aea4ce6b6883c197a6f0bfa8
@@ -12921,6 +12930,13 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"lodash.has@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "lodash.has@npm:4.5.2"
+  checksum: ed2cbed6f3f06fe2ae0a604464208a758197624810e58c4928de3ab9a00d2ac736ade10f49b6ea77f96c702f9d104189a57a7af0bfa1725e8554524aa9466f41
+  languageName: node
+  linkType: hard
+
 "lodash.includes@npm:^4.3.0":
   version: 4.3.0
   resolution: "lodash.includes@npm:4.3.0"
@@ -14195,17 +14211,19 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"native-base@npm:^3.0.6":
-  version: 3.0.7
-  resolution: "native-base@npm:3.0.7"
+"native-base@npm:^3.2.1":
+  version: 3.2.1
+  resolution: "native-base@npm:3.2.1"
   dependencies:
+    "@react-aria/focus": ^3.2.3
+    "@react-aria/utils": ^3.6.0
     "@react-aria/visually-hidden": ^3.2.1
     "@react-native-aria/button": ^0.2.4
     "@react-native-aria/checkbox": ^0.2.2
     "@react-native-aria/combobox": ^0.2.4-alpha.0
     "@react-native-aria/focus": ^0.2.4
     "@react-native-aria/interactions": ^0.2.2
-    "@react-native-aria/listbox": ^0.2.4-alpha.0
+    "@react-native-aria/listbox": ^0.2.4-alpha.3
     "@react-native-aria/overlays": ^0.2.9
     "@react-native-aria/radio": ^0.2.4
     "@react-native-aria/slider": ^0.2.5-alpha.1
@@ -14213,9 +14231,11 @@ fsevents@^1.2.7:
     "@react-native-aria/utils": ^0.2.7
     "@react-stately/combobox": ^3.0.0-alpha.1
     "@react-stately/radio": ^3.2.1
+    "@types/lodash.has": ^4.5.6
     "@types/styled-system": ^5.1.9
     lodash.clonedeep: ^4.5.0
     lodash.get: ^4.4.2
+    lodash.has: ^4.5.2
     lodash.isempty: ^4.4.0
     lodash.isequal: ^4.5.0
     lodash.isnil: ^4.0.0
