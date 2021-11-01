@@ -3,7 +3,10 @@ const validateSignup = require('../validator/signup');
 const validate = require('joi');
 const createError = require('http-errors');
 const constants = require('../config/constants');
-const { googleSignInStrategy } = require('../db/passport/utils');
+const {
+  googleSignInStrategy,
+  facebookSignInStrategy
+} = require('../db/passport/utils');
 
 const localSignUpSchema = validate
   .object({
@@ -109,21 +112,36 @@ module.exports.validateLocalSignInPayload = (req, res, next) => {
  * JOI schema for validating facebookSignIn payload
  */
 const facebookSchema = validate.object({
-  accessToken: validate.string().required(),
-  refreshToken: validate.string()
+  //accessToken: validate.string().required(),
+  //refreshToken: validate.string(),
+  email: validate.string().email().required(),
+  id: validate.string().required(),
+  name: validate.string().required(),
+  first_name: validate.string(),
+  last_name: validate.string(),
+  picture: validate.object({
+    data: validate.object({
+      url: validate.string().uri().required(),
+      width: validate.number().required(),
+      height: validate.number().required(),
+      is_silhouette: validate.boolean().required()
+    })
+  })
 });
 
 module.exports.validateFacebookPayload = (req, res, next) => {
   facebookSchema
     .validateAsync(req.body)
-    .then((payload) => {
-      req.body = { access_token: payload.accessToken };
-      if (payload.refreshToken) {
-        req.body.refresh_token = payload.refreshToken;
-      }
-      next();
-    })
+    .then((payload) => next())
     .catch(next);
+};
+
+module.exports.facebookSignIn = (req, res, next) => {
+  return facebookSignInStrategy(req.body, (err, user) => {
+    if (err) throw createError(422, err);
+    req.user = user;
+    next();
+  });
 };
 
 /**

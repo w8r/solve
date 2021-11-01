@@ -22,13 +22,14 @@ import {
 
 import transport from 'axios';
 import { useAuth } from '../hooks/useAuth';
-import { GoogleAuthUser } from '../types/user';
+import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
+import { facebookAuth } from '../services/api';
 
 maybeCompleteAuthSession();
 
 export default function Login() {
   const [jsonObject, setJsonObject] = useState({});
-  const { loginWithGoogle } = useAuth();
+  const { loginWithGoogle, loginWithFacebook } = useAuth();
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
@@ -51,26 +52,30 @@ export default function Login() {
         .get(`https://graph.facebook.com/me`, {
           params: {
             access_token,
-            fields: ['id', 'name', 'email', 'picture.height(500)'].join(',')
+            fields: [
+              'id',
+              'name',
+              'email',
+              'picture.height(500)',
+              'first_name',
+              'last_name'
+            ].join(',')
           }
         })
-        .then((json) => {
-          console.log(json);
-          setJsonObject(json);
+        .then(({ data }) => {
+          loginWithFacebook(data as FacebookAuthUser);
         });
     }
     if (googleResponse?.type === 'success') {
       const { access_token } = googleResponse.params;
-      console.log(access_token, googleResponse.params);
       transport
         .get('https://www.googleapis.com/oauth2/v2/userinfo', {
           headers: {
             Authorization: `Bearer ${access_token}`
           }
         })
-        .then((json) => {
-          loginWithGoogle(json.data as GoogleAuthUser);
-          setJsonObject(json.data);
+        .then(({ data }) => {
+          loginWithGoogle(data as GoogleAuthUser);
         });
     }
   }, [fbResponse, googleResponse]);

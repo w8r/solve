@@ -6,6 +6,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const FacebookTokenStrategy = require('passport-facebook-token');
 const config = require('../../config/development');
 const constants = require('../../config/constants');
+const { generateUsername } = require('./utils');
 
 const Users = mongoose.model('Users');
 
