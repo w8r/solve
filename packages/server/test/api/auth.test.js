@@ -167,7 +167,7 @@ describe('ENDPOINT: POST /api/auth/signin', () => {
 describe('ENDPOINT: POST /api/auth/facebook', () => {
   const endpoint = '/api/auth/facebook';
 
-  // not possible to maintain the tocken in the test
+  // not possible to maintain the token in the test
   it.skip(`POST ${endpoint} - facebook auth`, () => {
     const user = {
       accessToken:

@@ -13,6 +13,11 @@ const isNotTest = process.env.NODE_ENV !== 'test';
 module.exports = {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
+  email: {
+    service: process.env.EMAIL_SERVICE,
+    username: process.env.EMAIL_ID,
+    password: process.env.EMAIL_PASSWORD
+  },
   //DB_URI: 'mongodb://localhost:27017/solve-dev',
   DB_URI: process.env.MONGO_URI,
   jwt: {
