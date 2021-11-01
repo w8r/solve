@@ -35,16 +35,13 @@ export default function Login() {
     responseType: ResponseType.Token
   });
 
-  const [
-    googleRequest,
-    googleResponse,
-    googlePromptAsync
-  ] = Google.useAuthRequest({
-    expoClientId: GOOGLE_EXPO_ID,
-    iosClientId: GOOGLE_IOS_ID,
-    androidClientId: GOOGLE_ANDROID_ID,
-    webClientId: GOOGLE_WEB_ID
-  });
+  const [googleRequest, googleResponse, googlePromptAsync] =
+    Google.useAuthRequest({
+      expoClientId: GOOGLE_EXPO_ID,
+      iosClientId: GOOGLE_IOS_ID,
+      androidClientId: GOOGLE_ANDROID_ID,
+      webClientId: GOOGLE_WEB_ID
+    });
 
   useEffect(() => {
     if (fbResponse?.type === 'success') {
@@ -72,7 +69,6 @@ export default function Login() {
           }
         })
         .then((json) => {
-          console.log('dd', json.data);
           loginWithGoogle(json.data as GoogleAuthUser);
           setJsonObject(json.data);
         });
@@ -90,6 +86,9 @@ export default function Login() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
+      <View>
+        <Text>Email login form here</Text>
+      </View>
       <Button
         disabled={!fbRequest}
         onPress={onAuthFacebook}

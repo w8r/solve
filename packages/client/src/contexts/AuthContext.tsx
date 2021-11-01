@@ -52,7 +52,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
   }
 
   const loginWithFacebook = (access_token: string) =>
-    Promise.resolve().then(() => setLoading(false));
+    api.facebookLogin(access_token).then(() => setLoading(false));
 
   const loginWithGoogle = (data: GoogleAuthUser) =>
     api
@@ -87,7 +87,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
         loginWithGoogle,
         logout,
         loading,
-        user: (user as unknown) as User
+        user: user as unknown as User
       }}
     >
       {children}
