@@ -4368,7 +4368,6 @@ __metadata:
     supertest: ^6.1.5
     typescript: ~4.0.0
     uuid: ^8.3.2
-    uuidv4: ^6.2.12
     validator: ^13.6.0
   languageName: unknown
   linkType: soft
@@ -5007,13 +5006,6 @@ __metadata:
   dependencies:
     source-map: ^0.6.1
   checksum: def36fd2c698a33d8f67f5e21aab926eb9bda2d7951eab544941e1feb1231f020ff1c210d840dcc0fc9f07b5d22ef8b566887ddec9753b8b9f7223cceaa70993
-  languageName: node
-  linkType: hard
-
-"@types/uuid@npm:8.3.1":
-  version: 8.3.1
-  resolution: "@types/uuid@npm:8.3.1"
-  checksum: b41bdc5e86c6f0f1899306be10455636da0f2168c9489b869edd6837ddeb7c0e501b1ff7d857402462986bada2a379125743dd895fa801d03437cd632116a373
   languageName: node
   linkType: hard
 
@@ -19612,15 +19604,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:8.3.2, uuid@npm:^8.3.2":
-  version: 8.3.2
-  resolution: "uuid@npm:8.3.2"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
-  languageName: node
-  linkType: hard
-
 "uuid@npm:^3.3.2, uuid@npm:^3.4.0":
   version: 3.4.0
   resolution: "uuid@npm:3.4.0"
@@ -19639,13 +19622,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuidv4@npm:^6.2.12":
-  version: 6.2.12
-  resolution: "uuidv4@npm:6.2.12"
-  dependencies:
-    "@types/uuid": 8.3.1
-    uuid: 8.3.2
-  checksum: 0fc9e05a93cb66248341ea13696d052bd4d109cf3d332c54cc94025ab98f34576e910584b949e48735b1d170b8fddd39b8438cbeec4a582366c2160916f481d5
+"uuid@npm:^8.3.2":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
   languageName: node
   linkType: hard
 
