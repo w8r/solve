@@ -20,6 +20,6 @@ module.exports.sendVerificationEmail = (toEmail, verificationCode) => {
         from: config.email.username,
         to: toEmail,
         subject: 'Solve App - Verify your e-mail',
-        text: 'Please enter code "' + verificationCode + '" in the application' 
+        text: 'Verify your email by clicking to this URL: ' + config.app_url + '/api/user/verify-email?token=' + verificationCode 
     });
 }

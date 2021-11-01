@@ -18,6 +18,7 @@ module.exports = {
     username: process.env.EMAIL_ID,
     password: process.env.EMAIL_PASSWORD
   },
+  app_url: process.env.SERVER_PUBLIC_URL,
   //DB_URI: 'mongodb://localhost:27017/solve-dev',
   DB_URI: process.env.MONGO_URI,
   jwt: {
