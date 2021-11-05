@@ -71,7 +71,12 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
       .then(onAuthSuccess)
       .then(() => setLoading(false));
 
-  const logout = () => api.logout().then(() => setLoading(false));
+  const logout = () => {
+    setToken(null);
+    setAuthenticated(false);
+    setUser(null);
+    return AsyncStorage.removeItem(TOKEN_KEY);
+  };
 
   useEffect(() => {
     async function loadStorageData() {
@@ -83,7 +88,6 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
         setAuthenticated(true);
         setUser(resp as User);
         setLoading(false);
-        //console.log(resp);
       }
     }
     loadStorageData();

@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-//import * as Facebook from 'expo-facebook';
-
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
 
 import { maybeCompleteAuthSession } from 'expo-web-browser';
 import * as Facebook from 'expo-auth-session/providers/facebook';
 import * as Google from 'expo-auth-session/providers/google';
 import { ResponseType } from 'expo-auth-session';
-import { Button } from 'native-base';
+import {
+  Button,
+  Heading,
+  VStack,
+  HStack,
+  Link,
+  Text,
+  FormControl,
+  Input,
+  Divider
+} from 'native-base';
 
 import {
   FACEBOOK_APP_ID,
   GOOGLE_ANDROID_ID,
   GOOGLE_IOS_ID,
   GOOGLE_WEB_ID,
-  GOOGLE_EXPO_ID,
-  API_URL
+  GOOGLE_EXPO_ID
 } from '@env';
 
 import transport from 'axios';
 import { useAuth } from '../hooks/useAuth';
 import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
-import { facebookAuth } from '../services/api';
 import { LoginProps } from '../navigation/types';
+import { SocialButton, SocialLoginType } from '../components/SocialLogin';
+import { FormContainer } from '../components/FormContainer';
 
 maybeCompleteAuthSession();
 
 export default function Login({ navigation }: LoginProps) {
   const { loginWithGoogle, loginWithFacebook } = useAuth();
+  const [requesting, setRequesting] = useState(false);
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
@@ -83,59 +89,79 @@ export default function Login({ navigation }: LoginProps) {
   const onAuthGoogle = () => googlePromptAsync();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <View>
-        <Text>Email login form here</Text>
-      </View>
-      <Button
-        disabled={!fbRequest}
-        onPress={onAuthFacebook}
-        style={[styles.button, { backgroundColor: '#3b5998' }]}
-      >
-        {/* <FontAwesome name="facebook" size={17} color="#ffffff" /> */}
-        Sign in with Facebook
-      </Button>
-      <Button
-        disabled={!googleRequest}
-        onPress={onAuthGoogle}
-        style={[styles.button, { backgroundColor: '#ff3b59' }]}
-      >
-        {/* <FontAwesome name="google" size={17} color="#ffffff" /> */}
-        Sign in with Google
-      </Button>
-      <View>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-          <Text>or Sign in</Text>
-        </TouchableOpacity>
-      </View>
-      <EditScreenInfo path="/screens/Login.tsx" />
-    </View>
+    <FormContainer>
+      <Heading size="lg" fontWeight="600" color="coolGray.800">
+        Login
+      </Heading>
+      <VStack space={3} mt="5">
+        <FormControl>
+          <FormControl.Label
+            _text={{
+              color: 'coolGray.800',
+              fontSize: 'xs',
+              fontWeight: 500
+            }}
+          >
+            Email ID
+          </FormControl.Label>
+          <Input />
+        </FormControl>
+        <FormControl>
+          <FormControl.Label
+            _text={{
+              color: 'coolGray.800',
+              fontSize: 'xs',
+              fontWeight: 500
+            }}
+          >
+            Password
+          </FormControl.Label>
+          <Input type="password" />
+          <Link
+            _text={{
+              fontSize: 'xs',
+              fontWeight: '500',
+              color: 'indigo.500'
+            }}
+            alignSelf="flex-end"
+            mt="1"
+            href="forgot-password"
+          >
+            Forget Password?
+          </Link>
+        </FormControl>
+        <Button mt="2" colorScheme="indigo" _text={{ color: 'white' }}>
+          Sign in
+        </Button>
+        <HStack mt="6" justifyContent="center">
+          <Text fontSize="sm" color="muted.700" fontWeight={400}>
+            I'm a new user.{' '}
+          </Text>
+          <Link
+            _text={{
+              color: 'indigo.500',
+              fontWeight: 'medium',
+              fontSize: 'sm'
+            }}
+            href="signup"
+          >
+            Sign Up
+          </Link>
+        </HStack>
+      </VStack>
+      <Divider my="2" />
+      <VStack>
+        <SocialButton
+          platformType={SocialLoginType.google}
+          disabled={googleRequest === null}
+          onPress={onAuthGoogle}
+        />
+        <SocialButton
+          platformType={SocialLoginType.facebook}
+          disabled={!fbRequest === null}
+          onPress={onAuthFacebook}
+        />
+      </VStack>
+    </FormContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  button: {
-    marginTop: 20
-  },
-  text: {},
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%'
-  }
-});

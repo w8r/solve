@@ -80,7 +80,6 @@ module.exports.verifyEmail = async (params, res) => {
         error: 'Your email is already verified.'
       });
     } else {
-      const token = User.token;
       const tokenPurpose = User.tokenPurpose;
       const tokenExpiration = User.tokenExpiration;
 
