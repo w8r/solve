@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Heading } from 'native-base';
+import { FormContainer } from '../components';
+import { SignupProps } from '../navigation/types';
 
-export default function Signup() {
+export default function Signup({ navigation }: SignupProps) {
   return (
-    <View>
-      <Text>Sign up</Text>
-    </View>
+    <FormContainer>
+      <Heading>Sign up</Heading>
+    </FormContainer>
   );
 }

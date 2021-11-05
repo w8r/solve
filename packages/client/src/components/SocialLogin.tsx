@@ -40,7 +40,7 @@ const buttonProps = {
   [SocialLoginType.google]: {
     icon: 'google',
     text: 'Google',
-    color: '#ff3b59'
+    color: '#EA4335'
   }
 };
 

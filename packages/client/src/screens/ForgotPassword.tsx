@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Heading } from 'native-base';
+import { FormContainer } from '../components';
 
 export default function ForgotPassword() {
   return (
-    <View>
-      <Text>Forgot password</Text>
-    </View>
+    <FormContainer>
+      <Heading>Forgot password</Heading>
+    </FormContainer>
   );
 }

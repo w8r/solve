@@ -29,13 +29,12 @@ import { useAuth } from '../hooks/useAuth';
 import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 import { LoginProps } from '../navigation/types';
 import { SocialButton, SocialLoginType } from '../components/SocialLogin';
-import { FormContainer } from '../components/FormContainer';
+import { FormContainer } from '../components';
 
 maybeCompleteAuthSession();
 
 export default function Login({ navigation }: LoginProps) {
   const { loginWithGoogle, loginWithFacebook } = useAuth();
-  const [requesting, setRequesting] = useState(false);
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
