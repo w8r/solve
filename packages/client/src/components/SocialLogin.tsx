@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import Svg, { Path, G } from 'react-native-svg';
-import { StyleSheet } from 'react-native';
-import { Ionicons as Icons } from '@expo/vector-icons';
+import { FontAwesome as Icons } from '@expo/vector-icons';
 
 import { Button, Box, useTheme, Text, Icon, IButtonProps } from 'native-base';
 
@@ -34,12 +33,12 @@ export const FacebookIcon = () => (
 
 const buttonProps = {
   [SocialLoginType.facebook]: {
-    icon: 'logo-facebook',
+    icon: 'facebook',
     text: 'Facebook',
     color: '#3b5998'
   },
   [SocialLoginType.google]: {
-    icon: 'logo-google',
+    icon: 'google',
     text: 'Google',
     color: '#ff3b59'
   }
