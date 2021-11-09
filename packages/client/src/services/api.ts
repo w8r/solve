@@ -73,11 +73,11 @@ export function status() {
 }
 
 export function login(email: string, password: string): Promise<User> {
-  return post<User>('/api/user/login', { email, password });
+  return post<User>('/api/auth/login', { email, password });
 }
 
 export function logout() {
-  return post('/api/user/logout');
+  return post('/api/auth/logout');
 }
 
 export function facebookAuth(userData: FacebookAuthUser): Promise<User> {
@@ -100,7 +100,7 @@ export function signup(
   password: string,
   passwordRepeat: string
 ) {
-  return post('/api/user/signup', {
+  return post('/api/auth/signup', {
     name,
     email,
     password,

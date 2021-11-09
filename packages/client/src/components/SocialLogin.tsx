@@ -1,8 +1,32 @@
-import React, { ReactNode } from 'react';
-import Svg, { Path, G } from 'react-native-svg';
+import React, { ReactNode, useEffect } from 'react';
+import { Path, G } from 'react-native-svg';
 import { FontAwesome as Icons } from '@expo/vector-icons';
+import { maybeCompleteAuthSession } from 'expo-web-browser';
+import * as Facebook from 'expo-auth-session/providers/facebook';
+import * as Google from 'expo-auth-session/providers/google';
+import { ResponseType } from 'expo-auth-session';
 
-import { Button, Box, useTheme, Text, Icon, IButtonProps } from 'native-base';
+import {
+  FACEBOOK_APP_ID,
+  GOOGLE_ANDROID_ID,
+  GOOGLE_IOS_ID,
+  GOOGLE_WEB_ID,
+  GOOGLE_EXPO_ID
+} from '@env';
+
+import transport from 'axios';
+import { useAuth } from '../hooks/useAuth';
+import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
+
+import {
+  Button,
+  Box,
+  useTheme,
+  Text,
+  Icon,
+  IButtonProps,
+  VStack
+} from 'native-base';
 
 export enum SocialLoginType {
   facebook = 'facebook',
@@ -85,3 +109,75 @@ export const SocialIcon = ({ children }: SocilaIconProps) => {
     </Box>
   );
 };
+
+maybeCompleteAuthSession();
+
+export function SocialLogin() {
+  const { loginWithGoogle, loginWithFacebook } = useAuth();
+
+  const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
+    clientId: FACEBOOK_APP_ID,
+    responseType: ResponseType.Token
+  });
+
+  const [googleRequest, googleResponse, googlePromptAsync] =
+    Google.useAuthRequest({
+      expoClientId: GOOGLE_EXPO_ID,
+      iosClientId: GOOGLE_IOS_ID,
+      androidClientId: GOOGLE_ANDROID_ID,
+      webClientId: GOOGLE_WEB_ID
+    });
+
+  useEffect(() => {
+    if (fbResponse?.type === 'success') {
+      const { access_token } = fbResponse.params;
+      transport
+        .get(`https://graph.facebook.com/me`, {
+          params: {
+            access_token,
+            fields: [
+              'id',
+              'name',
+              'email',
+              'picture.height(500)',
+              'first_name',
+              'last_name'
+            ].join(',')
+          }
+        })
+        .then(({ data }) => {
+          loginWithFacebook(data as FacebookAuthUser);
+        });
+    }
+    if (googleResponse?.type === 'success') {
+      const { access_token } = googleResponse.params;
+      transport
+        .get('https://www.googleapis.com/oauth2/v2/userinfo', {
+          headers: {
+            Authorization: `Bearer ${access_token}`
+          }
+        })
+        .then(({ data }) => {
+          loginWithGoogle(data as GoogleAuthUser);
+        });
+    }
+  }, [fbResponse, googleResponse]);
+
+  const onAuthFacebook = () => fbPromptAsync();
+  const onAuthGoogle = () => googlePromptAsync();
+
+  return (
+    <VStack>
+      <SocialButton
+        platformType={SocialLoginType.google}
+        disabled={googleRequest === null}
+        onPress={onAuthGoogle}
+      />
+      <SocialButton
+        platformType={SocialLoginType.facebook}
+        disabled={!fbRequest === null}
+        onPress={onAuthFacebook}
+      />
+    </VStack>
+  );
+}

@@ -2961,6 +2961,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@native-base/formik-ui@npm:^0.1.3":
+  version: 0.1.3
+  resolution: "@native-base/formik-ui@npm:0.1.3"
+  dependencies:
+    lodash: ^4.17.21
+  peerDependencies:
+    native-base: "*"
+    react: "*"
+    react-native: "*"
+    react-native-svg: 12.1.0
+    react-native-web: ~0.13.12
+    styled-components: ^5.2.1
+    styled-system: ^5.1.5
+  checksum: 20d852ee27db0efdd4a879dd730d642ba56a7fabe0a83a1fafaf06ac6fa9ac5b5b9fc3d55a59f8c8c578b708d32d4cd05ac140af62fa2f9ed1886ef86f2b11a5
+  languageName: node
+  linkType: hard
+
 "@nicokaiser/passport-apple@npm:^0.2.1":
   version: 0.2.1
   resolution: "@nicokaiser/passport-apple@npm:0.2.1"
@@ -4279,6 +4296,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.9.0
     "@expo/vector-icons": ^12.0.0
+    "@native-base/formik-ui": ^0.1.3
     "@react-native-async-storage/async-storage": ~1.15.0
     "@react-native-community/masked-view": 0.1.10
     "@react-navigation/bottom-tabs": 5.11.2

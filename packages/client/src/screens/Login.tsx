@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
-import { maybeCompleteAuthSession } from 'expo-web-browser';
-import * as Facebook from 'expo-auth-session/providers/facebook';
-import * as Google from 'expo-auth-session/providers/google';
-import { ResponseType } from 'expo-auth-session';
 import {
   Button,
   Heading,
@@ -15,77 +11,43 @@ import {
   Input,
   Divider
 } from 'native-base';
+import * as Validator from 'yup';
+import { useFormik as useForm } from 'formik';
+import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 
-import {
-  FACEBOOK_APP_ID,
-  GOOGLE_ANDROID_ID,
-  GOOGLE_IOS_ID,
-  GOOGLE_WEB_ID,
-  GOOGLE_EXPO_ID
-} from '@env';
-
-import transport from 'axios';
-import { useAuth } from '../hooks/useAuth';
-import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 import { LoginProps } from '../navigation/types';
-import { SocialButton, SocialLoginType } from '../components/SocialLogin';
+import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';
+import * as api from '../services/api';
 
-maybeCompleteAuthSession();
+const LoginSchema = Validator.object().shape({
+  password: Validator.string()
+    .min(6, 'Too short')
+    .max(16, 'Too long')
+    .required('Required'),
+  email: Validator.string().email('Invalid email').required('Required')
+});
 
 export default function Login({ navigation }: LoginProps) {
-  const { loginWithGoogle, loginWithFacebook } = useAuth();
+  const passwordInputRef = useRef<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
-    clientId: FACEBOOK_APP_ID,
-    responseType: ResponseType.Token
-  });
-
-  const [googleRequest, googleResponse, googlePromptAsync] =
-    Google.useAuthRequest({
-      expoClientId: GOOGLE_EXPO_ID,
-      iosClientId: GOOGLE_IOS_ID,
-      androidClientId: GOOGLE_ANDROID_ID,
-      webClientId: GOOGLE_WEB_ID
+  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+    useForm({
+      validationSchema: LoginSchema,
+      initialValues: { email: '', password: '' },
+      onSubmit: (values) => {
+        console.log(values);
+        setIsLoading(true);
+        api
+          .login(values.email, values.password)
+          .then(() => setIsLoading(false))
+          .catch(() => setIsLoading(false));
+      }
     });
 
-  useEffect(() => {
-    if (fbResponse?.type === 'success') {
-      const { access_token } = fbResponse.params;
-      transport
-        .get(`https://graph.facebook.com/me`, {
-          params: {
-            access_token,
-            fields: [
-              'id',
-              'name',
-              'email',
-              'picture.height(500)',
-              'first_name',
-              'last_name'
-            ].join(',')
-          }
-        })
-        .then(({ data }) => {
-          loginWithFacebook(data as FacebookAuthUser);
-        });
-    }
-    if (googleResponse?.type === 'success') {
-      const { access_token } = googleResponse.params;
-      transport
-        .get('https://www.googleapis.com/oauth2/v2/userinfo', {
-          headers: {
-            Authorization: `Bearer ${access_token}`
-          }
-        })
-        .then(({ data }) => {
-          loginWithGoogle(data as GoogleAuthUser);
-        });
-    }
-  }, [fbResponse, googleResponse]);
-
-  const onAuthFacebook = () => fbPromptAsync();
-  const onAuthGoogle = () => googlePromptAsync();
+  const emailError = !!(errors.email && touched.email);
+  const passwordError = !!(errors.password && touched.password);
 
   return (
     <FormContainer>
@@ -93,7 +55,7 @@ export default function Login({ navigation }: LoginProps) {
         Login
       </Heading>
       <VStack space={3} mt="5">
-        <FormControl>
+        <FormControl isInvalid={emailError}>
           <FormControl.Label
             _text={{
               color: 'coolGray.800',
@@ -101,11 +63,16 @@ export default function Login({ navigation }: LoginProps) {
               fontWeight: 500
             }}
           >
-            Email ID
+            Email
           </FormControl.Label>
-          <Input />
+          <Input
+            onChange={(evt) => handleChange('email')(evt.nativeEvent.text)}
+            onBlur={handleBlur('email')}
+            onSubmitEditing={() => passwordInputRef.current?.focus()}
+          />
+          <FormControl.ErrorMessage>{errors.email}</FormControl.ErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={passwordError}>
           <FormControl.Label
             _text={{
               color: 'coolGray.800',
@@ -115,7 +82,14 @@ export default function Login({ navigation }: LoginProps) {
           >
             Password
           </FormControl.Label>
-          <Input type="password" />
+          <Input
+            type="password"
+            ref={passwordInputRef}
+            onChange={(evt) => handleChange('password')(evt.nativeEvent.text)}
+            onBlur={handleBlur('password')}
+            onSubmitEditing={() => handleSubmit()}
+          />
+          <FormControl.ErrorMessage>{errors.password}</FormControl.ErrorMessage>
           <Link
             _text={{
               fontSize: 'xs',
@@ -126,10 +100,16 @@ export default function Login({ navigation }: LoginProps) {
             mt="1"
             href="forgot-password"
           >
-            Forget Password?
+            Forgot Password?
           </Link>
         </FormControl>
-        <Button mt="2" colorScheme="indigo" _text={{ color: 'white' }}>
+        <Button
+          isLoading={isLoading}
+          mt="2"
+          colorScheme="indigo"
+          _text={{ color: 'white' }}
+          onPress={() => handleSubmit()}
+        >
           Sign in
         </Button>
         <HStack mt="6" justifyContent="center">
@@ -149,18 +129,7 @@ export default function Login({ navigation }: LoginProps) {
         </HStack>
       </VStack>
       <Divider my="2" />
-      <VStack>
-        <SocialButton
-          platformType={SocialLoginType.google}
-          disabled={googleRequest === null}
-          onPress={onAuthGoogle}
-        />
-        <SocialButton
-          platformType={SocialLoginType.facebook}
-          disabled={!fbRequest === null}
-          onPress={onAuthFacebook}
-        />
-      </VStack>
+      <SocialLogin />
     </FormContainer>
   );
 }
