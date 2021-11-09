@@ -53,6 +53,7 @@ export default function Signup({ navigation }: SignupProps) {
             values.password,
             values.passwordRepeat
           )
+          // TODO: verify email? or login directly?
           .then(() => setIsLoading(false))
           .catch(() => setIsLoading(false));
       }
