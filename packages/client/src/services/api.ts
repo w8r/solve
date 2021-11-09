@@ -73,7 +73,7 @@ export function status() {
 }
 
 export function login(email: string, password: string): Promise<User> {
-  return post<User>('/api/auth/login', { email, password });
+  return post<User>('/api/auth/signin', { email, password });
 }
 
 export function logout() {

@@ -42,7 +42,12 @@ export default function Login({ navigation }: LoginProps) {
         api
           .login(values.email, values.password)
           .then(() => setIsLoading(false))
-          .catch(() => setIsLoading(false));
+          .catch(({ error }) => {
+            console.log(error.message);
+            // TODO: proper handling for email error
+            errors.password = error.message;
+            setIsLoading(false);
+          });
       }
     });
 
