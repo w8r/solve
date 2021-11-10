@@ -122,7 +122,6 @@ usersSchema.methods.toJSON = function () {
   const data = this.toObject();
 
   delete data.password;
-  delete data.tokens;
   delete data.updatedAt;
   data.uuid = data._id;
   delete data._id;

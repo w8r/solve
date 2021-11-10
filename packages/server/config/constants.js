@@ -26,7 +26,8 @@ const messages = {
 
 const ERROR_CODES = {
   AUTH_USER_NOT_FOUND: 'auth/user-not-found',
-  AUTH_WRONG_PASSWORD: 'auth/wrong-password'
+  AUTH_WRONG_PASSWORD: 'auth/wrong-password',
+  AUTH_USER_EXISTS: 'auth/user-exists'
 };
 
 const STATUS_ACTIVE = 'active';

@@ -7,6 +7,7 @@ const {
   googleSignInStrategy,
   facebookSignInStrategy
 } = require('../db/passport/utils');
+const { ERROR_CODES } = require('../config/constants');
 
 const localSignUpSchema = validate
   .object({
@@ -30,13 +31,18 @@ const localSignUpSchema = validate
   .equal('password', 'password2')
   .messages({ 'object.missing': 'Either username or email must be provided' });
 
-module.exports.signupLocal = (req, res) => {
+module.exports.signupLocal = (req, res, next) => {
   const { errors, isValid } = validateSignup(req.body);
   if (!isValid) return res.status(400).json(errors);
   Users.findOne({ email: req.body.email }, (err, existingUser) => {
     if (err) return res.status(500).json({ error: err });
     if (existingUser)
-      return res.status(400).json({ email: 'User already exists' });
+      return next(
+        createError(400, {
+          message: 'User with this email already exists',
+          code: ERROR_CODES.AUTH_USER_EXISTS
+        })
+      );
 
     const name = req.body.name ? req.body.name : req.body.email;
     const user = new Users({
@@ -45,13 +51,18 @@ module.exports.signupLocal = (req, res) => {
       password: req.body.password,
       score: req.body.score
     });
-    user.provider.local = {
+    user.provider[constants.PROVIDER_LOCAL] = {
       userId: user._id
     };
 
     return user.save((err, user) => {
       if (err) return res.status(500).json({ error: err });
-      return res.status(200).json({ success: true, user });
+      return res.status(200).json({
+        success: true,
+        user,
+        ...user.generateJwtToken(user.signedInWithProvider),
+        signedInWith: user.signedInWithProvider
+      });
     });
   });
 };
@@ -61,7 +72,6 @@ module.exports.logout = ({ user, token }, res) => {
     .save()
     .catch((err) => res.status(400).send())
     .then(() => {
-      //res.clearCookie(config.jwt.name);
       res.status(200).json({ message: 'Logged out ' });
     });
 };

@@ -48,7 +48,9 @@ function request<T>(
           data: method === 'get' ? undefined : data
         })
         .then((response) => resolve(response.data as unknown as T))
-        .catch((error) => reject(error.response.data));
+        .catch((error) =>
+          reject(error && error.response ? error.response.data : null)
+        );
     });
   });
 }

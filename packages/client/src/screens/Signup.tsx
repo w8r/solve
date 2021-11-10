@@ -59,7 +59,12 @@ export default function Signup({ navigation }: SignupProps) {
               const {
                 error: { code, message }
               } = err;
+              console.log(code, message);
               // TODO: store globally
+              if (code === 'auth/user-exists') {
+                console.log('User already exists', message);
+                errors.email = message;
+              }
               if (code === 'auth/wrong-password') errors.password = message;
               if (code === 'auth/user-not-found') errors.email = message;
             }
