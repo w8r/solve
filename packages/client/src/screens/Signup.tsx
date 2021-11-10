@@ -57,11 +57,11 @@ export default function Signup({ navigation }: SignupProps) {
           .catch((err) => {
             if (err && err.error) {
               const {
-                error: { message, data }
+                error: { code, message }
               } = err;
-              // TODO: proper handling for email error
-              if (data.password) errors.password = message;
-              else if (data.email) errors.email = message;
+              // TODO: store globally
+              if (code === 'auth/wrong-password') errors.password = message;
+              if (code === 'auth/user-not-found') errors.email = message;
             }
             setIsLoading(false);
           });

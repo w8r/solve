@@ -9,8 +9,7 @@ const Users = mongoose.model('Users');
 module.exports.authStrategy = (strategy) => (req, res, next) => {
   passport.authenticate(strategy, { session: false }, (err, user, info) => {
     if (err) return next(createError(500, err));
-    if (!user)
-      return next(createError(401, { message: info.message, data: info }));
+    if (!user) return next(createError(401, info));
     req.user = user;
     next();
   })(req, res, next);

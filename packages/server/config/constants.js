@@ -24,6 +24,11 @@ const messages = {
   }
 };
 
+const ERROR_CODES = {
+  AUTH_USER_NOT_FOUND: 'auth/user-not-found',
+  AUTH_WRONG_PASSWORD: 'auth/wrong-password'
+};
+
 const STATUS_ACTIVE = 'active';
 const STATUS_DISABLED = 'disabled';
 const STATUS_UNVERIFIED_EMAIL = 'unverified_email';
@@ -33,6 +38,7 @@ const TOKEN_PURPOSE_RESET_PASSWORD = 'token_purpose_reset_password';
 
 module.exports = {
   messages,
+  ERROR_CODES,
   STATUS_ACTIVE,
   STATUS_DISABLED,
   STATUS_UNVERIFIED_EMAIL,

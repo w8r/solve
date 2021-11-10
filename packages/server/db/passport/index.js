@@ -11,6 +11,7 @@ const { generateUsername } = require('./utils');
 const Users = mongoose.model('Users');
 
 const { handleOAuth, handleAuthByCheckingUserStatus } = require('./utils');
+const { ERROR_CODES } = require('../../config/constants');
 
 // Create local strategy
 const localStrategy = new LocalStrategy(
@@ -26,21 +27,21 @@ const localStrategy = new LocalStrategy(
         if (!user)
           return done(null, false, {
             message: 'Username or email does not exist',
-            email: true
+            code: ERROR_CODES.AUTH_USER_NOT_FOUND
           });
 
         if (!user.provider.local)
           // not a local account (email and password)
           return done(null, false, {
             message: 'Username or email does not exist',
-            email: true
+            code: ERROR_CODES.AUTH_USER_NOT_FOUND
           });
 
         user.comparePasswordAsync(password).then((isMatch) => {
           if (!isMatch)
             return done(null, false, {
               message: 'Password is incorrect',
-              password: true
+              code: ERROR_CODES.AUTH_WRONG_PASSWORD
             });
 
           handleAuthByCheckingUserStatus(user, done, constants.PROVIDER_LOCAL);

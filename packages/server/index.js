@@ -50,7 +50,7 @@ app.listen(config.port, () => {
 app.use((err, req, res, next) => {
   res
     .status(err.status || 400)
-    .json({ error: { message: err.message, data: err.data } });
+    .json({ error: { message: err.message, code: err.code } });
 });
 
 global.app = app;
