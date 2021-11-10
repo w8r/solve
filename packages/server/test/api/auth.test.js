@@ -2,6 +2,7 @@ const request = require('supertest');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/development');
 const { assert } = require('chai');
+const { ERROR_CODES } = require('../../config/constants');
 
 const createTestPayloadValidation = (endpoint) => {
   return (payload, statusCode, response) => {
@@ -116,7 +117,12 @@ describe('ENDPOINT: POST /api/auth/signin', () => {
       .post(endpoint)
       .send(user)
       .expect(401)
-      .expect({ error: { message: 'Username or email does not exist' } });
+      .expect({
+        error: {
+          message: 'Username or email does not exist',
+          code: ERROR_CODES.AUTH_USER_NOT_FOUND
+        }
+      });
   });
 
   it(`POST ${endpoint} - fails with wrong email`, () => {
@@ -125,7 +131,12 @@ describe('ENDPOINT: POST /api/auth/signin', () => {
       .post(endpoint)
       .send(user)
       .expect(401)
-      .expect({ error: { message: 'Username or email does not exist' } });
+      .expect({
+        error: {
+          message: 'Username or email does not exist',
+          code: ERROR_CODES.AUTH_USER_NOT_FOUND
+        }
+      });
   });
 
   it(`POST ${endpoint} - fails with wrong name`, () => {
@@ -134,7 +145,12 @@ describe('ENDPOINT: POST /api/auth/signin', () => {
       .post(endpoint)
       .send(user)
       .expect(401)
-      .expect({ error: { message: 'Password is incorrect' } });
+      .expect({
+        error: {
+          message: 'Password is incorrect',
+          code: ERROR_CODES.AUTH_WRONG_PASSWORD
+        }
+      });
   });
 
   it(`POST ${endpoint} - Success with name/pass`, () => {
