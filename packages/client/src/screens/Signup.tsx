@@ -44,7 +44,6 @@ export default function Signup({ navigation }: SignupProps) {
       validationSchema: LoginSchema,
       initialValues: { name: '', email: '', password: '', passwordRepeat: '' },
       onSubmit: (values) => {
-        console.log(values);
         setIsLoading(true);
         api
           .signup(
@@ -55,7 +54,17 @@ export default function Signup({ navigation }: SignupProps) {
           )
           // TODO: verify email? or login directly?
           .then(() => setIsLoading(false))
-          .catch(() => setIsLoading(false));
+          .catch((err) => {
+            if (err && err.error) {
+              const {
+                error: { message, data }
+              } = err;
+              // TODO: proper handling for email error
+              if (data.password) errors.password = message;
+              else if (data.email) errors.email = message;
+            }
+            setIsLoading(false);
+          });
       }
     });
 

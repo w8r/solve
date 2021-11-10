@@ -37,15 +37,19 @@ export default function Login({ navigation }: LoginProps) {
       validationSchema: LoginSchema,
       initialValues: { email: '', password: '' },
       onSubmit: (values) => {
-        console.log(values);
         setIsLoading(true);
         api
           .login(values.email, values.password)
           .then(() => setIsLoading(false))
-          .catch(({ error }) => {
-            console.log(error.message);
-            // TODO: proper handling for email error
-            errors.password = error.message;
+          .catch((err) => {
+            if (err && err.error) {
+              const {
+                error: { message, data }
+              } = err;
+              // TODO: proper handling for email error
+              if (data.password) errors.password = message;
+              else if (data.email) errors.email = message;
+            }
             setIsLoading(false);
           });
       }

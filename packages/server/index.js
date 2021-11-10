@@ -48,7 +48,9 @@ app.listen(config.port, () => {
 // error handler
 // no stracktrace sent to client
 app.use((err, req, res, next) => {
-  res.status(err.status || 400).json({ error: { message: err.message } });
+  res
+    .status(err.status || 400)
+    .json({ error: { message: err.message, data: err.data } });
 });
 
 global.app = app;

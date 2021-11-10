@@ -92,7 +92,6 @@ module.exports.verifyEmail = async (params, res) => {
         User.save();
         res.status(200).redirect('/'); // json({ message: 'Email is verified.' });
       } else {
-        console.log(User);
         res.status(400).json({
           error: 'Token is invalid or expired.'
         });

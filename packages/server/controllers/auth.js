@@ -59,7 +59,7 @@ module.exports.signupLocal = (req, res) => {
 module.exports.logout = ({ user, token }, res) => {
   return user
     .save()
-    .catch((e) => res.status(400).send())
+    .catch((err) => res.status(400).send())
     .then(() => {
       //res.clearCookie(config.jwt.name);
       res.status(200).json({ message: 'Logged out ' });

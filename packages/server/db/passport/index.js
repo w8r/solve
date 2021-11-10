@@ -25,19 +25,22 @@ const localStrategy = new LocalStrategy(
       .then((user) => {
         if (!user)
           return done(null, false, {
-            message: 'Username or email does not exist'
+            message: 'Username or email does not exist',
+            email: true
           });
 
         if (!user.provider.local)
           // not a local account (email and password)
           return done(null, false, {
-            message: 'Username or email does not exist'
+            message: 'Username or email does not exist',
+            email: true
           });
 
         user.comparePasswordAsync(password).then((isMatch) => {
           if (!isMatch)
             return done(null, false, {
-              message: 'Password is incorrect'
+              message: 'Password is incorrect',
+              password: true
             });
 
           handleAuthByCheckingUserStatus(user, done, constants.PROVIDER_LOCAL);
