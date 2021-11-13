@@ -1,5 +1,6 @@
 const Users = require('../models/users');
 const validateSignup = require('../validator/signup');
+const UserController = require('./user');
 const validate = require('joi');
 const createError = require('http-errors');
 const constants = require('../config/constants');
@@ -9,32 +10,10 @@ const {
 } = require('../db/passport/utils');
 const { ERROR_CODES } = require('../config/constants');
 
-const localSignUpSchema = validate
-  .object({
-    name: validate
-      .string()
-      .pattern(/^[a-zA-Z0-9.\@\-_]{4,30}$/)
-      .messages(constants.messages.ERROR_MESSAGE_USERNAME),
-    email: validate
-      .string()
-      .email()
-      .messages(constants.messages.ERROR_MESSAGE_EMAIL),
-    password: validate
-      .string()
-      .required()
-      .messages(constants.messages.ERROR_MESSAGE_PASSWORD),
-    password2: validate
-      .string()
-      .required()
-      .messages(constants.messages.ERROR_MESSAGE_PASSWORD)
-  })
-  .equal('password', 'password2')
-  .messages({ 'object.missing': 'Either username or email must be provided' });
-
-module.exports.signupLocal = (req, res, next) => {
+module.exports.signupLocal = async (req, res, next) => {
   const { errors, isValid } = validateSignup(req.body);
   if (!isValid) return res.status(400).json(errors);
-  Users.findOne({ email: req.body.email }, (err, existingUser) => {
+  Users.findOne({ email: req.body.email }, async (err, existingUser) => {
     if (err) return res.status(500).json({ error: err });
     if (existingUser)
       return next(
@@ -55,12 +34,23 @@ module.exports.signupLocal = (req, res, next) => {
       userId: user._id
     };
 
+    try {
+      await UserController.setUnverifiedEmail(user);
+    } catch (e) {
+      return next(
+        createError(500, {
+          message: 'Error sending verification email',
+          code: ERROR_CODES.AUTH_EMAIL_SEND_ERROR
+        })
+      );
+    }
+
     return user.save((err, user) => {
       if (err) return res.status(500).json({ error: err });
       return res.status(200).json({
-        success: true,
-        user,
-        ...user.generateJwtToken(user.signedInWithProvider),
+        user: user.toJSON(),
+        // local auth
+        token: user.generateJwtToken(user.signedInWithProvider).token,
         signedInWith: user.signedInWithProvider
       });
     });
@@ -189,5 +179,35 @@ module.exports.googleSignIn = (req, res, next) => {
     if (err) throw createError(422, err);
     req.user = user;
     next();
+  });
+};
+
+module.exports.recoverPassword = (req, res, next) => {
+  const { errors, isValid } = validateRecoverPassword(req.body);
+  if (!isValid) return res.status(400).json(errors);
+  Users.findOne({ email: req.body.email }, (err, user) => {
+    if (err) return res.status(500).json({ error: err });
+    if (!user)
+      return next(
+        createError(400, {
+          message: 'User with this email does not exist',
+          code: ERROR_CODES.AUTH_USER_NOT_FOUND
+        })
+      );
+
+    return user
+      .generatePasswordResetToken()
+      .then((user) => {
+        const url = `${constants.FRONTEND_URL}/reset-password?token=${user.passwordResetToken}`;
+        const mailOptions = {
+          from: constants.EMAIL_FROM,
+          to: user.email,
+          subject: 'Password Reset',
+          text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${url}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+        };
+        return mailer.sendMail(mailOptions);
+      })
+      .then(() => res.status(200).json({ message: 'Email sent' }))
+      .catch(next);
   });
 };

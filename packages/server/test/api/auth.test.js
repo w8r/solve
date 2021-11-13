@@ -98,8 +98,8 @@ describe('ENDPOINT: POST /api/auth/signup', function () {
     };
 
     return testValidation(payload, 200, ({ body: res }) => {
-      const { success, user } = res;
-      assert.isTrue(success);
+      const { user, token } = res;
+      assert.isString(token);
       assert.isObject(user);
       assert.equal(user.name, name);
       assert.equal(user.email, email);

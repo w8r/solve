@@ -127,6 +127,7 @@ usersSchema.methods.toJSON = function () {
   delete data._id;
   delete data.__v;
   delete data.provider;
+  delete data.token;
 
   return data;
 };

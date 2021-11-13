@@ -181,10 +181,13 @@ const handleAuthByCheckingUserStatus = (
   if (user.status === constants.STATUS_DISABLED) {
     return done(null, false, { message: 'Account is disabled' });
   }
-
+  console.log(config.auth.verifyEmail, provider, constants.PROVIDER_LOCAL);
   if (config.auth.verifyEmail && provider === constants.PROVIDER_LOCAL) {
     if (user.status === constants.STATUS_UNVERIFIED_EMAIL) {
-      return done(null, false, { message: 'Email is not verified' });
+      return done(null, false, {
+        message: 'Email is not verified',
+        code: constants.ERROR_CODES.AUTH_USER_EMAIL_UNVERIFIED
+      });
     }
   }
 

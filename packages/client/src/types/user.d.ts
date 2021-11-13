@@ -1,3 +1,10 @@
+export type User = {
+  name: string;
+  email: string;
+  uuid: string;
+  token?: string;
+};
+
 export interface GoogleAuthUser {
   email: string;
   family_name: string;
@@ -22,3 +29,8 @@ export interface FacebookAuthUser {
     };
   };
 }
+
+export type UserAndToken = {
+  token: string;
+  user: User;
+};

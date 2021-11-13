@@ -26,8 +26,10 @@ const messages = {
 
 const ERROR_CODES = {
   AUTH_USER_NOT_FOUND: 'auth/user-not-found',
+  AUTH_USER_EMAIL_UNVERIFIED: 'auth/email-unverified',
   AUTH_WRONG_PASSWORD: 'auth/wrong-password',
-  AUTH_USER_EXISTS: 'auth/user-exists'
+  AUTH_USER_EXISTS: 'auth/user-exists',
+  AUTH_EMAIL_SEND_ERROR: 'auth/verification-email-fail'
 };
 
 const STATUS_ACTIVE = 'active';

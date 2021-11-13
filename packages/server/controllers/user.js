@@ -41,7 +41,6 @@ module.exports.getUserGraphs = async (req, res) => {
     const graphs = await Graphs.findByUser(req.params.id ?? req.user._id);
     res.status(200).json(graphs.map(toHeader));
   } catch (err) {
-    console.error(err);
     res.status(500).json({
       error: 'Error retrieving graphs',
       data: err
@@ -49,7 +48,18 @@ module.exports.getUserGraphs = async (req, res) => {
   }
 };
 
-module.exports.requestEmail = async (params, res) => {
+/**
+ * @param {User} user
+ */
+const setUnverifiedEmail = async (user) => {
+  user.setToken(constants.TOKEN_PURPOSE_VERIFY_EMAIL);
+  const token = user.token;
+  return emailer.sendVerificationEmail(user.email, token);
+};
+
+module.exports.setUnverifiedEmail = setUnverifiedEmail;
+
+module.exports.requestEmail = async (params, res, next) => {
   try {
     const User = params.user;
     if (User.status !== constants.STATUS_UNVERIFIED_EMAIL) {
@@ -57,14 +67,10 @@ module.exports.requestEmail = async (params, res) => {
         error: 'Your email is already verified.'
       });
     } else {
-      User.setToken(constants.TOKEN_PURPOSE_VERIFY_EMAIL);
-      const token = User.token;
-      await emailer.sendVerificationEmail(User.email, token);
-
+      await setUnverifiedEmail(User);
       res.status(200).json({ message: 'Email is sent.' });
     }
   } catch (err) {
-    console.error(err);
     res.status(500).json({
       error: 'Error sending verification email',
       data: err

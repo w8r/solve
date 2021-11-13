@@ -19,6 +19,7 @@ import { LoginProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';
 import * as api from '../services/api';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginSchema = Validator.object().shape({
   password: Validator.string()
@@ -30,6 +31,7 @@ const LoginSchema = Validator.object().shape({
 
 export default function Login({ navigation }: LoginProps) {
   const passwordInputRef = useRef<any>(null);
+  const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
@@ -38,20 +40,22 @@ export default function Login({ navigation }: LoginProps) {
       initialValues: { email: '', password: '' },
       onSubmit: (values) => {
         setIsLoading(true);
-        api
-          .login(values.email, values.password)
-          .then(() => setIsLoading(false))
-          .catch((err) => {
-            if (err && err.error) {
-              const {
-                error: { code, message }
-              } = err;
-              // TODO: store globally
-              if (code === 'auth/wrong-password') errors.password = message;
-              if (code === 'auth/user-not-found') errors.email = message;
-            }
-            setIsLoading(false);
-          });
+        login(values.email, values.password).catch((err) => {
+          if (err && err.error) {
+            const {
+              error: { code, message }
+            } = err;
+            // TODO: store globally
+
+            if (code === 'auth/wrong-password') errors.password = message;
+            if (
+              code === 'auth/email-unverified' ||
+              code === 'auth/user-not-found'
+            )
+              errors.email = message;
+          }
+          setIsLoading(false);
+        });
       }
     });
 

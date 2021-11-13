@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as AuthSession from 'expo-auth-session';
 import * as api from '../services/api';
+import { UserAndToken, User } from '../types/user';
 import { TOKEN_KEY } from '../constants';
 import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 
@@ -20,15 +21,9 @@ export type AuthState = {
   loading: boolean;
   loginWithGoogle: (data: GoogleAuthUser) => Promise<void>;
   loginWithFacebook: (data: FacebookAuthUser) => Promise<void>;
-  login: (email: string, password: string) => void;
-  logout: () => void;
-};
-
-export type User = {
-  name: string;
-  email: string;
-  uuid: string;
-  token?: string;
+  onAuthSuccess: (data: UserAndToken) => void;
+  login: (email: string, password: string) => Promise<UserAndToken>;
+  logout: () => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthState>({} as AuthState);
@@ -41,9 +36,9 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
 
   function login(email: string, password: string) {
     return api.login(email, password).then(
-      (user: User) => {
-        setToken(user.token as string);
-        return user;
+      (data: UserAndToken) => {
+        onAuthSuccess(data);
+        return data;
       },
       (error) => {
         return Promise.reject(error);
@@ -51,8 +46,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
     );
   }
 
-  const onAuthSuccess = (user: User) => {
-    const token = user.token as string;
+  const onAuthSuccess = ({ user, token }: UserAndToken) => {
     setToken(token);
     setAuthenticated(true);
     setUser(user);
@@ -84,6 +78,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
       if (token) {
         setLoading(true);
         const resp = await api.status();
+        console.log(resp);
         setToken(token);
         setAuthenticated(true);
         setUser(resp as User);
@@ -102,6 +97,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
         loginWithGoogle,
         logout,
         loading,
+        onAuthSuccess,
         user: user as unknown as User
       }}
     >

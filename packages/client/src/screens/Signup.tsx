@@ -9,8 +9,7 @@ import {
   Text,
   FormControl,
   Input,
-  Divider,
-  INumberInputContext
+  Divider
 } from 'native-base';
 import * as Validator from 'yup';
 import { useFormik as useForm } from 'formik';
@@ -19,6 +18,7 @@ import { SignupProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';
 import * as api from '../services/api';
+import { useAuth } from '../hooks/useAuth';
 
 const LoginSchema = Validator.object().shape({
   name: Validator.string().min(4).max(128),
@@ -38,6 +38,7 @@ export default function Signup({ navigation }: SignupProps) {
   const emailRef = useRef<any>(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const { onAuthSuccess } = useAuth();
 
   const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
     useForm({
@@ -52,19 +53,16 @@ export default function Signup({ navigation }: SignupProps) {
             values.password,
             values.passwordRepeat
           )
-          // TODO: verify email? or login directly?
-          .then(() => setIsLoading(false))
+          .then((user) => {
+            setIsLoading(false);
+            onAuthSuccess(user);
+          })
           .catch((err) => {
             if (err && err.error) {
               const {
                 error: { code, message }
               } = err;
-              console.log(code, message);
-              // TODO: store globally
-              if (code === 'auth/user-exists') {
-                console.log('User already exists', message);
-                errors.email = message;
-              }
+              if (code === 'auth/user-exists') errors.email = message;
               if (code === 'auth/wrong-password') errors.password = message;
               if (code === 'auth/user-not-found') errors.email = message;
             }

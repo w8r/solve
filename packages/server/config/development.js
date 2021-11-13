@@ -39,7 +39,8 @@ module.exports = {
     googleId: process.env.GOOGLE_CLIENT_ID,
     googleSecret: process.env.GOOGLE_CLIENT_SECRET,
     facebookId: process.env.FACEBOOK_APP_ID,
-    facebookSecret: process.env.FACEBOOK_APP_SECRET
+    facebookSecret: process.env.FACEBOOK_APP_SECRET,
+    verifyEmail: true
   },
   debug: isNotTest
 };

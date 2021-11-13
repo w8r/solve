@@ -5,7 +5,7 @@ import AppConfig from '../constants/config';
 import { TOKEN_KEY } from '../constants';
 import { isWeb } from '../constants/device';
 import { Graph, GraphEdge, GraphNode } from '../types/graph';
-import { User } from '../contexts/AuthContext';
+import { UserAndToken } from '../types/user';
 
 import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 
@@ -74,23 +74,25 @@ export function status() {
   });
 }
 
-export function login(email: string, password: string): Promise<User> {
-  return post<User>('/api/auth/signin', { email, password });
+export function login(email: string, password: string): Promise<UserAndToken> {
+  return post<UserAndToken>('/api/auth/signin', { email, password });
 }
 
 export function logout() {
   return post('/api/auth/logout');
 }
 
-export function facebookAuth(userData: FacebookAuthUser): Promise<User> {
-  return post<User>(
+export function facebookAuth(
+  userData: FacebookAuthUser
+): Promise<UserAndToken> {
+  return post<UserAndToken>(
     '/api/auth/facebook',
     userData as any as Record<string, unknown>
   );
 }
 
-export function googleAuth(userData: GoogleAuthUser): Promise<User> {
-  return post<User>(
+export function googleAuth(userData: GoogleAuthUser): Promise<UserAndToken> {
+  return post<UserAndToken>(
     '/api/auth/google',
     userData as any as Record<string, unknown>
   );
@@ -102,7 +104,7 @@ export function signup(
   password: string,
   passwordRepeat: string
 ) {
-  return post('/api/auth/signup', {
+  return post<UserAndToken>('/api/auth/signup', {
     name,
     email,
     password,

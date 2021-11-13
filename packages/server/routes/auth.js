@@ -21,6 +21,11 @@ const successRateLimiter = createRateLimiter({
 
 router.post('/signup', successRateLimiter, authController.signupLocal);
 router.post('/logout', authController.logout);
+router.post(
+  '/recover-password',
+  failRateLimiter,
+  authController.recoverPassword
+);
 
 router.post(
   '/signin',
