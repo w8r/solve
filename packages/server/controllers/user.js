@@ -183,7 +183,13 @@ function resetPassword(req, res, next) {
     .then(() =>
       Users.findOne({ token: req.body.token }, (err, user) => {
         if (err) return res.status(500).json({ error: err });
-        if (!user) return next(userDoesNotExist());
+        if (!user)
+          return next(
+            createError(400, {
+              message: `User not found or didn't request password reset`,
+              code: constants.ERROR_CODES.AUTH_USER_NOT_FOUND
+            })
+          );
 
         const tokenPurpose = user.tokenPurpose;
         const tokenExpiration = user.tokenExpiration;
