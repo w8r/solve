@@ -113,6 +113,10 @@ export function signup(
   });
 }
 
+export function resetPassword(email: string) {
+  return post('/api/auth/reset-password', { email });
+}
+
 export function getGraph(id: string) {
   return get(`/api/graphs/${id}`);
 }

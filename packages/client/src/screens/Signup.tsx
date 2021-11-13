@@ -53,9 +53,9 @@ export default function Signup({ navigation }: SignupProps) {
             values.password,
             values.passwordRepeat
           )
-          .then((user) => {
+          .then((data) => {
             setIsLoading(false);
-            onAuthSuccess(user);
+            onAuthSuccess(data);
           })
           .catch((err) => {
             if (err && err.error) {

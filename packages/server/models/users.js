@@ -118,6 +118,8 @@ usersSchema.statics.findByCredentials = ({ email, password }) => {
   });
 };
 
+userSchema.methods.generatePasswordResetToken = function () {};
+
 usersSchema.methods.toJSON = function () {
   const data = this.toObject();
 
@@ -190,13 +192,21 @@ usersSchema.methods.generateJwtToken = function (
  *
  * @param {string} purpose The purpose of the token.
  */
-usersSchema.methods.setToken = function (purpose) {
+usersSchema.methods.setToken = function (purpose, expiresIn = 1) {
   this.token = uuidv4();
   this.tokenPurpose = purpose;
   const expirationDate = new Date();
-  expirationDate.setHours(expirationDate.getHours() + 1);
+  expirationDate.setHours(expirationDate.getHours() + expiresIn);
   this.tokenExpiration = expirationDate;
   this.save();
+};
+
+userSchema.methods.setVerifyEmailToken = function () {
+  this.setToken(constants.TOKEN_PURPOSE_VERIFY_EMAIL);
+};
+
+userSchema.methods.setResetPasswordToken = function () {
+  this.setToken(constants.TOKEN_PURPOSE_RESET_PASSWORD);
 };
 
 /**

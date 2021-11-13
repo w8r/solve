@@ -3,6 +3,7 @@ import { FormControl, Heading, Input, VStack, Button } from 'native-base';
 import { FormContainer } from '../components';
 import * as Validator from 'yup';
 import { useFormik as useForm } from 'formik';
+import { API_URL } from '@env';
 
 const PasswordRecoverySchema = Validator.object().shape({
   email: Validator.string().email('Invalid email').required('Required')
@@ -17,7 +18,7 @@ export default function ForgotPassword() {
       initialValues: { email: '' },
       onSubmit: (values) => {
         setLoading(true);
-        Promise.resolve()
+        ()
           .then(() => setLoading(false))
           .catch((err) => {
             if (err && err.error) {

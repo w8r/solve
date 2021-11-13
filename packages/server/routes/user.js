@@ -21,9 +21,9 @@ const successRateLimiter = createRateLimiter({
 router.post('/req-email', authMiddleware, (params, res) =>
   UserController.requestEmail(params, res)
 );
-router.get('/verify-email', (params, res) =>
-  UserController.verifyEmail(params, res)
-);
+router.get('/verify-email', UserController.verifyEmail);
+
+router.post('/reset-password', failRateLimiter, UserController.recoverPassword);
 
 router.post('/status', authMiddleware, UserController.status);
 router.post('/graphs', authMiddleware, (params, res) =>

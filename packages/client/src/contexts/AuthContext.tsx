@@ -21,6 +21,7 @@ export type AuthState = {
   loading: boolean;
   loginWithGoogle: (data: GoogleAuthUser) => Promise<void>;
   loginWithFacebook: (data: FacebookAuthUser) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   onAuthSuccess: (data: UserAndToken) => void;
   login: (email: string, password: string) => Promise<UserAndToken>;
   logout: () => Promise<void>;
@@ -72,6 +73,14 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
     return AsyncStorage.removeItem(TOKEN_KEY);
   };
 
+  const resetPassword = (email: string) =>
+    api.resetPassword(email).then(() => {
+      setToken(null);
+      setAuthenticated(false);
+      setUser(null);
+      setLoading(false);
+    });
+
   useEffect(() => {
     async function loadStorageData() {
       const token = await AsyncStorage.getItem(TOKEN_KEY);
@@ -96,6 +105,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
         loginWithFacebook,
         loginWithGoogle,
         logout,
+        resetPassword,
         loading,
         onAuthSuccess,
         user: user as unknown as User

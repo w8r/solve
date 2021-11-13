@@ -181,33 +181,3 @@ module.exports.googleSignIn = (req, res, next) => {
     next();
   });
 };
-
-module.exports.recoverPassword = (req, res, next) => {
-  const { errors, isValid } = validateRecoverPassword(req.body);
-  if (!isValid) return res.status(400).json(errors);
-  Users.findOne({ email: req.body.email }, (err, user) => {
-    if (err) return res.status(500).json({ error: err });
-    if (!user)
-      return next(
-        createError(400, {
-          message: 'User with this email does not exist',
-          code: ERROR_CODES.AUTH_USER_NOT_FOUND
-        })
-      );
-
-    return user
-      .generatePasswordResetToken()
-      .then((user) => {
-        const url = `${constants.FRONTEND_URL}/reset-password?token=${user.passwordResetToken}`;
-        const mailOptions = {
-          from: constants.EMAIL_FROM,
-          to: user.email,
-          subject: 'Password Reset',
-          text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${url}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
-        };
-        return mailer.sendMail(mailOptions);
-      })
-      .then(() => res.status(200).json({ message: 'Email sent' }))
-      .catch(next);
-  });
-};

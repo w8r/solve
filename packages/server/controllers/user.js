@@ -52,9 +52,8 @@ module.exports.getUserGraphs = async (req, res) => {
  * @param {User} user
  */
 const setUnverifiedEmail = async (user) => {
-  user.setToken(constants.TOKEN_PURPOSE_VERIFY_EMAIL);
-  const token = user.token;
-  return emailer.sendVerificationEmail(user.email, token);
+  user.setVerifyEmailToken();
+  return emailer.sendVerificationEmail(user.email, user.token);
 };
 
 module.exports.setUnverifiedEmail = setUnverifiedEmail;
@@ -97,6 +96,8 @@ module.exports.verifyEmail = async (params, res) => {
         User.status = constants.STATUS_ACTIVE;
         User.save();
         res.status(200).redirect('/'); // json({ message: 'Email is verified.' });
+      } else if (tokenPurpose === constants.TOKEN_PURPOSE_RESET_PASSWORD) {
+        res.status(200).redirect(`/reset-password/${User.token}`);
       } else {
         res.status(400).json({
           error: 'Token is invalid or expired.'
@@ -106,4 +107,57 @@ module.exports.verifyEmail = async (params, res) => {
   } catch (err) {
     res.status(400).send('Token is invalid or expired.');
   }
+};
+
+module.exports.resetPassword = (req, res, next) => {
+  try {
+    const User = await Users.findOne({ token: params.query.token });
+    if (User.status !== constants.STATUS_UNVERIFIED_EMAIL) {
+      res.status(400).json({
+        error: 'Your email is already verified.'
+      });
+    } else {
+      const tokenPurpose = User.tokenPurpose;
+      const tokenExpiration = User.tokenExpiration;
+
+      if (
+        tokenPurpose === constants.TOKEN_PURPOSE_VERIFY_EMAIL &&
+        tokenExpiration > new Date()
+      ) {
+        User.clearToken();
+        User.status = constants.STATUS_ACTIVE;
+        User.save();
+        res.status(200).redirect('/'); // json({ message: 'Email is verified.' });
+      } else if (tokenPurpose === constants.TOKEN_PURPOSE_RESET_PASSWORD) {
+        res.status(200).redirect(`/reset-password/${User.token}`);
+      } else {
+        res.status(400).json({
+          error: 'Token is invalid or expired.'
+        });
+      }
+    }
+  } catch (err) {
+    res.status(400).send('Token is invalid or expired.');
+  }
+};
+
+module.exports.recoverPassword = (req, res, next) => {
+  const { errors, isValid } = validateRecoverPassword(req.body);
+  if (!isValid) return res.status(400).json(errors);
+  Users.findOne({ email: req.body.email }, (err, user) => {
+    if (err) return res.status(500).json({ error: err });
+    if (!user)
+      return next(
+        createError(400, {
+          message: 'User with this email does not exist',
+          code: ERROR_CODES.AUTH_USER_NOT_FOUND
+        })
+      );
+
+    return Promise.resolve()
+      .then(() => user.setResetPasswordToken())
+      .then(() => emailer.sendResetPasswordEmail(user.email, user.token))
+      .then(() => res.status(200).json({ message: 'Email sent' }))
+      .catch(next);
+  });
 };
