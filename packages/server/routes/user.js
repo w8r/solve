@@ -17,6 +17,12 @@ const successRateLimiter = createRateLimiter({
   skipFailedRequests: true
 });
 
+const failRateLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  skipSuccessfulRequests: true
+});
+
 // status
 router.post('/req-email', authMiddleware, (params, res) =>
   UserController.requestEmail(params, res)

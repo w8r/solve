@@ -111,7 +111,7 @@ export default function Login({ navigation }: LoginProps) {
             }}
             alignSelf="flex-end"
             mt="1"
-            href="forgot-password"
+            href="reset-password"
           >
             Forgot Password?
           </Link>

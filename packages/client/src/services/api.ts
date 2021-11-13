@@ -113,8 +113,22 @@ export function signup(
   });
 }
 
-export function resetPassword(email: string) {
-  return post('/api/auth/reset-password', { email });
+export function resetPasswordRequest(email: string) {
+  return post<{ message: string; success: boolean }>(
+    '/api/user/reset-password',
+    { email }
+  );
+}
+
+export function resetPassword(
+  token: string,
+  password: string,
+  passwordRepeat: string
+) {
+  return post<{ message: string; success: boolean }>(
+    '/api/user/reset-password',
+    { password, passwordRepeat, token }
+  );
 }
 
 export function getGraph(id: string) {

@@ -20,7 +20,7 @@ import { FormContainer } from '../components';
 import * as api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 
-const LoginSchema = Validator.object().shape({
+const SignupSchema = Validator.object().shape({
   name: Validator.string().min(4).max(128),
   password: Validator.string()
     .min(6, 'Too short')
@@ -42,7 +42,7 @@ export default function Signup({ navigation }: SignupProps) {
 
   const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
     useForm({
-      validationSchema: LoginSchema,
+      validationSchema: SignupSchema,
       initialValues: { name: '', email: '', password: '', passwordRepeat: '' },
       onSubmit: (values) => {
         setIsLoading(true);

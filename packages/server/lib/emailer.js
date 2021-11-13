@@ -54,13 +54,13 @@ module.exports.sendVerificationEmail = async (toEmail, verificationCode) => {
  * @param {string} verificationCode
  * @returns Promise<SMTPTransport.SentMessageInfo>
  */
-module.exports.sendPasswordResetEmail = async (toEmail, verificationCode) => {
+module.exports.sendResetPasswordEmail = async (toEmail, verificationCode) => {
   const template = await getTemplate('verify_email');
   const emailbody = template({
     title: `${config.app.title}: Reset your password`,
     content: `You have requested to recover your password at ${config.app.title}. Please follow the link in this email to verify that it was you who requested this change. If it wasn't you, simply ignore this email.`,
     buttonText: 'Reset your password',
-    url: `${config.app.publicUrl}/api/user/reset-password/?token=${verificationCode}`,
+    url: `${config.app.publicUrl}/reset-password/?token=${verificationCode}`,
     signature: config.email.signature,
     appTitle: config.app.title,
     publicUrl: config.app.publicUrl

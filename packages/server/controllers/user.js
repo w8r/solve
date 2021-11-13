@@ -2,6 +2,8 @@ const Graphs = require('../models/graphs');
 const Users = require('../models/users');
 const constants = require('../config/constants');
 const emailer = require('../lib/emailer');
+const Validator = require('yup');
+const createError = require('http-errors');
 
 module.exports.status = ({ user }, res, next) => {
   if (user) res.send(user);
@@ -109,7 +111,7 @@ module.exports.verifyEmail = async (params, res) => {
   }
 };
 
-module.exports.resetPassword = (req, res, next) => {
+module.exports.resetPassword = async (req, res, next) => {
   try {
     const User = await Users.findOne({ token: params.query.token });
     if (User.status !== constants.STATUS_UNVERIFIED_EMAIL) {
@@ -141,23 +143,70 @@ module.exports.resetPassword = (req, res, next) => {
   }
 };
 
-module.exports.recoverPassword = (req, res, next) => {
-  const { errors, isValid } = validateRecoverPassword(req.body);
-  if (!isValid) return res.status(400).json(errors);
+/**
+ * JOI schema for validating resetPassword payload
+ */
+const resetPasswordSchema = Validator.object({
+  token: Validator.string().required(),
+  password: Validator.string().required('Required'),
+  passwordRepeat: Validator.string()
+    .equals([Validator.ref('password')], "Passwords don't match")
+    .required('Required')
+});
+
+const userDoesNotExist = () => {
+  return createError(400, {
+    message: 'User with this email does not exist',
+    code: constants.ERROR_CODES.AUTH_USER_NOT_FOUND
+  });
+};
+
+function requestResetPassword(req, res, next) {
   Users.findOne({ email: req.body.email }, (err, user) => {
     if (err) return res.status(500).json({ error: err });
-    if (!user)
-      return next(
-        createError(400, {
-          message: 'User with this email does not exist',
-          code: ERROR_CODES.AUTH_USER_NOT_FOUND
-        })
-      );
+    if (!user) return next(userDoesNotExist());
 
     return Promise.resolve()
       .then(() => user.setResetPasswordToken())
       .then(() => emailer.sendResetPasswordEmail(user.email, user.token))
-      .then(() => res.status(200).json({ message: 'Email sent' }))
+      .then(() =>
+        res.status(200).json({ message: 'Email sent', success: true })
+      )
       .catch(next);
   });
+}
+
+function resetPassword(req, res, next) {
+  resetPasswordSchema
+    .validate(req.body)
+    .catch(next)
+    .then(() =>
+      Users.findOne({ token: req.body.token }, (err, user) => {
+        if (err) return res.status(500).json({ error: err });
+        if (!user) return next(userDoesNotExist());
+
+        const tokenPurpose = user.tokenPurpose;
+        const tokenExpiration = user.tokenExpiration;
+
+        if (
+          tokenPurpose !== constants.TOKEN_PURPOSE_RESET_PASSWORD ||
+          tokenExpiration < new Date()
+        )
+          return next(createError(400, 'Token is invalid or expired.'));
+
+        return Promise.resolve()
+          .then(() => (user.password = req.body.password))
+          .then(() => user.clearToken())
+          .then(() => user.save())
+          .then(() =>
+            res.status(200).json({ message: 'Password changed', success: true })
+          )
+          .catch(next);
+      })
+    );
+}
+
+module.exports.recoverPassword = (req, res, next) => {
+  if (req.body.email) return requestResetPassword(req, res, next);
+  return resetPassword(req, res, next);
 };

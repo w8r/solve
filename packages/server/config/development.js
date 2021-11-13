@@ -32,6 +32,7 @@ module.exports = {
     algorithm: 'HS512',
     expiresIn: 60 * 24 * 60 * 60 // seconds
   },
+  saltRounds: 8,
   rateLimit: {
     enabled: isNotTest
   },

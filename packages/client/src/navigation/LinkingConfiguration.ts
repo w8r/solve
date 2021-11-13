@@ -30,7 +30,7 @@ export default {
             screens: {
               Login: 'login',
               Signup: 'signup',
-              ForgotPassword: 'forgot-password',
+              ResetPassword: 'reset-password/:token?',
               Onboarding: 'onboarding',
               PasswordChanged: 'password-changed'
             }

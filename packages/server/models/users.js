@@ -95,7 +95,7 @@ const usersSchema = new Schema(
 usersSchema.pre('save', function (next) {
   if (!this.isModified('password')) return next();
   return bcrypt
-    .hash(this.password, 8)
+    .hash(this.password, config.saltRounds)
     .then((password) => {
       this.password = password;
     })
@@ -118,7 +118,7 @@ usersSchema.statics.findByCredentials = ({ email, password }) => {
   });
 };
 
-userSchema.methods.generatePasswordResetToken = function () {};
+usersSchema.methods.generatePasswordResetToken = function () {};
 
 usersSchema.methods.toJSON = function () {
   const data = this.toObject();
@@ -144,9 +144,8 @@ usersSchema.methods.toJSON = function () {
  *
  * @returns {Promise} Resolve with null value
  */
-usersSchema.methods.setPasswordAsync = function (password) {
-  const saltRounds = 8;
-  return bcrypt.hash(password, saltRounds).then((hash) => {
+usersSchema.methods.setPassword = function (password) {
+  return bcrypt.hash(password, config.saltRounds).then((hash) => {
     this.password = hash;
   });
 };
@@ -201,11 +200,11 @@ usersSchema.methods.setToken = function (purpose, expiresIn = 1) {
   this.save();
 };
 
-userSchema.methods.setVerifyEmailToken = function () {
+usersSchema.methods.setVerifyEmailToken = function () {
   this.setToken(constants.TOKEN_PURPOSE_VERIFY_EMAIL);
 };
 
-userSchema.methods.setResetPasswordToken = function () {
+usersSchema.methods.setResetPasswordToken = function () {
   this.setToken(constants.TOKEN_PURPOSE_RESET_PASSWORD);
 };
 

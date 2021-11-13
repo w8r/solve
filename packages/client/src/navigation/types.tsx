@@ -26,13 +26,18 @@ export type AuthRoutes = {
   Welcome: undefined;
   Login: undefined;
   Signup: undefined;
-  ForgotPassword: undefined;
+  ResetPassword: { token?: string };
   PasswordChanged: undefined;
 };
 
 export type OnboardingProps = StackScreenProps<AuthRoutes, 'Onboarding'>;
 export type LoginProps = StackScreenProps<AuthRoutes, 'Login'>;
 export type SignupProps = StackScreenProps<AuthRoutes, 'Signup'>;
+export type ResetPasswordProps = StackScreenProps<AuthRoutes, 'ResetPassword'>;
+export type PasswordChangedProps = StackScreenProps<
+  AuthRoutes,
+  'PasswordChanged'
+>;
 
 // @ts-ignore
 // const d: SignupProps = {};
