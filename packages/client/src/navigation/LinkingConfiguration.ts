@@ -16,11 +16,13 @@ export default {
             screens: {
               TabOne: {
                 screens: {
+                  Dashboard: 'dashboard',
                   TabOneScreen: 'one'
                 }
               },
               TabTwo: {
                 screens: {
+                  Profile: 'profile',
                   TabTwoScreen: 'two'
                 }
               }

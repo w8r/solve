@@ -148,8 +148,8 @@ export function getGraphPreviewURL(id: string) {
 }
 
 export function getUserGraphs(id: string) {
-  if (id !== undefined) return post(`/api/user/${id}/graphs`);
-  return post('/api/user/graphs'); // me
+  if (id !== undefined) return post<Graph[]>(`/api/user/${id}/graphs`);
+  return post<Graph[]>('/api/user/graphs'); // me
 }
 
 export function createNode(graphId: string, node: GraphNode) {

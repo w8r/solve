@@ -3,6 +3,7 @@ export type User = {
   email: string;
   uuid: string;
   token?: string;
+  score: number;
 };
 
 export interface GoogleAuthUser {

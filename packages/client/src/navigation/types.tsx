@@ -13,11 +13,13 @@ export type BottomTabParamList = {
 };
 
 export type TabOneParamList = {
+  Dashboard: undefined;
   TabOneScreen: undefined;
 };
 export type TabOneProps = BottomTabScreenProps<BottomTabParamList, 'TabOne'>;
 
 export type TabTwoParamList = {
+  Profile: undefined;
   TabTwoScreen: undefined;
 };
 
@@ -45,7 +47,6 @@ export type PasswordChangedProps = StackScreenProps<
 
 export type AppRoutes = {
   Dashboard: undefined;
-  Profile: undefined;
   Viewer: undefined;
 };
 

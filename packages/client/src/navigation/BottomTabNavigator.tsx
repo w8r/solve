@@ -13,6 +13,7 @@ import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from './types';
 import Dashboard from '../screens/Dashboard';
+import Profile from '../screens/Profile';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -60,26 +61,20 @@ const TabOneStack = createStackNavigator<TabOneParamList>();
 
 function TabOneNavigator() {
   return (
-    <TabOneStack.Navigator screenOptions={{ cardShadowEnabled: true }}>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={Dashboard}
-        options={{ headerTitle: 'Tab One Title', headerShown: false }}
-      />
+    <TabOneStack.Navigator headerMode="none">
+      <TabOneStack.Screen name="Dashboard" component={Dashboard} />
     </TabOneStack.Navigator>
   );
 }
 
+// other tabs
 const TabTwoStack = createStackNavigator<TabTwoParamList>();
 
 function TabTwoNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
-      />
+    <TabTwoStack.Navigator headerMode="none">
+      <TabTwoStack.Screen name="Profile" component={Profile} />
+      <TabTwoStack.Screen name="TabTwoScreen" component={TabTwoScreen} />
     </TabTwoStack.Navigator>
   );
 }
