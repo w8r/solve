@@ -43,7 +43,8 @@ function request<T>(
           url: path,
           method,
           headers: {
-            authorization: `Bearer ${token}`
+            authorization: `Bearer ${token}`,
+            'Bypass-Tunnel-Reminder': true
           },
           data: method === 'get' ? undefined : data
         })

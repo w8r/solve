@@ -39,7 +39,6 @@ const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 const RootSwitch = createStackNavigator();
 function RootSwitchNavigator() {
   const { authenticated } = useAuth();
-
   return (
     <RootSwitch.Navigator headerMode="none">
       {authenticated ? (

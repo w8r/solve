@@ -1,15 +1,13 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { OnboardingProps } from '../navigation/types';
-import { Text, Heading, VStack } from 'native-base';
-import { FormContainer } from '../components';
+import { Text, VStack } from 'native-base';
+import { FormContainer, Logo } from '../components';
 
 export default function Onboarding({ navigation }: OnboardingProps) {
   return (
     <FormContainer>
-      <Heading size="lg" fontWeight="600" color="coolGray.800">
-        Onboarding screen
-      </Heading>
+      <Logo />
       <VStack space={3} mt="5">
         <Text>Some beautiful words about the app</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>

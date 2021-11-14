@@ -10,7 +10,8 @@ export default function PasswordChanged({ navigation }: PasswordChangedProps) {
       <VStack space={3} mt="5">
         <HStack mt="6" justifyContent="center">
           <Text fontSize="sm" color="muted.700" fontWeight={400}>
-            Your password has been reset, you can now log into your account.
+            Your password has been reset, you can now log into your account with
+            your new password.
           </Text>
         </HStack>
         <Button

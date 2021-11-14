@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import * as AuthSession from 'expo-auth-session';
 import * as api from '../services/api';
 import { UserAndToken, User } from '../types/user';
 import { TOKEN_KEY } from '../constants';
@@ -78,7 +77,6 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
       if (token) {
         setLoading(true);
         const resp = await api.status();
-        console.log(resp);
         setToken(token);
         setAuthenticated(true);
         setUser(resp as User);

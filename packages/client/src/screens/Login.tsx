@@ -18,7 +18,6 @@ import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
 import { LoginProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';
-import * as api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 
 const LoginSchema = Validator.object().shape({

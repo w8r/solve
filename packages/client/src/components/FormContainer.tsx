@@ -4,14 +4,7 @@ import { KeyboardAvoidingView, ScrollView, Box, Center } from 'native-base';
 
 export const FormContainer: FC = ({ children }) => {
   return (
-    <ScrollView
-      minW="72"
-      paddingY="20"
-      paddingX="10"
-      _contentContainerStyle={{
-        justifyItems: 'center'
-      }}
-    >
+    <ScrollView minW="72" paddingY="20" paddingX="10">
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
