@@ -4340,6 +4340,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@solve/common@workspace:packages/common":
+  version: 0.0.0-use.local
+  resolution: "@solve/common@workspace:packages/common"
+  languageName: unknown
+  linkType: soft
+
 "@solve/server@workspace:packages/server":
   version: 0.0.0-use.local
   resolution: "@solve/server@workspace:packages/server"
