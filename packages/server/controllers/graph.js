@@ -3,6 +3,7 @@ const Users = require('../models/users');
 const Vertex = require('../models/vertex');
 const Edge = require('../models/edge');
 const uuid = require('uuid');
+const createError = require('http-errors');
 
 const preview = require('../lib/preview');
 
@@ -184,7 +185,7 @@ module.exports.updateEdge = (req, res) => {
     .catch(() => res.status(404).send({ error: 'Edge not found' }));
 };
 
-module.exports.createGraph = (req, res) => {
+module.exports.createGraph = (req, res, next) => {
   new Graphs({
     _users: [req.user],
     data: req.body.data || {},
@@ -194,9 +195,16 @@ module.exports.createGraph = (req, res) => {
 
     const graphId = graphDoc._id;
     const graph = req.body;
+
     Vertex.insertMany(
-      graph.nodes.map((node) => ({ ...node, graph: [graphId] }))
+      graph.nodes.map((node) => ({
+        ...node,
+        graph: [graphId],
+        attributes: node.attributes || {},
+        data: node.data || {}
+      }))
     )
+      .catch((err) => next(createError(500, err)))
       .then((storedNodes) => {
         const nodesIdx = storedNodes.reduce((acc, n) => {
           acc.set(n.id, n._id);
@@ -209,7 +217,9 @@ module.exports.createGraph = (req, res) => {
             _target: nodesIdx.get(edge.target),
             graph: [graphId]
           }))
-        ).then((storedEdges) => ({ nodes: storedNodes, edges: storedEdges }));
+        )
+          .catch((err) => next(createError(500, err)))
+          .then((storedEdges) => ({ nodes: storedNodes, edges: storedEdges }));
       })
       .then(({ nodes, edges }) => {
         if (req.body.data && req.body.data.shared) {
@@ -231,7 +241,7 @@ module.exports.createGraph = (req, res) => {
               graph: graphId
             });
           })
-          .catch((err) => res.status(500).json(err));
+          .catch((err) => next(createError(500, err)));
       });
   });
 };

@@ -2,17 +2,16 @@ const request = require('supertest');
 const config = require('../../config/development');
 const { assert } = require('chai');
 
+const noTokenError = {
+  error: {
+    message: 'No auth token'
+  }
+};
+
 describe('ENDPOINT: POST /api/user/status', function () {
   const endpoint = '/api/user/status';
   it(`POST ${endpoint} - Can't get status of the unauthorized user`, () => {
-    return request(app)
-      .post(endpoint)
-      .expect(401)
-      .expect({
-        error: {
-          message: 'No auth token'
-        }
-      });
+    return request(app).post(endpoint).expect(401).expect(noTokenError);
   });
 
   it(`POST ${endpoint} - user status by token`, () => {
@@ -92,5 +91,37 @@ describe('ENDPOINT: POST /api/user/reset-password', function () {
       .expect(({ body: res }) => {
         assert.deepEqual(res, { message: 'Password changed', success: true });
       });
+  });
+});
+
+describe('ENDPOINT: POST /api/user/graphs', () => {
+  const endpoint = '/api/user/graphs';
+
+  it('POST /api/user/graphs - get user graphs - unauthorized', () => {
+    return request(app)
+      .post(endpoint)
+      .expect(401)
+      .expect(({ body: response }) => {
+        assert.deepEqual(response, noTokenError);
+      });
+  });
+
+  it('POST /api/user/graphs - get user graphs', () => {
+    const user = { name: 'root', password: 'password' };
+    let token = '';
+    return request(app)
+      .post('/api/auth/signin')
+      .send(user)
+      .expect(200)
+      .expect(({ body: res }) => (token = res.token))
+      .then(() =>
+        request(app)
+          .post(endpoint)
+          .set(config.jwt.headerName, `Bearer ${token}`)
+          .expect(200)
+          .expect(({ body: response }) => {
+            assert.deepEqual(response, []);
+          })
+      );
   });
 });
