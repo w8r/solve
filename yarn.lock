@@ -4354,6 +4354,7 @@ __metadata:
     "@types/bcryptjs": ^2.4.2
     "@types/chai": ^4.2.21
     "@types/jsonwebtoken": ^8.5.4
+    "@types/nodemailer": ^6.4.4
     "@types/passport-google-oauth20": ^2.0.9
     "@types/passport-local": ^1.0.34
     "@types/supertest": ^2.0.11
@@ -4813,6 +4814,15 @@ __metadata:
   version: 8.10.66
   resolution: "@types/node@npm:8.10.66"
   checksum: c52039de862654a139abdc6a51de532a69dd80516ac35a959c3b3a2831ecbaaf065b0df5f9db943f5e28b544ebb9a891730d52b52f7a169b86a82bc060210000
+  languageName: node
+  linkType: hard
+
+"@types/nodemailer@npm:^6.4.4":
+  version: 6.4.4
+  resolution: "@types/nodemailer@npm:6.4.4"
+  dependencies:
+    "@types/node": "*"
+  checksum: 16ed1bad2cd8471fd3b026471e234da33ba3b65935dc44b31be3145eff7bdb067eb4d08ec4b41d23339b988075299abc1a0c0fe77b99f04ca235827bca95af81
   languageName: node
   linkType: hard
 
