@@ -25,23 +25,21 @@ module.exports.getGraph = async (req, res) => {
 module.exports.updateGraphNode = async (req, res) => {
   try {
     const graph = await Graphs.findById(req.params.id);
-    const graphId = graph._id;
     const nodeId = req.params.nodeId || req.body.id;
     // returns actual object reference, not a clone
-    let vertex = _.find(graph.nodes, { nodeId });
+    let vertex = _.find(graph.nodes, { id: nodeId });
 
     if (!vertex) {
       vertex = {
         id: nodeId || uuid.v4(),
         attributes: req.body.attributes || {},
-        data: req.body.data || {},
-        graph: [graphId]
+        data: req.body.data || {}
       };
-      graph.nodes.push(vertex._id);
+      graph.nodes.push(vertex);
     } else {
       // since its actual object, we can modify it here
       Object.assign(vertex, {
-        id: vertex._id,
+        id: vertex.id,
         ...{
           data: { ...vertex.data, ...(req.body.data || {}) },
           attributes: {
@@ -56,137 +54,72 @@ module.exports.updateGraphNode = async (req, res) => {
     graph.markModified('nodes');
     await graph.save();
     res.status(200).send(vertex);
-} catch {
-    res.status(400).send({message: messages.GRAPH_UPDATE_FAILED, err});
-}
+  } catch {
+    res.status(400).send({ message: messages.GRAPH_UPDATE_FAILED, err });
+  }
 };
 
-module.exports.updateGraph =  (req, res) => {
-  const graph = Graphs.findById(req.params.id).then((graph) => {
-      const graphId = graph._id;
-      const { nodes = [], edges = [] } = req.body;
-      Promise.resolve()
-        .then(() => {
-          const operations = nodes.map((node) => ({
-            updateOne: {
-              filter: { _id: node._id }, // use truly unique
-              update: { ...node, graph: [graphId] },
-              upsert: true,
-              ordered: false
-            }
-          }));
-          if (operations.length !== 0) return Vertex.bulkWrite(operations);
-          return Promise.resolve();
-        })
-        .then((data) => {
-          // filter edges by the internal ids
-          const nodesIdx = nodes.reduce((acc, node) => {
-            acc.set(node.id, node._id);
-            return acc;
-          }, new Map());
-          edges.forEach((edge, i) => {
-            edge._source = edge._source || nodesIdx.get(edge.source);
-            edge._target = edge._target || nodesIdx.get(edge.target);
-            // can't add
-            if (edge._target === undefined || edge._source === undefined) {
-              edges.splice(i, 1);
-            }
-          });
-        })
-        .then(() => {
-          const operations = edges.map((edge) => ({
-            updateOne: {
-              filter: { _id: edge._id },
-              update: { ...edge, graph: [graphId] },
-              upsert: true
-            }
-          }));
-          if (operations.length !== 0) return Edge.bulkWrite(operations);
-          return Promise.resolve();
-        })
-  })
-    .then(() => res.status(200).json({ success: true }))
-    .catch((message) => res.status(404).send({ message }));
+module.exports.updateGraph = (req, res) => {
+  // TODO: UPDATE GRAPH METADATA
 };
 
-module.exports.updateGraphEdge = (req, res) => {
-  Graphs.findById(req.params.id).then((graph) => {
-    const graphId = graph._id;
-    const edgeId = req.params.edgeId;
-    let edge;
-    if (!edgeId || edgeId === 'new') {
-      Promise.all([
-        Vertex.findById(req.body._source),
-        Vertex.findById(req.body._target)
-      ])
-        .then(([source, target]) => {
-          return new Edge({
-            id: edgeId || uuid.v4(),
-            _source: source._id,
-            _target: target._id,
-            source: source.id,
-            target: target.id,
-            data: req.body.data || {},
-            attributes: req.body.attributes || {},
-            graph: [graphId]
-          }).save();
-        })
-        .then((newEdge) => {
-          edge = newEdge;
-          graph.edges.push(newEdge._id);
-          return graph.save();
-        })
-        .then(() => {
-          res.status(200).send(edge.toJSON());
+module.exports.updateGraphEdge = async (req, res) => {
+  try {
+    const graph = await Graphs.findById(req.params.id);
+    const edgeId = req.params.edgeId || req.body.id;
+    const source = req.params.source || req.body.source;
+    const target = req.params.target || req.body.target;
+
+    // check if source or target nodes exist
+    if (
+      !_.find(
+        graph.nodes.some((node) => node.id == target || node.id == source)
+      ) ||
+      source == target
+    ) {
+      res
+        .status(400)
+        .send({
+          message: messages.GRAPH_UPDATE_FAILED,
+          error: 'Invalid source or target.'
         });
-      //   new Edge({
-      //     id: edgeId || '',
-      //     attributes: req.body.attributes || {},
-      //     data: req.body.data || {},
-      //     graph: [graphId]
-      //   }).save().then(newVertex => {
-      //     vertex = newVertex;
-      //     graph.edges.push(vertex._id);
-      //     return graph.save();
-      //   }).then(() => res.status(200).send(vertex.toJSON()));
-      // } else {
-      //   Vertex.findById(nodeId)
-      //     .then(vertex => {
-      //       return vertex.save({
-      //         data: { ...vertex.data, ...req.body.data || {} },
-      //         attributes: { ...vertex.attributes, ...req.body.attributes || {} }
-      //       });
-      //     }).then((vertex) => res.status(200).send(vertex.toJSON()));
     }
-  });
-};
 
-module.exports.updateNode = (req, res) => {
-  Vertex.findById(req.params.nodeId)
-    .then((vertex) => {
-      vertex.data = { ...vertex.data, ...(req.body.data || {}) };
-      vertex.attributes = {
-        ...vertex.attributes,
-        ...(req.body.attributes || {})
-      };
-      return vertex
-        .save()
-        .then((vertex) => res.status(200).send(vertex.toJSON()));
-    })
-    .catch(() => res.status(404).send({ error: 'Node not found' }));
-};
+    // returns actual object reference, not a clone
+    let edge = _.find(graph.edges, { id: edgeId });
 
-module.exports.updateEdge = (req, res) => {
-  Edge.findById(req.params.edgeId)
-    .then((edge) => {
-      edge.data = { ...edge.data, ...(req.body.data || {}) };
-      edge.attributes = {
-        ...edge.attributes,
-        ...(req.body.attributes || {})
+    if (!edge) {
+      edge = {
+        id: edgeId || uuid.v4(),
+        source: source,
+        target: target,
+        data: req.body.data || {},
+        attributes: req.body.attributes || {}
       };
-      return edge.save().then((edge) => res.status(200).send(edge.toJSON()));
-    })
-    .catch(() => res.status(404).send({ error: 'Edge not found' }));
+      graph.edges.push(edge);
+    } else {
+      // since its actual object, we can modify it here
+      Object.assign(edge, {
+        id: edge.id,
+        source: source,
+        target: target,
+        ...{
+          data: { ...edge.data, ...(req.body.data || {}) },
+          attributes: {
+            ...edge.attributes,
+            ...(req.body.attributes || {})
+          }
+        }
+      });
+    }
+
+    // set the field changed so mongoose is aware of the object.assign above
+    graph.markModified('edges');
+    await graph.save();
+    res.status(200).send(vertex);
+  } catch {
+    res.status(400).send({ message: messages.GRAPH_UPDATE_FAILED, err });
+  }
 };
 
 module.exports.createGraph = (req, res, next) => {
