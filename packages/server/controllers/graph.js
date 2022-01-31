@@ -4,61 +4,65 @@ const Vertex = require('../models/vertex');
 const Edge = require('../models/edge');
 const uuid = require('uuid');
 const createError = require('http-errors');
+const _ = require('lodash');
 
 const preview = require('../lib/preview');
+const { messages } = require('../config/constants');
 
-module.exports.getGraph = (req, res) => {
-  Graphs.findById(req.params.id)
-    .then((graph) =>
-      graph
-        .populate('nodes', ['id', 'attributes', 'data'])
-        .populate('edges', ['source', 'target', 'attributes', 'data'])
-        .execPopulate()
-    )
-    .then((graph) => res.status(200).send(graph))
-    .catch((err) =>
-      res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err })
-    );
+module.exports.getGraph = async (req, res) => {
+  try {
+    const graph = await Graphs.findById(req.params.id);
+    const result = await graph
+      .populate('nodes', ['id', 'attributes', 'data'])
+      .populate('edges', ['source', 'target', 'attributes', 'data'])
+      .execPopulate();
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
+  }
 };
 
-module.exports.updateGraphNode = (req, res) => {
-  Graphs.findById(req.params.id).then((graph) => {
+module.exports.updateGraphNode = async (req, res) => {
+  try {
+    const graph = await Graphs.findById(req.params.id);
     const graphId = graph._id;
-    const nodeId = req.params.nodeId;
-    let vertex;
-    if (!nodeId || nodeId === 'new') {
-      new Vertex({
-        id: req.body.id || nodeId || uuid.v4(),
+    const nodeId = req.params.nodeId || req.body.id;
+    // returns actual object reference, not a clone
+    let vertex = _.find(graph.nodes, { nodeId });
+
+    if (!vertex) {
+      vertex = {
+        id: nodeId || uuid.v4(),
         attributes: req.body.attributes || {},
         data: req.body.data || {},
         graph: [graphId]
-      })
-        .save()
-        .then((newVertex) => {
-          vertex = newVertex;
-          graph.nodes.push(vertex._id);
-          return graph.save();
-        })
-        .then(() => res.status(200).send(vertex.toJSON()));
+      };
+      graph.nodes.push(vertex._id);
     } else {
-      Vertex.findById(nodeId)
-        .then((vertex) => {
-          return vertex.save({
-            data: { ...vertex.data, ...(req.body.data || {}) },
-            attributes: {
-              ...vertex.attributes,
-              ...(req.body.attributes || {})
-            }
-          });
-        })
-        .then((vertex) => res.status(200).send(vertex.toJSON()));
+      // since its actual object, we can modify it here
+      Object.assign(vertex, {
+        id: vertex._id,
+        ...{
+          data: { ...vertex.data, ...(req.body.data || {}) },
+          attributes: {
+            ...vertex.attributes,
+            ...(req.body.attributes || {})
+          }
+        }
+      });
     }
-  });
+
+    // set the field changed so mongoose is aware of the object.assign above
+    graph.markModified('nodes');
+    await graph.save();
+    res.status(200).send(vertex);
+} catch {
+    res.status(400).send({message: messages.GRAPH_UPDATE_FAILED, err});
+}
 };
 
-module.exports.updateGraph = (req, res) => {
-  Graphs.findById(req.params.id)
-    .then((graph) => {
+module.exports.updateGraph =  (req, res) => {
+  const graph = Graphs.findById(req.params.id).then((graph) => {
       const graphId = graph._id;
       const { nodes = [], edges = [] } = req.body;
       Promise.resolve()
@@ -99,8 +103,8 @@ module.exports.updateGraph = (req, res) => {
           }));
           if (operations.length !== 0) return Edge.bulkWrite(operations);
           return Promise.resolve();
-        });
-    })
+        })
+  })
     .then(() => res.status(200).json({ success: true }))
     .catch((message) => res.status(404).send({ message }));
 };
