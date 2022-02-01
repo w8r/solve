@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/development');
 const constants = require('../config/constants');
 const { v4: uuidv4 } = require('uuid');
+const Graphs = require('./graphs');
 
 const providerDataSchema = new Schema({
   userId: {
@@ -39,6 +40,11 @@ const usersSchema = new Schema(
           throw new Error('Invalid email format');
         }
       }
+    },
+    graphs: {
+      type: [Graphs],
+      ref: 'Graphs',
+      default: []
     },
     password: {
       type: Schema.Types.String,

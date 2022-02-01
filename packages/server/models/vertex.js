@@ -5,10 +5,6 @@ const VertexSchema = new Schema({
     type: String,
     required: true
   },
-  graph: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Graphs'
-  }],
   data: {
     type: Object,
     required: false
@@ -28,4 +24,4 @@ VertexSchema.methods.toJSON = function () {
   return data;
 }
 
-module.exports = model('Vertex', VertexSchema);
+module.exports = VertexSchema;

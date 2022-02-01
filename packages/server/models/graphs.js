@@ -5,22 +5,29 @@ const { messages } = require('../config/constants');
 
 const Vertex = require('./vertex');
 const Edge = require('./edge');
+const Users = require("./users");
 
 const graphSchema = new Schema({
   data: Object,
-  _users: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+  public: { 
+      type: Boolean,
+      default: false
+  },
   name: {
     type: String,
     unique: false
   },
-  nodes: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Vertex'
-  }],
-  edges: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Edge'
-  }]
+  user: {
+    type: Users,
+    required: true,
+    ref: 'Users'
+  },
+  nodes: {
+    type: [Vertex],
+  },
+  edges: {
+    type: [Edge]
+  }
 }, {
   timestamps: true
 });
@@ -32,14 +39,13 @@ graphSchema.statics.findById = (id) => {
 
 
 graphSchema.statics.findByUser = (userId) => {
-  return Graphs.find({ _users: userId }).exec();
+  return Graphs.find({ user: userId }).exec();
 };
 
 graphSchema.methods.toJSON = function () {
   const data = this.toObject();
-
-  delete data._users;
-  //delete data.updatedAt;
+  
+  data.user = data.user._id;
   data.uuid = data._id;
   delete data._id;
   delete data.__v;

@@ -122,65 +122,22 @@ module.exports.updateGraphEdge = async (req, res) => {
   }
 };
 
-module.exports.createGraph = (req, res, next) => {
-  new Graphs({
+module.exports.createGraph = async (req, res) => {  
+  const graphDoc = new Graphs({
     _users: [req.user],
+    public: req.body.data && req.body.data.shared,
     data: req.body.data || {},
-    name: req.body.name || ''
-  }).save((graphErr, graphDoc) => {
-    if (graphErr) return res.status(500).json({ error: graphErr });
-
-    const graphId = graphDoc._id;
-    const graph = req.body;
-
-    Vertex.insertMany(
-      graph.nodes.map((node) => ({
-        ...node,
-        graph: [graphId],
-        attributes: node.attributes || {},
-        data: node.data || {}
-      }))
-    )
-      .catch((err) => next(createError(500, err)))
-      .then((storedNodes) => {
-        const nodesIdx = storedNodes.reduce((acc, n) => {
-          acc.set(n.id, n._id);
-          return acc;
-        }, new Map());
-        return Edge.insertMany(
-          graph.edges.map((edge) => ({
-            ...edge,
-            _source: nodesIdx.get(edge.source),
-            _target: nodesIdx.get(edge.target),
-            graph: [graphId]
-          }))
-        )
-          .catch((err) => next(createError(500, err)))
-          .then((storedEdges) => ({ nodes: storedNodes, edges: storedEdges }));
-      })
-      .then(({ nodes, edges }) => {
-        if (req.body.data && req.body.data.shared) {
-          return Users.find().then((users) => ({ nodes, edges, users }));
-        }
-        return { nodes, edges, users: [req.user] };
-      })
-      .then(({ nodes, edges, users }) => {
-        graphDoc
-          .updateOne({
-            nodes: nodes.map((n) => n._id),
-            edges: edges.map((e) => e._id),
-            _users: users
-          })
-          .exec()
-          .then(() => {
-            res.status(200).json({
-              success: true,
-              graph: graphId
-            });
-          })
-          .catch((err) => next(createError(500, err)));
-      });
+    name: req.body.name || '',
+    nodes: [],
+    edges: []
   });
+  
+  try {
+    await graphDoc.save();
+    res.status(200).send(graphDoc.toJSON());
+  } catch (e) {
+    res.status(500).send({ message: messages.GRAPH_CREATE_FAILED, error: e});
+  }
 };
 
 const getPreviewData = (graphId) =>
