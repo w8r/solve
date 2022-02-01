@@ -1,42 +1,42 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose');
 const validator = require('validator');
 const config = require('../config/development');
 const { messages } = require('../config/constants');
 
 const Vertex = require('./vertex');
 const Edge = require('./edge');
-const Users = require("./users");
+const Users = require('./users');
 
-const graphSchema = new Schema({
-  data: Object,
-  public: { 
+const graphSchema = new Schema(
+  {
+    public: {
       type: Boolean,
       default: false
+    },
+    name: {
+      type: String,
+      unique: false
+    },
+    user: {
+      type: Users,
+      required: true,
+      ref: 'Users'
+    },
+    nodes: {
+      type: [Vertex]
+    },
+    edges: {
+      type: [Edge]
+    }
   },
-  name: {
-    type: String,
-    unique: false
-  },
-  user: {
-    type: Users,
-    required: true,
-    ref: 'Users'
-  },
-  nodes: {
-    type: [Vertex],
-  },
-  edges: {
-    type: [Edge]
+  {
+    timestamps: true
   }
-}, {
-  timestamps: true
-});
-
+);
 
 graphSchema.statics.findById = (id) => {
   return Graphs.findOne({ _id: id }).exec();
 };
-
 
 graphSchema.statics.findByUser = (userId) => {
   return Graphs.find({ user: userId }).exec();
@@ -44,7 +44,7 @@ graphSchema.statics.findByUser = (userId) => {
 
 graphSchema.methods.toJSON = function () {
   const data = this.toObject();
-  
+
   data.user = data.user._id;
   data.uuid = data._id;
   delete data._id;
@@ -52,7 +52,6 @@ graphSchema.methods.toJSON = function () {
 
   return data;
 };
-
 
 const Graphs = model('Graphs', graphSchema);
 

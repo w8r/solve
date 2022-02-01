@@ -22,6 +22,6 @@ VertexSchema.methods.toJSON = function () {
   delete data.__v;
 
   return data;
-}
+};
 
 module.exports = VertexSchema;

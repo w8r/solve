@@ -77,12 +77,10 @@ module.exports.updateGraphEdge = async (req, res) => {
       ) ||
       source == target
     ) {
-      res
-        .status(400)
-        .send({
-          message: messages.GRAPH_UPDATE_FAILED,
-          error: 'Invalid source or target.'
-        });
+      res.status(400).send({
+        message: messages.GRAPH_UPDATE_FAILED,
+        error: 'Invalid source or target.'
+      });
     }
 
     // returns actual object reference, not a clone
@@ -122,7 +120,7 @@ module.exports.updateGraphEdge = async (req, res) => {
   }
 };
 
-module.exports.createGraph = async (req, res) => {  
+module.exports.createGraph = async (req, res) => {
   const graphDoc = new Graphs({
     _users: [req.user],
     public: req.body.data && req.body.data.shared,
@@ -131,12 +129,12 @@ module.exports.createGraph = async (req, res) => {
     nodes: [],
     edges: []
   });
-  
+
   try {
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());
   } catch (e) {
-    res.status(500).send({ message: messages.GRAPH_CREATE_FAILED, error: e});
+    res.status(500).send({ message: messages.GRAPH_CREATE_FAILED, error: e });
   }
 };
 

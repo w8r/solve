@@ -22,7 +22,8 @@ const messages = {
       'Username must be between 4 to 30 characters and may contain only alphanumeric chacracters, hyphen, dot or underscore',
     'any.required': 'Username is required'
   },
-  GRAPH_UPDATE_FAILED: 'Graph update is failed. See error for more information.',
+  GRAPH_UPDATE_FAILED:
+    'Graph update is failed. See error for more information.',
   GRAPH_CREATE_FAILED: 'Graph create is failed. See error for more information.'
 };
 
