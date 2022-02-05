@@ -12,7 +12,10 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
   const onPress = (index: number) => {
     navigate('App', {
       screen: 'TabOne',
-      params: { screen: 'Viewer', params: { graph: graphs[index] } }
+      params: {
+        screen: 'Viewer',
+        params: graphs[index] ? { graph: graphs[index] } : undefined
+      }
     });
   };
 

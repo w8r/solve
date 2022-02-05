@@ -47,7 +47,7 @@ export type PasswordChangedProps = StackScreenProps<
 
 export type AppRoutes = {
   Dashboard: undefined;
-  Viewer: { graphId?: string };
+  Viewer: { graph?: string } | undefined;
 };
 
 export type ViewerProps = StackScreenProps<AppRoutes, 'Viewer'>;

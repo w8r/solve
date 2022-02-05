@@ -17,7 +17,7 @@ export default {
               TabOne: {
                 screens: {
                   Dashboard: 'dashboard',
-                  Viewer: 'viewer/:graphId'
+                  Viewer: 'viewer/:graph?'
                 }
               },
               TabTwo: {
