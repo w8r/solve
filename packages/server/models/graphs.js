@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose');
 const validator = require('validator');
 const config = require('../config/development');
 const { messages } = require('../config/constants');
+const { v4: uuidv4 } = require('uuid');
 
 const Vertex = require('./vertex');
 const Edge = require('./edge');
@@ -9,9 +10,14 @@ const Users = require('./users');
 
 const graphSchema = new Schema(
   {
-    public: {
+    isPublic: {
       type: Boolean,
       default: false
+    },
+    publicId: {
+      type: String,
+      unique: true,
+      default: uuidv4
     },
     name: {
       type: String,
@@ -34,6 +40,9 @@ const graphSchema = new Schema(
   }
 );
 
+// Automatically sort the graphs by creation date in order to get the latest revision first
+graphSchema.index({'createdAt': -1});
+
 graphSchema.statics.findById = (id) => {
   return Graphs.findOne({ _id: id }).exec();
 };
@@ -46,7 +55,7 @@ graphSchema.methods.toJSON = function () {
   const data = this.toObject();
 
   data.user = data.user._id;
-  data.uuid = data._id;
+  data.id = data._id;
   delete data._id;
   delete data.__v;
 
