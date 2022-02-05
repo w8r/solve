@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Avatar, Badge, Text, useTheme } from 'native-base';
+import { Avatar, Badge } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 //import { theme } from '../core/theme';
 import { isWeb } from '../constants/device';

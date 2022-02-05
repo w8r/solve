@@ -14,7 +14,7 @@ export type BottomTabParamList = {
 
 export type TabOneParamList = {
   Dashboard: undefined;
-  TabOneScreen: undefined;
+  Viewer: undefined;
 };
 export type TabOneProps = BottomTabScreenProps<BottomTabParamList, 'TabOne'>;
 
@@ -47,8 +47,10 @@ export type PasswordChangedProps = StackScreenProps<
 
 export type AppRoutes = {
   Dashboard: undefined;
-  Viewer: undefined;
+  Viewer: { graphId?: string };
 };
+
+export type ViewerProps = StackScreenProps<AppRoutes, 'Viewer'>;
 
 export type RootStackParamList = {
   Root: undefined | StackScreenProps<AuthRoutes & AppRoutes>;
