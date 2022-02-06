@@ -4536,6 +4536,7 @@ __metadata:
     aws-sdk: ^2.1013.0
     bcrypt: ^5.0.1
     bcryptjs: ^2.4.3
+    body-parser: ^1.19.1
     chai: ^4.3.4
     chalk: ^4.1.1
     compression: ^1.7.4
@@ -4569,6 +4570,7 @@ __metadata:
     typescript: ~4.0.0
     uuid: ^8.3.2
     validator: ^13.6.0
+    yup: ^0.32.11
   languageName: unknown
   linkType: soft
 
@@ -6542,7 +6544,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"body-parser@npm:1.19.1":
+"body-parser@npm:1.19.1, body-parser@npm:^1.19.1":
   version: 1.19.1
   resolution: "body-parser@npm:1.19.1"
   dependencies:
