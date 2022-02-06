@@ -10,36 +10,132 @@ const login = () => {
     .then(({ body: res }) => res.token);
 };
 
-describe('ENDPOINT: PUT /api/graphs/new', function () {
+describe('ENDPOINT: /api/graph/: Graph API', function () {
   const endpoint = '/api/graph';
+  let publicId;
+  let internalId, internalId2;
+  it(`POST ${endpoint} - Should create a new graph`, async () => {
+    const token = await login();
 
-  it(`POST ${endpoint} - Should create a new graph`, () => {
-    return login().then((token) => {
-      return request(app)
-        .put('/api/graph/new')
-        .set(config.jwt.headerName, `Bearer ${token}`)
-        .send({
-          nodes: [
-            {
-              id: 'n0'
-            },
-            {
-              id: 'n1'
-            }
-          ],
-          edges: [
-            {
-              id: 'e0',
-              source: 'n0',
-              target: 'n1'
-            }
-          ]
-        })
-        .expect(200)
-        .expect(({ body: res }) => {
-          assert.isObject(res);
-          assert.isString(res.graph);
-        });
-    });
+    await request(app)
+      .post('/api/graph/')
+      .set(config.jwt.headerName, `Bearer ${token}`)
+      .send({
+        name: 'Test graph',
+        nodes: [
+          {
+            id: 'n0'
+          },
+          {
+            id: 'n1'
+          }
+        ],
+        edges: [
+          {
+            id: 'e0',
+            source: 'n0',
+            target: 'n1'
+          }
+        ]
+      })
+      .expect(200)
+      .expect(({ body: res }) => {
+        assert.isObject(res);
+        assert.isString(res.name);
+        assert.isArray(res.nodes);
+        assert.isArray(res.edges);
+        assert.isString(res.publicId);
+        publicId = res.publicId;
+        internalId = res.id;
+      });
+  });
+
+  it(`PUT ${endpoint} - Should create a new graph revision`, async () => {
+    const token = await login();
+
+    await request(app)
+      .put(`/api/graph/${publicId}`)
+      .set(config.jwt.headerName, `Bearer ${token}`)
+      .send({
+        name: 'Test graph 2',
+        nodes: [
+          {
+            id: 'n0'
+          },
+          {
+            id: 'n1'
+          }
+        ],
+        edges: [
+          {
+            id: 'e0',
+            source: 'n0',
+            target: 'n1'
+          }
+        ]
+      })
+      .expect(200)
+      .expect(({ body: res }) => {
+        assert.isObject(res);
+        assert.isString(res.name);
+        assert.isArray(res.nodes);
+        assert.isArray(res.edges);
+        assert.deepEqual(res.name, 'Test graph 2');
+        assert.deepEqual(res.publicId, publicId);
+        assert.notDeepEqual(res.id, internalId);
+        internalId2 = res.id;
+      });
+  });
+
+  it(`GET ${endpoint} - Should get graph by internal id`, async () => {
+    const token = await login();
+
+    await request(app)
+      .get(`/api/graph/internal/${internalId}`)
+      .set(config.jwt.headerName, `Bearer ${token}`)
+      .send()
+      .expect(200)
+      .expect(({ body: res }) => {
+        assert.isObject(res);
+        assert.isString(res.name);
+        assert.isArray(res.nodes);
+        assert.isArray(res.edges);
+        assert.deepEqual(res.name, 'Test graph');
+        assert.deepEqual(res.publicId, publicId);
+        assert.deepEqual(res.id, internalId);
+      });
+  });
+
+  it(`GET ${endpoint} - Should get latest revision`, async () => {
+    const token = await login();
+
+    await request(app)
+      .get(`/api/graph/${publicId}/latest`)
+      .set(config.jwt.headerName, `Bearer ${token}`)
+      .send()
+      .expect(200)
+      .expect(({ body: res }) => {
+        assert.isObject(res);
+        assert.isString(res.name);
+        assert.isArray(res.nodes);
+        assert.isArray(res.edges);
+        assert.deepEqual(res.name, 'Test graph 2');
+        assert.deepEqual(res.publicId, publicId);
+        assert.deepEqual(res.id, internalId2);
+      });
+  });
+
+  it(`GET ${endpoint} - Should get bulk revisions`, async () => {
+    const token = await login();
+
+    await request(app)
+      .get(`/api/graph/${publicId}`)
+      .set(config.jwt.headerName, `Bearer ${token}`)
+      .send()
+      .expect(200)
+      .expect(({ body: res }) => {
+        assert.isArray(res);
+        assert.strictEqual(res.length, 2);
+      });
   });
 });

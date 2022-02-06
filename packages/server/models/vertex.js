@@ -8,11 +8,13 @@ const VertexSchema = new Schema({
   },
   data: {
     type: Object,
-    required: false
+    required: false,
+    default: {}
   },
   attributes: {
     type: Object,
-    required: true
+    required: false,
+    default: {}
   }
 });
 

@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const validator = require('validator');
 const config = require('../config/development');
 const { messages } = require('../config/constants');
 const { v4: uuidv4 } = require('uuid');
@@ -16,7 +15,6 @@ const graphSchema = new Schema(
     },
     publicId: {
       type: String,
-      unique: true,
       default: uuidv4
     },
     name: {

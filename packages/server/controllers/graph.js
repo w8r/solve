@@ -10,35 +10,70 @@ const { messages } = require('../config/constants');
 
 module.exports.getLatestGraphRevision = async (req, res) => {
   try {
-    const graph = await Graphs.findOne({publicId: req.params.publicId || req.body.publicId});
-    if (!graph || !(req.params.publicId || req.body.publicId)) {
+    const graphId = req.params.publicId || req.body.publicId;
+    const graph = await Graphs.findOne({publicId: graphId}).sort({createdAt: -1}).exec();
+    if (!graph || !graphId) {
       throw new Error('Graph not found.');
     }
 
-    const result = await graph
-      .populate('nodes', ['id', 'attributes', 'data'])
-      .populate('edges', ['source', 'target', 'attributes', 'data'])
-      .execPopulate();
-    res.status(200).send(result);
+    res.status(200).send(graph.toJSON());
   } catch (err) {
+    console.log(err)
+    res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
+  }
+};
+
+module.exports.getGraphByInternalId = async (req, res) => {
+  try {
+    const graphId = req.params.internalId || req.body.internalId;
+    const graph = await Graphs.findById(graphId);
+    if (!graph || !graphId) {
+      throw new Error('Graph not found.');
+    }
+
+    res.status(200).send(graph.toJSON());
+  } catch (err) {
+    res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
+  }
+};
+
+module.exports.getBulkGraphRevisions = async (req, res) => {
+  try {
+    const graphId = req.params.publicId || req.body.publicId;
+    const limit = req.params.limit || req.body.limit;
+    let graph = Graphs.find({publicId: graphId}).sort({createdAt: -1});
+    if (limit) {
+      graph = graph.limit(limit);
+    }
+
+    graph = await graph.exec();
+
+    if (!graph || !graphId) {
+      throw new Error('Graph not found.');
+    }
+
+    res.status(200).send(graph);
+  } catch (err) {
+    console.log(err);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };
 
 module.exports.updateGraph = async (req, res) => {
   try {
-    const graph = await Graphs.findOne({publicId: req.params.publicId || req.body.publicId});
-    if (!graph || !(req.params.publicId || req.body.publicId)) {
+    const graphId = req.params.publicId || req.body.publicId;
+    const graph = await Graphs.findOne({publicId: graphId});
+    if (!graph || !graphId) {
       throw new Error('Parent graph does not exist.');
     }
 
     const graphDoc = new Graphs({
-      user: req.body.user,
-      isPublic: req.body.nodes && req.body.data.shared,
-      publicId: req.body.publicId,
+      user: req.user,
+      isPublic: req.body.nodes && req.body.data?.shared,
+      publicId: graphId,
       name: req.body.name || '',
-      nodes: req.body.nodes.map((node) => new Vertex(node)),
-      edges: req.body.edges.map((edge) => new Edge(edge))
+      nodes: req.body.nodes,
+      edges: req.body.edges
     });
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());
@@ -50,11 +85,11 @@ module.exports.updateGraph = async (req, res) => {
 module.exports.createGraph = async (req, res) => {
   try {
     const graphDoc = new Graphs({
-      user: req.body.user,
-      isPublic: req.body.nodes && req.body.data.shared,
+      user: req.user,
+      isPublic: req.body.nodes && req.body.data?.shared,
       name: req.body.name || '',
-      nodes: req.body.nodes.map((node) => new Vertex(node)),
-      edges: req.body.edges.map((edge) => new Edge(edge))
+      nodes: req.body.nodes,
+      edges: req.body.edges
     });
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());

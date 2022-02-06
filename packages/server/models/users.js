@@ -41,11 +41,6 @@ const usersSchema = new Schema(
         }
       }
     },
-    graphs: {
-      type: [Graphs],
-      ref: 'Graphs',
-      default: []
-    },
     password: {
       type: Schema.Types.String,
       required: false,
@@ -203,7 +198,6 @@ usersSchema.methods.setToken = function (purpose, expiresIn = 1) {
   const expirationDate = new Date();
   expirationDate.setHours(expirationDate.getHours() + expiresIn);
   this.tokenExpiration = expirationDate;
-  this.save();
 };
 
 usersSchema.methods.setVerifyEmailToken = function () {

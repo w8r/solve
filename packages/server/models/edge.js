@@ -3,11 +3,13 @@ const { Schema } = require('mongoose');
 const EdgeSchema = new Schema({
   data: {
     type: Object,
-    required: false
+    required: false,
+    default: {}
   },
   attributes: {
     type: Object,
-    required: true
+    required: false,
+    default: {}
   },
   source: {
     type: Schema.Types.String,
