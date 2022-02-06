@@ -14,6 +14,7 @@ import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from './types';
 import Dashboard from '../screens/Dashboard';
 import Profile from '../screens/Profile';
+import Viewer from '../screens/Viewer';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -63,6 +64,7 @@ function TabOneNavigator() {
   return (
     <TabOneStack.Navigator headerMode="none">
       <TabOneStack.Screen name="Dashboard" component={Dashboard} />
+      <TabOneStack.Screen name="Viewer" component={Viewer} />
     </TabOneStack.Navigator>
   );
 }

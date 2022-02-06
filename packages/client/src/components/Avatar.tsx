@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Avatar, Badge, Text, useTheme } from 'native-base';
+import { Avatar, Badge } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 //import { theme } from '../core/theme';
 import { isWeb } from '../constants/device';
@@ -11,7 +11,7 @@ export const ProfileButton: FC = () => {
   //#084783;
   const { user } = useAuth();
   const { navigate } = useNavigation();
-  const onUserPress = () => navigate('Profile');
+  const onUserPress = () => navigate('App', { screen: 'TabTwo' });
 
   return (
     <TouchableOpacity onPress={onUserPress} style={styles.container}>
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     top: 10 + (isWeb ? 0 : 20),
     right: 10 + (isWeb ? 20 : 0),
     alignContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    zIndex: 1
   },
   icon: {
     width: 32,

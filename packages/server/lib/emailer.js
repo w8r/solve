@@ -30,6 +30,7 @@ const getTemplate = async (templateName) => {
  * @returns Promise<SMTPTransport.SentMessageInfo>
  */
 module.exports.sendVerificationEmail = async (toEmail, verificationCode) => {
+  if (!config.email.enabled) return Promise.resolve();
   const template = await getTemplate('verify_email');
   const emailbody = template({
     title: `${config.app.title}: Verify your email`,

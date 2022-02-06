@@ -38,6 +38,7 @@ function request<T>(
         method.toUpperCase(),
         AppConfig.apiUrl + path
       );
+
       transport
         .request({
           url: path,

@@ -38,10 +38,11 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
     );
   }
 
-  const onAuthSuccess = ({ user, token }: UserAndToken) => {
+  const onAuthSuccess = ({ user: userData, token }: UserAndToken) => {
     setToken(token);
+    setUser(userData);
     setAuthenticated(true);
-    setUser(user);
+
     return AsyncStorage.setItem(TOKEN_KEY, token);
   };
 

@@ -14,6 +14,7 @@ module.exports = {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
   email: {
+    enabled: process.env.EMAIL_ENABLED !== 'false',
     service: process.env.EMAIL_SERVICE,
     username: process.env.EMAIL_ID,
     password: process.env.EMAIL_PASSWORD,

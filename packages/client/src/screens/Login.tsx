@@ -40,6 +40,7 @@ export default function Login({ navigation }: LoginProps) {
       onSubmit: (values) => {
         setIsLoading(true);
         login(values.email, values.password).catch((err) => {
+          console.log(err);
           if (err && err.error) {
             const {
               error: { code, message }
