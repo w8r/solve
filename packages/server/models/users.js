@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/development');
 const constants = require('../config/constants');
 const { v4: uuidv4 } = require('uuid');
+const Graphs = require('./graphs');
 
 const providerDataSchema = new Schema({
   userId: {
@@ -197,7 +198,6 @@ usersSchema.methods.setToken = function (purpose, expiresIn = 1) {
   const expirationDate = new Date();
   expirationDate.setHours(expirationDate.getHours() + expiresIn);
   this.tokenExpiration = expirationDate;
-  this.save();
 };
 
 usersSchema.methods.setVerifyEmailToken = function () {

@@ -1,26 +1,22 @@
-const { Schema, model } = require('mongoose');
+const { Schema } = require('mongoose');
 
 const EdgeSchema = new Schema({
-  data: Object,
-  attributes: Object,
-
+  data: {
+    type: Object,
+    required: false,
+    default: {}
+  },
+  attributes: {
+    type: Object,
+    required: false,
+    default: {}
+  },
   source: {
     type: Schema.Types.String,
     required: true
   },
   target: {
     type: Schema.Types.String,
-    required: true
-  },
-
-  _source: {
-    type: Schema.Types.ObjectId,
-    ref: 'Vertex',
-    required: true
-  },
-  _target: {
-    type: Schema.Types.ObjectId,
-    ref: 'Vertex',
     required: true
   }
 });
@@ -34,4 +30,4 @@ EdgeSchema.methods.toJSON = function () {
   return data;
 };
 
-module.exports = model('Edge', EdgeSchema);
+module.exports = EdgeSchema;

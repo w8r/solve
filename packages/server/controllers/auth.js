@@ -46,7 +46,6 @@ module.exports.signupLocal = async (req, res, next) => {
     }
 
     return user.save((err, user) => {
-      console.log({ err, user });
       if (err) return res.status(500).json({ error });
       return res.status(200).json({
         user: user.toJSON(),

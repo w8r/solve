@@ -1,21 +1,20 @@
-const { Schema, model } = require('mongoose');
+const { Schema } = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const VertexSchema = new Schema({
   id: {
     type: String,
-    required: true
+    default: uuidv4
   },
-  graph: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Graphs'
-  }],
   data: {
     type: Object,
-    required: false
+    required: false,
+    default: {}
   },
   attributes: {
     type: Object,
-    required: true
+    required: false,
+    default: {}
   }
 });
 
@@ -26,6 +25,6 @@ VertexSchema.methods.toJSON = function () {
   delete data.__v;
 
   return data;
-}
+};
 
-module.exports = model('Vertex', VertexSchema);
+module.exports = VertexSchema;

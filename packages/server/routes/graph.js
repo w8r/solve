@@ -4,16 +4,14 @@ const GraphController = require('../controllers/graph');
 
 const router = express.Router();
 
-router.get('/:id', auth, GraphController.getGraph);
-router.post('/:id', auth, GraphController.updateGraph);
+router.get('/:publicId', auth, GraphController.getBulkGraphRevisions);
+router.get('/internal/:internalId', auth, GraphController.getGraphByInternalId);
+router.get('/:publicId/latest', auth, GraphController.getLatestGraphRevision);
+router.post('/', auth, GraphController.createGraph);
+router.put('/:publicId', auth, GraphController.updateGraph);
 
 // preview
 router.get('/:id/preview.svg', GraphController.preview.svg);
 router.get('/:id/preview.png', GraphController.preview.png);
-router.post('/:id/nodes/:nodeId?', auth, GraphController.updateGraphNode);
-router.post('/:id/edges/:edgeId?', auth, GraphController.updateGraphEdge);
-router.post('/nodes/:nodeId', auth, GraphController.updateNode);
-router.post('/edges/:edgeId', auth, GraphController.updateEdge);
-router.put('/:id?', auth, GraphController.createGraph);
 
 module.exports = router;
