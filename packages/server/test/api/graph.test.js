@@ -24,7 +24,11 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
         name: 'Test graph',
         nodes: [
           {
-            id: 'n0'
+            id: 'n0',
+            data: {
+              test: 'hello',
+              test2: 'whats up?'
+            }
           },
           {
             id: 'n1'
@@ -34,7 +38,11 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
           {
             id: 'e0',
             source: 'n0',
-            target: 'n1'
+            target: 'n1',
+            data: {
+              test: 'hmm',
+              test2: 'thats weird'
+            }
           }
         ]
       })
@@ -136,6 +144,19 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
       .expect(({ body: res }) => {
         assert.isArray(res);
         assert.strictEqual(res.length, 2);
+      });
+  });
+
+  it(`GET ${endpoint} - Should search by tag`, async () => {
+    const token = await login();
+
+    await request(app)
+      .post(`/api/graph/search/`)
+      .set(config.jwt.headerName, `Bearer ${token}`)
+      .send({tag: 'hello'})
+      .expect(200)
+      .expect(({ body: res }) => {
+        assert.deepEqual(res[0].tags.includes('hello'), true);
       });
   });
 });

@@ -31,6 +31,9 @@ const graphSchema = new Schema(
     },
     edges: {
       type: [Edge]
+    },
+    tags: {
+      type: [String]
     }
   },
   {
@@ -40,6 +43,8 @@ const graphSchema = new Schema(
 
 // Automatically sort the graphs by creation date in order to get the latest revision first
 graphSchema.index({'createdAt': -1});
+graphSchema.index({'tags': 'text'});
+
 
 graphSchema.statics.findById = (id) => {
   return Graphs.findOne({ _id: id }).exec();

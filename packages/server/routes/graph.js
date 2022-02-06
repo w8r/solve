@@ -5,6 +5,7 @@ const GraphController = require('../controllers/graph');
 const router = express.Router();
 
 router.get('/:publicId', auth, GraphController.getBulkGraphRevisions);
+router.post('/search/', auth, GraphController.searchByTag);
 router.get('/internal/:internalId', auth, GraphController.getGraphByInternalId);
 router.get('/:publicId/latest', auth, GraphController.getLatestGraphRevision);
 router.post('/', auth, GraphController.createGraph);

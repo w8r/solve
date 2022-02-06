@@ -8,17 +8,34 @@ const _ = require('lodash');
 const preview = require('../lib/preview');
 const { messages } = require('../config/constants');
 
+module.exports.searchByTag = async (req, res) => {
+  try {
+    const tag = req.params.tag || req.body.tag;
+    const graph = await Graphs.find({ $text: { $search: tag } })
+      .sort({ createdAt: -1 })
+      .exec();
+    if (!graph || !tag) {
+      throw new Error('Graph not found.');
+    }
+
+    res.status(200).send(graph);
+  } catch (err) {
+    res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
+  }
+};
+
 module.exports.getLatestGraphRevision = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
-    const graph = await Graphs.findOne({publicId: graphId}).sort({createdAt: -1}).exec();
+    const graph = await Graphs.findOne({ publicId: graphId })
+      .sort({ createdAt: -1 })
+      .exec();
     if (!graph || !graphId) {
       throw new Error('Graph not found.');
     }
 
     res.status(200).send(graph.toJSON());
   } catch (err) {
-    console.log(err)
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };
@@ -41,7 +58,7 @@ module.exports.getBulkGraphRevisions = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
     const limit = req.params.limit || req.body.limit;
-    let graph = Graphs.find({publicId: graphId}).sort({createdAt: -1});
+    let graph = Graphs.find({ publicId: graphId }).sort({ createdAt: -1 });
     if (limit) {
       graph = graph.limit(limit);
     }
@@ -54,7 +71,6 @@ module.exports.getBulkGraphRevisions = async (req, res) => {
 
     res.status(200).send(graph);
   } catch (err) {
-    console.log(err);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };
@@ -62,7 +78,7 @@ module.exports.getBulkGraphRevisions = async (req, res) => {
 module.exports.updateGraph = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
-    const graph = await Graphs.findOne({publicId: graphId});
+    const graph = await Graphs.findOne({ publicId: graphId });
     if (!graph || !graphId) {
       throw new Error('Parent graph does not exist.');
     }
@@ -73,7 +89,8 @@ module.exports.updateGraph = async (req, res) => {
       publicId: graphId,
       name: req.body.name || '',
       nodes: req.body.nodes,
-      edges: req.body.edges
+      edges: req.body.edges,
+      tags: extractTags(req.body)
     });
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());
@@ -89,7 +106,8 @@ module.exports.createGraph = async (req, res) => {
       isPublic: req.body.nodes && req.body.data?.shared,
       name: req.body.name || '',
       nodes: req.body.nodes,
-      edges: req.body.edges
+      edges: req.body.edges,
+      tags: extractTags(req.body)
     });
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());
@@ -105,6 +123,30 @@ const getPreviewData = (graphId) =>
       .populate('edges', ['source', 'target', 'attributes'])
       .execPopulate()
   );
+
+const extractTags = (req) => {
+  const tags = [];
+  for (const node of req.nodes) {
+    if (node.data) {
+      for (const tag of Object.values(node.data)) {
+        tags.push(tag);
+      }
+    }
+  }
+  for (const edge of req.edges) {
+    if (edge.data) {
+      for (const tag of Object.values(edge.data)) {
+        tags.push(tag);
+      }
+    }
+  }
+
+  if (req.name) {
+    tags.push(req.name);
+  }
+
+  return tags;
+};
 
 module.exports.preview = {
   svg: (req, res) => {
