@@ -8,7 +8,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-.yarn
+.yarn/*
 .env*
 .env.test
 __tests__
@@ -17,3 +17,5 @@ __tests__
 .DS_Store
 __generated__
 .vscode/launch.json
+.pnp.*
+
