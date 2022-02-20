@@ -15,7 +15,7 @@ import { getShortName } from '../lib/user';
 
 export default function Profile() {
   const { user, logout } = useAuth();
-  console.log(user);
+  if (!user) return null;
   return (
     <ScrollView>
       <Center>

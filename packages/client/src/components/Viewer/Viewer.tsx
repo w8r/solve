@@ -214,7 +214,7 @@ export function Viewer({
 
   const onWheel = (evt: WheelEvent) => {
     const { deltaY } = evt;
-    const newZoom = clamp(state.k + deltaY / 100, minScale, maxScale);
+    const newZoom = clamp(state.k - deltaY / 100, minScale, maxScale);
 
     setState({
       ...state,

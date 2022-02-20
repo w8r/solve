@@ -17,16 +17,13 @@ import AuthNavigator from './AuthNavigator';
 export default function Navigation({
   colorScheme
 }: {
-  colorScheme: ColorSchemeName;
+  colorScheme?: ColorSchemeName;
 }) {
   const { loading } = useAuth();
   // TODO: Load resources
   if (loading) return <AppLoading />;
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer linking={LinkingConfiguration} theme={DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
   );

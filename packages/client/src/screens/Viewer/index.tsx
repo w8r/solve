@@ -16,7 +16,7 @@ const Wrapper = ({ width, height }: { width: number; height: number }) => {
         },
         {
           id: 1,
-          attributes: { x: 10, y: 10, r: 5, color: 'blue' }
+          attributes: { x: 10, y: 10, r: 5, color: 'pink' }
         },
         {
           id: 2,

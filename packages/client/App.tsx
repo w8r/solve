@@ -20,7 +20,7 @@ export default function App() {
       <NativeBaseProvider>
         <SafeAreaProvider>
           <AuthProvider>
-            <Navigation colorScheme={colorScheme} />
+            <Navigation />
             <StatusBar />
           </AuthProvider>
         </SafeAreaProvider>
