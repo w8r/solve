@@ -8,18 +8,24 @@ require('dotenv').config({
 });
 
 (async () => {
-  const tunnel = await localtunnel({
-    port: process.env.PORT_HTTPS,
-    local_https: true,
-    local_cert: path.resolve(
-      __dirname,
-      '../packages/client/.expo/web/development/ssl/cert-localhost.pem'
-    ),
-    local_key: path.resolve(
-      __dirname,
-      '../packages/client/.expo/web/development/ssl/key-localhost.pem'
-    )
-  });
+  let tunnel;
+  try {
+    tunnel = await localtunnel({
+      port: process.env.PORT_HTTPS,
+      local_https: true,
+      local_cert: path.resolve(
+        __dirname,
+        '../packages/client/.expo/web/development/ssl/cert-localhost.pem'
+      ),
+      local_key: path.resolve(
+        __dirname,
+        '../packages/client/.expo/web/development/ssl/key-localhost.pem'
+      ),
+      allow_invalid_cert: true
+    });
+  } catch (err) {
+    console.log(chalk.redBright('Tunnel connection failed:', err));
+  }
 
   // the assigned public url for your tunnel
   // i.e. https://abcdefgjhij.localtunnel.me
@@ -45,14 +51,13 @@ require('dotenv').config({
   );
   const conf = JSON.parse(fs.readFileSync(confPath, 'utf8'));
   conf.tunnel = tunnel.url;
-  console.log(conf);
   fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
 
   process.on('exit', () => tunnel.close());
 
   // Detect CTRL+C and close the tunnel
   process.on('SIGINT', () => process.exit());
-  
+
   tunnel.on('close', () => {
     conf.tunnel = null;
     fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
