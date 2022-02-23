@@ -134,7 +134,7 @@ export function resetPassword(
 }
 
 export function getGraph(id: string) {
-  return get(`/api/graphs/${id}`);
+  return get<Graph>(`/api/graph/${id}/latest`);
 }
 
 export function saveGraph(id: string, graph: Graph) {

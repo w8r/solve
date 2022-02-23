@@ -13,6 +13,7 @@ export default {
       Root: {
         screens: {
           App: {
+            path: '/',
             screens: {
               TabOne: {
                 screens: {
@@ -35,10 +36,10 @@ export default {
               Login: 'login',
               Signup: 'signup',
               ResetPassword: {
-               path: 'reset-password/:token?',
-               parse: {
-                 'token': (token: string) => `${token}`
-               }
+                path: 'reset-password/:token?',
+                parse: {
+                  token: (token: string) => `${token}`
+                }
               },
               Onboarding: 'onboarding',
               PasswordChanged: 'password-changed'

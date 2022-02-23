@@ -1,16 +1,27 @@
 export type GraphNode = {
   id: string;
   _id: string;
-  attribtes: Record<string, unknown>;
+  attributes: {
+    r: number;
+    x: number;
+    y: number;
+    color?: string;
+    text?: string;
+  };
   data: Record<string, unknown>;
 };
 
 export type GraphEdge = {
+  id: string;
   source: string;
   target: string;
   _source: string;
   _target: string;
   _id: string;
+  attributes: {
+    width: number;
+    color: string;
+  };
 };
 
 export type Graph = {

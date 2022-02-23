@@ -2,7 +2,6 @@ import React from 'react';
 import { Box, Center, FlatList, ScrollView } from 'native-base';
 
 export default function Placeholder() {
-  console.log('Placeholder');
   return (
     <ScrollView>
       <Box padding="10" flex={1} p="5">

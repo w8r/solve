@@ -1,6 +1,6 @@
-import { ExpoWebGLRenderingContext, GLView } from "expo-gl";
-import { Renderer } from "expo-three";
-import { positionThreeCamera, pointOnLine } from "./utils";
+import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
+import { Renderer } from 'expo-three';
+import { positionThreeCamera, pointOnLine } from './utils';
 import {
   PerspectiveCamera,
   Scene,
@@ -10,14 +10,14 @@ import {
   MeshBasicMaterial,
   Color,
   Vector3,
-  Shape,
-} from "three";
+  Shape
+} from 'three';
 
 // @ts-ignore
-import { Text } from "troika-three-text";
-import { Quadtree, quadtree } from "d3-quadtree";
-import { Graph, GraphEdge, GraphNode } from "./types";
-import { LineMesh, basicMaterial, dashedMaterial } from "./line-mesh-2d";
+import { Text } from 'troika-three-text';
+import { Quadtree, quadtree } from 'd3-quadtree';
+import { Graph, GraphEdge, GraphNode } from '../../types/graph';
+import { LineMesh, basicMaterial, dashedMaterial } from './line-mesh-2d';
 
 const FOV = 80;
 
@@ -31,7 +31,7 @@ function getEdgePoints(source: GraphNode, target: GraphNode) {
 
   return [
     [sx, sy, 0],
-    [tx, ty, 0],
+    [tx, ty, 0]
   ];
 
   // special case for the arrows and other stuff
@@ -89,7 +89,7 @@ function getArrowPoints(
   return [
     [v1x, v1y],
     [B.x, B.y],
-    [v2x, v2y],
+    [v2x, v2y]
   ];
 }
 
@@ -169,17 +169,17 @@ export class App {
       [-20, 0],
       [0, 20],
       [20, 0],
-      [0, -20],
+      [0, -20]
     ];
     const material = dashedMaterial({
       thickness: 0.05,
       color: new Color(color),
       opacity: 0.5,
-      dashSteps: 100,
+      dashSteps: 100
     });
     //const dashMaterial = dashedMaterial({ thickness: 2 });
     const geometry = new LineMesh(points, {
-      distances: true,
+      distances: true
     });
     const mesh = new Mesh(geometry, material);
 
@@ -214,11 +214,11 @@ export class App {
     nodes.forEach((node, i) => {
       const {
         id,
-        attributes: { x, y, r, color: rgbColor },
+        attributes: { x, y, r, color: rgbColor }
       } = node;
 
       const material = new MeshBasicMaterial({
-        color: new Color(rgbColor),
+        color: new Color(rgbColor)
       });
       const mesh = new Mesh(circle, material);
       mesh.renderOrder = 1;
@@ -235,13 +235,13 @@ export class App {
 
         text.renderOrder = 2;
         // // Set properties to configure:
-        text.text = "Hello world!";
+        text.text = 'Hello world!';
         text.fontSize = 2;
         text.position.z = 0;
         text.position.x = x;
         text.position.y = y - r;
-        text.anchorX = "center";
-        text.anchorY = "top";
+        text.anchorX = 'center';
+        text.anchorY = 'top';
         text.color = new Color(0xffffff);
 
         this.idToText.set(id, text);
@@ -258,10 +258,10 @@ export class App {
 
     edges.forEach((edge) => {
       const {
-        id,
+        _id: id,
         source,
         target,
-        attributes: { color: rgbColor, width },
+        attributes: { color: rgbColor, width }
       } = edge;
       const sourceNode = idToNode.get(source) as GraphNode;
       const targetNode = idToNode.get(target) as GraphNode;
@@ -277,11 +277,11 @@ export class App {
       const points = getEdgePoints(sourceNode, targetNode);
       const material = basicMaterial({
         thickness: edge.attributes.width,
-        color: new Color(rgbColor),
+        color: new Color(rgbColor)
       });
       //const dashMaterial = dashedMaterial({ thickness: 2 });
       const geometry = new LineMesh(points, {
-        distances: true,
+        distances: true
       });
       const mesh = new Mesh(geometry, material);
       scene.add(mesh);
@@ -293,7 +293,7 @@ export class App {
       // arrows
       const arrowMaterial = basicMaterial({
         thickness: (2 * edge.attributes.width) / 3,
-        color: new Color(rgbColor),
+        color: new Color(rgbColor)
       });
       const arrowPoints = getArrowPoints(
         sourceNode,
@@ -302,11 +302,11 @@ export class App {
       );
 
       const arrowGeometry = new LineMesh(arrowPoints, {
-        distances: true,
+        distances: true
       });
       const arrowMesh = new Mesh(arrowGeometry, arrowMaterial);
       scene.add(arrowMesh);
-      idToMesh.set(id + "arrow", arrowMesh);
+      idToMesh.set(id + 'arrow', arrowMesh);
     });
 
     this.edgesBySource = edgesBySource;
@@ -329,17 +329,17 @@ export class App {
     nodeMesh.position.x = x;
     nodeMesh.position.y = y;
 
-    let edgeSet = [
+    const edgeSet = [
       ...(this.edgesBySource.get(node.id) || []),
-      ...(this.edgesByTarget.get(node.id) || []),
+      ...(this.edgesByTarget.get(node.id) || [])
     ];
-    edgeSet?.forEach((edge) => {
-      const s = this.idToNode.get(edge.source) as GraphNode;
-      const t = this.idToNode.get(edge.target) as GraphNode;
-      const mesh = this.idToMesh.get(edge.id) as Mesh<LineMesh>;
+    edgeSet?.forEach(({ _id: id, source, target }) => {
+      const s = this.idToNode.get(source) as GraphNode;
+      const t = this.idToNode.get(target) as GraphNode;
+      const mesh = this.idToMesh.get(id) as Mesh<LineMesh>;
       const points = getEdgePoints(s, t);
 
-      const arrow = this.idToMesh.get(edge.id + "arrow") as Mesh<LineMesh>;
+      const arrow = this.idToMesh.get(id + 'arrow') as Mesh<LineMesh>;
       const arrowPoints = getArrowPoints(s, t, t.attributes.r);
       arrow.geometry.update(arrowPoints);
       mesh.geometry.update(points);
