@@ -31,6 +31,9 @@ require('dotenv').config({
   );
 
   process.env.API_URL = tunnel.url;
+  setInterval(() => {
+    console.log(chalk.green('Tunnel heartbeat.'));
+  }, 60000);
 
   const confPath = path.join(
     process.cwd(),
@@ -46,6 +49,10 @@ require('dotenv').config({
   fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
 
   process.on('exit', () => tunnel.close());
+
+  // Detect CTRL+C and close the tunnel
+  process.on('SIGINT', () => process.exit());
+  
   tunnel.on('close', () => {
     conf.tunnel = null;
     fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
