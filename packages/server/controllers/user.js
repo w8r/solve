@@ -10,7 +10,8 @@ module.exports.status = ({ user }, res, next) => {
 };
 
 const toHeader = (graph) => ({
-  id: graph._id,
+  id: graph.publicId,
+  internalId: graph._id,
   nodes: graph.get('nodes').length,
   edges: graph.get('edges').length,
   data: graph.data
