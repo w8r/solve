@@ -13,12 +13,14 @@ import {
 } from 'native-base';
 import * as Validator from 'yup';
 import { useFormik as useForm } from 'formik';
-import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
+import { Linking, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
+import * as Linker from 'expo-linking';
 
 import { LoginProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';
 import { useAuth } from '../hooks/useAuth';
+import { redirectTo } from '../navigation/LinkingUtils';
 
 const LoginSchema = Validator.object().shape({
   password: Validator.string()
@@ -110,7 +112,7 @@ export default function Login({ navigation }: LoginProps) {
             }}
             alignSelf="flex-end"
             mt="1"
-            href="reset-password"
+            onPress={() => redirectTo('auth/reset-password')}
           >
             Forgot Password?
           </Link>
@@ -134,7 +136,7 @@ export default function Login({ navigation }: LoginProps) {
               fontWeight: 'medium',
               fontSize: 'sm'
             }}
-            href="signup"
+            onPress={() => redirectTo('auth/signup')}
           >
             Sign Up
           </Link>

@@ -29,10 +29,17 @@ export default {
             }
           },
           Auth: {
+            path: 'auth',
+            initialRouteName: 'Onboarding',
             screens: {
               Login: 'login',
               Signup: 'signup',
-              ResetPassword: 'reset-password/:token?',
+              ResetPassword: {
+               path: 'reset-password/:token?',
+               parse: {
+                 'token': (token: string) => `${token}`
+               }
+              },
               Onboarding: 'onboarding',
               PasswordChanged: 'password-changed'
             }

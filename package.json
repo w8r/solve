@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Solve app",
   "main": "index.js",
+  "private": true,
   "workspaces": [
     "packages/*"
   ],
@@ -26,5 +27,5 @@
     "localtunnel": "^2.0.1",
     "ngrok": "^4.1.0"
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.2.0"
 }

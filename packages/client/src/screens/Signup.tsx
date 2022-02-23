@@ -19,6 +19,7 @@ import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';
 import * as api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
+import { redirectTo } from '../navigation/LinkingUtils';
 
 const SignupSchema = Validator.object().shape({
   name: Validator.string().min(4).max(128),
@@ -179,7 +180,7 @@ export default function Signup({ navigation }: SignupProps) {
               fontWeight: 'medium',
               fontSize: 'sm'
             }}
-            href="login"
+            onPress={() => redirectTo('auth/login')}
           >
             Log in
           </Link>
