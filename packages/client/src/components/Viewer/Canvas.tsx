@@ -1,12 +1,12 @@
-import * as React from "react";
-import { useEffect } from "react";
-import { useState, forwardRef } from "react";
-import { ExpoWebGLRenderingContext, GLView } from "expo-gl";
-import { StyleSheet, ViewProps } from "react-native";
-import { App } from "./App";
-import { Transform } from "./utils";
-import { Graph } from "./types";
-import { useVis } from "./context";
+import * as React from 'react';
+import { useEffect } from 'react';
+import { useState, forwardRef } from 'react';
+import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
+import { StyleSheet, ViewProps } from 'react-native';
+import { App } from './App';
+import { Transform } from './utils';
+import { Graph } from '../../types/graph';
+import { useVis } from './context';
 
 type CanvasProps = ViewProps & {
   onWheel?: (e: WheelEvent) => void;
@@ -52,7 +52,7 @@ export const Canvas = forwardRef(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%",
-    height: "100%",
-  },
+    width: '100%',
+    height: '100%'
+  }
 });

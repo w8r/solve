@@ -1,7 +1,7 @@
-import * as React from "react";
-import { createContext, FC, useContext, useState } from "react";
-import { App } from "./App";
-import { Graph } from "./types";
+import * as React from 'react';
+import { createContext, FC, useContext, useState } from 'react';
+import { App } from './App';
+import { Graph } from '../../types/graph';
 
 export type VisState = {
   graph: Graph;
@@ -11,12 +11,12 @@ export type VisState = {
 };
 
 export const VisContext = createContext<VisState>({
-  graph: { nodes: [], edges: [] },
+  graph: { nodes: [], edges: [] }
 } as any as VisState);
 
 export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
   const [app, setApp] = useState<App | null>(null);
-  const [graph, setGraph] = useState<Graph>({ nodes: [], edges: [] });
+  const [graph, setGraph] = useState<Graph>({ id: '', nodes: [], edges: [] });
   return (
     <VisContext.Provider value={{ app, setApp, setGraph, graph } as VisState}>
       {children}

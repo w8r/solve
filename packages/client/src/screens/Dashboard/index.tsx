@@ -19,8 +19,6 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
   const isFocused = useIsFocused();
 
-  console.log(graphs);
-
   useEffect(() => {
     if (isFocused && !requested && !isLoading) {
       setLoading(true);

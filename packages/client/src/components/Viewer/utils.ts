@@ -1,6 +1,6 @@
-import { ZoomTransform } from "d3-zoom";
-import { NumberKeyframeTrack, PerspectiveCamera, Vector3 } from "three";
-import { Graph } from "./types";
+import { ZoomTransform } from 'd3-zoom';
+import { NumberKeyframeTrack, PerspectiveCamera, Vector3 } from 'three';
+import { Graph } from '../../types/graph';
 export interface Point {
   x: number;
   y: number;
@@ -21,7 +21,7 @@ export function distance(x1: number, y1: number, x2: number, y2: number) {
 export function center(x1: number, y1: number, x2: number, y2: number) {
   return {
     x: (x1 + x2) / 2,
-    y: (y1 + y2) / 2,
+    y: (y1 + y2) / 2
   };
 }
 
@@ -45,7 +45,7 @@ export function getZFromScale(scale: number, fov: number, height: number) {
 
 export function positionThreeCamera(
   camera: PerspectiveCamera,
-  t: Pick<ZoomTransform, "x" | "y" | "k">,
+  t: Pick<ZoomTransform, 'x' | 'y' | 'k'>,
   w: number,
   h: number,
   fov: number
@@ -139,7 +139,7 @@ function translate(
 function invert(transform: Transform, x: number, y: number) {
   return {
     x: (x - transform.x) / transform.k,
-    y: (y - transform.y) / transform.k,
+    y: (y - transform.y) / transform.k
   };
 }
 

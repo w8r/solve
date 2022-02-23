@@ -4601,6 +4601,7 @@ __metadata:
     "@types/d3-zoom": ^3.0.1
     "@types/react": ~16.9.35
     "@types/react-native": ~0.63.2
+    "@types/three": ^0.137.0
     as-number: ^1.0.0
     axios: ^0.21.1
     d3-quadtree: ^3.0.1
@@ -5378,6 +5379,13 @@ __metadata:
   version: 1.0.8
   resolution: "@types/tapable@npm:1.0.8"
   checksum: b4b754dd0822c407b8f29ef6b766490721c276880f9e976d92ee2b3ef915f11a05a2442ae36c8978bcd872ad6bc833b0a2c4d267f2d611590668a366bad50652
+  languageName: node
+  linkType: hard
+
+"@types/three@npm:^0.137.0":
+  version: 0.137.0
+  resolution: "@types/three@npm:0.137.0"
+  checksum: 32674dd002b0f249b995167b52e0e4d21af314260339ab09cf6898ae7d1bf000442d1da76673a0fcb5f8164878ba62b61202a1e2175afe2d76de8119d9821e04
   languageName: node
   linkType: hard
 
