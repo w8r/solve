@@ -13,9 +13,6 @@ import {
 } from 'native-base';
 import * as Validator from 'yup';
 import { useFormik as useForm } from 'formik';
-import { Linking, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native';
-import * as Linker from 'expo-linking';
-
 import { LoginProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';

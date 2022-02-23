@@ -25,6 +25,7 @@ export default function BottomTabNavigator() {
     <BottomTab.Navigator
       initialRouteName="TabOne"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBar={(props) => null}
     >
       <BottomTab.Screen
         name="TabOne"

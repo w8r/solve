@@ -116,13 +116,15 @@ module.exports.createGraph = async (req, res) => {
   }
 };
 
-const getPreviewData = (graphId) =>
-  Graphs.findById(graphId).then((graph) =>
+const getPreviewData = (graphId) => {
+  console.log('find', graphId);
+  return Graphs.findById(graphId).then((graph) =>
     graph
       .populate('nodes', ['id', 'attributes'])
       .populate('edges', ['source', 'target', 'attributes'])
       .execPopulate()
   );
+};
 
 const extractTags = (req) => {
   const tags = [];
@@ -150,9 +152,9 @@ const extractTags = (req) => {
 
 module.exports.preview = {
   svg: (req, res) => {
-    getPreviewData(req.params.id)
+    getPreviewData(req.params.publicId)
       .then((graph) => {
-        preview.svg(graph).then((svg) => {
+        return preview.svg(graph).then((svg) => {
           res.setHeader('content-type', 'image/svg+xml');
           res.status(200).send(svg);
         });

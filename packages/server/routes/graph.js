@@ -12,7 +12,7 @@ router.post('/', auth, GraphController.createGraph);
 router.put('/:publicId', auth, GraphController.updateGraph);
 
 // preview
-router.get('/:id/preview.svg', GraphController.preview.svg);
-router.get('/:id/preview.png', GraphController.preview.png);
+router.get('/:publicId/preview.svg', GraphController.preview.svg);
+router.get('/:publicId/preview.png', GraphController.preview.png);
 
 module.exports = router;

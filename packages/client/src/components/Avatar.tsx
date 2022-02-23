@@ -18,7 +18,7 @@ export const ProfileButton: FC = () => {
       <Avatar bg="blueGray.500" size="md">
         {getShortName(user)}
       </Avatar>
-      <Badge rounded="lg" variant="subtle">
+      <Badge rounded="lg" variant="subtle" style={styles.badge}>
         {user.score}
       </Badge>
     </TouchableOpacity>
@@ -28,11 +28,14 @@ export const ProfileButton: FC = () => {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: 10 + (isWeb ? 0 : 20),
-    right: 10 + (isWeb ? 20 : 0),
+    top: 20 + (isWeb ? 0 : 20),
+    right: 20 + (isWeb ? 20 : 0),
     alignContent: 'center',
     alignItems: 'center',
     zIndex: 1
+  },
+  badge: {
+    marginTop: 5
   },
   icon: {
     width: 32,

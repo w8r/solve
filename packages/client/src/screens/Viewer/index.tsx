@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { ViewerProps } from '../../navigation/types';
-import Canvas from '../../components/Canvas';
 
 import { VisProvider, useVis, Viewer } from '../../components/Viewer';
+import { ProfileButton } from '../../components/Avatar';
+import { BottomMenu } from './BottomMenu';
 
 const Wrapper = ({ width, height }: { width: number; height: number }) => {
   const { graph, setGraph } = useVis();
@@ -49,10 +50,13 @@ const Wrapper = ({ width, height }: { width: number; height: number }) => {
 };
 
 export default function ({ route }: ViewerProps) {
+  console.log(route);
   const { width, height } = Dimensions.get('window');
   return (
     <VisProvider>
+      <ProfileButton />
       <Wrapper width={width} height={height} />
+      <BottomMenu />
     </VisProvider>
   );
 }

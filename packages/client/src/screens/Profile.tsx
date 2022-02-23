@@ -43,15 +43,17 @@ export default function Profile() {
 const styles = StyleSheet.create({
   scoreContainer: {
     flex: 1,
-    marginTop: 60,
+    marginTop: 80,
     marginBottom: 30,
     alignContent: 'flex-end'
   },
-  avatarContainer: {},
+  avatarContainer: {
+    marginTop: 80
+  },
   scoreBadge: {
     backgroundColor: '#cccccc'
   },
   avatar: {
-    marginTop: 80
+    marginTop: 100
   }
 });

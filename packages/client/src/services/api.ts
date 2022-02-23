@@ -143,12 +143,10 @@ export function saveGraph(id: string, graph: Graph) {
 }
 
 export function getGraphPreviewURL(id: string) {
-  return (
-    AppConfig.apiUrl + `/api/graphs/${id}/preview.${isWeb ? 'svg' : 'png'}`
-  );
+  return AppConfig.apiUrl + `/api/graph/${id}/preview.${isWeb ? 'svg' : 'png'}`;
 }
 
-export function getUserGraphs(id: string) {
+export function getUserGraphs(id?: string) {
   if (id !== undefined) return post<Graph[]>(`/api/user/${id}/graphs`);
   return post<Graph[]>('/api/user/graphs'); // me
 }

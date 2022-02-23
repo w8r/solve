@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
-import { Box, FlatList } from 'native-base';
+import React from 'react';
+import { Box, FlatList, Image } from 'native-base';
 import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
+import { getGraphPreviewURL } from '../../services/api';
 
 export default function Graphs({ graphs }: { graphs: Graph[] }) {
   const { navigate } = useNavigation();
@@ -26,24 +27,23 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
         style={styles.list}
         contentContainerStyle={styles.listContent}
         numColumns={columns}
-        data={Array(10)
-          .fill(0)
-          .map(() => ({}))}
+        data={graphs}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ index }) => (
-          <TouchableOpacity onPress={() => onPress(index)}>
-            <Box
-              bg="blueGray.200"
-              p="2"
-              rounded="sm"
-              height="40"
-              minWidth="40"
-              marginRight="5"
-              marginLeft="5"
-              marginBottom="10"
-            />
-          </TouchableOpacity>
-        )}
+        renderItem={({ item: graph, index }) => {
+          console.log(index);
+          return (
+            <TouchableOpacity onPress={() => onPress(index)}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: getGraphPreviewURL(graph.id) + `?${Date.now()}`
+                }}
+                width={40}
+                height={40}
+              />
+            </TouchableOpacity>
+          );
+        }}
       />
     </Box>
   );
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 20
   },
+  image: {},
   listContent: {
     width: '100%',
     margin: 0,

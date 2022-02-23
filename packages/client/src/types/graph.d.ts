@@ -14,6 +14,7 @@ export type GraphEdge = {
 };
 
 export type Graph = {
+  id: string;
   data?: Record<string, unknown>;
   nodes: GraphNode[];
   edges: GraphEdge[];
