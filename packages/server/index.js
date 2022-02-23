@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const path = require('path');
 const cors = require('cors');
 const listEndpoints = require('express-list-endpoints');
 const chalk = require('chalk');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 
 require('./db');
 const passport = require('./db/passport');
@@ -34,17 +37,46 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('./routes'));
 
 app.use(passport.initialize());
+console.log(
+  path.resolve(
+    process.cwd(),
+    '../client/.expo/web/development/ssl/key-localhost.pem'
+  )
+);
 
-// app = https.createServer({
-//   key: fs.readFileSync(path.resolve(process.cwd(), '.expo/web/development/ssl/key-localhost.pem'), 'utf8'),
-//   cert: fs.readFileSync(path.resolve(process.cwd(), '.expo/web/development/ssl/cert-localhost.pem'), 'utf8')
-// }, app)
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(
+  {
+    key: fs.readFileSync(
+      path.resolve(
+        process.cwd(),
+        '../client/.expo/web/development/ssl/key-localhost.pem'
+      ),
+      'utf8'
+    ),
+    cert: fs.readFileSync(
+      path.resolve(
+        process.cwd(),
+        '../client/.expo/web/development/ssl/cert-localhost.pem'
+      ),
+      'utf8'
+    )
+  },
+  app
+);
 
-app.listen(config.port, () => {
+httpServer.listen(config.httpPort, () => {
   displayAllEndpoints(app);
-  console.log(`Server listening on port ${config.port}`);
+  console.log(
+    chalk.cyanBright(`[*] Server listening on port ${config.httpPort}`)
+  );
 });
 
+httpsServer.listen(config.httpsPort, () => {
+  console.log(
+    chalk.cyanBright(`[*] Server listening on port ${config.httpsPort}`)
+  );
+});
 // error handler
 // no stracktrace sent to client
 app.use((err, req, res, next) => {

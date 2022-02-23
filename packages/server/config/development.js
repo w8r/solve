@@ -12,7 +12,8 @@ const isNotTest = process.env.NODE_ENV !== 'test';
 
 module.exports = {
   env: process.env.NODE_ENV,
-  port: process.env.PORT,
+  httpPort: process.env.PORT_HTTP,
+  httpsPort: process.env.PORT_HTTPS,
   email: {
     enabled: process.env.EMAIL_ENABLED !== 'false',
     service: process.env.EMAIL_SERVICE,
