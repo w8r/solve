@@ -162,7 +162,7 @@ module.exports.preview = {
       .catch((message) => res.status(404).send({ message }));
   },
   png: (req, res) => {
-    getPreviewData(req.params.id)
+    getPreviewData(req.params.publicId)
       .then((graph) => {
         preview.png(graph).then((buffer) => {
           res.setHeader('content-type', 'image/png');

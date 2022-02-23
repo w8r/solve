@@ -15,7 +15,7 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: graphs[index] ? { graph: graphs[index] } : undefined
+        params: graphs[index] ? { graph: graphs[index].id } : undefined
       }
     });
   };
@@ -30,11 +30,11 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
         data={graphs}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item: graph, index }) => {
-          console.log(index);
           return (
             <TouchableOpacity onPress={() => onPress(index)}>
               <Image
                 style={styles.image}
+                alt=""
                 source={{
                   uri: getGraphPreviewURL(graph.id) + `?${Date.now()}`
                 }}
@@ -61,7 +61,10 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 20
   },
-  image: {},
+  image: {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)'
+  },
   listContent: {
     width: '100%',
     margin: 0,
