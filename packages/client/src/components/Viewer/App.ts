@@ -258,7 +258,7 @@ export class App {
 
     edges.forEach((edge) => {
       const {
-        id,
+        _id: id,
         source,
         target,
         attributes: { color: rgbColor, width }
@@ -329,17 +329,17 @@ export class App {
     nodeMesh.position.x = x;
     nodeMesh.position.y = y;
 
-    let edgeSet = [
+    const edgeSet = [
       ...(this.edgesBySource.get(node.id) || []),
       ...(this.edgesByTarget.get(node.id) || [])
     ];
-    edgeSet?.forEach((edge) => {
-      const s = this.idToNode.get(edge.source) as GraphNode;
-      const t = this.idToNode.get(edge.target) as GraphNode;
-      const mesh = this.idToMesh.get(edge.id) as Mesh<LineMesh>;
+    edgeSet?.forEach(({ _id: id, source, target }) => {
+      const s = this.idToNode.get(source) as GraphNode;
+      const t = this.idToNode.get(target) as GraphNode;
+      const mesh = this.idToMesh.get(id) as Mesh<LineMesh>;
       const points = getEdgePoints(s, t);
 
-      const arrow = this.idToMesh.get(edge.id + 'arrow') as Mesh<LineMesh>;
+      const arrow = this.idToMesh.get(id + 'arrow') as Mesh<LineMesh>;
       const arrowPoints = getArrowPoints(s, t, t.attributes.r);
       arrow.geometry.update(arrowPoints);
       mesh.geometry.update(points);
