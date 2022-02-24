@@ -7,6 +7,7 @@ import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
 import { Graph } from '../../types/graph';
+import CreateNodeDialog from '../../components/CreateNodeDialog';
 
 const Wrapper = ({
   width,
@@ -30,6 +31,8 @@ export default function ({ route }: ViewerProps) {
   const { width, height } = Dimensions.get('window');
   const { params: { graph: graphId } = {} } = route;
   const [graph, setGraph] = useState<Graph>();
+  const [isDialogVisible, setDialogVisible] = useState(false);
+  
   useEffect(() => {
     if (graphId) {
       getGraph(graphId).then((graph) => setGraph(graph));

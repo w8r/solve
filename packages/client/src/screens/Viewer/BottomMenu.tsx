@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Center, Fab, Icon, Menu } from 'native-base';
 import { AntDesign as Icons } from '@expo/vector-icons';
-import React, { FC } from 'react';
+import React, { FC, Props } from 'react';
 import { useVis } from '../../components/Viewer';
 
-export const BottomMenu: FC = () => {
+export default function BottomMenu() {
   const { app } = useVis();
   const onSelect = () => {
     console.log(app);
@@ -35,10 +35,11 @@ export const BottomMenu: FC = () => {
       </Menu>
     </Center>
   );
-};
+}
 
 const styles = StyleSheet.create({
   fab: {
+    flex: 1,
     position: 'absolute',
     bottom: 20,
     right: '50%'
