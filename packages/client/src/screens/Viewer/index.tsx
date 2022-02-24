@@ -42,7 +42,8 @@ export default function ({ route }: ViewerProps) {
     <VisProvider>
       <ProfileButton />
       <Wrapper width={width} height={height} id={graphId || null} />
-      <BottomMenu />
+      <BottomMenu showDialog={() => setDialogVisible(!isDialogVisible)} />
+      <CreateNodeDialog visibility={isDialogVisible} setVisibility={setDialogVisible} />
     </VisProvider>
   );
 }

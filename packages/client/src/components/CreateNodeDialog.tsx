@@ -1,52 +1,65 @@
 import { BottomSheet } from 'react-native-btr';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, View, Text, Button } from 'react-native';
+import { Modal } from 'native-base';
 
+export default function CreateNodeDialog({
+  visibility,
+  setVisibility
+}: {
+  visibility: boolean;
+  setVisibility: (visibility: boolean) => void;
+}) {
+  return (
+    <Modal
+      isOpen={visibility}
+      style={{ justifyContent: 'flex-end', margin: 0 }}
+      isKeyboardDismissable={true}
+      animationPreset="slide"
+      avoidKeyboard={true}
+      closeOnOverlayClick={true}
+    >
+      <View style={styles.bottomNavigationView}>
+        <Text style={styles.closeButton} onPress={() => setVisibility(false)}>
+          Close
+        </Text>
 
-export default function CreateNodeDialog({visibility}: {visibility: boolean}) {
-    const [isVisible, setVisibility] = useState(visibility);
-    return (
-        <SafeAreaView style={styles.container}>
-        <BottomSheet
-            visible={isVisible}
-            onBackButtonPress={() => setVisibility(false)}
-            onBackdropPress={() => setVisibility(false)}
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between'
+          }}
         >
-           <View style={styles.bottomNavigationView}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  padding: 20,
-                  fontSize: 20,
-                }}>
-                Share Using
-              </Text>
-              </View>
-            </View>
-        </BottomSheet>
-        </SafeAreaView>
-    );
+          <Text
+            style={{
+              textAlign: 'center',
+              padding: 20,
+              fontSize: 20
+            }}
+          >
+            Add a new node
+          </Text>
+        </View>
+      </View>
+    </Modal>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E0F7FA',
-  },
   bottomNavigationView: {
     backgroundColor: '#fff',
     width: '100%',
     height: 250,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
+  // top right corner css
+  closeButton: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: 10,
+    backgroundColor: '#fff'
+  }
 });

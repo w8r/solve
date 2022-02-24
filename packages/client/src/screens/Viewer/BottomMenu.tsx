@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Center, Fab, Icon, Menu } from 'native-base';
 import { AntDesign as Icons } from '@expo/vector-icons';
-import React, { FC, Props } from 'react';
+import React, { FC } from 'react';
 import { useVis } from '../../components/Viewer';
 
-export default function BottomMenu() {
+export const BottomMenu = ({showDialog}: {showDialog: () => void}) => {
   const { app } = useVis();
   const onSelect = () => {
     console.log(app);
@@ -30,7 +30,7 @@ export default function BottomMenu() {
           );
         }}
       >
-        <Menu.Item>Create node</Menu.Item>
+        <Menu.Item onPress={showDialog}>Create node</Menu.Item>
         <Menu.Item onPress={onSelect}>Select</Menu.Item>
       </Menu>
     </Center>
