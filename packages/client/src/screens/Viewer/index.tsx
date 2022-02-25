@@ -6,7 +6,7 @@ import { VisProvider, useVis, Viewer } from '../../components/Viewer';
 import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
-import { Graph } from '../../types/graph';
+import { Graph, GraphNode } from '../../types/graph';
 import CreateNodeDialog from '../../components/CreateNodeDialog';
 
 const Wrapper = ({
@@ -22,6 +22,7 @@ const Wrapper = ({
 }) => {
   const { graph, setGraph } = useVis();
   const [isDialogVisible, setDialogVisible] = useState(false);
+  const [nodeData, setNodeData] = useState<GraphNode | null>(null);
 
   useEffect(() => {
     if (id !== null) {
@@ -52,19 +53,77 @@ const Wrapper = ({
     setDialogVisible(false);
   };
 
+  const removeSelected = () => {
+    if (!graph) return;
+    const nodes = graph.nodes.filter((node) => !node.attributes.selected);
+    const nodeIds = nodes.map((node) => node.id);
+    const edges = graph.edges.filter(
+      (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target)
+    );
+
+    const updatedGraph = {
+      ...graph,
+      nodes,
+      edges
+    };
+    setGraph(updatedGraph);
+  };
+
+  const editNode = (name: string, category: string, size: number) => {
+    if (!graph) return;
+    const updatedGraph = {
+      ...graph,
+      nodes: graph.nodes.map((node) => {
+        if (node.attributes.selected) {
+          return {
+            ...node,
+            data: { category },
+            attributes: {
+              ...node.attributes,
+              r: size
+            }
+          };
+        }
+        return node;
+      })
+    };
+    setGraph(updatedGraph);
+    setDialogVisible(false);
+    setNodeData(null);
+  };
+
+  // Should not allow editing if more than one node is selected
+  const getSelectedNode = () => {
+    if (nodeData) return;
+    const selectedNodes = graph.nodes.filter(
+      (node) => node.attributes.selected
+    );
+    const node = selectedNodes.length === 1 ? selectedNodes[0] : null;
+    setNodeData(node);
+  };
+
   if (graph.nodes.length === 0) return null;
 
   return (
     <>
       <Viewer width={width} height={height} graph={graph} />
       <BottomMenu
-        showDialog={() => setDialogVisible(!isDialogVisible)}
+        showDialog={() => setDialogVisible(true)}
         onPreview={onPreviewFn}
+        onRemove={removeSelected}
+        onEdit={() => {
+          getSelectedNode();
+          if (nodeData) {
+            setDialogVisible(true);
+          }
+        }}
       />
       <CreateNodeDialog
+        closeDialog={() => setDialogVisible(false)}
         visibility={isDialogVisible}
-        setVisibility={setDialogVisible}
         addNode={addNode}
+        editNode={editNode}
+        data={nodeData}
       />
     </>
   );

@@ -18,6 +18,7 @@ import {
   Divider
 } from 'native-base';
 import { BottomDrawer, DrawerState } from './BottomDrawer';
+import { GraphNode } from '../types/graph';
 
 const categoryArray = [
   'Money',
@@ -48,27 +49,48 @@ if (LogBox && Platform && Platform.OS !== 'web') {
 
 export default function CreateNodeDialog({
   visibility,
-  setVisibility,
-  addNode
+  closeDialog,
+  addNode,
+  editNode,
+  data
 }: {
   visibility: boolean;
-  setVisibility: (visibility: boolean) => void;
+  closeDialog: () => void;
   addNode: (name: string, category: string, size: number) => void;
+  editNode: (name: string, category: string, size: number) => void;
+  data: GraphNode | null;
 }) {
+  console.log('data', data);
   const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema: NodeDialogSchema,
-      initialValues: { selectedTag: '', name: '', size: 2 },
+      initialValues: {
+        selectedTag: data ? data.data?.category || '' : '',
+        name: data ? data.attributes.text || '' : '',
+        size: data ? data.attributes.r : 3
+      },
       onSubmit: (values) => {
-        addNode(values.name, values.selectedTag, Math.floor(onChangeValue / 2));
+        if (data) {
+          editNode(
+            values.name,
+            values.selectedTag as string,
+            Math.floor(onChangeValue / 2)
+          );
+        } else {
+          addNode(
+            values.name,
+            values.selectedTag as string,
+            Math.floor(onChangeValue / 2)
+          );
+        }
       }
     });
 
-  const [onChangeValue, setOnChangeValue] = React.useState(10);
+  const [onChangeValue, setOnChangeValue] = React.useState(
+    data?.attributes.r || 10
+  );
 
   const nodeNameRef = useRef<any>(null);
-  const tagRef = useRef<string[]>(null);
-  let tags = [];
   if (visibility) {
     return (
       <BottomDrawer
@@ -76,7 +98,7 @@ export default function CreateNodeDialog({
         onDrawerStateChange={(e) => null}
       >
         <View style={styles.bottomNavigationView}>
-          <Text style={styles.closeButton} onPress={() => setVisibility(false)}>
+          <Text style={styles.closeButton} onPress={() => closeDialog()}>
             Close
           </Text>
 
@@ -89,7 +111,7 @@ export default function CreateNodeDialog({
           >
             <FormContainer>
               <Heading size="md" fontWeight="400" color="coolGray.800">
-                Add a new node
+                {data ? 'Edit node' : 'Add a new node'}
               </Heading>
               <VStack space={4} mt="7">
                 <FormControl>
@@ -107,6 +129,7 @@ export default function CreateNodeDialog({
                       handleChange('name')(evt.nativeEvent.text)
                     }
                     onBlur={handleBlur('name')}
+                    value={values.name}
                     onSubmitEditing={() => nodeNameRef.current?.focus()}
                   />
                 </FormControl>
@@ -123,6 +146,7 @@ export default function CreateNodeDialog({
                   <TagGroup
                     singleChoiceMode={true}
                     source={categoryArray}
+                    selected={data?.data?.category || undefined}
                     onSelectedTagChange={(tag: string) =>
                       handleChange('selectedTag')(tag)
                     }

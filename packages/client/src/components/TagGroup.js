@@ -16,7 +16,6 @@ import PropTypes from 'prop-types';
 const propStyle = require('react-style-proptype');
 
 export default class TagGroup extends Component {
-
   static defaultProps = {
     onSelectedTagChange: () =>
       console.log('TagGroup onSelectedTagChange not set.'),
@@ -27,7 +26,9 @@ export default class TagGroup extends Component {
     super(props);
 
     this.state = {
-      tagFlags: props.source.map((value) => false)
+      tagFlags: props.source.map((value) =>
+        props.selected ? props.selected === value : false
+      )
     };
 
     this._tags = [];
@@ -35,8 +36,13 @@ export default class TagGroup extends Component {
 
   shouldComponentUpdate(nextProps) {
     // clear state when source array size changed
+
     if (nextProps.source.length !== this.props.source.length) {
-      this.setState({ tagFlags: nextProps.source.map((value) => false) });
+      this.setState({
+        tagFlags: nextProps.source.map((value) =>
+          nextProps.selected ? nextProps.selected === value : false
+        )
+      });
       for (let i = 0; i < nextProps.source.length; i++) {
         this._tags[i] && this._tags[i].clearState();
       }
@@ -51,7 +57,13 @@ export default class TagGroup extends Component {
         {this.props.source.map((value, index) => (
           <Tag
             key={index}
-            ref={(ref) => (this._tags[index] = ref)}
+            ref={(ref) => {
+              if (this.props.selected && this.props.selected === value) {
+                ref?.setSelected();
+                this.props.selected = null;
+              }
+              this._tags[index] = ref;
+            }}
             text={value}
             {...this.props}
             tagStyle={[styles.tag, this.props.tagStyle]}

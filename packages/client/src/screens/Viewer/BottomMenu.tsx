@@ -8,9 +8,16 @@ import { Graph } from '../../types/graph';
 interface BottomMenuProps {
   showDialog: () => void;
   onPreview: (graph: Graph) => void;
+  onRemove: () => void;
+  onEdit: () => void;
 }
 
-export const BottomMenu: FC<BottomMenuProps> = ({ showDialog, onPreview }) => {
+export const BottomMenu: FC<BottomMenuProps> = ({
+  showDialog,
+  onPreview,
+  onRemove,
+  onEdit
+}) => {
   const { app, startSelection, setIsSelecting } = useVis();
   const onSelect = () => {
     setIsSelecting(true);
@@ -39,6 +46,8 @@ export const BottomMenu: FC<BottomMenuProps> = ({ showDialog, onPreview }) => {
     >
       <Menu.Item onPress={showDialog}>Create node</Menu.Item>
       <Menu.Item onPress={onSelect}>Select</Menu.Item>
+      <Menu.Item onPress={onRemove}>Remove</Menu.Item>
+      <Menu.Item onPress={onEdit}>Edit</Menu.Item>
     </Menu>
   );
 };
