@@ -60,7 +60,7 @@ export default function CreateNodeDialog({
       validationSchema: NodeDialogSchema,
       initialValues: { selectedTag: '', name: '', size: 2 },
       onSubmit: (values) => {
-        addNode(values.name, values.selectedTag, onChangeValue);
+        addNode(values.name, values.selectedTag, Math.floor(onChangeValue / 2));
       }
     });
 
