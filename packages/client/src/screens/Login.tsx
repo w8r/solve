@@ -32,7 +32,7 @@ export default function Login({ navigation }: LoginProps) {
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+  const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema: LoginSchema,
       initialValues: { email: '', password: '' },
@@ -98,7 +98,7 @@ export default function Login({ navigation }: LoginProps) {
             ref={passwordInputRef}
             onChange={(evt) => handleChange('password')(evt.nativeEvent.text)}
             onBlur={handleBlur('password')}
-            onSubmitEditing={() => handleSubmit()}
+            onSubmitEditing={() => submitForm()}
           />
           <FormControl.ErrorMessage>{errors.password}</FormControl.ErrorMessage>
           <Link
@@ -119,7 +119,7 @@ export default function Login({ navigation }: LoginProps) {
           mt="2"
           colorScheme="indigo"
           _text={{ color: 'white' }}
-          onPress={() => handleSubmit()}
+          onPress={() => submitForm()}
         >
           Sign in
         </Button>

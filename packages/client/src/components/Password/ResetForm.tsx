@@ -24,7 +24,7 @@ export function ResetPasswordForm({
 }) {
   const submitRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+  const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema,
       initialValues: { password: '', passwordRepeat: '' },
@@ -91,7 +91,7 @@ export function ResetPasswordForm({
             handleChange('passwordRepeat')(evt.nativeEvent.text)
           }
           onBlur={handleBlur('passwordRepeat')}
-          onSubmitEditing={() => handleSubmit()}
+          onSubmitEditing={() => submitForm()}
         />
         <FormControl.ErrorMessage>
           {errors.passwordRepeat}
@@ -103,7 +103,7 @@ export function ResetPasswordForm({
         mt="2"
         colorScheme="indigo"
         _text={{ color: 'white' }}
-        onPress={() => handleSubmit()}
+        onPress={() => submitForm()}
       >
         Reset password
       </Button>

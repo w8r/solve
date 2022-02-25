@@ -12,7 +12,7 @@ export function ResetPasswordToken() {
   const submitRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+  const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema: PasswordTokenSchema,
       initialValues: { email: '' },
@@ -69,7 +69,7 @@ export function ResetPasswordToken() {
         mt="2"
         colorScheme="indigo"
         _text={{ color: 'white' }}
-        onPress={() => handleSubmit()}
+        onPress={() => submitForm()}
       >
         Reset password
       </Button>

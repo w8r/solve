@@ -41,7 +41,7 @@ export default function Signup({ navigation }: SignupProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { onAuthSuccess } = useAuth();
 
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+  const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema: SignupSchema,
       initialValues: { name: '', email: '', password: '', passwordRepeat: '' },
@@ -155,7 +155,7 @@ export default function Signup({ navigation }: SignupProps) {
               handleChange('passwordRepeat')(evt.nativeEvent.text)
             }
             onBlur={handleBlur('passwordRepeat')}
-            onSubmitEditing={() => handleSubmit()}
+            onSubmitEditing={() => submitForm()}
           />
           <FormControl.ErrorMessage>
             {errors.passwordRepeat}
@@ -166,7 +166,7 @@ export default function Signup({ navigation }: SignupProps) {
           mt="2"
           colorScheme="indigo"
           _text={{ color: 'white' }}
-          onPress={() => handleSubmit()}
+          onPress={() => submitForm()}
         >
           Sign up
         </Button>

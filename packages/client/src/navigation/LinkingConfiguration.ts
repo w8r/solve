@@ -18,7 +18,9 @@ export default {
               TabOne: {
                 screens: {
                   Dashboard: 'dashboard',
-                  Viewer: 'viewer/:graph?'
+                  Viewer: {
+                    path: 'viewer/:graph?'
+                  }
                 }
               },
               TabTwo: {

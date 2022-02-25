@@ -13,6 +13,8 @@ export const ProfileButton: FC = () => {
   const { navigate } = useNavigation();
   const onUserPress = () => navigate('App', { screen: 'TabTwo' });
 
+  if (!user) return null;
+
   return (
     <TouchableOpacity onPress={onUserPress} style={styles.container}>
       <Avatar bg="blueGray.500" size="md">
