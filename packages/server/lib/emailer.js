@@ -61,7 +61,7 @@ module.exports.sendResetPasswordEmail = async (toEmail, verificationCode) => {
     title: `${config.app.title}: Reset your password`,
     content: `You have requested to recover your password at ${config.app.title}. Please follow the link in this email to verify that it was you who requested this change. If it wasn't you, simply ignore this email.`,
     buttonText: 'Reset your password',
-    url: `${config.app.publicUrl}/reset-password/?token=${verificationCode}`,
+    url: `${config.app.publicUrl}/auth/reset-password/?token=${verificationCode}`,
     signature: config.email.signature,
     appTitle: config.app.title,
     publicUrl: config.app.publicUrl

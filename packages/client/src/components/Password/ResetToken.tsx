@@ -40,7 +40,7 @@ export function ResetPasswordToken() {
   if (success)
     return (
       <HStack>
-        <Text>Success!</Text>
+        <Text>Password reset request has been sent. Check your email</Text>
       </HStack>
     );
 

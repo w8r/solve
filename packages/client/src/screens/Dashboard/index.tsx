@@ -37,6 +37,8 @@ export default function Dashboard() {
     }
   }, []);
 
+  console.log(graphs, 1);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* <Hidden till="lg">
