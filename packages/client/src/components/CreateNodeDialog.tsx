@@ -32,7 +32,7 @@ export default function CreateNodeDialog({
   visibility: boolean;
   setVisibility: (visibility: boolean) => void;
 }) {
-  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+  const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema: NodeDialogSchema,
       initialValues: { email: '', password: '' },
@@ -85,7 +85,7 @@ export default function CreateNodeDialog({
                 mt="2"
                 colorScheme="indigo"
                 _text={{ color: 'white' }}
-                onPress={() => handleSubmit()}
+                onPress={() => submitForm()}
               >
                 Add
               </Button>

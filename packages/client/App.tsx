@@ -8,6 +8,7 @@ import { AuthProvider } from './src/contexts/AuthContext';
 import useCachedResources from './src/hooks/useCachedResources';
 import useColorScheme from './src/hooks/useColorScheme';
 import Navigation from './src/navigation';
+import SSRProvider from 'react-bootstrap/SSRProvider'
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -17,14 +18,16 @@ export default function App() {
     return null;
   } else {
     return (
-      <NativeBaseProvider>
-        <SafeAreaProvider>
-          <AuthProvider>
-            <Navigation />
-            <StatusBar />
-          </AuthProvider>
-        </SafeAreaProvider>
-      </NativeBaseProvider>
+      <SSRProvider>
+        <NativeBaseProvider>
+          <SafeAreaProvider>
+            <AuthProvider>
+              <Navigation />
+              <StatusBar />
+            </AuthProvider>
+          </SafeAreaProvider>
+        </NativeBaseProvider>
+      </SSRProvider>
     );
   }
 }
