@@ -10,7 +10,8 @@ import {
   MeshBasicMaterial,
   Color,
   Vector3,
-  Shape
+  Shape,
+  ShaderMaterial
 } from 'three';
 
 // @ts-ignore
@@ -243,7 +244,8 @@ export class App extends EventEmitter {
       } = node;
 
       const material = new MeshBasicMaterial({
-        color: new Color(node.attributes.selected ? 'cyan' : rgbColor)
+        color: new Color(node.attributes.selected ? 'cyan' : rgbColor),
+        transparent: true
       });
       const mesh = new Mesh(circle, material);
       mesh.renderOrder = 1;
@@ -344,6 +346,47 @@ export class App extends EventEmitter {
   }
 
   selectNode() {}
+
+  highlight(graph: Graph | null) {
+    this.nodes.forEach(({ id }) => {
+      // TODO: findout why this is not working
+      const obj = this.idToMesh.get(id)?.material as MeshBasicMaterial;
+    });
+    return;
+
+    if (graph === null) {
+      console.log(this.nodes, this.edges);
+      this.nodes.forEach(
+        ({ id }) =>
+          ((this.idToMesh.get(id)?.material as MeshBasicMaterial).opacity = 1)
+      );
+      this.edges.forEach(({ _id: id }) => {
+        console.log(id);
+        const mesh = this.idToMesh.get(id);
+        const arrowMesh = this.idToMesh.get(id + 'arrow');
+        if (mesh) {
+          // (mesh.material as ShaderMaterial).opacity = 1;
+          // if (arrowMesh) (arrowMesh.material as ShaderMaterial).opacity = 1;
+        }
+      });
+    } else {
+      const included = new Set(graph.nodes.map((node) => node.id));
+      const set = new Set();
+      this.nodes.forEach((node) => {
+        if (!included.has(node.id)) {
+          (
+            this.idToMesh.get(node.id)?.material as MeshBasicMaterial
+          ).opacity = 0.15;
+        } else set.add(node.id);
+      });
+      this.edges
+        .filter((edge) => !set.has(edge.source) && !set.has(edge.target))
+        .forEach(
+          ({ id }) =>
+            ((this.idToMesh.get(id)?.material as ShaderMaterial).opacity = 0.15)
+        );
+    }
+  }
 
   moveNode(node: GraphNode, x: number, y: number) {
     node.attributes.x = x;

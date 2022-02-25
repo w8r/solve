@@ -13,34 +13,38 @@ import {
 import { useAuth } from '../hooks/useAuth';
 import { getShortName } from '../lib/user';
 import { ProfileProps } from '../navigation/types';
+import { BackButton } from '../components/BackButton';
 
 export default function Profile({ navigation }: ProfileProps) {
   const { user, logout } = useAuth();
   if (!user) return null;
   return (
-    <ScrollView>
-      <Center>
-        <Box>
-          <Box style={styles.avatarContainer}>
-            <Avatar size={32} bg="blueGray.700" style={styles.avatar}>
-              {getShortName(user)}
-            </Avatar>
+    <>
+      <BackButton />
+      <ScrollView>
+        <Center>
+          <Box>
+            <Box style={styles.avatarContainer}>
+              <Avatar size={32} bg="blueGray.700" style={styles.avatar}>
+                {getShortName(user)}
+              </Avatar>
+            </Box>
+            <Divider />
+            <Heading>{user.name}</Heading>
+            <Box style={styles.scoreContainer}>
+              <Badge size={88} style={styles.scoreBadge}>
+                {user.score}
+              </Badge>
+            </Box>
+            {/* <Paragraph>{JSON.stringify(user)}</Paragraph> */}
+            <Button onPress={() => navigation.navigate('Dashboard')}>
+              Dashboard
+            </Button>
+            <Button onPress={() => logout()}>Logout</Button>
           </Box>
-          <Divider />
-          <Heading>{user.name}</Heading>
-          <Box style={styles.scoreContainer}>
-            <Badge size={88} style={styles.scoreBadge}>
-              {user.score}
-            </Badge>
-          </Box>
-          {/* <Paragraph>{JSON.stringify(user)}</Paragraph> */}
-          <Button onPress={() => navigation.navigate('Dashboard')}>
-            Dashboard
-          </Button>
-          <Button onPress={() => logout()}>Logout</Button>
-        </Box>
-      </Center>
-    </ScrollView>
+        </Center>
+      </ScrollView>
+    </>
   );
 }
 

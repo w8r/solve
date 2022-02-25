@@ -6,7 +6,8 @@ import { isWeb } from '../constants/device';
 import { Feather as Icons } from '@expo/vector-icons';
 
 export const BackButton: FC = () => {
-  const { navigate, goBack } = useNavigation();
+  const { canGoBack, goBack } = useNavigation();
+  if (!canGoBack()) return null;
   return (
     <TouchableOpacity onPress={() => goBack()} style={styles.container}>
       <Icon as={Icons} name="arrow-left" style={styles.icon} />

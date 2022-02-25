@@ -9,27 +9,37 @@ import { getGraph } from '../../services/api';
 import { Graph, GraphNode } from '../../types/graph';
 import CreateNodeDialog from '../../components/CreateNodeDialog';
 import { BackButton } from '../../components/BackButton';
+import { useNavigation } from '@react-navigation/native';
+import { SelectionDialog } from './SelectionDialog';
 
 const Wrapper = ({
   width,
   height,
-  id,
-  onPreviewFn
+  id
 }: {
   width: number;
   height: number;
   id: string | null;
-  onPreviewFn: (graph: Graph) => void;
 }) => {
-  const { graph, setGraph } = useVis();
+  const { app, graph, setGraph } = useVis();
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [nodeData, setNodeData] = useState<GraphNode | null>(null);
+  const [selected, setSelected] = useState<Graph | null>(null);
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     if (id !== null) {
       getGraph(id).then((response) => setGraph(response));
     }
   }, []);
+
+  const onPreview = (graph: Graph) => {
+    // TODO: save graph here
+    // show selected nodes;
+    app.highlight(graph);
+    setSelected(graph);
+    //navigate('Preview', { graph });
+  };
 
   const addNode = (name: string, category: string, size: number) => {
     if (!graph) return;
@@ -110,7 +120,7 @@ const Wrapper = ({
       <Viewer width={width} height={height} graph={graph} />
       <BottomMenu
         showDialog={() => setDialogVisible(true)}
-        onPreview={onPreviewFn}
+        onPreview={onPreview}
         onRemove={removeSelected}
         onEdit={() => {
           getSelectedNode();
@@ -126,29 +136,30 @@ const Wrapper = ({
         editNode={editNode}
         data={nodeData}
       />
+      <SelectionDialog
+        visible={selected !== null}
+        onProceed={() => {
+          app.highlight(null);
+          console.log('ok');
+        }}
+        onCancel={() => {
+          app.highlight(null);
+          setSelected(null);
+        }}
+      />
     </>
   );
 };
 
-export default function ({ route, navigation }: ViewerProps) {
+export default function ({ route }: ViewerProps) {
   const { params: { graph: graphId } = {} } = route;
   const { width, height } = Dimensions.get('window');
-
-  const onPreview = (graph: Graph) => {
-    // TODO: save graph here
-    navigation.navigate('Preview', { graph });
-  };
 
   return (
     <VisProvider>
       <BackButton />
       <ProfileButton />
-      <Wrapper
-        width={width}
-        height={height}
-        id={graphId || null}
-        onPreviewFn={onPreview}
-      />
+      <Wrapper width={width} height={height} id={graphId || null} />
     </VisProvider>
   );
 }

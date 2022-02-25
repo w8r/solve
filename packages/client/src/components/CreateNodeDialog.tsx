@@ -1,6 +1,6 @@
-import React, { SetStateAction, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Platform, LogBox, StyleSheet, View } from 'react-native';
-import { Modal, Slider } from 'native-base';
+import { Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
 import { FormContainer } from './FormContainer';
 import * as Validator from 'yup';
@@ -10,8 +10,6 @@ import {
   Button,
   Heading,
   VStack,
-  HStack,
-  Link,
   Text,
   FormControl,
   Input,
