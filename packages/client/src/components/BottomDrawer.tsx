@@ -1,4 +1,4 @@
-import React, { useRef, FC, ReactNode } from 'react';
+import React, { useRef, FC, ReactNode, useEffect } from 'react';
 import {
   Animated,
   Dimensions,
@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 
-export const HorizontalLine: FC<{}> = () => (
+const HorizontalLine: FC<{}> = () => (
   <View
     style={{
       marginTop: 10,
@@ -31,7 +31,7 @@ export enum DrawerState {
   Closed = 0
 }
 
-export const animateMove = (
+const animateMove = (
   y: Animated.Value,
   toValue: number | Animated.Value,
   callback?: any
@@ -46,7 +46,7 @@ export const animateMove = (
   });
 };
 
-export const getNextState = (
+const getNextState = (
   currentState: DrawerState,
   val: number,
   margin: number
@@ -78,17 +78,23 @@ export const getNextState = (
 interface BottomDrawerProps {
   children?: ReactNode;
   onDrawerStateChange: (nextState: DrawerState) => void;
+  initialState?: DrawerState;
 }
 
 export const BottomDrawer: FC<BottomDrawerProps> = ({
   children,
-  onDrawerStateChange
+  onDrawerStateChange,
+  initialState = DrawerState.Closed
 }) => {
   const { height } = Dimensions.get('window');
   const y = useRef(new Animated.Value(DrawerState.Closed)).current;
   const state = useRef(new Animated.Value(DrawerState.Closed)).current;
   const margin = 0.05 * height;
   const movementValue = (moveY: number) => height - moveY;
+
+  useEffect(() => {
+    animateMove(y, initialState);
+  }, []);
 
   const onPanResponderMove = (
     _: GestureResponderEvent,

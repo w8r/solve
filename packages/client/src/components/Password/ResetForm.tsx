@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { FormControl, Input, Text, Button, HStack } from 'native-base';
+import { FormControl, Input, Button } from 'native-base';
 import * as Validator from 'yup';
 import { useFormik as useForm } from 'formik';
 import * as api from '../../services/api';
