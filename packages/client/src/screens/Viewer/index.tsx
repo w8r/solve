@@ -25,7 +25,6 @@ const Wrapper = ({
 
   useEffect(() => {
     if (id !== null) {
-      console.log('id', id);
       getGraph(id).then((response) => setGraph(response));
     }
   }, []);
@@ -43,8 +42,7 @@ const Wrapper = ({
             r: size,
             x: 0,
             y: 0,
-            color: 'blue',
-            text: name
+            color: 'blue'
           },
           data: { category }
         }
@@ -53,6 +51,8 @@ const Wrapper = ({
     setGraph(updatedGraph);
     setDialogVisible(false);
   };
+
+  if (graph.nodes.length === 0) return null;
 
   return (
     <>

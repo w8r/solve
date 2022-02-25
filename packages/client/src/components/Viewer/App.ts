@@ -216,7 +216,7 @@ export class App extends EventEmitter {
   }
 
   setGraph({ nodes, edges }: Graph) {
-    const { scene, width, height } = this;
+    const { scene } = this;
     scene.clear();
 
     this.edgeMeshes = [];

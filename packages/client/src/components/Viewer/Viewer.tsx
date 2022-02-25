@@ -99,7 +99,7 @@ export function Viewer({
       20
     );
     setState({ ...state, ...transform });
-  }, [graph]);
+  }, []);
 
   const processPinch = (x1: number, y1: number, x2: number, y2: number) => {
     const distance = calcDistance(x1, y1, x2, y2);
