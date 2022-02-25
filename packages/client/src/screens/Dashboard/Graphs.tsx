@@ -30,7 +30,6 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
         data={graphs}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item: graph, index }) => {
-          console.log(graph);
           return (
             <TouchableOpacity onPress={() => onPress(index)}>
               <Image

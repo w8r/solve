@@ -107,7 +107,9 @@ export function getBoundsTransform(
   const hh = canvasHeight / 2;
 
   const scale =
-    w === 0 || h === 0 ? 8 : Math.min(hw / (w + padding), hh / (h + padding));
+    w === 0 || h === 0
+      ? 8
+      : Math.min(hw / (w + padding * 2), hw / (h + padding * 2));
 
   return { x: cx * scale, y: cy * scale, k: scale };
 }

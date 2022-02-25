@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   ViewProps,
   PanResponderGestureState,
@@ -58,7 +58,6 @@ export function Viewer({
   height = 720,
   minScale = 0.0001,
   maxScale = 1000.0,
-  initialZoom = 1.0,
   graph
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
@@ -66,41 +65,41 @@ export function Viewer({
   const dppx = PixelRatio.get();
 
   const { minX, minY, maxX, maxY } = graphBbox(graph);
-  const transform = graph.nodes.length
-    ? getBoundsTransform(
-        minX,
-        minY,
-        maxX,
-        maxY,
-        width * dppx,
-        height * dppx,
-        20
-      )
-    : { x: 0, y: 0, k: 1 };
-
-  initialZoom = transform.k;
-  const top = transform.y;
-  const left = transform.x;
-  //this.setView(transform.x, transform.y, transform.k);
 
   const [state, setState] = useState<ViewerState>({
+    // gesture state
     isMoving: false,
     isScaling: false,
     isDragging: null,
-    initialDistance: 1,
 
-    x: transform.x,
-    y: transform.y,
-    k: initialZoom,
+    // transform
+    x: 0,
+    y: 0,
+    k: 1,
 
+    // intermediate state
     initialZoom: 0,
     initialLeft: 0,
     initialTop: 0,
     initialX: 0,
     initialY: 0,
     dragOffsetX: 0,
-    dragOffsetY: 0
+    dragOffsetY: 0,
+    initialDistance: 1
   });
+
+  useEffect(() => {
+    const transform = getBoundsTransform(
+      minX,
+      minY,
+      maxX,
+      maxY,
+      width * dppx,
+      height * dppx,
+      20
+    );
+    setState({ ...state, ...transform });
+  }, [graph]);
 
   const processPinch = (x1: number, y1: number, x2: number, y2: number) => {
     const distance = calcDistance(x1, y1, x2, y2);

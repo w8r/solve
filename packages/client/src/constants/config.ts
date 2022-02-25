@@ -2,8 +2,6 @@ import { isWeb } from './device';
 import { tunnel } from './env.json';
 import { SERVER_PUBLIC_URL, API_URL } from '@env';
 
-console.log({ SERVER_PUBLIC_URL });
-
 // @ts-ignore
 const devMode = process.env.NODE_ENV !== 'development';
 
