@@ -9,8 +9,9 @@ import { BottomDrawer, DrawerState } from '../../components/BottomDrawer';
 import { IconButton, Spinner } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
 import { View } from '../../components/Themed';
+import { shareGraph } from '../../services/api';
 
-const Form: FC<{ onSave }> = ({ onSave }) => {
+const Form: FC<{ setName: (name: string) => void }> = ({}) => {
   return (
     <>
       <View style={styles.info}>
@@ -40,6 +41,7 @@ export const Preview: FC<PreviewProps> = ({ route, navigation }) => {
     nodes: [],
     edges: []
   });
+  const [name, setName] = useState('');
 
   useEffect(() => {
     setGraph(route.params.graph);
@@ -47,23 +49,37 @@ export const Preview: FC<PreviewProps> = ({ route, navigation }) => {
 
   const onSave = () => {
     setLoading(true);
-    setTimeout(() => {
+    shareGraph(graph, graph.id).then((response) => {
+      console.log(response);
       setSaved(true);
-    }, 2000);
+      setLoading(false);
+    });
   };
+
+  const buttonOpacity = isLoading ? 0.25 : 1;
 
   const buttons = (
     <View style={styles.buttons}>
       <IconButton
+        disabled={isLoading}
+        opacity={buttonOpacity}
         onPress={() => navigation.goBack()}
         style={styles.buttonLeft}
         _icon={{ as: Icons, name: 'arrow-left' }}
       />
       <IconButton
-        onPress={() => console.log('done')}
+        disabled={isLoading}
+        opacity={buttonOpacity}
+        onPress={onSave}
         style={styles.buttonRight}
         _icon={{ as: Icons, name: 'check' }}
       />
+    </View>
+  );
+
+  const savedMessage = (
+    <View style={styles.info}>
+      <Text>Saved!</Text>
     </View>
   );
 
@@ -73,13 +89,18 @@ export const Preview: FC<PreviewProps> = ({ route, navigation }) => {
     <VisProvider>
       <ProfileButton />
       <Viewer width={width} height={height} graph={graph} />
-      {/* <BottomDrawer /> */}
       <BottomDrawer
-        onDrawerStateChange={(e) => console.log(e)}
+        onDrawerStateChange={(e) => {}}
         initialState={DrawerState.Peek}
       >
         <View style={styles.content}>
-          {isLoading ? <Spinner /> : <Form />}
+          {isLoading ? (
+            <Loading />
+          ) : saved ? (
+            savedMessage
+          ) : (
+            <Form setName={setName} />
+          )}
           {buttons}
         </View>
       </BottomDrawer>

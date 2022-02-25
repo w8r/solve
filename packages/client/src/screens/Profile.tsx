@@ -12,8 +12,9 @@ import {
 } from 'native-base';
 import { useAuth } from '../hooks/useAuth';
 import { getShortName } from '../lib/user';
+import { ProfileProps } from '../navigation/types';
 
-export default function Profile() {
+export default function Profile({ navigation }: ProfileProps) {
   const { user, logout } = useAuth();
   if (!user) return null;
   return (
@@ -33,6 +34,9 @@ export default function Profile() {
             </Badge>
           </Box>
           {/* <Paragraph>{JSON.stringify(user)}</Paragraph> */}
+          <Button onPress={() => navigation.navigate('Dashboard')}>
+            Dashboard
+          </Button>
           <Button onPress={() => logout()}>Logout</Button>
         </Box>
       </Center>

@@ -8,6 +8,7 @@ import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
 import { Graph, GraphNode } from '../../types/graph';
 import CreateNodeDialog from '../../components/CreateNodeDialog';
+import { BackButton } from '../../components/BackButton';
 
 const Wrapper = ({
   width,
@@ -140,6 +141,7 @@ export default function ({ route, navigation }: ViewerProps) {
 
   return (
     <VisProvider>
+      <BackButton />
       <ProfileButton />
       <Wrapper
         width={width}

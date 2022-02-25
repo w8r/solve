@@ -138,8 +138,19 @@ export function getGraph(id: string) {
 }
 
 export function saveGraph(id: string, graph: Graph) {
-  if (id === null) return put('/api/graphs/new', graph);
-  return post(`/api/graphs/${id}`, graph);
+  if (id === null) return post<Graph>('/api/graph/', graph);
+  return put<Graph>(`/api/graph/${id}`, graph);
+}
+
+export function shareGraph(graph: Graph, parentId: string) {
+  return post<Graph>(`/api/graph/`, {
+    ...graph,
+    data: {
+      ...(graph.data || {}),
+      parentId,
+      shared: true
+    }
+  });
 }
 
 export function getGraphPreviewURL(id: string) {

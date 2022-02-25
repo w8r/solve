@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, FlatList, Image } from 'native-base';
+import { Box, FlatList, Image, Center } from 'native-base';
 import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
@@ -21,26 +21,32 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
   };
 
   return (
-    <Box style={styles.container} padding={0} p="5">
+    <Box style={styles.container}>
       <FlatList
-        flex={1}
-        style={styles.list}
-        contentContainerStyle={styles.listContent}
+        //contentContainerStyle={styles.listContent}
         numColumns={columns}
         data={graphs}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item: graph, index }) => {
           return (
             <TouchableOpacity onPress={() => onPress(index)}>
-              <Image
-                style={styles.image}
-                alt={graph.id}
-                source={{
-                  uri: getGraphPreviewURL(graph.id) + `?${Date.now()}`
-                }}
-                width={40}
-                height={40}
-              />
+              <Box
+                rounded="sm"
+                height="40"
+                minWidth="40"
+                marginRight="5"
+                marginBottom="5"
+              >
+                <Image
+                  style={styles.image}
+                  alt={graph.id}
+                  source={{
+                    uri: getGraphPreviewURL(graph.id) + `?${Date.now()}`
+                  }}
+                  width="40"
+                  height="40"
+                />
+              </Box>
             </TouchableOpacity>
           );
         }}
@@ -51,11 +57,9 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignSelf: 'center',
     alignItems: 'center',
-    padding: 0,
-    width: '100%'
+    padding: 10,
+    paddingTop: 40
   },
   list: {
     width: '100%',

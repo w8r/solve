@@ -51,10 +51,12 @@ export type AppRoutes = {
   Dashboard: undefined;
   Viewer: { graph?: string } | undefined;
   Preview: { graph: Graph };
+  Profile: undefined;
 };
 
 export type ViewerProps = StackScreenProps<AppRoutes, 'Viewer'>;
 export type PreviewProps = StackScreenProps<AppRoutes, 'Preview'>;
+export type ProfileProps = StackScreenProps<AppRoutes, 'Profile'>;
 
 export type RootStackParamList = {
   Root: undefined | StackScreenProps<AuthRoutes & AppRoutes>;
