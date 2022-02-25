@@ -8,7 +8,7 @@ import { AuthProvider } from './src/contexts/AuthContext';
 import useCachedResources from './src/hooks/useCachedResources';
 import useColorScheme from './src/hooks/useColorScheme';
 import Navigation from './src/navigation';
-import SSRProvider from 'react-bootstrap/SSRProvider'
+import SSRProvider from 'react-bootstrap/SSRProvider';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

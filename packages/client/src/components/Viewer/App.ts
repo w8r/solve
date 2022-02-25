@@ -20,6 +20,7 @@ import type { Graph, GraphEdge, GraphNode } from '../../types/graph';
 import { LineMesh, basicMaterial, dashedMaterial } from './line-mesh-2d';
 import EventEmitter from 'eventemitter3';
 import throttle from 'lodash.throttle';
+import inside from 'point-in-polygon';
 
 const FOV = 80;
 const LASSO_THROTTLE = 50;
@@ -193,34 +194,25 @@ export class App extends EventEmitter {
   }, LASSO_THROTTLE);
 
   public stopSelection() {
-    console.log('stop selection');
-    this.emit('selection', { nodes: [], edges: [] });
+    if (this.lasso) {
+      this.scene.remove(this.lasso);
+      this.lasso?.remove();
+    }
+    this.emit('selection', this.queryPolygon(this.selection));
+    this.selection.length = 0;
   }
 
-  private initLasso(color = 0xffffff) {
-    const material = dashedMaterial({
-      thickness: 0.05,
-      color: new Color(color),
-      opacity: 0.5,
-      dashSteps: 100
+  queryPolygon(coords: [number, number][]) {
+    const set = new Set();
+    const nodes = this.nodes.filter((node) => {
+      const isIn = inside([node.attributes.x, node.attributes.y], coords);
+      if (isIn) set.add(node.id);
+      return isIn;
     });
-    //const dashMaterial = dashedMaterial({ thickness: 2 });
-    const geometry = new LineMesh(
-      [
-        [-20, 20],
-        [30, 30]
-      ],
-      {
-        distances: true
-      }
+    const edges = this.edges.filter(
+      (edge) => set.has(edge.source) && set.has(edge.target)
     );
-    const mesh = new Mesh(geometry, material);
-
-    this.lasso = mesh;
-    this.scene.add(mesh);
-
-    // const polygon = new Shape();
-    // polygon.
+    return { nodes, edges };
   }
 
   setGraph({ nodes, edges }: Graph) {
@@ -349,8 +341,6 @@ export class App extends EventEmitter {
 
     this.nodes = nodes;
     this.edges = edges;
-
-    if (this.lasso) this.scene.add(this.lasso);
   }
 
   selectNode() {}

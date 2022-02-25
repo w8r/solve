@@ -4638,6 +4638,8 @@ __metadata:
     "@react-navigation/stack": ^5.14.5
     "@types/d3-quadtree": ^3.0.2
     "@types/d3-zoom": ^3.0.1
+    "@types/lodash.throttle": ^4.1.6
+    "@types/point-in-polygon": ^1.1.1
     "@types/react": ~16.9.35
     "@types/react-native": ~0.63.2
     "@types/three": ^0.137.0
@@ -4668,6 +4670,7 @@ __metadata:
     jest-expo: ~41.0.0-beta.0
     lodash.throttle: ^4.1.1
     native-base: ^3.2.1
+    point-in-polygon: ^1.1.0
     polyline-normals: ^2.0.2
     react: 16.13.1
     react-bootstrap: ^2.1.2
@@ -5179,6 +5182,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash.throttle@npm:^4.1.6":
+  version: 4.1.6
+  resolution: "@types/lodash.throttle@npm:4.1.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 8bc6e253c2365a03d7e2a36ef59ca0556ca51ab1a878cd4071b54874eaf75c564ae86b62661780a5d23dd532dbad81f685d25ae5450049a32fb4c968c94dd688
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:*, @types/lodash@npm:^4.14.175":
   version: 4.14.178
   resolution: "@types/lodash@npm:4.14.178"
@@ -5298,6 +5310,13 @@ __metadata:
   dependencies:
     "@types/express": "*"
   checksum: 1b78fbbb589774a2d9794449e039d590c21fefd6b3f0a5cc911e2a79bac85f363121cfdc330d15840879abeb4fb2d68d521111e595bded0f5dc4356bf8dba3ec
+  languageName: node
+  linkType: hard
+
+"@types/point-in-polygon@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@types/point-in-polygon@npm:1.1.1"
+  checksum: d362eaff5b3982da333c019b015a5dd3381ffc79099e8403bdcec1647bb1e8d3f7dd1391041094c8cd70957a8ed9bb6e1aff4ea51a159fb6ad52554ab2301f05
   languageName: node
   linkType: hard
 
@@ -16411,6 +16430,13 @@ __metadata:
   dependencies:
     ts-pnp: ^1.1.6
   checksum: a41716d13607be5a3e06ba58b17e9e619cf07da3a0a7b10bd41cd89362873041054fd2b7966ad30a1b26b826cfb8fecc0469a95902d5b1b8ba8f591e2fe6b96d
+  languageName: node
+  linkType: hard
+
+"point-in-polygon@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "point-in-polygon@npm:1.1.0"
+  checksum: 67a6374f0b79bc872bde8e375d7d5ea011a1419c5f4320dfb7705801cd3a8fcaee8bff385465e075b2ce863bbc86ccd74c63345d9f326981cd0807642bc5199c
   languageName: node
   linkType: hard
 
