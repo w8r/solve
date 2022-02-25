@@ -19,7 +19,13 @@ import {
 } from 'native-base';
 import { BottomDrawer, DrawerState } from './BottomDrawer';
 
-const categoryArray = ['Money', 'Health', 'Relationship', 'Meaning', 'Happiness'];
+const categoryArray = [
+  'Money',
+  'Health',
+  'Relationship',
+  'Meaning',
+  'Happiness'
+];
 
 const possibleSizes = [3, 3.5, 4, 5, 6, 7, 8, 9, 10, 12, 16, 20, 24];
 
@@ -36,14 +42,14 @@ export interface Tag {
   label: string;
 }
 
-if (LogBox &&Platform && Platform.OS !== 'web') {
-   LogBox.ignoreLogs(['Cannot update a']);
+if (LogBox && Platform && Platform.OS !== 'web') {
+  LogBox.ignoreLogs(['Cannot update a']);
 }
 
 export default function CreateNodeDialog({
   visibility,
   setVisibility,
-  addNode,
+  addNode
 }: {
   visibility: boolean;
   setVisibility: (visibility: boolean) => void;
@@ -52,7 +58,7 @@ export default function CreateNodeDialog({
   const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema: NodeDialogSchema,
-      initialValues: { selectedTag: '', name: '', size:2 },
+      initialValues: { selectedTag: '', name: '', size: 2 },
       onSubmit: (values) => {
         addNode(values.name, values.selectedTag, onChangeValue);
       }
@@ -115,9 +121,11 @@ export default function CreateNodeDialog({
                     Categories
                   </FormControl.Label>
                   <TagGroup
-                  singleChoiceMode={true}
+                    singleChoiceMode={true}
                     source={categoryArray}
-                    onSelectedTagChange={(tag: string) => handleChange('selectedTag')(tag)}
+                    onSelectedTagChange={(tag: string) =>
+                      handleChange('selectedTag')(tag)
+                    }
                   />
                 </FormControl>
                 <FormControl>

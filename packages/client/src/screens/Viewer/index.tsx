@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, View } from 'react-native';
+import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { ViewerProps } from '../../navigation/types';
 
 import { VisProvider, useVis, Viewer } from '../../components/Viewer';
@@ -13,7 +13,7 @@ const Wrapper = ({
   width,
   height,
   id,
-  onPreviewFn,
+  onPreviewFn
 }: {
   width: number;
   height: number;
@@ -22,7 +22,6 @@ const Wrapper = ({
 }) => {
   const { graph, setGraph } = useVis();
   const [isDialogVisible, setDialogVisible] = useState(false);
-
 
   useEffect(() => {
     if (id !== null) {
@@ -41,7 +40,7 @@ const Wrapper = ({
           id: `${graph.nodes.length + 1}`,
           _id: `${graph.nodes.length + 1}`,
           attributes: {
-            r: 100,
+            r: size,
             x: 0,
             y: 0,
             color: 'blue',
@@ -52,13 +51,12 @@ const Wrapper = ({
       ]
     };
     setGraph(updatedGraph);
-    console.log(graph);
     setDialogVisible(false);
   };
 
   return (
-    <View>
-      <Viewer width={width} height={height} graph={graph}/>
+    <>
+      <Viewer width={width} height={height} graph={graph} />
       <BottomMenu
         showDialog={() => setDialogVisible(!isDialogVisible)}
         onPreview={onPreviewFn}
@@ -68,7 +66,7 @@ const Wrapper = ({
         setVisibility={setDialogVisible}
         addNode={addNode}
       />
-    </View>
+    </>
   );
 };
 
@@ -84,7 +82,12 @@ export default function ({ route, navigation }: ViewerProps) {
   return (
     <VisProvider>
       <ProfileButton />
-      <Wrapper width={width} height={height} id={graphId || null} onPreviewFn={onPreview} />
+      <Wrapper
+        width={width}
+        height={height}
+        id={graphId || null}
+        onPreviewFn={onPreview}
+      />
     </VisProvider>
   );
 }
