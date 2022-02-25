@@ -9,8 +9,12 @@ const Users = require('./users');
 
 const dataSchema = new Schema({
   shared: {
-    type: [String],
-    default: []
+    type: Boolean,
+    default: false
+  },
+  parentId: {
+    type: String,
+    default: null
   }
 });
 
@@ -36,7 +40,8 @@ const graphSchema = new Schema(
     data: {
       type: dataSchema,
       default: {
-        shared: []
+        shared: false,
+        parentId: null
       }
     },
     nodes: {
