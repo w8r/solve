@@ -16,10 +16,13 @@ import {
 // @ts-ignore
 import { Text } from 'troika-three-text';
 import { Quadtree, quadtree } from 'd3-quadtree';
-import { Graph, GraphEdge, GraphNode } from '../../types/graph';
+import type { Graph, GraphEdge, GraphNode } from '../../types/graph';
 import { LineMesh, basicMaterial, dashedMaterial } from './line-mesh-2d';
+import EventEmitter from 'eventemitter3';
+import throttle from 'lodash.throttle';
 
 const FOV = 80;
+const LASSO_THROTTLE = 50;
 
 function getEdgePoints(source: GraphNode, target: GraphNode) {
   const sx = source.attributes.x;
@@ -95,7 +98,7 @@ function getArrowPoints(
 
 type Id = number | string;
 
-export class App {
+export class App extends EventEmitter {
   // TODO: solve later
   // @ts-ignore
   private gl: ExpoWebGLRenderingContext;
@@ -114,7 +117,7 @@ export class App {
   private edgesByTarget = new Map<Id, GraphEdge[]>();
   private idToNode = new Map<Id, GraphNode>();
   private idToEdge = new Map<Id, GraphEdge>();
-  private lasso?: Mesh;
+  private lasso?: Mesh<LineMesh>;
   private nodes: GraphNode[] = [];
   private edges: GraphEdge[] = [];
   // @ts-ignore;
@@ -127,11 +130,14 @@ export class App {
   private y = 0;
   private k = 0;
 
+  private selection: [number, number][] = [];
+
   constructor(
     gl: ExpoWebGLRenderingContext,
     dppx: number,
     sceneColor = 0x10505b
   ) {
+    super();
     this.gl = gl;
     this.dppx = dppx;
 
@@ -155,8 +161,6 @@ export class App {
 
     camera.position.set(0, 0, 1);
 
-    //this.initLasso();
-
     renderer.render(scene, camera);
 
     gl.endFrameEXP();
@@ -164,13 +168,36 @@ export class App {
     return this;
   }
 
+  public startSelection(cb: (Graph: Graph) => unknown) {
+    this.once('selection', cb);
+    this.selection.length = 0;
+  }
+
+  public updateLasso = throttle((sx: number, sy: number) => {
+    if (this.lasso) this.scene.remove(this.lasso);
+    const { x, y } = this.screenToWorld(sx, sy);
+    this.selection.push([x, y]);
+
+    const material = dashedMaterial({
+      thickness: 0.5,
+      color: new Color('white'),
+      opacity: 0.5,
+      dashSteps: this.selection.length
+    });
+    const geometry = new LineMesh(this.selection, {
+      distances: true
+    });
+    const mesh = new Mesh(geometry, material);
+    this.lasso = mesh;
+    this.scene.add(mesh);
+  }, LASSO_THROTTLE);
+
+  public stopSelection() {
+    console.log('stop selection');
+    this.emit('selection', { nodes: [], edges: [] });
+  }
+
   private initLasso(color = 0xffffff) {
-    const points = [
-      [-20, 0],
-      [0, 20],
-      [20, 0],
-      [0, -20]
-    ];
     const material = dashedMaterial({
       thickness: 0.05,
       color: new Color(color),
@@ -178,13 +205,19 @@ export class App {
       dashSteps: 100
     });
     //const dashMaterial = dashedMaterial({ thickness: 2 });
-    const geometry = new LineMesh(points, {
-      distances: true
-    });
+    const geometry = new LineMesh(
+      [
+        [-20, 20],
+        [30, 30]
+      ],
+      {
+        distances: true
+      }
+    );
     const mesh = new Mesh(geometry, material);
 
-    this.scene.add(mesh);
     this.lasso = mesh;
+    this.scene.add(mesh);
 
     // const polygon = new Shape();
     // polygon.

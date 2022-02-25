@@ -117,8 +117,7 @@ module.exports.createGraph = async (req, res) => {
 };
 
 const getPreviewData = (publicId) => {
-  console.log('find', publicId);
-  return Graphs.findOne({publicId: publicId}).then((graph) =>
+  return Graphs.findOne({ publicId: publicId }).then((graph) =>
     graph
       .populate('nodes', ['id', 'attributes'])
       .populate('edges', ['source', 'target', 'attributes'])

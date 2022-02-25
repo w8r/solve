@@ -19,9 +19,8 @@ import {
   zoomAround
 } from './utils';
 import { usePanResponder } from './usePanResponder';
-import { Graph, GraphNode } from './types';
+import type { Graph, GraphNode } from '../../types/graph';
 import { useVis } from './context';
-import {} from 'd3-zoom';
 
 export interface ViewerProps extends ViewProps {
   width?: number;
@@ -63,7 +62,7 @@ export function Viewer({
   graph
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
-  const { app } = useVis();
+  const { app, isSelecting } = useVis();
   const dppx = PixelRatio.get();
 
   const { minX, minY, maxX, maxY } = graphBbox(graph);
@@ -142,8 +141,9 @@ export function Viewer({
   }: PanResponderGestureState) => {
     if (!app) return;
     // if drawing a lasso, don't move the graph, update the lasso polygon
-
-    if (state.isDragging) {
+    if (isSelecting) {
+      app.updateLasso(moveX, moveY);
+    } else if (state.isDragging) {
       const { isDragging, dragOffsetX, dragOffsetY } = state;
       const { x, y } = app.screenToWorld(moveX, moveY);
       app.moveNode(isDragging, x - dragOffsetX, y - dragOffsetY);
@@ -198,6 +198,7 @@ export function Viewer({
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
+        if (isSelecting) app.stopSelection();
         if (state.isMoving) app.setGraph(graph);
         setState({
           ...state,
