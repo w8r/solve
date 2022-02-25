@@ -3,17 +3,20 @@ import { Fab, Icon, Menu } from 'native-base';
 import { AntDesign as Icons } from '@expo/vector-icons';
 import React, { FC } from 'react';
 import { useVis } from '../../components/Viewer';
+import { Graph } from '../../types/graph';
 
-export const BottomMenu = ({ showDialog }: { showDialog: () => void }) => {
+interface BottomMenuProps {
+  showDialog: () => void;
+  onPreview: (graph: Graph) => void;
+}
+
+export const BottomMenu: FC<BottomMenuProps> = ({ showDialog, onPreview }) => {
   const { app, startSelection, setIsSelecting } = useVis();
   const onSelect = () => {
     setIsSelecting(true);
     startSelection((graph) => {
-      console.log(graph);
-      // show preview
-      // show dialog
-      //app.highlightGraph(graph);
       setIsSelecting(false);
+      if (graph && graph.nodes.length > 0) onPreview(graph);
     });
   };
   return (

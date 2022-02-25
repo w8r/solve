@@ -26,7 +26,7 @@ export default function Dashboard() {
 
       api
         .getUserGraphs()
-        .then((response) => setGraphs(response))
+        .then((response) => isFocused && setGraphs(response))
         .catch((err) => setError(err))
         .finally(() => setLoading(false));
     }

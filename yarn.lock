@@ -4683,6 +4683,7 @@ __metadata:
     react-native-screens: ~3.4.0
     react-native-svg: 12.1.1
     react-native-web: ~0.13.12
+    rn-bottom-drawer: ^1.4.3
     styled-components: ^5.3.0
     styled-system: ^5.1.5
     three: 0.137.5
@@ -18159,6 +18160,15 @@ __metadata:
     hash-base: ^3.0.0
     inherits: ^2.0.1
   checksum: 006accc40578ee2beae382757c4ce2908a826b27e2b079efdcd2959ee544ddf210b7b5d7d5e80467807604244e7388427330f5c6d4cd61e6edaddc5773ccc393
+  languageName: node
+  linkType: hard
+
+"rn-bottom-drawer@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "rn-bottom-drawer@npm:1.4.3"
+  dependencies:
+    prop-types: ^15.6.2
+  checksum: 9425ba725fb21f7dfc1fb1d91b84ec9e53816c63ea68c4f8fe823508b7edf8f7f9a7fb2fa2d343664e794f1279234d98787d9473277cd6dc3be8c2ce8033c286
   languageName: node
   linkType: hard
 

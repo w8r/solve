@@ -27,23 +27,35 @@ const Wrapper = ({
   return <Viewer width={width} height={height} graph={graph} />;
 };
 
-export default function ({ route }: ViewerProps) {
+export default function ({ route, navigation }: ViewerProps) {
   const { width, height } = Dimensions.get('window');
   const { params: { graph: graphId } = {} } = route;
   const [graph, setGraph] = useState<Graph>();
   const [isDialogVisible, setDialogVisible] = useState(false);
-  
+
   useEffect(() => {
     if (graphId) {
       getGraph(graphId).then((graph) => setGraph(graph));
     }
   }, []);
+
+  const onPreview = (graph: Graph) => {
+    // TODO: save graph here
+    navigation.navigate('Preview', { graph });
+  };
+
   return (
     <VisProvider>
       <ProfileButton />
       <Wrapper width={width} height={height} id={graphId || null} />
-      <BottomMenu showDialog={() => setDialogVisible(!isDialogVisible)} />
-      <CreateNodeDialog visibility={isDialogVisible} setVisibility={setDialogVisible} />
+      <BottomMenu
+        showDialog={() => setDialogVisible(!isDialogVisible)}
+        onPreview={onPreview}
+      />
+      <CreateNodeDialog
+        visibility={isDialogVisible}
+        setVisibility={setDialogVisible}
+      />
     </VisProvider>
   );
 }

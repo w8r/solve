@@ -6,6 +6,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { Graph } from '../types/graph';
 
 export type BottomTabParamList = {
   TabOne: undefined;
@@ -15,6 +16,7 @@ export type BottomTabParamList = {
 export type TabOneParamList = {
   Dashboard: undefined;
   Viewer: undefined;
+  Preview: undefined;
 };
 export type TabOneProps = BottomTabScreenProps<BottomTabParamList, 'TabOne'>;
 
@@ -48,9 +50,11 @@ export type PasswordChangedProps = StackScreenProps<
 export type AppRoutes = {
   Dashboard: undefined;
   Viewer: { graph?: string } | undefined;
+  Preview: { graph: Graph };
 };
 
 export type ViewerProps = StackScreenProps<AppRoutes, 'Viewer'>;
+export type PreviewProps = StackScreenProps<AppRoutes, 'Preview'>;
 
 export type RootStackParamList = {
   Root: undefined | StackScreenProps<AuthRoutes & AppRoutes>;

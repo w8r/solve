@@ -43,7 +43,7 @@ export default function CreateNodeDialog({
   return (
     <Modal
       isOpen={visibility}
-      style={{ justifyContent: 'flex-end', margin: 0 }}
+      style={styles.modal}
       isKeyboardDismissable={true}
       animationPreset="slide"
       avoidKeyboard={true}
@@ -113,5 +113,9 @@ const styles = StyleSheet.create({
     right: 0,
     padding: 10,
     backgroundColor: '#fff'
+  },
+  modal: {
+    justifyContent: 'flex-end',
+    margin: 0
   }
 });
