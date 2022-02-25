@@ -4,10 +4,14 @@ import { AntDesign as Icons } from '@expo/vector-icons';
 import React, { FC } from 'react';
 import { useVis } from '../../components/Viewer';
 
-export const BottomMenu = ({showDialog}: {showDialog: () => void}) => {
-  const { app } = useVis();
+export const BottomMenu = ({ showDialog }: { showDialog: () => void }) => {
+  const { app, startSelection, setIsSelecting } = useVis();
   const onSelect = () => {
-    console.log(app);
+    setIsSelecting(true);
+    startSelection((graph) => {
+      console.log(graph);
+      setIsSelecting(false);
+    });
   };
   return (
     <Center>
@@ -35,7 +39,7 @@ export const BottomMenu = ({showDialog}: {showDialog: () => void}) => {
       </Menu>
     </Center>
   );
-}
+};
 
 const styles = StyleSheet.create({
   fab: {

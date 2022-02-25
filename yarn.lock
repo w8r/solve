@@ -4607,6 +4607,7 @@ __metadata:
     d3-quadtree: ^3.0.1
     d3-zoom: ^3.0.0
     dotenv: ^10.0.0
+    eventemitter3: ^4.0.7
     expo: ~42.0.1
     expo-app-loading: 1.1.2
     expo-asset: ~8.3.2
@@ -4625,6 +4626,7 @@ __metadata:
     expo-yarn-workspaces: ^1.5.2
     formik: ^2.2.9
     jest-expo: ~41.0.0-beta.0
+    lodash.throttle: ^4.1.1
     native-base: ^3.2.1
     polyline-normals: ^2.0.2
     react: 16.13.1
@@ -9472,6 +9474,13 @@ __metadata:
   version: 3.1.2
   resolution: "eventemitter3@npm:3.1.2"
   checksum: 81e4e82b8418f5cfd986d2b4a2fa5397ac4eb8134e09bcb47005545e22fdf8e9e61d5c053d34651112245aae411bdfe6d0ad5511da0400743fef5fc38bfcfbe3
+  languageName: node
+  linkType: hard
+
+"eventemitter3@npm:^4.0.7":
+  version: 4.0.7
+  resolution: "eventemitter3@npm:4.0.7"
+  checksum: 1875311c42fcfe9c707b2712c32664a245629b42bb0a5a84439762dd0fd637fc54d078155ea83c2af9e0323c9ac13687e03cfba79b03af9f40c89b4960099374
   languageName: node
   linkType: hard
 
