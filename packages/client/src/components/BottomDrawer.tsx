@@ -77,13 +77,13 @@ const getNextState = (
 
 interface BottomDrawerProps {
   children?: ReactNode;
-  onDrawerStateChange: (nextState: DrawerState) => void;
+  onDrawerStateChange?: (nextState: DrawerState) => void;
   initialState?: DrawerState;
 }
 
 export const BottomDrawer: FC<BottomDrawerProps> = ({
   children,
-  onDrawerStateChange,
+  onDrawerStateChange = () => {},
   initialState = DrawerState.Closed
 }) => {
   const { height } = Dimensions.get('window');
