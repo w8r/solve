@@ -243,7 +243,7 @@ export class App extends EventEmitter {
       } = node;
 
       const material = new MeshBasicMaterial({
-        color: new Color(rgbColor)
+        color: new Color(node.attributes.selected ? 'cyan' : rgbColor)
       });
       const mesh = new Mesh(circle, material);
       mesh.renderOrder = 1;

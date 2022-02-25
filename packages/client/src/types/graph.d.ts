@@ -7,6 +7,7 @@ export type GraphNode = {
     y: number;
     color?: string;
     text?: string;
+    selected: boolean;
   };
   data: Record<string, unknown>;
 };
