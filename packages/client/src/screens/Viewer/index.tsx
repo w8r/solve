@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, View } from 'react-native';
 import { ViewerProps } from '../../navigation/types';
 
 import { VisProvider, useVis, Viewer } from '../../components/Viewer';
@@ -12,32 +12,69 @@ import CreateNodeDialog from '../../components/CreateNodeDialog';
 const Wrapper = ({
   width,
   height,
-  id
+  id,
+  onPreviewFn,
 }: {
   width: number;
   height: number;
   id: string | null;
+  onPreviewFn: (graph: Graph) => void;
 }) => {
   const { graph, setGraph } = useVis();
+  const [isDialogVisible, setDialogVisible] = useState(false);
+
+
   useEffect(() => {
     if (id !== null) {
+      console.log('id', id);
       getGraph(id).then((response) => setGraph(response));
     }
   }, []);
-  return <Viewer width={width} height={height} graph={graph} />;
+
+  const addNode = (name: string, category: string, size: number) => {
+    if (!graph) return;
+    const updatedGraph = {
+      ...graph,
+      nodes: [
+        ...graph.nodes,
+        {
+          id: `${graph.nodes.length + 1}`,
+          _id: `${graph.nodes.length + 1}`,
+          attributes: {
+            r: 100,
+            x: 0,
+            y: 0,
+            color: 'blue',
+            text: name
+          },
+          data: { category }
+        }
+      ]
+    };
+    setGraph(updatedGraph);
+    console.log(graph);
+    setDialogVisible(false);
+  };
+
+  return (
+    <View>
+      <Viewer width={width} height={height} graph={graph}/>
+      <BottomMenu
+        showDialog={() => setDialogVisible(!isDialogVisible)}
+        onPreview={onPreviewFn}
+      />
+      <CreateNodeDialog
+        visibility={isDialogVisible}
+        setVisibility={setDialogVisible}
+        addNode={addNode}
+      />
+    </View>
+  );
 };
 
 export default function ({ route, navigation }: ViewerProps) {
-  const { width, height } = Dimensions.get('window');
   const { params: { graph: graphId } = {} } = route;
-  const [graph, setGraph] = useState<Graph>();
-  const [isDialogVisible, setDialogVisible] = useState(false);
-
-  useEffect(() => {
-    if (graphId) {
-      getGraph(graphId).then((graph) => setGraph(graph));
-    }
-  }, []);
+  const { width, height } = Dimensions.get('window');
 
   const onPreview = (graph: Graph) => {
     // TODO: save graph here
@@ -47,15 +84,7 @@ export default function ({ route, navigation }: ViewerProps) {
   return (
     <VisProvider>
       <ProfileButton />
-      <Wrapper width={width} height={height} id={graphId || null} />
-      <BottomMenu
-        showDialog={() => setDialogVisible(!isDialogVisible)}
-        onPreview={onPreview}
-      />
-      <CreateNodeDialog
-        visibility={isDialogVisible}
-        setVisibility={setDialogVisible}
-      />
+      <Wrapper width={width} height={height} id={graphId || null} onPreviewFn={onPreview} />
     </VisProvider>
   );
 }

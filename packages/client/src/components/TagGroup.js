@@ -16,24 +16,6 @@ import PropTypes from 'prop-types';
 const propStyle = require('react-style-proptype');
 
 export default class TagGroup extends Component {
-  static propTypes = {
-    // source array, usually a string array.
-    source: PropTypes.arrayOf(PropTypes.string),
-    // only allow select one Tag at one time.
-    singleChoiceMode: PropTypes.bool,
-    // callback after Tag(s) pressed, the parameter is a string array,
-    // or (string, index) when set singleChoiceMode to true.
-    onSelectedTagChange: PropTypes.func.isRequired,
-
-    // start: props for Tag
-    tintColor: PropTypes.string,
-    tagStyle: propStyle,
-    activeTagStyle: propStyle,
-    textStyle: Text.propTypes.style,
-    activeTextStyle: Text.propTypes.style,
-    touchableOpacity: PropTypes.bool
-    // end: props for Tag
-  };
 
   static defaultProps = {
     onSelectedTagChange: () =>

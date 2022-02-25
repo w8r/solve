@@ -1,5 +1,5 @@
 import React, { SetStateAction, useRef, useState } from 'react';
-import { LogBox, StyleSheet, View } from 'react-native';
+import { Platform, LogBox, StyleSheet, View } from 'react-native';
 import { Modal, Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
 import { FormContainer } from './FormContainer';
@@ -19,6 +19,8 @@ import {
 } from 'native-base';
 import { BottomDrawer, DrawerState } from './BottomDrawer';
 
+const categoryArray = ['Money', 'Health', 'Relationship', 'Meaning', 'Happiness'];
+
 const possibleSizes = [3, 3.5, 4, 5, 6, 7, 8, 9, 10, 12, 16, 20, 24];
 
 const getClosestSize = (goal: number) => {
@@ -34,29 +36,28 @@ export interface Tag {
   label: string;
 }
 
-LogBox.ignoreLogs(['Cannot update a']);
+if (LogBox &&Platform && Platform.OS !== 'web') {
+   LogBox.ignoreLogs(['Cannot update a']);
+}
 
 export default function CreateNodeDialog({
   visibility,
   setVisibility,
-  setSelected
+  addNode,
 }: {
   visibility: boolean;
   setVisibility: (visibility: boolean) => void;
-  setSelected: (selected: string) => void;
+  addNode: (name: string, category: string, size: number) => void;
 }) {
   const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       validationSchema: NodeDialogSchema,
-      initialValues: { selectedTags: [], name: '' },
+      initialValues: { selectedTag: '', name: '', size:2 },
       onSubmit: (values) => {
-        console.log(values);
+        addNode(values.name, values.selectedTag, onChangeValue);
       }
     });
 
-  const updateTags = (tags: string[]): void => {
-    handleChange('selectedTags')(tags.join(','));
-  };
   const [onChangeValue, setOnChangeValue] = React.useState(10);
 
   const nodeNameRef = useRef<any>(null);
@@ -114,8 +115,9 @@ export default function CreateNodeDialog({
                     Categories
                   </FormControl.Label>
                   <TagGroup
-                    source={['One', 'Two', 'Three']}
-                    onSelectedTagChange={updateTags}
+                  singleChoiceMode={true}
+                    source={categoryArray}
+                    onSelectedTagChange={(tag: string) => handleChange('selectedTag')(tag)}
                   />
                 </FormControl>
                 <FormControl>
