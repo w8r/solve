@@ -3447,7 +3447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-aria/menu@npm:^3.4.1":
+"@react-aria/menu@npm:^3.1.3, @react-aria/menu@npm:^3.4.1":
   version: 3.4.1
   resolution: "@react-aria/menu@npm:3.4.1"
   dependencies:
@@ -3470,7 +3470,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-aria/overlays@npm:^3.6.1, @react-aria/overlays@npm:^3.7.0, @react-aria/overlays@npm:^3.7.5":
+"@react-aria/overlays@npm:^3.6.0, @react-aria/overlays@npm:^3.6.1, @react-aria/overlays@npm:^3.7.0, @react-aria/overlays@npm:^3.7.5":
   version: 3.7.5
   resolution: "@react-aria/overlays@npm:3.7.5"
   dependencies:
@@ -3557,6 +3557,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-aria/switch@npm:^3.1.1":
+  version: 3.1.5
+  resolution: "@react-aria/switch@npm:3.1.5"
+  dependencies:
+    "@babel/runtime": ^7.6.2
+    "@react-aria/toggle": ^3.2.1
+    "@react-stately/toggle": ^3.2.5
+    "@react-types/switch": ^3.1.4
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0-rc.1
+  checksum: b7b2b18295a3eb354d496cfce39d5bf968c7b9a36ea618209daea0532cf075e62f5725424be3c4a910c944b879bd3a2ad87fa3860bd77ea0948c99245efc4c6b
+  languageName: node
+  linkType: hard
+
 "@react-aria/tabs@npm:3.0.0-alpha.2":
   version: 3.0.0-alpha.2
   resolution: "@react-aria/tabs@npm:3.0.0-alpha.2"
@@ -3610,7 +3624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-aria/utils@npm:^3.11.2, @react-aria/utils@npm:^3.3.0, @react-aria/utils@npm:^3.4.1, @react-aria/utils@npm:^3.6.0":
+"@react-aria/utils@npm:^3.11.2, @react-aria/utils@npm:^3.3.0, @react-aria/utils@npm:^3.4.1, @react-aria/utils@npm:^3.5.0, @react-aria/utils@npm:^3.6.0":
   version: 3.11.2
   resolution: "@react-aria/utils@npm:3.11.2"
   dependencies:
@@ -3639,7 +3653,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-aria/button@npm:^0.2.4":
+"@react-native-aria/button@npm:^0.2.2, @react-native-aria/button@npm:^0.2.4":
   version: 0.2.4
   resolution: "@react-native-aria/button@npm:0.2.4"
   dependencies:
@@ -3733,6 +3747,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-aria/menu@npm:^0.2.2":
+  version: 0.2.6
+  resolution: "@react-native-aria/menu@npm:0.2.6"
+  dependencies:
+    "@react-aria/interactions": ^3.3.2
+    "@react-aria/menu": ^3.1.3
+    "@react-aria/selection": ^3.3.1
+    "@react-aria/utils": ^3.6.0
+    "@react-native-aria/interactions": ^0.2.3
+    "@react-native-aria/overlays": ^0.2.1
+    "@react-native-aria/utils": ^0.2.6
+    "@react-stately/collections": ^3.3.0
+    "@react-stately/menu": ^3.2.1
+    "@react-stately/tree": ^3.1.2
+    "@react-types/menu": ^3.1.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: da50658c8419a043651f59cc4032e0a36e4a12d3cad14ec063e78868e87bf79746022acde018565befdc1c8b30849c1db9a3904412eaf1ef219debf4c0af60ef
+  languageName: node
+  linkType: hard
+
 "@react-native-aria/overlays@npm:0.3.3-rc.0":
   version: 0.3.3-rc.0
   resolution: "@react-native-aria/overlays@npm:0.3.3-rc.0"
@@ -3751,7 +3787,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-aria/radio@npm:^0.2.4":
+"@react-native-aria/overlays@npm:^0.2.1, @react-native-aria/overlays@npm:^0.2.2":
+  version: 0.2.11
+  resolution: "@react-native-aria/overlays@npm:0.2.11"
+  dependencies:
+    "@react-aria/overlays": ^3.6.0
+    "@react-native-aria/utils": ^0.2.6
+    "@react-stately/overlays": ^3.1.1
+    "@react-types/overlays": ^3.4.0
+  peerDependencies:
+    react: "*"
+    react-dom: "*"
+    react-native: "*"
+  checksum: d0248f9c8632c817019c48c44c6f007a956c12a48073cb7c6f52e129c72a93e99b5ce298acbcb3eaf4a3c35d23767e27446ed6449429d57611b2dac092f0268f
+  languageName: node
+  linkType: hard
+
+"@react-native-aria/radio@npm:^0.2.2, @react-native-aria/radio@npm:^0.2.4":
   version: 0.2.5
   resolution: "@react-native-aria/radio@npm:0.2.5"
   dependencies:
@@ -3786,6 +3838,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-aria/switch@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "@react-native-aria/switch@npm:0.2.2"
+  dependencies:
+    "@react-aria/switch": ^3.1.1
+    "@react-aria/utils": ^3.5.0
+    "@react-native-aria/toggle": ^0.2.2-alpha.0
+    "@react-stately/toggle": ^3.2.1
+    "@react-types/switch": ^3.1.1
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 925a569956c03e6127f55ffcc6bcfe5c934037266c1f08e380fe2f9445245970b76d05c3deec23932e0a01d8bff971f5d611e88f2210fccf2c3a9500256523d2
+  languageName: node
+  linkType: hard
+
 "@react-native-aria/tabs@npm:^0.2.7":
   version: 0.2.8
   resolution: "@react-native-aria/tabs@npm:0.2.8"
@@ -3803,7 +3871,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-aria/toggle@npm:^0.2.3":
+"@react-native-aria/toggle@npm:^0.2.2, @react-native-aria/toggle@npm:^0.2.2-alpha.0, @react-native-aria/toggle@npm:^0.2.3":
   version: 0.2.3
   resolution: "@react-native-aria/toggle@npm:0.2.3"
   dependencies:
@@ -3820,7 +3888,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-aria/utils@npm:^0.2.6, @react-native-aria/utils@npm:^0.2.7, @react-native-aria/utils@npm:^0.2.8":
+"@react-native-aria/utils@npm:^0.2.2, @react-native-aria/utils@npm:^0.2.6, @react-native-aria/utils@npm:^0.2.7, @react-native-aria/utils@npm:^0.2.8":
   version: 0.2.8
   resolution: "@react-native-aria/utils@npm:0.2.8"
   dependencies:
@@ -4146,7 +4214,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-stately/menu@npm:^3.2.5":
+"@react-stately/menu@npm:^3.2.1, @react-stately/menu@npm:^3.2.5":
   version: 3.2.5
   resolution: "@react-stately/menu@npm:3.2.5"
   dependencies:
@@ -4290,7 +4358,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-stately/tree@npm:^3.2.2":
+"@react-stately/tree@npm:^3.1.2, @react-stately/tree@npm:^3.2.2":
   version: 3.2.2
   resolution: "@react-stately/tree@npm:3.2.2"
   dependencies:
@@ -4395,7 +4463,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-types/menu@npm:^3.5.1":
+"@react-types/menu@npm:^3.1.1, @react-types/menu@npm:^3.5.1":
   version: 3.5.1
   resolution: "@react-types/menu@npm:3.5.1"
   dependencies:
@@ -4460,7 +4528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-types/switch@npm:^3.1.4":
+"@react-types/switch@npm:^3.1.1, @react-types/switch@npm:^3.1.4":
   version: 3.1.4
   resolution: "@react-types/switch@npm:3.1.4"
   dependencies:
@@ -4640,6 +4708,7 @@ __metadata:
     "@types/d3-zoom": ^3.0.1
     "@types/lodash.throttle": ^4.1.6
     "@types/point-in-polygon": ^1.1.1
+    "@types/prop-types": ^15.7.2
     "@types/react": ~16.9.35
     "@types/react-native": ~0.63.2
     "@types/three": ^0.137.0
@@ -4672,10 +4741,12 @@ __metadata:
     native-base: ^3.2.1
     point-in-polygon: ^1.1.0
     polyline-normals: ^2.0.2
+    prop-types: ^15.7.2
     react: 16.13.1
     react-bootstrap: ^2.1.2
     react-dom: 16.13.1
     react-native: "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz"
+    react-native-aria: ^0.2.3
     react-native-dotenv: ^3.1.1
     react-native-gesture-handler: ~1.10.2
     react-native-reanimated: ~2.2.0
@@ -4683,6 +4754,7 @@ __metadata:
     react-native-screens: ~3.4.0
     react-native-svg: 12.1.1
     react-native-web: ~0.13.12
+    react-style-proptype: ^3.2.2
     rn-bottom-drawer: ^1.4.3
     styled-components: ^5.3.0
     styled-system: ^5.1.5
@@ -5328,7 +5400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*, @types/prop-types@npm:^15.7.3":
+"@types/prop-types@npm:*, @types/prop-types@npm:^15.7.2, @types/prop-types@npm:^15.7.3":
   version: 15.7.4
   resolution: "@types/prop-types@npm:15.7.4"
   checksum: ef6e1899e59b876c273811b1bd845022fc66d5a3d11cb38a25b6c566b30514ae38fe20a40f67622f362a4f4f7f9224e22d8da101cff3d6e97e11d7b4c307cfc1
@@ -17025,7 +17097,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
+"prop-types@npm:^15.5.4, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -17437,6 +17509,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-aria@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "react-native-aria@npm:0.2.3"
+  dependencies:
+    "@react-native-aria/button": ^0.2.2
+    "@react-native-aria/checkbox": ^0.2.2
+    "@react-native-aria/focus": ^0.2.4
+    "@react-native-aria/interactions": ^0.2.2
+    "@react-native-aria/menu": ^0.2.2
+    "@react-native-aria/overlays": ^0.2.2
+    "@react-native-aria/radio": ^0.2.2
+    "@react-native-aria/switch": ^0.2.2
+    "@react-native-aria/toggle": ^0.2.2
+    "@react-native-aria/utils": ^0.2.2
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 4c51f9f8ffbddbdb5cb4483e38a393aaf786ea5f8db0439a719f0fc2153d7d11ddd878832f068af6f5865e22ba9471627eabf654b7a0ffa5a7288d68707b420b
+  languageName: node
+  linkType: hard
+
 "react-native-dotenv@npm:^3.1.1":
   version: 3.3.1
   resolution: "react-native-dotenv@npm:3.3.1"
@@ -17594,6 +17687,15 @@ __metadata:
   version: 0.4.3
   resolution: "react-refresh@npm:0.4.3"
   checksum: 58d3b899ede4c890b1d06a2d02254a77d1c0dea400be139940e47b1c451ff1c4cbb3ca5d0a9d6ee9574e570075ab6c1bef15e77b7270d4a6f571847d2b26f4fc
+  languageName: node
+  linkType: hard
+
+"react-style-proptype@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "react-style-proptype@npm:3.2.2"
+  dependencies:
+    prop-types: ^15.5.4
+  checksum: f0e646e1488a18849a2a0fcff459a3769869d62be5729ff578dc6d37d0c0617706075efe09a15ff9372ba35419e31af5b0df154bc9487d1381cdc80d3dab6d7c
   languageName: node
   linkType: hard
 
