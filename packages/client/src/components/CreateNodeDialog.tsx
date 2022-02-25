@@ -1,7 +1,29 @@
-import { BottomSheet } from 'react-native-btr';
-import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, View, Text, Button } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { Modal } from 'native-base';
+import { useFormik as useForm } from 'formik';
+import { FormContainer } from './FormContainer';
+import * as Validator from 'yup';
+
+import {
+  Button,
+  Heading,
+  VStack,
+  HStack,
+  Link,
+  Text,
+  FormControl,
+  Input,
+  Divider
+} from 'native-base';
+
+const NodeDialogSchema = Validator.object().shape({
+  password: Validator.string()
+    .min(6, 'Too short')
+    .max(16, 'Too long')
+    .required('Required'),
+  email: Validator.string().email('Invalid email').required('Required')
+});
 
 export default function CreateNodeDialog({
   visibility,
@@ -10,6 +32,14 @@ export default function CreateNodeDialog({
   visibility: boolean;
   setVisibility: (visibility: boolean) => void;
 }) {
+  const { handleChange, handleBlur, handleSubmit, values, errors, touched } =
+    useForm({
+      validationSchema: NodeDialogSchema,
+      initialValues: { email: '', password: '' },
+      onSubmit: (values) => {}
+    });
+
+  const nodeNameRef = useRef<any>(null);
   return (
     <Modal
       isOpen={visibility}
@@ -31,15 +61,37 @@ export default function CreateNodeDialog({
             justifyContent: 'space-between'
           }}
         >
-          <Text
-            style={{
-              textAlign: 'center',
-              padding: 20,
-              fontSize: 20
-            }}
-          >
-            Add a new node
-          </Text>
+          <FormContainer>
+            <Heading size="md" fontWeight="400" color="coolGray.800">
+              Add a new node
+            </Heading>
+            <VStack space={3} mt="5">
+              <FormControl>
+                <FormControl.Label
+                  _text={{
+                    color: 'coolGray.800',
+                    fontSize: 'xs',
+                    fontWeight: 500
+                  }}
+                >
+                  Name
+                </FormControl.Label>
+                <Input
+                  onBlur={handleBlur('name')}
+                  onSubmitEditing={() => nodeNameRef.current?.focus()}
+                />
+              </FormControl>
+              <Button
+                mt="2"
+                colorScheme="indigo"
+                _text={{ color: 'white' }}
+                onPress={() => handleSubmit()}
+              >
+                Add
+              </Button>
+            </VStack>
+            <Divider my="2" />
+          </FormContainer>
         </View>
       </View>
     </Modal>
@@ -50,7 +102,7 @@ const styles = StyleSheet.create({
   bottomNavigationView: {
     backgroundColor: '#fff',
     width: '100%',
-    height: 250,
+    height: 350,
     justifyContent: 'center',
     alignItems: 'center'
   },
