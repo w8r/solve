@@ -7,6 +7,13 @@ const Vertex = require('./vertex');
 const Edge = require('./edge');
 const Users = require('./users');
 
+const dataSchema = new Schema({
+  shared: {
+    type: [String],
+    default: []
+  }
+});
+
 const graphSchema = new Schema(
   {
     isPublic: {
@@ -26,6 +33,12 @@ const graphSchema = new Schema(
       required: true,
       ref: 'Users'
     },
+    data: {
+      type: dataSchema,
+      default: {
+        shared: []
+      }
+    },
     nodes: {
       type: [Vertex]
     },
@@ -42,9 +55,8 @@ const graphSchema = new Schema(
 );
 
 // Automatically sort the graphs by creation date in order to get the latest revision first
-graphSchema.index({'createdAt': -1});
-graphSchema.index({'tags': 'text'});
-
+graphSchema.index({ createdAt: -1 });
+graphSchema.index({ tags: 'text' });
 
 graphSchema.statics.findById = (id) => {
   return Graphs.findOne({ _id: id }).exec();

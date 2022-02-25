@@ -87,6 +87,7 @@ module.exports.updateGraph = async (req, res) => {
       user: req.user,
       isPublic: req.body.nodes && req.body.data?.shared,
       publicId: graphId,
+      data: req.body.data,
       name: req.body.name || '',
       nodes: req.body.nodes,
       edges: req.body.edges,
@@ -105,6 +106,7 @@ module.exports.createGraph = async (req, res) => {
       user: req.user,
       isPublic: req.body.nodes && req.body.data?.shared,
       name: req.body.name || '',
+      data: req.body.data,
       nodes: req.body.nodes,
       edges: req.body.edges,
       tags: extractTags(req.body)
