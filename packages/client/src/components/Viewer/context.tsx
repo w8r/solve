@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createContext, FC, useContext, useState } from 'react';
 import { App } from './App';
-import { Graph, GraphEdge, GraphNode } from '../../types/graph';
+import { Graph, GraphEdge, GraphNode, Id } from '../../types/graph';
 
 export type VisState = {
   graph: Graph;
@@ -18,8 +18,9 @@ export type VisState = {
   selectedEdges: GraphEdge[];
   setSelectedEdges: (selectedEdges: GraphEdge[]) => void;
 
-  selectNode: (id: string) => void;
-  selectEdge: (id: string) => void;
+  selectNode: (id: Id | Id[]) => void;
+  selectEdge: (id: Id | Id[]) => void;
+  clearSelection: () => void;
 };
 
 export const VisContext = createContext<VisState>({
@@ -43,7 +44,10 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
       const alreadySelected = new Set(selectedNodes.map((n) => n.id));
       const toAdd: GraphNode[] = [];
       graph.nodes.forEach((node) => {
-        if (set.has(node.id) && !alreadySelected.has(node.id)) toAdd.push(node);
+        if (set.has(node.id) && !alreadySelected.has(node.id)) {
+          node.attributes.selected = true;
+          toAdd.push(node);
+        }
       });
       setSelectedNodes([...selectedNodes, ...toAdd]);
       return;
@@ -63,8 +67,10 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
       const alreadySelected = new Set(selectedEdges.map((e) => e._id));
       const toAdd: GraphEdge[] = [];
       graph.edges.forEach((edge) => {
-        if (set.has(edge._id) && !alreadySelected.has(edge._id))
+        if (set.has(edge._id) && !alreadySelected.has(edge._id)) {
+          edge.attributes.selected = true;
           toAdd.push(edge);
+        }
       });
       setSelectedEdges([...selectedEdges, ...toAdd]);
       return;
@@ -75,6 +81,17 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
         if (e.attributes.selected) setSelectedEdges([...selectedEdges, e]);
         else setSelectedEdges(selectedEdges.filter((e) => e._id !== id));
       }
+    });
+  };
+
+  const clearSelection = () => {
+    setSelectedNodes([]);
+    setSelectedEdges([]);
+    graph.nodes.forEach((n) => {
+      n.attributes.selected = false;
+    });
+    graph.edges.forEach((e) => {
+      e.attributes.selected = false;
     });
   };
 
@@ -96,7 +113,8 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
           setSelectedEdges,
 
           selectNode,
-          selectEdge
+          selectEdge,
+          clearSelection
         } as VisState
       }
     >

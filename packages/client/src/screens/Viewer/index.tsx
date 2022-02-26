@@ -44,10 +44,12 @@ const Wrapper = ({
     selectNode,
     selectEdge,
     selectedNodes,
-    selectedEdges,
     setSelectedNodes,
-    setSelectedEdges
+    selectedEdges,
+    setSelectedEdges,
+    clearSelection
   } = useVis();
+  const { navigate } = useNavigation();
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
 
@@ -57,15 +59,11 @@ const Wrapper = ({
     if (id !== null) {
       getGraph(id).then((response) => setGraph(response));
     }
+    return () => {
+      setSelectedNodes([]);
+      setSelectedEdges([]);
+    };
   }, []);
-
-  const onPreview = (graph: Graph) => {
-    // TODO: save graph here
-    // show selected nodes;
-    app.highlight(graph);
-    setSelected(graph);
-    //navigate('Preview', { graph });
-  };
 
   const createEdge = () => {
     const edgePairs = splitPairs(selectedNodes.map((node) => node.id));
@@ -140,6 +138,7 @@ const Wrapper = ({
 
   const editNode = (name: string, category: string, size: number) => {
     if (!selectedNodes || (selectedNodes && selectedNodes.length !== 1)) return;
+    console.log(name);
     const updatedGraph = {
       ...graph,
       nodes: graph.nodes.map((node) =>
@@ -178,19 +177,26 @@ const Wrapper = ({
   const onSelect = () => {
     setIsSelecting(true);
     startSelection((selectedGraph) => {
-      selectedGraph.nodes.forEach(({ id, attributes: { selected } }) => {
-        if (!selected) selectNode(id);
-      });
-      selectedGraph.edges.forEach(({ _id: id, attributes: { selected } }) => {
-        if (!selected) selectEdge(id);
-      });
+      selectNode(selectedGraph.nodes.map((node) => node.id));
+      selectEdge(selectedGraph.edges.map((edge) => edge._id));
       setIsSelecting(false);
     });
   };
 
+  const onSelectClear = () => {
+    clearSelection();
+    setGraph(graph);
+  };
+
   const onShare = () => {
-    // confirm sharing
-    console.log('share');
+    const selectedGraph: Graph = {
+      id: 'selected',
+      nodes: [...JSON.parse(JSON.stringify(selectedNodes))],
+      edges: [...JSON.parse(JSON.stringify(selectedEdges))]
+    };
+    selectedGraph.nodes.forEach((node) => (node.attributes.selected = false));
+    selectedGraph.edges.forEach((edge) => (edge.attributes.selected = false));
+    navigate('Preview', { graph: selectedGraph });
   };
 
   const onEdit = () => {
@@ -209,6 +215,7 @@ const Wrapper = ({
           setNodeDialogVisible(true);
         }}
         onSelect={onSelect}
+        onSelectClear={onSelectClear}
         onRemove={removeSelected}
         onEdit={onEdit}
         onCreateEdge={() => {
@@ -232,17 +239,6 @@ const Wrapper = ({
           }
         />
       ) : null}
-      <SelectionDialog
-        visible={selected !== null}
-        onProceed={() => {
-          app.highlight(null);
-          console.log('ok');
-        }}
-        onCancel={() => {
-          app.highlight(null);
-          setSelected(null);
-        }}
-      />
     </>
   );
 };
