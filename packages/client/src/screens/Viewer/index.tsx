@@ -180,16 +180,6 @@ const Wrapper = ({
     navigate('Preview', { graph: selectedGraph });
   };
 
-  // Should not allow editing if more than one node is selected
-  const getSelectedNode = () => {
-    const selectedNodes = graph.nodes.filter(
-      (node) => node.attributes.selected
-    );
-    const node = selectedNodes.length === 1 ? selectedNodes[0] : null;
-    setNodeData(node);
-    return node;
-  };
-
   const onEdit = () => {
     if (selectedNodes && selectedNodes.length === 1) {
       setNodeDialogVisible(true);
