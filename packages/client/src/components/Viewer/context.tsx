@@ -36,7 +36,18 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
 
   const [isSelecting, setIsSelecting] = useState(false);
 
-  const selectNode = (id: string) => {
+  const selectNode = (id: string | string[]) => {
+    // add array to the selection
+    if (Array.isArray(id)) {
+      const set = new Set(id);
+      const alreadySelected = new Set(selectedNodes.map((n) => n.id));
+      const toAdd: GraphNode[] = [];
+      graph.nodes.forEach((node) => {
+        if (set.has(node.id) && !alreadySelected.has(node.id)) toAdd.push(node);
+      });
+      setSelectedNodes([...selectedNodes, ...toAdd]);
+      return;
+    }
     graph.nodes.forEach((n) => {
       if (n.id === id) {
         n.attributes.selected = !n.attributes.selected;
@@ -46,7 +57,18 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
     });
   };
 
-  const selectEdge = (id: string) => {
+  const selectEdge = (id: string | string[]) => {
+    if (Array.isArray(id)) {
+      const set = new Set(id);
+      const alreadySelected = new Set(selectedEdges.map((e) => e._id));
+      const toAdd: GraphEdge[] = [];
+      graph.edges.forEach((edge) => {
+        if (set.has(edge._id) && !alreadySelected.has(edge._id))
+          toAdd.push(edge);
+      });
+      setSelectedEdges([...selectedEdges, ...toAdd]);
+      return;
+    }
     graph.edges.forEach((e) => {
       if (e._id === id) {
         e.attributes.selected = !e.attributes.selected;

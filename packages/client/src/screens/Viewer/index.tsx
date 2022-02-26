@@ -177,6 +177,29 @@ const Wrapper = ({
     });
   };
 
+  const onShare = () => {
+    // confirm sharing
+    console.log('share');
+  };
+
+  // Should not allow editing if more than one node is selected
+  const getSelectedNode = () => {
+    const selectedNodes = graph.nodes.filter(
+      (node) => node.attributes.selected
+    );
+    const node = selectedNodes.length === 1 ? selectedNodes[0] : null;
+    setNodeData(node);
+    return node;
+  };
+
+  const onEdit = () => {
+    if (selectedNodes && selectedNodes.length === 1) {
+      setNodeDialogVisible(true);
+    }
+  };
+
+  if (graph.nodes.length === 0) return null;
+
   return (
     <>
       <Viewer width={width} height={height} graph={graph} />
@@ -187,16 +210,13 @@ const Wrapper = ({
         }}
         onSelect={onSelect}
         onRemove={removeSelected}
-        onEdit={() => {
-          if (selectedNodes && selectedNodes.length === 1) {
-            setNodeDialogVisible(true);
-          }
-        }}
+        onEdit={onEdit}
         onCreateEdge={() => {
           if (selectedNodes && selectedNodes.length > 1) {
             createEdge();
           }
         }}
+        onShare={onShare}
       />
       {nodeDialogVisible && !edgeDialogVisible ? (
         <CreateNodeDialog

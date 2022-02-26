@@ -3,7 +3,6 @@ import { Fab, Icon, Menu, Text, HStack } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
 import React, { FC } from 'react';
 import { useVis } from '../../components/Viewer';
-import { Graph } from '../../types/graph';
 
 interface BottomMenuProps {
   showDialog: () => void;
@@ -11,6 +10,7 @@ interface BottomMenuProps {
   onRemove: () => void;
   onEdit: () => void;
   onCreateEdge: () => void;
+  onShare: () => void;
 }
 
 export const BottomMenu: FC<BottomMenuProps> = ({
@@ -18,12 +18,10 @@ export const BottomMenu: FC<BottomMenuProps> = ({
   onSelect,
   onRemove,
   onEdit,
-  onCreateEdge
+  onCreateEdge,
+  onShare
 }) => {
-  const { app, startSelection, setIsSelecting, selectedEdges, selectedNodes } =
-    useVis();
-
-  const onSelectStart = () => {};
+  const { selectedEdges, selectedNodes } = useVis();
 
   const menuItems = [
     {
@@ -58,8 +56,9 @@ export const BottomMenu: FC<BottomMenuProps> = ({
     },
     {
       icon: 'share',
-      onPress: () => {},
-      text: 'Share'
+      onPress: onShare,
+      text: 'Share',
+      active: selectedNodes.length > 0
     }
   ];
 
