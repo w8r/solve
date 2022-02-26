@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import { Platform, LogBox, StyleSheet, View } from 'react-native';
-import { Slider } from 'native-base';
+import { StyleSheet, View } from 'react-native';
+import { Modal, Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
 import { FormContainer } from './FormContainer';
 import * as Validator from 'yup';
@@ -15,7 +15,6 @@ import {
   Input,
   Divider
 } from 'native-base';
-import { BottomDrawer, DrawerState } from './BottomDrawer';
 import { GraphNode } from '../types/graph';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -81,102 +80,99 @@ export default function CreateNodeDialog({
 
   const nodeNameRef = useRef<any>(null);
   return (
-    <BottomDrawer
-      initialState={DrawerState.Peek + 100}
-      onDrawerStateChange={(e) => null}
+    <Modal
+      avoidKeyboard={true}
+      isOpen={true}
+      justifyContent="flex-end"
+      bottom="4"
+      size="lg"
     >
-      <View style={styles.bottomNavigationView}>
-        <TouchableOpacity onPress={() => closeDialog()}>
+      <Modal.Content maxWidth="350" style={styles.bottomNavigationView}>
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => closeDialog()}
+        >
           <Text>Close</Text>
         </TouchableOpacity>
-
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'space-between'
-          }}
-        >
-          <FormContainer>
-            <Heading size="md" fontWeight="400" color="coolGray.800">
-              {data ? 'Edit node' : 'Add a new node'}
-            </Heading>
-            <VStack space={4} mt="7">
-              <FormControl>
-                <FormControl.Label
-                  _text={{
-                    color: 'coolGray.800',
-                    fontSize: 'xs',
-                    fontWeight: 500
-                  }}
-                >
-                  Name
-                </FormControl.Label>
-                <Input
-                  onChange={(evt: any) =>
-                    handleChange('name')(evt.nativeEvent.text)
-                  }
-                  onBlur={handleBlur('name')}
-                  value={values.name}
-                  onSubmitEditing={() => nodeNameRef.current?.focus()}
-                />
-              </FormControl>
-              <FormControl>
-                <FormControl.Label
-                  _text={{
-                    color: 'coolGray.800',
-                    fontSize: 'xs',
-                    fontWeight: 500
-                  }}
-                >
-                  Categories
-                </FormControl.Label>
-                <TagGroup
-                  singleChoiceMode={true}
-                  source={categoryArray}
-                  selected={data?.data?.category || undefined}
-                  onSelectedTagChange={(tag: string) =>
-                    handleChange('selectedTag')(tag)
-                  }
-                />
-              </FormControl>
-              <FormControl>
-                <FormControl.Label
-                  _text={{
-                    color: 'coolGray.800',
-                    fontSize: 'xs',
-                    fontWeight: 500
-                  }}
-                >
-                  Node Size
-                </FormControl.Label>
-                <Slider
-                  defaultValue={onChangeValue}
-                  onChange={(size) =>
-                    setOnChangeValue(getClosestSize(Math.floor(size / 5)))
-                  }
-                  colorScheme="orange"
-                >
-                  <Slider.Track>
-                    <Slider.FilledTrack />
-                  </Slider.Track>
-                  <Slider.Thumb size={onChangeValue} />
-                </Slider>
-              </FormControl>
-              <Button
-                mt="2"
-                colorScheme="indigo"
-                _text={{ color: 'white' }}
-                onPress={() => submitForm()}
+        <FormContainer>
+          <Heading size="md" fontWeight="400" color="coolGray.800">
+            {data ? 'Edit node' : 'Add a new node'}
+          </Heading>
+          <VStack direction="column" space="2.5" mt="7">
+            <FormControl>
+              <FormControl.Label
+                _text={{
+                  color: 'coolGray.800',
+                  fontSize: 'xs',
+                  fontWeight: 500
+                }}
               >
-                {data ? 'Edit' : 'Add'}
-              </Button>
-            </VStack>
-            <Divider my="2" />
-          </FormContainer>
-        </View>
-      </View>
-    </BottomDrawer>
+                Name
+              </FormControl.Label>
+              <Input
+                onChange={(evt: any) =>
+                  handleChange('name')(evt.nativeEvent.text)
+                }
+                onBlur={handleBlur('name')}
+                value={values.name}
+                onSubmitEditing={() => nodeNameRef.current?.focus()}
+              />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label
+                _text={{
+                  color: 'coolGray.800',
+                  fontSize: 'xs',
+                  fontWeight: 500
+                }}
+              >
+                Categories
+              </FormControl.Label>
+              <TagGroup
+                singleChoiceMode={true}
+                source={categoryArray}
+                selected={data?.data?.category || undefined}
+                onSelectedTagChange={(tag: string) =>
+                  handleChange('selectedTag')(tag)
+                }
+              />
+            </FormControl>
+            <FormControl>
+              <FormControl.Label
+                _text={{
+                  color: 'coolGray.800',
+                  fontSize: 'xs',
+                  fontWeight: 500
+                }}
+              >
+                Node Size
+              </FormControl.Label>
+              <Slider
+                defaultValue={onChangeValue}
+                onChange={(size) =>
+                  setOnChangeValue(getClosestSize(Math.floor(size / 5)))
+                }
+                colorScheme="orange"
+              >
+                <Slider.Track>
+                  <Slider.FilledTrack />
+                </Slider.Track>
+                <Slider.Thumb size={onChangeValue} />
+              </Slider>
+            </FormControl>
+            <Button
+              mt="2"
+              colorScheme="indigo"
+              _text={{ color: 'white' }}
+              onPress={() => submitForm()}
+            >
+              {data ? 'Edit' : 'Add'}
+            </Button>
+          </VStack>
+          <Divider my="2" />
+        </FormContainer>
+      </Modal.Content>
+    </Modal>
   );
 }
 
@@ -185,18 +181,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '100%',
     height: 600,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'center'
   },
   // top right corner css
   closeButton: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
+    alignSelf: 'flex-end',
     padding: 10
-  },
-  modal: {
-    justifyContent: 'flex-end',
-    margin: 0
   }
 });
