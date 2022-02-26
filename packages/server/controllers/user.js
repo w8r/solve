@@ -9,7 +9,7 @@ module.exports.status = ({ user }, res, next) => {
   if (user) res.send(user);
 };
 
-const toHeader = (graph) => ({
+module.exports.toHeader = (graph) => ({
   id: graph.publicId,
   internalId: graph._id,
   nodes: graph.get('nodes').length,
@@ -42,7 +42,7 @@ const toHeader = (graph) => ({
 module.exports.getUserGraphs = async (req, res) => {
   try {
     const graphs = await Graphs.findByUser(req.params.id ?? req.user._id);
-    res.status(200).json(graphs.map(toHeader));
+    res.status(200).json(graphs.map(this.toHeader));
   } catch (err) {
     res.status(500).json({
       error: 'Error retrieving graphs',

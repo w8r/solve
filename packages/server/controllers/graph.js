@@ -7,6 +7,7 @@ const _ = require('lodash');
 
 const preview = require('../lib/preview');
 const { messages } = require('../config/constants');
+const { toHeader } = require('./user');
 
 module.exports.searchByTag = async (req, res) => {
   try {
@@ -19,7 +20,7 @@ module.exports.searchByTag = async (req, res) => {
       throw new Error('Graph not found.');
     }
 
-    res.status(200).send(graph);
+    res.status(200).send(graph.map(toHeader));
   } catch (err) {
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
@@ -135,6 +136,9 @@ const extractTags = (req) => {
       for (const tag of Object.values(node.data)) {
         tags.push(tag);
       }
+    }
+    if (node.attributes && node.attributes.text) {
+      tags.push(node.attributes.text);
     }
   }
   for (const edge of req.edges) {

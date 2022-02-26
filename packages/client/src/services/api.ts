@@ -153,6 +153,12 @@ export function shareGraph(graph: Graph, parentId: string) {
   });
 }
 
+export function searchGraph(searchText: string) {
+  return post<Graph[]>(`/api/graph/search`, {
+    tag: searchText
+  });
+}
+
 export function getGraphPreviewURL(id: string) {
   return AppConfig.apiUrl + `/api/graph/${id}/preview.${isWeb ? 'svg' : 'png'}`;
 }

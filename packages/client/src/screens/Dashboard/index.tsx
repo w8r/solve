@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { Hidden } from 'native-base';
+import { Text } from 'native-base';
 
 import { useIsFocused } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
@@ -11,6 +11,7 @@ import { ProfileButton } from '../../components/Avatar';
 
 import Placeholder from './Placeholder';
 import Graphs from './Graphs';
+import { SearchText } from '../../components/SearchText';
 
 export default function Dashboard() {
   const [isLoading, setLoading] = useState(false);
@@ -19,16 +20,50 @@ export default function Dashboard() {
   const [error, setError] = useState(null);
   const isFocused = useIsFocused();
 
+  const showGraph = () => {
+    if (graphs.length > 0) {
+      return <Graphs graphs={graphs} />;
+    } else {
+      return <Text style={styles.textStyle}>No graph was found.</Text>;
+    }
+  };
+
+  const handleSearch = (text: string) => {
+    if (text.length > 0) {
+      setLoading(true);
+      setRequested(true);
+      api
+        .searchGraph(text)
+        .then((response) => {
+          setGraphs(response);
+        })
+        .catch((error) => {
+          setError(error);
+        })
+        .finally(() => {
+          setLoading(false);
+          setRequested(false);
+        });
+    } else {
+      setRequested(true);
+      getMyGraphs();
+    }
+  };
+
+  const getMyGraphs = () => {
+    api
+      .getUserGraphs()
+      .then((response) => isFocused && setGraphs(response))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
+  };
+
   useEffect(() => {
     if (isFocused && !requested && !isLoading) {
       setLoading(true);
       setRequested(true);
 
-      api
-        .getUserGraphs()
-        .then((response) => isFocused && setGraphs(response))
-        .catch((err) => setError(err))
-        .finally(() => setLoading(false));
+      getMyGraphs();
     }
     // unload
     if (!isFocused) {
@@ -40,7 +75,8 @@ export default function Dashboard() {
   return (
     <SafeAreaView style={styles.container}>
       <ProfileButton />
-      {isLoading ? <Placeholder /> : <Graphs graphs={graphs} />}
+      <SearchText onChangeText={handleSearch} />
+      {isLoading ? <Placeholder /> : showGraph()}
     </SafeAreaView>
   );
 }
@@ -48,5 +84,13 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  textStyle: {
+    flex: 1,
+    alignSelf: 'center',
+    fontSize: 20,
+    top: 200,
+    textAlign: 'center',
+    marginTop: 20
   }
 });
