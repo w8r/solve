@@ -110,10 +110,8 @@ export default function CreateNodeDialog({
                 Name
               </FormControl.Label>
               <Input
-                onChange={(evt: any) =>
-                  handleChange('name')(evt.nativeEvent.text)
-                }
-                onBlur={handleBlur('name')}
+                onChange={(evt) => handleChange('name')(evt.nativeEvent.text)}
+                onBlur={() => handleBlur('name')}
                 value={values.name}
                 onSubmitEditing={() => nodeNameRef.current?.focus()}
               />
@@ -133,7 +131,7 @@ export default function CreateNodeDialog({
                 source={categoryArray}
                 selected={data?.data?.category || undefined}
                 onSelectedTagChange={(tag: string) =>
-                  handleChange('selectedTag')(tag)
+                  setTimeout(() => handleChange('selectedTag')(tag), 0)
                 }
               />
             </FormControl>
@@ -166,7 +164,7 @@ export default function CreateNodeDialog({
               _text={{ color: 'white' }}
               onPress={() => submitForm()}
             >
-              {data ? 'Edit' : 'Add'}
+              Done
             </Button>
           </VStack>
           <Divider my="2" />

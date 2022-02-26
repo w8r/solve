@@ -139,6 +139,7 @@ const Wrapper = ({
 
   const editNode = (name: string, category: string, size: number) => {
     if (!selectedNodes || (selectedNodes && selectedNodes.length !== 1)) return;
+    console.log(name);
     const updatedGraph = {
       ...graph,
       nodes: graph.nodes.map((node) =>
