@@ -143,7 +143,6 @@ const Wrapper = ({
 
   const editNode = (name: string, category: string, size: number) => {
     if (!selectedNodes || (selectedNodes && selectedNodes.length !== 1)) return;
-    console.log(name);
     const updatedGraph = {
       ...graph,
       nodes: graph.nodes.map((node) =>
@@ -194,7 +193,7 @@ const Wrapper = ({
 
   const onShare = () => {
     const selectedGraph: Graph = {
-      id: 'selected',
+      id: graph.id,
       nodes: [...JSON.parse(JSON.stringify(selectedNodes))],
       edges: [...JSON.parse(JSON.stringify(selectedEdges))]
     };

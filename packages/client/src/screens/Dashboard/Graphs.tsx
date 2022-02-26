@@ -23,7 +23,7 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
   return (
     <Box style={styles.container}>
       <FlatList
-        //contentContainerStyle={styles.listContent}
+        contentContainerStyle={styles.listContent}
         numColumns={columns}
         data={graphs}
         keyExtractor={(item, index) => index.toString()}
@@ -58,7 +58,7 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    padding: 20,
+    padding: 0,
     paddingTop: 40
   },
   list: {
@@ -70,9 +70,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.2)'
   },
   listContent: {
-    width: '100%',
     margin: 0,
-    padding: 0,
-    alignItems: 'center'
+    padding: 20
   }
 });

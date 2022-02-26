@@ -137,6 +137,13 @@ export const BottomDrawer: FC<BottomDrawerProps> = ({
           backgroundColor: '#fff',
           borderRadius: 25,
           position: 'absolute',
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 2
+          },
+          shadowRadius: 15,
+          shadowOpacity: 0.25,
           bottom: -height + 30,
           transform: [{ translateY: y }]
         }
