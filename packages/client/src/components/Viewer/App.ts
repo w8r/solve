@@ -269,7 +269,7 @@ export class App extends EventEmitter {
         text.position.y = y - r;
         text.anchorX = 'center';
         text.anchorY = 'top';
-        text.color = new Color(0xffffff);
+        text.color = new Color(0x000000);
 
         this.idToText.set(id, text);
         scene.add(text);
