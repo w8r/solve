@@ -16,8 +16,6 @@ export type GraphEdge = {
   id: string;
   source: string;
   target: string;
-  _source: string;
-  _target: string;
   _id: string;
   attributes: {
     selected?: boolean;

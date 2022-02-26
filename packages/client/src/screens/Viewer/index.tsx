@@ -6,11 +6,25 @@ import { VisProvider, useVis, Viewer } from '../../components/Viewer';
 import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
-import { Graph, GraphNode } from '../../types/graph';
-import CreateNodeDialog from '../../components/CreateNodeDialog';
+import { Graph, GraphEdge, GraphNode } from '../../types/graph';
+import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
 import { BackButton } from '../../components/BackButton';
 import { useNavigation } from '@react-navigation/native';
 import { SelectionDialog } from './SelectionDialog';
+import ConnectNodeDialog from '../../components/Dialog/ConnectNodeDialog';
+import _ from 'lodash';
+
+var splitPairs = function (arr: string[]) {
+  var pairs = [];
+  for (var i = 0; i < arr.length; i += 2) {
+    if (arr[i + 1] !== undefined) {
+      pairs.push([arr[i], arr[i + 1]]);
+    } else {
+      pairs.push([arr[i - 1], arr[i]]);
+    }
+  }
+  return pairs;
+};
 
 const Wrapper = ({
   width,
@@ -21,9 +35,13 @@ const Wrapper = ({
   height: number;
   id: string | null;
 }) => {
-  const { app, graph, setGraph } = useVis();
-  const [isDialogVisible, setDialogVisible] = useState(false);
+  const { app, graph, setGraph, selectedEdges, selectedNodes } = useVis();
+  const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
+  const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
   const [nodeData, setNodeData] = useState<GraphNode | null>(null);
+  const [nodesData, setNodesData] = useState<[GraphNode, GraphNode] | null>(
+    null
+  );
   const [selected, setSelected] = useState<Graph | null>(null);
 
   useEffect(() => {
@@ -38,6 +56,30 @@ const Wrapper = ({
     app.highlight(graph);
     setSelected(graph);
     //navigate('Preview', { graph });
+  };
+
+  const createEdge = () => {
+    const edgePairs = splitPairs(selectedNodes.map((node) => node.id));
+
+    const edges = edgePairs.map((pair) => {
+      return {
+        id: `${pair[0]}-${pair[1]}`,
+        _id: `${pair[0]}-${pair[1]}`,
+        source: pair[0],
+        target: pair[1],
+        attributes: {
+          width: 1,
+          color: '#000',
+          selected: false
+        }
+      };
+    });
+
+    const updatedGraph = {
+      ...graph,
+      edges: [...graph.edges, ...edges]
+    };
+    setGraph(updatedGraph);
   };
 
   const addNode = (name: string, category: string, size: number) => {
@@ -62,15 +104,20 @@ const Wrapper = ({
       ]
     };
     setGraph(updatedGraph);
-    setDialogVisible(false);
+    setNodeDialogVisible(false);
   };
 
   const removeSelected = () => {
-    if (!graph) return;
-    const nodes = graph.nodes.filter((node) => !node.attributes.selected);
-    const nodeIds = nodes.map((node) => node.id);
+    if (!selectedNodes && !selectedEdges) return;
+    const nodeIds = selectedNodes.map((node) => node.id);
+    const nodes = graph.nodes.filter((node) => !nodeIds.includes(node.id));
+    const existingNodeIds = nodes.map((node) => node.id);
+    const edgeIds = selectedEdges.map((edge) => edge._id);
     const edges = graph.edges.filter(
-      (edge) => nodeIds.includes(edge.source) && nodeIds.includes(edge.target)
+      (edge) =>
+        existingNodeIds.includes(edge.source) &&
+        existingNodeIds.includes(edge.target) &&
+        !edgeIds.includes(edge._id)
     );
 
     const updatedGraph = {
@@ -82,37 +129,28 @@ const Wrapper = ({
   };
 
   const editNode = (name: string, category: string, size: number) => {
-    if (!nodeData) return;
+    if (!selectedNodes || (selectedNodes && selectedNodes.length !== 1)) return;
     const updatedGraph = {
       ...graph,
-      nodes: graph.nodes.map((node) => {
-        if (node.attributes.selected) {
-          return {
-            ...node,
-            data: { category },
-            attributes: {
-              ...node.attributes,
-              r: size,
-              text: name
+      nodes: graph.nodes.map((node) =>
+        node.id === selectedNodes[0].id
+          ? {
+              ...node,
+              attributes: {
+                ...node.attributes,
+                r: size,
+                text: name,
+                color: 'blue'
+              },
+              data: { category }
             }
-          };
-        }
-        return node;
-      })
+          : node
+      )
     };
-    setGraph(updatedGraph);
-    setDialogVisible(false);
-    setNodeData(null);
-  };
 
-  // Should not allow editing if more than one node is selected
-  const getSelectedNode = () => {
-    const selectedNodes = graph.nodes.filter(
-      (node) => node.attributes.selected
-    );
-    const node = selectedNodes.length === 1 ? selectedNodes[0] : null;
-    setNodeData(node);
-    return node;
+    setGraph(updatedGraph);
+    setNodeDialogVisible(false);
+    setNodeData(null);
   };
 
   if (graph.nodes.length === 0) return null;
@@ -123,26 +161,40 @@ const Wrapper = ({
       <BottomMenu
         showDialog={() => {
           setNodeData(null);
-          setDialogVisible(true);
+          setNodeDialogVisible(true);
         }}
         onPreview={onPreview}
         onRemove={removeSelected}
         onEdit={() => {
-          const node = getSelectedNode();
-          if (node) {
-            setDialogVisible(true);
+          if (selectedNodes && selectedNodes.length === 1) {
+            setNodeDialogVisible(true);
+          }
+        }}
+        onCreateEdge={() => {
+          if (selectedNodes && selectedNodes.length > 1) {
+            createEdge();
           }
         }}
       />
-      {isDialogVisible ? (
+      {nodeDialogVisible && !edgeDialogVisible ? (
         <CreateNodeDialog
           closeDialog={() => {
-            setDialogVisible(false);
+            setNodeDialogVisible(false);
             setNodeData(null);
           }}
           addNode={addNode}
           editNode={editNode}
           data={nodeData}
+        />
+      ) : null}
+      {edgeDialogVisible && !nodeDialogVisible ? (
+        <ConnectNodeDialog
+          closeDialog={() => {
+            setEdgeDialogVisible(false);
+            setNodesData(null);
+          }}
+          createEdge={createEdge}
+          data={nodesData}
         />
       ) : null}
       <SelectionDialog

@@ -10,13 +10,15 @@ interface BottomMenuProps {
   onPreview: (graph: Graph) => void;
   onRemove: () => void;
   onEdit: () => void;
+  onCreateEdge: () => void;
 }
 
 export const BottomMenu: FC<BottomMenuProps> = ({
   showDialog,
   onPreview,
   onRemove,
-  onEdit
+  onEdit,
+  onCreateEdge
 }) => {
   const { app, startSelection, setIsSelecting, selectedNodes } = useVis();
   const onSelect = () => {
@@ -54,6 +56,11 @@ export const BottomMenu: FC<BottomMenuProps> = ({
       icon: 'share',
       onPress: () => {},
       text: 'Share'
+    },
+    {
+      icon: 'copy',
+      onPress: onCreateEdge,
+      text: 'Create edge(s)'
     }
   ];
 

@@ -2,9 +2,9 @@ import React, { useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Modal, Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
-import { FormContainer } from './FormContainer';
+import { FormContainer } from '../FormContainer';
 import * as Validator from 'yup';
-import TagGroup from './TagGroup';
+import TagGroup from '../TagGroup';
 
 import {
   Button,
@@ -15,7 +15,7 @@ import {
   Input,
   Divider
 } from 'native-base';
-import { GraphNode } from '../types/graph';
+import { GraphNode } from '../../types/graph';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const categoryArray = [
