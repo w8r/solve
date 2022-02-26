@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Modal, Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
@@ -15,16 +15,13 @@ import {
   Input,
   Divider
 } from 'native-base';
-import { GraphNode } from '../../types/graph';
+import {
+  CategoryColors,
+  GraphNode,
+  getCategoryColor,
+  categoryArray
+} from '../../types/graph';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-const categoryArray = [
-  'Money',
-  'Health',
-  'Relationship',
-  'Meaning',
-  'Happiness'
-];
 
 const possibleSizes = [3, 3.5, 4, 5, 6, 7, 8, 9, 10, 12, 16, 20, 24];
 
@@ -50,6 +47,7 @@ export default function CreateNodeDialog({
   editNode: (name: string, category: string, size: number) => void;
   data: GraphNode | null;
 }) {
+  const [categoryColor, setCategoryColor] = useState(CategoryColors.Happiness);
   useEffect(() => {
     setOnChangeValue(getClosestSize((data?.attributes.r || 3) * 3));
   }, [data]);
@@ -134,7 +132,10 @@ export default function CreateNodeDialog({
                 source={categoryArray}
                 selected={data?.data?.category || undefined}
                 onSelectedTagChange={(tag: string) =>
-                  setTimeout(() => handleChange('selectedTag')(tag), 0)
+                  setTimeout(() => {
+                    handleChange('selectedTag')(tag);
+                    setCategoryColor(getCategoryColor(tag));
+                  }, 0)
                 }
               />
             </FormControl>
@@ -153,7 +154,7 @@ export default function CreateNodeDialog({
                 onChange={(size) =>
                   setOnChangeValue(getClosestSize(Math.floor(size / 5)))
                 }
-                colorScheme="orange"
+                colorScheme={categoryColor}
               >
                 <Slider.Track>
                   <Slider.FilledTrack />

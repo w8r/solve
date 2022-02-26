@@ -12,14 +12,15 @@ import {
 } from 'react-native';
 
 import PropTypes from 'prop-types';
-
+import { CategoryColors, getCategoryColor } from '../types/graph';
 const propStyle = require('react-style-proptype');
 
 export default class TagGroup extends Component {
   static defaultProps = {
     onSelectedTagChange: () =>
       console.log('TagGroup onSelectedTagChange not set.'),
-    singleChoiceMode: false
+    singleChoiceMode: false,
+    tagColors: CategoryColors
   };
 
   constructor(props) {
@@ -216,11 +217,17 @@ export class Tag extends Component {
       <View
         style={[
           styles.tagBackground,
-          { borderColor: tintColor },
+          {
+            borderColor: '#fff',
+            backgroundColor: getCategoryColor(this.props.text)
+          },
           tagStyle
         ].concat(
           this.state.selected
-            ? activeTagStyle || { backgroundColor: tintColor }
+            ? activeTagStyle || {
+                backgroundColor: '#fff',
+                borderColor: getCategoryColor(this.props.text)
+              }
             : null
         )}
       >
@@ -276,14 +283,13 @@ const styles = StyleSheet.create({
   },
 
   tagBackground: {
-    backgroundColor: 'white',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
     borderWidth: 1
   },
   textStyle: {
-    color: '#666',
+    color: '#fff',
     fontSize: 13,
     textAlign: 'center',
     textAlignVertical: 'center'

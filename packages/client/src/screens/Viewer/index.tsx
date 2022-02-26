@@ -6,7 +6,12 @@ import { VisProvider, useVis, Viewer } from '../../components/Viewer';
 import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
-import { Graph, GraphEdge, GraphNode } from '../../types/graph';
+import {
+  getCategoryColor,
+  Graph,
+  GraphEdge,
+  GraphNode
+} from '../../types/graph';
 import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
 import { BackButton } from '../../components/BackButton';
 import { useNavigation } from '@react-navigation/native';
@@ -102,7 +107,7 @@ const Wrapper = ({
             r: size,
             x: 0,
             y: 0,
-            color: 'blue',
+            color: getCategoryColor(category),
             text: name,
             selected: false
           },
@@ -149,7 +154,7 @@ const Wrapper = ({
                 ...node.attributes,
                 r: size,
                 text: name,
-                color: 'blue'
+                color: getCategoryColor(category)
               },
               data: { category }
             }
@@ -166,14 +171,13 @@ const Wrapper = ({
           ...selectedNodes[0].attributes,
           r: size,
           text: name,
-          color: 'blue'
+          color: getCategoryColor(category)
         }
       }
     ]);
     setNodeDialogVisible(false);
   };
 
-  if (graph.nodes.length === 0) return null;
   const onSelect = () => {
     setIsSelecting(true);
     startSelection((selectedGraph) => {
@@ -204,8 +208,6 @@ const Wrapper = ({
       setNodeDialogVisible(true);
     }
   };
-
-  if (graph.nodes.length === 0) return null;
 
   return (
     <>

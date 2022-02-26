@@ -14,6 +14,39 @@ export type GraphNode = {
   data: Record<string, unknown>;
 };
 
+export enum CategoryColors {
+  Health = 'red',
+  Money = 'green',
+  Relationship = 'blue',
+  Meaning = 'purple',
+  Happiness = 'orange'
+}
+
+export const getCategoryColor = (category: string) => {
+  switch (category) {
+    case 'Health':
+      return CategoryColors.Health;
+    case 'Money':
+      return CategoryColors.Money;
+    case 'Relationship':
+      return CategoryColors.Relationship;
+    case 'Meaning':
+      return CategoryColors.Meaning;
+    case 'Happiness':
+      return CategoryColors.Happiness;
+    default:
+      return CategoryColors.Health;
+  }
+};
+
+export const categoryArray = [
+  'Money',
+  'Health',
+  'Relationship',
+  'Meaning',
+  'Happiness'
+];
+
 export type GraphEdge = {
   id: Id;
   source: string;

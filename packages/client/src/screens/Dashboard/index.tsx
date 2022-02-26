@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { Text } from 'native-base';
+import { Button, Text, View } from 'native-base';
 
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
 import * as api from '../../services/api';
-import { useAuth } from '../../hooks/useAuth';
-import { Logo } from '../../components';
 import { ProfileButton } from '../../components/Avatar';
 
 import Placeholder from './Placeholder';
@@ -19,6 +17,7 @@ export default function Dashboard() {
   const [graphs, setGraphs] = useState<Graph[]>([]);
   const [error, setError] = useState(null);
   const isFocused = useIsFocused();
+  const { navigate } = useNavigation();
 
   const showGraph = () => {
     if (graphs.length > 0) {
@@ -77,6 +76,22 @@ export default function Dashboard() {
       <ProfileButton />
       <SearchText onChangeText={handleSearch} />
       {isLoading ? <Placeholder /> : showGraph()}
+      <View style={styles.newGraphContainer}>
+        <Button
+          onPress={() =>
+            navigate('App', {
+              screen: 'TabOne',
+              params: {
+                screen: 'Viewer',
+                params: []
+              }
+            })
+          }
+          style={styles.buttonStyle}
+        >
+          <Text style={{ color: '#fff' }}>Create a new graph</Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }
@@ -92,5 +107,19 @@ const styles = StyleSheet.create({
     top: 200,
     textAlign: 'center',
     marginTop: 20
+  },
+  newGraphContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: 20
+  },
+  buttonStyle: {
+    position: 'relative',
+    bottom: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
