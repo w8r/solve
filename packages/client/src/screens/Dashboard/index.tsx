@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { Button, Text, View } from 'native-base';
+import { Button, Fab, Text, View, Icon } from 'native-base';
+import { Feather as Icons } from '@expo/vector-icons';
 
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
@@ -76,22 +77,19 @@ export default function Dashboard() {
       <ProfileButton />
       <SearchText onChangeText={handleSearch} />
       {isLoading ? <Placeholder /> : showGraph()}
-      <View style={styles.newGraphContainer}>
-        <Button
-          onPress={() =>
-            navigate('App', {
-              screen: 'TabOne',
-              params: {
-                screen: 'Viewer',
-                params: []
-              }
-            })
-          }
-          style={styles.buttonStyle}
-        >
-          <Text style={{ color: '#fff' }}>Create a new graph</Text>
-        </Button>
-      </View>
+      <Fab
+        style={styles.fab}
+        onPress={() =>
+          navigate('App', {
+            screen: 'TabOne',
+            params: {
+              screen: 'Viewer',
+              params: []
+            }
+          })
+        }
+        icon={<Icon color="white" as={Icons} name="plus" size="4" />}
+      />
     </SafeAreaView>
   );
 }
@@ -109,17 +107,22 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   newGraphContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
     flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginBottom: 20
+    marginBottom: 20,
+    borderWidth: 1
   },
-  buttonStyle: {
-    position: 'relative',
-    bottom: 10,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center'
+  newGraphButton: {
+    borderWidth: 1,
+    flex: 1
+  },
+  fab: {
+    flex: 1,
+    position: 'absolute',
+    bottom: 20,
+    right: '50%',
+    marginRight: -25
   }
 });
