@@ -21,7 +21,15 @@ const Wrapper = ({
   height: number;
   id: string | null;
 }) => {
-  const { app, graph, setGraph, setIsSelecting, startSelection } = useVis();
+  const {
+    app,
+    graph,
+    setGraph,
+    setIsSelecting,
+    startSelection,
+    selectNode,
+    selectEdge
+  } = useVis();
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [nodeData, setNodeData] = useState<GraphNode | null>(null);
   const [selected, setSelected] = useState<Graph | null>(null);
@@ -107,10 +115,14 @@ const Wrapper = ({
 
   const onSelect = () => {
     setIsSelecting(true);
-    startSelection((graph) => {
-      console.log('selected', graph);
+    startSelection((selectedGraph) => {
+      selectedGraph.nodes.forEach(({ id, attributes: { selected } }) => {
+        if (!selected) selectNode(id);
+      });
+      selectedGraph.edges.forEach(({ _id: id, attributes: { selected } }) => {
+        if (!selected) selectEdge(id);
+      });
       setIsSelecting(false);
-      //if (graph && graph.nodes.length > 0) onPreview(graph);
     });
   };
 
