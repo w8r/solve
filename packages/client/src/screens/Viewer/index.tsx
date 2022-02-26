@@ -46,7 +46,8 @@ const Wrapper = ({
     selectedNodes,
     setSelectedNodes,
     selectedEdges,
-    setSelectedEdges
+    setSelectedEdges,
+    clearSelection
   } = useVis();
   const { navigate } = useNavigation();
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
@@ -171,6 +172,11 @@ const Wrapper = ({
     });
   };
 
+  const onSelectClear = () => {
+    clearSelection();
+    setGraph(graph);
+  };
+
   const onShare = () => {
     const selectedGraph: Graph = {
       id: 'selected',
@@ -199,6 +205,7 @@ const Wrapper = ({
           setNodeDialogVisible(true);
         }}
         onSelect={onSelect}
+        onSelectClear={onSelectClear}
         onRemove={removeSelected}
         onEdit={onEdit}
         onCreateEdge={() => {

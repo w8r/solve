@@ -11,6 +11,7 @@ interface BottomMenuProps {
   onEdit: () => void;
   onCreateEdge: () => void;
   onShare: () => void;
+  onSelectClear: () => void;
 }
 
 export const BottomMenu: FC<BottomMenuProps> = ({
@@ -19,7 +20,8 @@ export const BottomMenu: FC<BottomMenuProps> = ({
   onRemove,
   onEdit,
   onCreateEdge,
-  onShare
+  onShare,
+  onSelectClear
 }) => {
   const { selectedEdges, selectedNodes } = useVis();
 
@@ -53,6 +55,12 @@ export const BottomMenu: FC<BottomMenuProps> = ({
       onPress: onSelect,
       text: 'Select',
       active: true
+    },
+    {
+      icon: 'crop',
+      onPress: onSelectClear,
+      text: 'Clear selection',
+      active: selectedNodes.length + selectedEdges.length > 0
     },
     {
       icon: 'share',

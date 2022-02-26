@@ -20,6 +20,7 @@ export type VisState = {
 
   selectNode: (id: Id | Id[]) => void;
   selectEdge: (id: Id | Id[]) => void;
+  clearSelection: () => void;
 };
 
 export const VisContext = createContext<VisState>({
@@ -83,6 +84,17 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
     });
   };
 
+  const clearSelection = () => {
+    setSelectedNodes([]);
+    setSelectedEdges([]);
+    graph.nodes.forEach((n) => {
+      n.attributes.selected = false;
+    });
+    graph.edges.forEach((e) => {
+      e.attributes.selected = false;
+    });
+  };
+
   return (
     <VisContext.Provider
       value={
@@ -101,7 +113,8 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
           setSelectedEdges,
 
           selectNode,
-          selectEdge
+          selectEdge,
+          clearSelection
         } as VisState
       }
     >
