@@ -73,8 +73,6 @@ export function Viewer({
   } = useVis();
   const dppx = PixelRatio.get();
 
-  const { minX, minY, maxX, maxY } = graphBbox(graph);
-
   const [state, setState] = useState<ViewerState>({
     // gesture state
     isMoving: false,
@@ -98,14 +96,14 @@ export function Viewer({
   });
 
   useEffect(() => {
+    const { minX, minY, maxX, maxY } = graphBbox(graph);
     const transform = getBoundsTransform(
       minX,
       minY,
       maxX,
       maxY,
       width * dppx,
-      height * dppx,
-      20
+      height * dppx
     );
     setState({ ...state, ...transform });
   }, [graph]);

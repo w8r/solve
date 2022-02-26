@@ -1,6 +1,7 @@
 import { ZoomTransform } from 'd3-zoom';
 import { NumberKeyframeTrack, PerspectiveCamera, Vector3 } from 'three';
 import { Graph } from '../../types/graph';
+import { zoomIdentity } from 'd3-zoom';
 export interface Point {
   x: number;
   y: number;
@@ -87,31 +88,37 @@ export function bbox({ nodes }: Graph) {
   return { minX, minY, maxX, maxY };
 }
 
+const trainsformIdentity = (): Transform => ({ k: 1, x: 0, y: 0 });
+
 export function getBoundsTransform(
-  xmin: number,
-  ymin: number,
-  xmax: number,
-  ymax: number,
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
   canvasWidth: number,
   canvasHeight: number,
   padding = 10
 ) {
-  const w = xmax - xmin || 0;
-  const h = ymax - ymin || 0;
-  const cx = (xmin + xmax) / 2 || 0;
-  const cy = (ymin + ymax) / 2 || 0;
+  const w = x1 - x0 || 0;
+  const h = y1 - y0 || 0;
+  const cx = (x0 + x1) / 2 || 0;
+  const cy = (y0 + y1) / 2 || 0;
 
   if (isNaN(w) || isNaN(h)) return { x: 0, y: 0, k: 1 };
 
   const hw = canvasWidth / 2;
   const hh = canvasHeight / 2;
 
-  const scale =
-    w === 0 || h === 0
-      ? 8
-      : Math.min(hw / (w + padding * 2), hh / (h + padding * 2));
+  const scaleZoom =
+    w === 0 || h === 0 ? 8 : Math.min(canvasWidth / w, canvasHeight / h) / 4;
 
-  return { x: cx * scale, y: cy * scale, k: scale };
+  const t = zoomIdentity
+    .translate(hw, hh)
+    .scale(scaleZoom)
+    .translate(-cx, -cy)
+    .translate(-hw / scaleZoom, -0.85 * (hh / scaleZoom));
+
+  return { x: t.x, y: t.y, k: t.k };
 }
 
 export function mouseToThree(x: number, y: number, w: number, h: number) {
@@ -122,6 +129,14 @@ function scale(transform: Transform, k: number) {
   return k === transform.k
     ? transform
     : { k: k, x: transform.x * k, y: transform.y * k };
+}
+
+function tr({ x, y, k }: Transform, dx: number, dy: number): Transform {
+  return {
+    x: x + dx * k,
+    y: y + dy * k,
+    k
+  };
 }
 
 function translate(
