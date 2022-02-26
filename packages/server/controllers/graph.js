@@ -13,6 +13,7 @@ module.exports.searchByTag = async (req, res) => {
     const tag = req.params.tag || req.body.tag;
     const graph = await Graphs.find({ $text: { $search: tag } })
       .sort({ createdAt: -1 })
+      .populate('user', ['username', '_id'])
       .exec();
     if (!graph || !tag) {
       throw new Error('Graph not found.');
