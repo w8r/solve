@@ -8,7 +8,8 @@ import {
   Divider,
   Button,
   Badge,
-  ScrollView
+  ScrollView,
+  VStack
 } from 'native-base';
 import { useAuth } from '../hooks/useAuth';
 import { getShortName } from '../lib/user';
@@ -37,10 +38,12 @@ export default function Profile({ navigation }: ProfileProps) {
               </Badge>
             </Box>
             {/* <Paragraph>{JSON.stringify(user)}</Paragraph> */}
-            <Button onPress={() => navigation.navigate('Dashboard')}>
-              Dashboard
-            </Button>
-            <Button onPress={() => logout()}>Logout</Button>
+            <VStack space="5">
+              <Button onPress={() => navigation.navigate('Dashboard')}>
+                Dashboard
+              </Button>
+              <Button onPress={() => logout()}>Logout</Button>
+            </VStack>
           </Box>
         </Center>
       </ScrollView>

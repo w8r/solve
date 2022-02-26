@@ -43,7 +43,7 @@ const Wrapper = ({
 
   const addNode = (name: string, category: string, size: number) => {
     if (!graph) return;
-    const updatedGraph = {
+    const updatedGraph: Graph = {
       ...graph,
       nodes: [
         ...graph.nodes,
@@ -54,7 +54,8 @@ const Wrapper = ({
             r: size,
             x: 0,
             y: 0,
-            color: 'blue'
+            color: 'blue',
+            selected: false
           },
           data: { category }
         }

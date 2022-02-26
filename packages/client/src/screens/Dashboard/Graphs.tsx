@@ -58,7 +58,7 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    padding: 10,
+    padding: 20,
     paddingTop: 40
   },
   list: {

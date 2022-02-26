@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 import * as Validator from 'yup';
 import { useFormik as useForm } from 'formik';
+import AppLoading from 'expo-app-loading';
 import { LoginProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
 import { FormContainer } from '../components';
