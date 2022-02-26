@@ -13,21 +13,17 @@ import SSRProvider from 'react-bootstrap/SSRProvider';
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
-    return (
-      <SSRProvider>
-        <NativeBaseProvider>
-          <SafeAreaProvider>
-            <AuthProvider>
-              <Navigation />
-              <StatusBar />
-            </AuthProvider>
-          </SafeAreaProvider>
-        </NativeBaseProvider>
-      </SSRProvider>
-    );
-  }
+  if (!isLoadingComplete) return null;
+  return (
+    <SSRProvider>
+      <NativeBaseProvider>
+        <SafeAreaProvider>
+          <AuthProvider>
+            <Navigation />
+            <StatusBar />
+          </AuthProvider>
+        </SafeAreaProvider>
+      </NativeBaseProvider>
+    </SSRProvider>
+  );
 }

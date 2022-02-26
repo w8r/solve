@@ -39,9 +39,6 @@ export default function Dashboard() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Hidden till="lg">
-        <Logo />
-      </Hidden> */}
       <ProfileButton />
       {isLoading ? <Placeholder /> : <Graphs graphs={graphs} />}
     </SafeAreaView>
