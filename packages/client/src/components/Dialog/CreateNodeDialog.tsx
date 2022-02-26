@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Modal, Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
@@ -50,25 +50,28 @@ export default function CreateNodeDialog({
   editNode: (name: string, category: string, size: number) => void;
   data: GraphNode | null;
 }) {
+  useEffect(() => {
+    setOnChangeValue(getClosestSize((data?.attributes.r || 3) * 3));
+  }, [data]);
   const { handleChange, handleBlur, submitForm, values, errors, touched } =
     useForm({
       initialValues: {
         selectedTag: data ? data.data?.category || '' : '',
         name: data ? data.attributes.text || '' : '',
-        size: data ? data.attributes.r : 3
+        size: data ? getClosestSize(data.attributes.r * 3) : 3
       },
       onSubmit: (values) => {
         if (data) {
           editNode(
             values.name,
             values.selectedTag as string,
-            Math.floor(onChangeValue / 2)
+            Math.floor(onChangeValue / 3)
           );
         } else {
           addNode(
             values.name,
             values.selectedTag as string,
-            Math.floor(onChangeValue / 2)
+            Math.floor(onChangeValue / 3)
           );
         }
       }
@@ -148,7 +151,7 @@ export default function CreateNodeDialog({
                 Node Size
               </FormControl.Label>
               <Slider
-                defaultValue={onChangeValue}
+                defaultValue={(data?.attributes.r || 3) * 10}
                 onChange={(size) =>
                   setOnChangeValue(getClosestSize(Math.floor(size / 5)))
                 }
