@@ -182,7 +182,7 @@ export class App extends EventEmitter {
 
     const material = dashedMaterial({
       thickness: 0.5,
-      color: new Color('white'),
+      color: new Color('grey'),
       opacity: 0.5,
       dashSteps: this.selection.length
     });

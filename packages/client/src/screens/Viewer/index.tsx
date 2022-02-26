@@ -21,7 +21,7 @@ const Wrapper = ({
   height: number;
   id: string | null;
 }) => {
-  const { app, graph, setGraph } = useVis();
+  const { app, graph, setGraph, setIsSelecting, startSelection } = useVis();
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [nodeData, setNodeData] = useState<GraphNode | null>(null);
   const [selected, setSelected] = useState<Graph | null>(null);
@@ -105,6 +105,15 @@ const Wrapper = ({
     setNodeData(null);
   };
 
+  const onSelect = () => {
+    setIsSelecting(true);
+    startSelection((graph) => {
+      console.log('selected', graph);
+      setIsSelecting(false);
+      //if (graph && graph.nodes.length > 0) onPreview(graph);
+    });
+  };
+
   // Should not allow editing if more than one node is selected
   const getSelectedNode = () => {
     const selectedNodes = graph.nodes.filter(
@@ -125,7 +134,7 @@ const Wrapper = ({
           setNodeData(null);
           setDialogVisible(true);
         }}
-        onPreview={onPreview}
+        onSelect={onSelect}
         onRemove={removeSelected}
         onEdit={() => {
           const node = getSelectedNode();

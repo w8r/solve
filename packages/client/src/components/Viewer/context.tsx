@@ -17,6 +17,9 @@ export type VisState = {
 
   selectedEdges: GraphEdge[];
   setSelectedEdges: (selectedEdges: GraphEdge[]) => void;
+
+  selectNode: (id: string) => void;
+  selectEdge: (id: string) => void;
 };
 
 export const VisContext = createContext<VisState>({
@@ -32,6 +35,27 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
   const [selectedEdges, setSelectedEdges] = useState<GraphEdge[]>([]);
 
   const [isSelecting, setIsSelecting] = useState(false);
+
+  const selectNode = (id: string) => {
+    graph.nodes.forEach((n) => {
+      if (n.id === id) {
+        n.attributes.selected = !n.attributes.selected;
+        if (n.attributes.selected) setSelectedNodes([...selectedNodes, n]);
+        else setSelectedNodes(selectedNodes.filter((n) => n.id !== id));
+      }
+    });
+  };
+
+  const selectEdge = (id: string) => {
+    graph.edges.forEach((e) => {
+      if (e._id === id) {
+        e.attributes.selected = !e.attributes.selected;
+        if (e.attributes.selected) setSelectedEdges([...selectedEdges, e]);
+        else setSelectedEdges(selectedEdges.filter((e) => e._id !== id));
+      }
+    });
+  };
+
   return (
     <VisContext.Provider
       value={
@@ -47,7 +71,10 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
           selectedNodes,
           setSelectedNodes,
           selectedEdges,
-          setSelectedEdges
+          setSelectedEdges,
+
+          selectNode,
+          selectEdge
         } as VisState
       }
     >

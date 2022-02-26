@@ -7,26 +7,19 @@ import { Graph } from '../../types/graph';
 
 interface BottomMenuProps {
   showDialog: () => void;
-  onPreview: (graph: Graph) => void;
+  onSelect: () => void;
   onRemove: () => void;
   onEdit: () => void;
 }
 
 export const BottomMenu: FC<BottomMenuProps> = ({
   showDialog,
-  onPreview,
+  onSelect,
   onRemove,
   onEdit
 }) => {
   const { app, startSelection, setIsSelecting, selectedEdges, selectedNodes } =
     useVis();
-  const onSelect = () => {
-    setIsSelecting(true);
-    startSelection((graph) => {
-      setIsSelecting(false);
-      if (graph && graph.nodes.length > 0) onPreview(graph);
-    });
-  };
 
   const onSelectStart = () => {};
 
@@ -51,7 +44,7 @@ export const BottomMenu: FC<BottomMenuProps> = ({
     },
     {
       icon: 'crop',
-      onPress: onSelectStart,
+      onPress: onSelect,
       text: 'Select',
       active: true
     },
