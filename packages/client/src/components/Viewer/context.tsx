@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createContext, FC, useContext, useState } from 'react';
 import { App } from './App';
-import { Graph } from '../../types/graph';
+import { Graph, GraphEdge, GraphNode } from '../../types/graph';
 
 export type VisState = {
   graph: Graph;
@@ -11,6 +11,12 @@ export type VisState = {
   isSelecting: boolean;
   setIsSelecting: (isSelecting: boolean) => void;
   startSelection: (cb: (graph: Graph) => void) => void;
+
+  selectedNodes: GraphNode[];
+  setSelectedNodes: (selectedNodes: GraphNode[]) => void;
+
+  selectedEdges: GraphEdge[];
+  setSelectedEdges: (selectedEdges: GraphEdge[]) => void;
 };
 
 export const VisContext = createContext<VisState>({
@@ -22,6 +28,8 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
   const [graph, setGraph] = useState<Graph>({ id: '', nodes: [], edges: [] });
   const startSelection = (callback: (graph: Graph) => unknown) =>
     app?.startSelection(callback);
+  const [selectedNodes, setSelectedNodes] = useState<GraphNode[]>([]);
+  const [selectedEdges, setSelectedEdges] = useState<GraphEdge[]>([]);
 
   const [isSelecting, setIsSelecting] = useState(false);
   return (
@@ -34,7 +42,12 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
           graph,
           startSelection,
           isSelecting,
-          setIsSelecting
+          setIsSelecting,
+
+          selectedNodes,
+          setSelectedNodes,
+          selectedEdges,
+          setSelectedEdges
         } as VisState
       }
     >

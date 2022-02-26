@@ -61,7 +61,7 @@ export function Viewer({
   graph
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
-  const { app, isSelecting } = useVis();
+  const { app, isSelecting, selectedNodes, setSelectedNodes } = useVis();
   const dppx = PixelRatio.get();
 
   const { minX, minY, maxX, maxY } = graphBbox(graph);
@@ -233,6 +233,8 @@ export function Viewer({
       graph.nodes.forEach((n) => {
         if (n.id === el.id) {
           n.attributes.selected = !n.attributes.selected;
+          if (n.attributes.selected) setSelectedNodes([...selectedNodes, n]);
+          else setSelectedNodes(selectedNodes.filter((n) => n.id !== el.id));
         }
       });
       app.setGraph(graph);

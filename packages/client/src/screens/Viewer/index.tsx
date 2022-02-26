@@ -25,7 +25,6 @@ const Wrapper = ({
   const [isDialogVisible, setDialogVisible] = useState(false);
   const [nodeData, setNodeData] = useState<GraphNode | null>(null);
   const [selected, setSelected] = useState<Graph | null>(null);
-  const { navigate } = useNavigation();
 
   useEffect(() => {
     if (id !== null) {

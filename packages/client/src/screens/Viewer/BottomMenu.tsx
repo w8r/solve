@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { Fab, Icon, Menu } from 'native-base';
-import { AntDesign as Icons } from '@expo/vector-icons';
+import { Fab, Icon, Menu, Text, HStack } from 'native-base';
+import { Feather as Icons } from '@expo/vector-icons';
 import React, { FC } from 'react';
 import { useVis } from '../../components/Viewer';
 import { Graph } from '../../types/graph';
@@ -18,7 +18,7 @@ export const BottomMenu: FC<BottomMenuProps> = ({
   onRemove,
   onEdit
 }) => {
-  const { app, startSelection, setIsSelecting } = useVis();
+  const { app, startSelection, setIsSelecting, selectedNodes } = useVis();
   const onSelect = () => {
     setIsSelecting(true);
     startSelection((graph) => {
@@ -26,11 +26,43 @@ export const BottomMenu: FC<BottomMenuProps> = ({
       if (graph && graph.nodes.length > 0) onPreview(graph);
     });
   };
+
+  const onSelectStart = () => {};
+
+  const menuItems = [
+    {
+      icon: 'plus-circle',
+      onPress: showDialog,
+      text: 'Add node'
+    },
+    {
+      icon: 'edit',
+      onPress: onEdit,
+      text: 'Edit'
+    },
+    {
+      icon: 'trash-2',
+      onPress: onRemove,
+      text: 'Remove'
+    },
+    {
+      icon: 'crop',
+      onPress: onSelectStart,
+      text: 'Select'
+    },
+    {
+      icon: 'share',
+      onPress: () => {},
+      text: 'Share'
+    }
+  ];
+
   return (
     <Menu
       w="160"
       shouldOverlapWithTrigger={false}
       placement="top"
+      style={styles.menu}
       trigger={(triggerProps) => {
         return (
           <Fab
@@ -39,15 +71,19 @@ export const BottomMenu: FC<BottomMenuProps> = ({
             size="sm"
             {...triggerProps}
             style={styles.fab}
-            icon={<Icon color="white" as={Icons} name="plus" size="4" />}
+            icon={<Icon color="white" as={Icons} name="circle" size="4" />}
           />
         );
       }}
     >
-      <Menu.Item onPress={showDialog}>Create node</Menu.Item>
-      <Menu.Item onPress={onSelect}>Select</Menu.Item>
-      <Menu.Item onPress={onRemove}>Remove</Menu.Item>
-      <Menu.Item onPress={onEdit}>Edit</Menu.Item>
+      {menuItems.map((item, index) => (
+        <Menu.Item key={index} onPress={item.onPress}>
+          <HStack space="3">
+            <Icon as={Icons} name={item.icon} size="sm" />
+            <Text>{item.text}</Text>
+          </HStack>
+        </Menu.Item>
+      ))}
     </Menu>
   );
 };
@@ -59,5 +95,8 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: '50%',
     marginRight: -25
+  },
+  menu: {
+    marginBottom: 15
   }
 });

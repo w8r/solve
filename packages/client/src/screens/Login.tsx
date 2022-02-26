@@ -69,6 +69,7 @@ export default function Login({ navigation }: LoginProps) {
       <VStack space={3} mt="5">
         <FormControl isInvalid={emailError}>
           <FormControl.Label
+            isDisabled={isLoading}
             _text={{
               color: 'coolGray.800',
               fontSize: 'xs',
@@ -78,6 +79,7 @@ export default function Login({ navigation }: LoginProps) {
             Email
           </FormControl.Label>
           <Input
+            isDisabled={isLoading}
             onChange={(evt) => handleChange('email')(evt.nativeEvent.text)}
             onBlur={handleBlur('email')}
             onSubmitEditing={() => passwordInputRef.current?.focus()}
@@ -95,6 +97,7 @@ export default function Login({ navigation }: LoginProps) {
             Password
           </FormControl.Label>
           <Input
+            isDisabled={isLoading}
             type="password"
             ref={passwordInputRef}
             onChange={(evt) => handleChange('password')(evt.nativeEvent.text)}

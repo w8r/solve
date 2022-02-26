@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, FC, useState } from 'react';
 import { Path, G } from 'react-native-svg';
 import { FontAwesome as Icons } from '@expo/vector-icons';
 import { maybeCompleteAuthSession } from 'expo-web-browser';
@@ -99,8 +99,6 @@ export const SocialIcon = ({ children }: SocilaIconProps) => {
     <Box
       borderRadius="l"
       margin="s"
-      width={theme.sizes.icon}
-      height={theme.sizes.icon}
       justifyContent="center"
       alignItems="center"
       backgroundColor="white"
@@ -112,8 +110,9 @@ export const SocialIcon = ({ children }: SocilaIconProps) => {
 
 maybeCompleteAuthSession();
 
-export function SocialLogin() {
+export const SocialLogin: FC = () => {
   const { loginWithGoogle, loginWithFacebook } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
@@ -131,6 +130,7 @@ export function SocialLogin() {
   useEffect(() => {
     if (fbResponse?.type === 'success') {
       const { access_token } = fbResponse.params;
+      setIsLoading(true);
       transport
         .get(`https://graph.facebook.com/me`, {
           params: {
@@ -151,6 +151,7 @@ export function SocialLogin() {
     }
     if (googleResponse?.type === 'success') {
       const { access_token } = googleResponse.params;
+      setIsLoading(true);
       transport
         .get('https://www.googleapis.com/oauth2/v2/userinfo', {
           headers: {
@@ -167,7 +168,7 @@ export function SocialLogin() {
   const onAuthGoogle = () => googlePromptAsync();
 
   return (
-    <VStack>
+    <VStack opacity={isLoading ? 0.25 : 1}>
       <SocialButton
         platformType={SocialLoginType.google}
         disabled={googleRequest === null}
@@ -180,4 +181,4 @@ export function SocialLogin() {
       />
     </VStack>
   );
-}
+};

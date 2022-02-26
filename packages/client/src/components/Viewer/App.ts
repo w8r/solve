@@ -182,7 +182,7 @@ export class App extends EventEmitter {
 
     const material = dashedMaterial({
       thickness: 0.5,
-      color: new Color('grey'),
+      color: new Color('white'),
       opacity: 0.5,
       dashSteps: this.selection.length
     });
@@ -370,7 +370,7 @@ export class App extends EventEmitter {
         }
       });
     } else {
-      const included = new Set(graph.nodes.map((node) => node.id));
+      const included = new Set(this.nodes.map((node) => node.id));
       const set = new Set();
       this.nodes.forEach((node) => {
         if (!included.has(node.id)) {
