@@ -44,29 +44,27 @@ const Wrapper = ({
     selectNode,
     selectEdge,
     selectedNodes,
-    selectedEdges
+    setSelectedNodes,
+    selectedEdges,
+    setSelectedEdges
   } = useVis();
+  const { navigate } = useNavigation();
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
   const [nodeData, setNodeData] = useState<GraphNode | null>(null);
   const [nodesData, setNodesData] = useState<[GraphNode, GraphNode] | null>(
     null
   );
-  const [selected, setSelected] = useState<Graph | null>(null);
 
   useEffect(() => {
     if (id !== null) {
       getGraph(id).then((response) => setGraph(response));
     }
+    return () => {
+      setSelectedNodes([]);
+      setSelectedEdges([]);
+    };
   }, []);
-
-  const onPreview = (graph: Graph) => {
-    // TODO: save graph here
-    // show selected nodes;
-    app.highlight(graph);
-    setSelected(graph);
-    //navigate('Preview', { graph });
-  };
 
   const createEdge = () => {
     const edgePairs = splitPairs(selectedNodes.map((node) => node.id));
@@ -167,19 +165,19 @@ const Wrapper = ({
   const onSelect = () => {
     setIsSelecting(true);
     startSelection((selectedGraph) => {
-      selectedGraph.nodes.forEach(({ id, attributes: { selected } }) => {
-        if (!selected) selectNode(id);
-      });
-      selectedGraph.edges.forEach(({ _id: id, attributes: { selected } }) => {
-        if (!selected) selectEdge(id);
-      });
+      selectNode(selectedGraph.nodes.map((node) => node.id));
+      selectEdge(selectedGraph.edges.map((edge) => edge._id));
       setIsSelecting(false);
     });
   };
 
   const onShare = () => {
-    // confirm sharing
-    console.log('share');
+    const selectedGraph: Graph = {
+      id: 'selected',
+      nodes: [...selectedNodes],
+      edges: [...selectedEdges]
+    };
+    navigate('Preview', { graph: selectedGraph });
   };
 
   // Should not allow editing if more than one node is selected
@@ -233,17 +231,6 @@ const Wrapper = ({
           }
         />
       ) : null}
-      <SelectionDialog
-        visible={selected !== null}
-        onProceed={() => {
-          app.highlight(null);
-          console.log('ok');
-        }}
-        onCancel={() => {
-          app.highlight(null);
-          setSelected(null);
-        }}
-      />
     </>
   );
 };

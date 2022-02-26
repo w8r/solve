@@ -1,6 +1,8 @@
+export type Id = string;
+
 export type GraphNode = {
-  id: string;
-  _id: string;
+  id: Id;
+  _id: Id;
   attributes: {
     r: number;
     x: number;
@@ -13,10 +15,10 @@ export type GraphNode = {
 };
 
 export type GraphEdge = {
-  id: string;
+  id: Id;
   source: string;
   target: string;
-  _id: string;
+  _id: Id;
   attributes: {
     selected?: boolean;
     width: number;
@@ -30,14 +32,14 @@ export function isNode(el: GraphNode | GraphEdge): el is GraphNode {
 }
 
 export type Graph = {
-  id: string;
+  id: Id;
   data?: Record<string, unknown>;
   nodes: GraphNode[];
   edges: GraphEdge[];
 };
 
 export type GraphHeader = {
-  id: string;
+  id: Id;
   nodes: number;
   edges: number;
 };
