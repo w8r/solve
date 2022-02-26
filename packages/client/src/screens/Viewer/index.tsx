@@ -44,14 +44,13 @@ const Wrapper = ({
     selectNode,
     selectEdge,
     selectedNodes,
-    selectedEdges
+    selectedEdges,
+    setSelectedNodes,
+    setSelectedEdges
   } = useVis();
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
-  const [nodeData, setNodeData] = useState<GraphNode | null>(null);
-  const [nodesData, setNodesData] = useState<[GraphNode, GraphNode] | null>(
-    null
-  );
+
   const [selected, setSelected] = useState<Graph | null>(null);
 
   useEffect(() => {
@@ -129,12 +128,13 @@ const Wrapper = ({
         existingNodeIds.includes(edge.target) &&
         !edgeIds.includes(edge._id)
     );
-
     const updatedGraph = {
       ...graph,
       nodes,
       edges
     };
+    setSelectedNodes([]);
+    setSelectedEdges([]);
     setGraph(updatedGraph);
   };
 
@@ -159,8 +159,19 @@ const Wrapper = ({
     };
 
     setGraph(updatedGraph);
+    setSelectedNodes([
+      {
+        ...selectedNodes[0],
+        data: { category },
+        attributes: {
+          ...selectedNodes[0].attributes,
+          r: size,
+          text: name,
+          color: 'blue'
+        }
+      }
+    ]);
     setNodeDialogVisible(false);
-    setNodeData(null);
   };
 
   if (graph.nodes.length === 0) return null;
@@ -182,16 +193,6 @@ const Wrapper = ({
     console.log('share');
   };
 
-  // Should not allow editing if more than one node is selected
-  const getSelectedNode = () => {
-    const selectedNodes = graph.nodes.filter(
-      (node) => node.attributes.selected
-    );
-    const node = selectedNodes.length === 1 ? selectedNodes[0] : null;
-    setNodeData(node);
-    return node;
-  };
-
   const onEdit = () => {
     if (selectedNodes && selectedNodes.length === 1) {
       setNodeDialogVisible(true);
@@ -205,7 +206,6 @@ const Wrapper = ({
       <Viewer width={width} height={height} graph={graph} />
       <BottomMenu
         showDialog={() => {
-          setNodeData(null);
           setNodeDialogVisible(true);
         }}
         onSelect={onSelect}
@@ -222,7 +222,6 @@ const Wrapper = ({
         <CreateNodeDialog
           closeDialog={() => {
             setNodeDialogVisible(false);
-            setNodeData(null);
           }}
           addNode={addNode}
           editNode={editNode}

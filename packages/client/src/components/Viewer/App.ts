@@ -262,7 +262,7 @@ export class App extends EventEmitter {
 
         text.renderOrder = 2;
         // // Set properties to configure:
-        text.text = 'Hello world!';
+        text.text = node.attributes.text;
         text.fontSize = 2;
         text.position.z = 0;
         text.position.x = x;

@@ -12,7 +12,7 @@ web-build/
 .env
 .env.test
 __tests__
-
+packages/client/src/constants/env.json
 # macOS
 .DS_Store
 __generated__
