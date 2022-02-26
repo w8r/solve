@@ -18,7 +18,8 @@ export const BottomMenu: FC<BottomMenuProps> = ({
   onRemove,
   onEdit
 }) => {
-  const { app, startSelection, setIsSelecting, selectedNodes } = useVis();
+  const { app, startSelection, setIsSelecting, selectedEdges, selectedNodes } =
+    useVis();
   const onSelect = () => {
     setIsSelecting(true);
     startSelection((graph) => {
@@ -33,27 +34,32 @@ export const BottomMenu: FC<BottomMenuProps> = ({
     {
       icon: 'plus-circle',
       onPress: showDialog,
-      text: 'Add node'
+      text: 'Add node',
+      active: selectedNodes.length === 0
     },
     {
       icon: 'edit',
       onPress: onEdit,
-      text: 'Edit'
+      text: 'Edit',
+      active: selectedNodes.length + selectedEdges.length === 1
     },
     {
       icon: 'trash-2',
       onPress: onRemove,
-      text: 'Remove'
+      text: 'Remove',
+      active: selectedNodes.length > 0
     },
     {
       icon: 'crop',
       onPress: onSelectStart,
-      text: 'Select'
+      text: 'Select',
+      active: true
     },
     {
       icon: 'share',
       onPress: () => {},
-      text: 'Share'
+      text: 'Share',
+      active: selectedNodes.length > 0
     }
   ];
 
@@ -76,14 +82,16 @@ export const BottomMenu: FC<BottomMenuProps> = ({
         );
       }}
     >
-      {menuItems.map((item, index) => (
-        <Menu.Item key={index} onPress={item.onPress}>
-          <HStack space="3">
-            <Icon as={Icons} name={item.icon} size="sm" />
-            <Text>{item.text}</Text>
-          </HStack>
-        </Menu.Item>
-      ))}
+      {menuItems.map((item, index) =>
+        item.active ? (
+          <Menu.Item key={index} onPress={item.onPress}>
+            <HStack space="3">
+              <Icon as={Icons} name={item.icon} size="sm" />
+              <Text>{item.text}</Text>
+            </HStack>
+          </Menu.Item>
+        ) : null
+      )}
     </Menu>
   );
 };
