@@ -19,7 +19,7 @@ import {
   zoomAround
 } from './utils';
 import { usePanResponder } from './usePanResponder';
-import type { Graph, GraphNode } from '../../types/graph';
+import { Graph, GraphNode, isNode } from '../../types/graph';
 import { useVis } from './context';
 
 export interface ViewerProps extends ViewProps {
@@ -61,7 +61,14 @@ export function Viewer({
   graph
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
-  const { app, isSelecting, selectedNodes, setSelectedNodes } = useVis();
+  const {
+    app,
+    isSelecting,
+    selectedNodes,
+    setSelectedNodes,
+    selectedEdges,
+    setSelectedEdges
+  } = useVis();
   const dppx = PixelRatio.get();
 
   const { minX, minY, maxX, maxY } = graphBbox(graph);
@@ -149,7 +156,7 @@ export function Viewer({
     } else if (!state.isMoving) {
       // figure out if we are on the node or not
       const el = app.getElementAt(moveX, moveY);
-      if (el) {
+      if (el && isNode(el)) {
         const pos = app.screenToWorld(moveX, moveY);
         const dragOffsetX = pos.x - el.attributes.x;
         const dragOffsetY = pos.y - el.attributes.y;
@@ -230,13 +237,25 @@ export function Viewer({
   const onTap = ({ nativeEvent }: GestureResponderEvent) => {
     const el = app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);
     if (el) {
-      graph.nodes.forEach((n) => {
-        if (n.id === el.id) {
-          n.attributes.selected = !n.attributes.selected;
-          if (n.attributes.selected) setSelectedNodes([...selectedNodes, n]);
-          else setSelectedNodes(selectedNodes.filter((n) => n.id !== el.id));
-        }
-      });
+      if (isNode(el)) {
+        graph.nodes.forEach((n) => {
+          if (n.id === el.id) {
+            n.attributes.selected = !n.attributes.selected;
+            if (n.attributes.selected) setSelectedNodes([...selectedNodes, n]);
+            else setSelectedNodes(selectedNodes.filter((n) => n.id !== el.id));
+          }
+        });
+      } else {
+        // it's an edge
+        graph.edges.forEach((e) => {
+          if (e._id === el._id) {
+            e.attributes.selected = !e.attributes.selected;
+            if (e.attributes.selected) setSelectedEdges([...selectedEdges, e]);
+            else
+              setSelectedEdges(selectedEdges.filter((e) => e._id !== el._id));
+          }
+        });
+      }
       app.setGraph(graph);
     }
   };

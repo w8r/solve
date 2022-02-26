@@ -1,6 +1,6 @@
 import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
 import { Renderer } from 'expo-three';
-import { positionThreeCamera, pointOnLine } from './utils';
+import { positionThreeCamera, pointOnLine, isPointInLine } from './utils';
 import {
   PerspectiveCamera,
   Scene,
@@ -301,10 +301,12 @@ export class App extends EventEmitter {
       edgesByTarget.set(target, edgeSet);
       edgeSet.push(edge);
 
+      const color = new Color(edge.attributes.selected ? 'cyan' : rgbColor);
+
       const points = getEdgePoints(sourceNode, targetNode);
       const material = basicMaterial({
         thickness: edge.attributes.width,
-        color: new Color(rgbColor)
+        color
       });
       //const dashMaterial = dashedMaterial({ thickness: 2 });
       const geometry = new LineMesh(points, {
@@ -320,7 +322,7 @@ export class App extends EventEmitter {
       // arrows
       const arrowMaterial = basicMaterial({
         thickness: (2 * edge.attributes.width) / 3,
-        color: new Color(rgbColor)
+        color
       });
       const arrowPoints = getArrowPoints(
         sourceNode,
@@ -433,14 +435,32 @@ export class App extends EventEmitter {
 
   getElementAt(x: number, y: number) {
     const pos = this.screenToWorld(x, y);
-    const node = this.nodeQ.find(pos.x, pos.y, 10);
+    let node: GraphNode | null | undefined = this.nodeQ.find(pos.x, pos.y, 10);
     if (node) {
       const dx = node.attributes.x - pos.x;
       const dy = node.attributes.y - pos.y;
       const r = node.attributes.r;
-      if (dx * dx + dy * dy > r * r) return null;
+      if (dx * dx + dy * dy > r * r) node = null;
+      else return node;
     }
-    return node;
+    for (let i = 0; i < this.edges.length; i++) {
+      const {
+        source,
+        target,
+        attributes: { width }
+      } = this.edges[i];
+      const s = this.idToNode.get(source) as GraphNode;
+      const t = this.idToNode.get(target) as GraphNode;
+      const sx = s.attributes.x;
+      const sy = s.attributes.y;
+      const tx = t.attributes.x;
+      const ty = t.attributes.y;
+
+      if (isPointInLine(pos.x, pos.y, sx, sy, tx, ty, width)) {
+        return this.edges[i];
+      }
+    }
+    return node || null;
   }
 
   screenToWorld(sx: number, sy: number) {

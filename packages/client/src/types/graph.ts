@@ -20,10 +20,16 @@ export type GraphEdge = {
   _target: string;
   _id: string;
   attributes: {
+    selected?: boolean;
     width: number;
     color: string;
   };
 };
+
+export function isNode(el: GraphNode | GraphEdge): el is GraphNode {
+  // @ts-ignore
+  return el.source === undefined;
+}
 
 export type Graph = {
   id: string;

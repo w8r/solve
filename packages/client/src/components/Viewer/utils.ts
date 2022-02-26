@@ -154,3 +154,41 @@ export function zoomAround(
   const { x: x1, y: y1 } = invert(transform, x, y);
   return translate(scale(transform, zoom), x, y, x1, y1);
 }
+
+export function isPointInLine(
+  px: number,
+  py: number,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  width: number,
+  margin = 0
+): boolean {
+  // http://math.stackexchange.com/questions/190111/how-to-check-if-a-point-is-inside-a-rectangle
+  const len = distance(x1, y1, x2, y2),
+    epsilon = width / 2,
+    m = (epsilon + margin) / len,
+    dx = (x2 - x1) * m,
+    dy = (y2 - y1) * m,
+    rx1 = x1 + dy,
+    ry1 = y1 - dx,
+    rx2 = x1 - dy,
+    ry2 = y1 + dx,
+    rx4 = x2 + dy,
+    ry4 = y2 - dx;
+
+  const AMx = px - rx1,
+    AMy = py - ry1,
+    ABx = rx2 - rx1,
+    ABy = ry2 - ry1,
+    ADx = rx4 - rx1,
+    ADy = ry4 - ry1;
+
+  const AMdotAB = AMx * ABx + AMy * ABy,
+    ABdotAB = ABx * ABx + ABy * ABy,
+    AMdotAD = AMx * ADx + AMy * ADy,
+    ADdotAD = ADx * ADx + ADy * ADy;
+
+  return AMdotAB > 0 && AMdotAB < ABdotAB && AMdotAD > 0 && AMdotAD < ADdotAD;
+}
