@@ -67,7 +67,9 @@ export function Viewer({
     selectedNodes,
     setSelectedNodes,
     selectedEdges,
-    setSelectedEdges
+    setSelectedEdges,
+    selectEdge,
+    selectNode
   } = useVis();
   const dppx = PixelRatio.get();
 
@@ -237,25 +239,8 @@ export function Viewer({
   const onTap = ({ nativeEvent }: GestureResponderEvent) => {
     const el = app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);
     if (el) {
-      if (isNode(el)) {
-        graph.nodes.forEach((n) => {
-          if (n.id === el.id) {
-            n.attributes.selected = !n.attributes.selected;
-            if (n.attributes.selected) setSelectedNodes([...selectedNodes, n]);
-            else setSelectedNodes(selectedNodes.filter((n) => n.id !== el.id));
-          }
-        });
-      } else {
-        // it's an edge
-        graph.edges.forEach((e) => {
-          if (e._id === el._id) {
-            e.attributes.selected = !e.attributes.selected;
-            if (e.attributes.selected) setSelectedEdges([...selectedEdges, e]);
-            else
-              setSelectedEdges(selectedEdges.filter((e) => e._id !== el._id));
-          }
-        });
-      }
+      if (isNode(el)) selectNode(el.id);
+      else selectEdge(el._id);
       app.setGraph(graph);
     }
   };

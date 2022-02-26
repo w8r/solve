@@ -35,7 +35,17 @@ const Wrapper = ({
   height: number;
   id: string | null;
 }) => {
-  const { app, graph, setGraph, selectedEdges, selectedNodes } = useVis();
+  const {
+    app,
+    graph,
+    setGraph,
+    setIsSelecting,
+    startSelection,
+    selectNode,
+    selectEdge,
+    selectedNodes,
+    selectedEdges
+  } = useVis();
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
   const [nodeData, setNodeData] = useState<GraphNode | null>(null);
@@ -154,6 +164,18 @@ const Wrapper = ({
   };
 
   if (graph.nodes.length === 0) return null;
+  const onSelect = () => {
+    setIsSelecting(true);
+    startSelection((selectedGraph) => {
+      selectedGraph.nodes.forEach(({ id, attributes: { selected } }) => {
+        if (!selected) selectNode(id);
+      });
+      selectedGraph.edges.forEach(({ _id: id, attributes: { selected } }) => {
+        if (!selected) selectEdge(id);
+      });
+      setIsSelecting(false);
+    });
+  };
 
   return (
     <>
@@ -163,7 +185,7 @@ const Wrapper = ({
           setNodeData(null);
           setNodeDialogVisible(true);
         }}
-        onPreview={onPreview}
+        onSelect={onSelect}
         onRemove={removeSelected}
         onEdit={() => {
           if (selectedNodes && selectedNodes.length === 1) {
@@ -184,17 +206,11 @@ const Wrapper = ({
           }}
           addNode={addNode}
           editNode={editNode}
-          data={nodeData}
-        />
-      ) : null}
-      {edgeDialogVisible && !nodeDialogVisible ? (
-        <ConnectNodeDialog
-          closeDialog={() => {
-            setEdgeDialogVisible(false);
-            setNodesData(null);
-          }}
-          createEdge={createEdge}
-          data={nodesData}
+          data={
+            selectedNodes && selectedNodes.length === 1
+              ? selectedNodes[0]
+              : null
+          }
         />
       ) : null}
       <SelectionDialog

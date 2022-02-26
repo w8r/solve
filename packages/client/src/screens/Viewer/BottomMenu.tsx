@@ -7,7 +7,7 @@ import { Graph } from '../../types/graph';
 
 interface BottomMenuProps {
   showDialog: () => void;
-  onPreview: (graph: Graph) => void;
+  onSelect: () => void;
   onRemove: () => void;
   onEdit: () => void;
   onCreateEdge: () => void;
@@ -15,19 +15,13 @@ interface BottomMenuProps {
 
 export const BottomMenu: FC<BottomMenuProps> = ({
   showDialog,
-  onPreview,
+  onSelect,
   onRemove,
   onEdit,
   onCreateEdge
 }) => {
-  const { app, startSelection, setIsSelecting, selectedNodes } = useVis();
-  const onSelect = () => {
-    setIsSelecting(true);
-    startSelection((graph) => {
-      setIsSelecting(false);
-      if (graph && graph.nodes.length > 0) onPreview(graph);
-    });
-  };
+  const { app, startSelection, setIsSelecting, selectedEdges, selectedNodes } =
+    useVis();
 
   const onSelectStart = () => {};
 
@@ -35,32 +29,37 @@ export const BottomMenu: FC<BottomMenuProps> = ({
     {
       icon: 'plus-circle',
       onPress: showDialog,
-      text: 'Add node'
+      text: 'Add node',
+      active: selectedNodes.length === 0
+    },
+    {
+      icon: 'copy',
+      onPress: onCreateEdge,
+      text: 'Create edge(s)',
+      active: selectedNodes.length > 1
     },
     {
       icon: 'edit',
       onPress: onEdit,
-      text: 'Edit'
+      text: 'Edit',
+      active: selectedNodes.length + selectedEdges.length === 1
     },
     {
       icon: 'trash-2',
       onPress: onRemove,
-      text: 'Remove'
+      text: 'Remove',
+      active: selectedNodes.length > 0
     },
     {
       icon: 'crop',
-      onPress: onSelectStart,
-      text: 'Select'
+      onPress: onSelect,
+      text: 'Select',
+      active: true
     },
     {
       icon: 'share',
       onPress: () => {},
       text: 'Share'
-    },
-    {
-      icon: 'copy',
-      onPress: onCreateEdge,
-      text: 'Create edge(s)'
     }
   ];
 
@@ -83,14 +82,16 @@ export const BottomMenu: FC<BottomMenuProps> = ({
         );
       }}
     >
-      {menuItems.map((item, index) => (
-        <Menu.Item key={index} onPress={item.onPress}>
-          <HStack space="3">
-            <Icon as={Icons} name={item.icon} size="sm" />
-            <Text>{item.text}</Text>
-          </HStack>
-        </Menu.Item>
-      ))}
+      {menuItems.map((item, index) =>
+        item.active ? (
+          <Menu.Item key={index} onPress={item.onPress}>
+            <HStack space="3">
+              <Icon as={Icons} name={item.icon} size="sm" />
+              <Text>{item.text}</Text>
+            </HStack>
+          </Menu.Item>
+        ) : null
+      )}
     </Menu>
   );
 };
