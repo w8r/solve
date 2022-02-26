@@ -174,9 +174,11 @@ const Wrapper = ({
   const onShare = () => {
     const selectedGraph: Graph = {
       id: 'selected',
-      nodes: [...selectedNodes],
-      edges: [...selectedEdges]
+      nodes: [...JSON.parse(JSON.stringify(selectedNodes))],
+      edges: [...JSON.parse(JSON.stringify(selectedEdges))]
     };
+    selectedGraph.nodes.forEach((node) => (node.attributes.selected = false));
+    selectedGraph.edges.forEach((edge) => (edge.attributes.selected = false));
     navigate('Preview', { graph: selectedGraph });
   };
 
