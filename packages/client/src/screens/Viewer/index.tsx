@@ -54,7 +54,8 @@ const Wrapper = ({
             r: size,
             x: 0,
             y: 0,
-            color: 'blue'
+            color: 'blue',
+            text: name
           },
           data: { category }
         }
@@ -81,7 +82,7 @@ const Wrapper = ({
   };
 
   const editNode = (name: string, category: string, size: number) => {
-    if (!graph) return;
+    if (!nodeData) return;
     const updatedGraph = {
       ...graph,
       nodes: graph.nodes.map((node) => {
@@ -91,7 +92,8 @@ const Wrapper = ({
             data: { category },
             attributes: {
               ...node.attributes,
-              r: size
+              r: size,
+              text: name
             }
           };
         }
@@ -105,12 +107,12 @@ const Wrapper = ({
 
   // Should not allow editing if more than one node is selected
   const getSelectedNode = () => {
-    if (nodeData) return;
     const selectedNodes = graph.nodes.filter(
       (node) => node.attributes.selected
     );
     const node = selectedNodes.length === 1 ? selectedNodes[0] : null;
     setNodeData(node);
+    return node;
   };
 
   if (graph.nodes.length === 0) return null;
@@ -119,23 +121,30 @@ const Wrapper = ({
     <>
       <Viewer width={width} height={height} graph={graph} />
       <BottomMenu
-        showDialog={() => setDialogVisible(true)}
+        showDialog={() => {
+          setNodeData(null);
+          setDialogVisible(true);
+        }}
         onPreview={onPreview}
         onRemove={removeSelected}
         onEdit={() => {
-          getSelectedNode();
-          if (nodeData) {
+          const node = getSelectedNode();
+          if (node) {
             setDialogVisible(true);
           }
         }}
       />
-      <CreateNodeDialog
-        closeDialog={() => setDialogVisible(false)}
-        visibility={isDialogVisible}
-        addNode={addNode}
-        editNode={editNode}
-        data={nodeData}
-      />
+      {isDialogVisible ? (
+        <CreateNodeDialog
+          closeDialog={() => {
+            setDialogVisible(false);
+            setNodeData(null);
+          }}
+          addNode={addNode}
+          editNode={editNode}
+          data={nodeData}
+        />
+      ) : null}
       <SelectionDialog
         visible={selected !== null}
         onProceed={() => {
