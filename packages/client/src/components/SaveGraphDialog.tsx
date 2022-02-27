@@ -24,10 +24,11 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
   // TODO: Add validation
   const onPressSave = () => {
     graph.name = value;
+    console.log('public id', graph.publicId);
     setGraph(graph);
     setLoading(true);
     const request = share
-      ? shareGraph(graph, graph.id)
+      ? shareGraph(graph, graph.publicId)
       : saveGraph(graph.publicId ? graph.publicId : null, graph);
 
     return request

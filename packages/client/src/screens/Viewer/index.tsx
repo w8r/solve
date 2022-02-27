@@ -44,7 +44,14 @@ const Wrapper = ({
   useEffect(() => {
     if (id !== null) {
       getGraph(id).then((response) => setGraph(response));
-    } else setGraph({ id: '', name: 'New graph', nodes: [], edges: [] });
+    } else
+      setGraph({
+        id: '',
+        publicId: '',
+        name: 'Problem',
+        nodes: [],
+        edges: []
+      });
     return () => {
       setSelectedNodes([]);
       setSelectedEdges([]);
@@ -160,6 +167,7 @@ const Wrapper = ({
   const onShare = () => {
     const selectedGraph: Graph = {
       id: graph.id,
+      publicId: graph.publicId,
       nodes: [...JSON.parse(JSON.stringify(selectedNodes))],
       edges: [...JSON.parse(JSON.stringify(selectedEdges))]
     };

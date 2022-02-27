@@ -66,7 +66,7 @@ export function isNode(el: GraphNode | GraphEdge): el is GraphNode {
 
 export type Graph = {
   id: Id;
-  publicId?: Id;
+  publicId: Id;
   name?: string;
   data?: Record<string, unknown>;
   nodes: GraphNode[];

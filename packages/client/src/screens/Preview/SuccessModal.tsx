@@ -28,11 +28,9 @@ export const SuccessModal: FC<{ graph: Graph }> = ({ graph }) => {
               </Box>
               <Box>
                 <Image
-                  alt={graph.publicId as string}
+                  alt={graph.publicId}
                   source={{
-                    uri:
-                      getGraphPreviewURL(graph.publicId as string) +
-                      `?${Date.now()}`
+                    uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
                   }}
                   width="40"
                   height="40"

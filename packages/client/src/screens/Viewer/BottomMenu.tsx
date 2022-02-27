@@ -1,7 +1,7 @@
+import React, { FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Fab, Icon, Menu, Text, HStack } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
-import React, { FC } from 'react';
 import { useVis } from '../../components/Viewer';
 
 interface BottomMenuProps {
@@ -26,7 +26,6 @@ export const BottomMenu: FC<BottomMenuProps> = ({
   onSave
 }) => {
   const { graph, selectedEdges, selectedNodes } = useVis();
-
   const menuItems = [
     {
       icon: 'plus-circle',
@@ -56,7 +55,7 @@ export const BottomMenu: FC<BottomMenuProps> = ({
       icon: 'crop',
       onPress: onSelect,
       text: 'Select',
-      active: true
+      active: graph.nodes.length > 0
     },
     {
       icon: 'crop',
