@@ -1,6 +1,14 @@
 const { Schema } = require('mongoose');
 
 const EdgeSchema = new Schema({
+  _id: {
+    type: String,
+    default: uuidv4
+  },
+  id: {
+    type: String,
+    default: uuidv4
+  },
   data: {
     type: Object,
     required: false,

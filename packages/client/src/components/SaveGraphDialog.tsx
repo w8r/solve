@@ -35,7 +35,10 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
         setGraph(resp);
         setTimeout(onDone, 500);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
   return (
     <Modal isOpen>

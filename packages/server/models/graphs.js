@@ -92,11 +92,85 @@ graphSchema.statics.findById = (id) => {
   return Graphs.findOne({ _id: id }).exec();
 };
 
-graphSchema.statics.findByUser = async (userId) => {
-  const ids = await Graphs.distinct('publicId', { user: userId }).exec();
-  return Graphs.find({ publicId: { $in: ids } })
-    .sort({ createdAt: -1 })
-    .exec();
+graphSchema.statics.findByUser = (userId) => {
+  // get graphs latest by created at and distinct by public id
+  // project all fields
+  return Graphs.aggregate([
+    {
+      $match: {
+        user: userId
+      }
+    },
+    {
+      $sort: {
+        createdAt: -1
+      }
+    },
+    {
+      $group: {
+        _id: '$publicId',
+        internalId: {
+          $first: '$_id'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        updatedAt: {
+          $first: '$updatedAt'
+        },
+        data: {
+          $first: '$data'
+        },
+        edges: {
+          $first: '$edges'
+        },
+        nodes: {
+          $first: '$nodes'
+        },
+        name: {
+          $first: '$name'
+        },
+        resolved: {
+          $first: '$resolved'
+        },
+        tags: {
+          $first: '$tags'
+        },
+        user: {
+          $first: '$user'
+        },
+        isPublic: {
+          $first: '$isPublic'
+        },
+        publicId: {
+          $first: '$publicId'
+        },
+        internalId: {
+          $first: '$_id'
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        name: {
+          $ifNull: ['$name', 'Untitled']
+        },
+        isPublic: '$isPublic',
+        resolved: '$resolved',
+        createdAt: 1,
+        updatedAt: 1,
+        tags: '$tags',
+        data: '$data',
+        nodes: '$nodes',
+        edges: '$edges',
+        user: '$user',
+        publicId: '$_id',
+        internalId: '$internalId',
+        updatedAt: '$updatedAt'
+      }
+    }
+  ]);
 };
 
 graphSchema.methods.toJSON = function () {
