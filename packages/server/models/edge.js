@@ -1,4 +1,5 @@
 const { Schema } = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const EdgeSchema = new Schema({
   _id: {
