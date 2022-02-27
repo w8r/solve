@@ -169,6 +169,11 @@ graphSchema.statics.findByUser = (userId) => {
         internalId: '$internalId',
         updatedAt: '$updatedAt'
       }
+    },
+    {
+      $sort: {
+        createdAt: -1
+      }
     }
   ]);
 };
