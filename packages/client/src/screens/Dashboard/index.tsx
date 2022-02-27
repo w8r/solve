@@ -62,7 +62,6 @@ export default function Dashboard() {
     if (isFocused && !requested && !isLoading) {
       setLoading(true);
       setRequested(true);
-
       getMyGraphs();
     }
     // unload

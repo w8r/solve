@@ -26,11 +26,16 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
         contentContainerStyle={styles.listContent}
         numColumns={columns}
         data={graphs}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({ item: graph, index }) => {
           return (
             <TouchableOpacity onPress={() => onPress(index)}>
-              <Box rounded="sm" minWidth="40" marginRight="5" marginBottom="5">
+              <Box
+                rounded="sm"
+                minWidth="40"
+                marginRight={index % 2 === 0 ? 5 : 0}
+                marginBottom="5"
+              >
                 <Image
                   style={styles.image}
                   alt={graph.id}
@@ -40,7 +45,7 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
                   width="40"
                   height="40"
                 />
-                <Text>{graph.name || 'Graph name'}</Text>
+                <Text maxWidth={40}>{graph.name || 'Graph name'}</Text>
               </Box>
             </TouchableOpacity>
           );
@@ -56,16 +61,12 @@ const styles = StyleSheet.create({
     padding: 0,
     paddingTop: 40
   },
-  list: {
-    width: '100%',
-    padding: 20
-  },
   image: {
     borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)'
+    borderColor: 'rgba(0,0,0,0.1)'
   },
   listContent: {
     margin: 0,
-    padding: 20
+    padding: 0
   }
 });
