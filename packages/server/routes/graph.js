@@ -11,6 +11,9 @@ router.get('/:publicId/latest', auth, GraphController.getLatestGraphRevision);
 router.post('/', auth, GraphController.createGraph);
 router.put('/:publicId', auth, GraphController.updateGraph);
 
+router.get('/:publicId/subgraphs', auth, GraphController.getSubGraphs);
+router.get('/:publicId/proposals', auth, GraphController.getProposalGraphs);
+
 // preview
 router.get('/:publicId/preview.svg', GraphController.preview.svg);
 router.get('/:publicId/preview.png', GraphController.preview.png);

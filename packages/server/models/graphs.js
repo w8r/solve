@@ -7,16 +7,37 @@ const Vertex = require('./vertex');
 const Edge = require('./edge');
 const Users = require('./users');
 
-const dataSchema = new Schema({
-  shared: {
-    type: Boolean,
-    default: false
+const dataSchema = new Schema(
+  {
+    shared: {
+      type: Boolean,
+      default: false
+    },
+    parentId: {
+      type: String,
+      default: null
+    }
   },
-  parentId: {
-    type: String,
-    default: null
-  }
-});
+  { _id: false }
+);
+
+// number of subgraphs => number of graphs with same parentId but user is the same (dashboard)
+
+/* SUBGRAPHS SCREEN
+  graphs with same parentId but user is the same -> only publicId and number of forks
+  forks are same parentId but different user 
+
+
+  SUBGRAPH SCREEN
+  graphs with same parentId but different user -> only publicId and metadata (name, nr of edges/nodes etc)
+
+  FORK VIEWER
+  graph with user data (id and username)
+
+  * Accepting a fork creates a subgraph of mine
+
+  For forked and absorbed graphs -> add metadata which tells it forked from a user
+*/
 
 const graphSchema = new Schema(
   {
@@ -36,6 +57,10 @@ const graphSchema = new Schema(
       type: Users,
       required: true,
       ref: 'Users'
+    },
+    resolved: {
+      type: Boolean,
+      default: false
     },
     data: {
       type: dataSchema,
@@ -67,14 +92,16 @@ graphSchema.statics.findById = (id) => {
   return Graphs.findOne({ _id: id }).exec();
 };
 
-graphSchema.statics.findByUser = (userId) => {
-  return Graphs.find({ user: userId }).exec();
+graphSchema.statics.findByUser = async (userId) => {
+  const ids = await Graphs.distinct('publicId', { user: userId }).exec();
+  return Graphs.find({ publicId: { $in: ids } })
+    .sort({ createdAt: -1 })
+    .exec();
 };
 
 graphSchema.methods.toJSON = function () {
   const data = this.toObject();
 
-  data.user = data.user._id;
   data.id = data._id;
   delete data._id;
   delete data.__v;

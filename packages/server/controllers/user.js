@@ -9,13 +9,17 @@ module.exports.status = ({ user }, res, next) => {
   if (user) res.send(user);
 };
 
-module.exports.toHeader = (graph) => ({
-  id: graph.publicId,
-  internalId: graph._id,
-  nodes: graph.get('nodes').length,
-  edges: graph.get('edges').length,
-  data: graph.data
-});
+module.exports.toHeader = (graph) => {
+  return {
+    id: graph.publicId,
+    internalId: graph._id,
+    nodes: graph.nodes.length,
+    edges: graph.edges.length,
+    data: graph.data,
+    tags: graph.tags,
+    user: graph.user
+  };
+};
 
 /**
  * @function preloadTargetUser

@@ -42,7 +42,7 @@ describe('ENDPOINT: POST /api/user/reset-password', function () {
   it(`POST ${endpoint} - request password reset - wrong email`, () => {
     return request(app)
       .post('/api/user/reset-password')
-      .send({ email: 'john@tdev.app' })
+      .send({ email: 'johnqewqewq@tdev.app' })
       .expect(400)
       .expect(({ body: res }) => {
         assert.deepEqual(res.error, {
@@ -120,7 +120,7 @@ describe('ENDPOINT: POST /api/user/graphs', () => {
           .set(config.jwt.headerName, `Bearer ${token}`)
           .expect(200)
           .expect(({ body: response }) => {
-            assert.deepEqual(response, []);
+            assert.isArray(response);
           })
       );
   });

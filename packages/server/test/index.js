@@ -28,21 +28,13 @@ before((done) => {
   require('../index');
 
   mongoose.connection.once('open', () => {
-    done();
-  });
-});
-
-beforeEach(() => {
-  const Users = mongoose.model('Users');
-  return Users.deleteMany({});
-});
-
-beforeEach(() => {
-  return seed.createUsers(users).then((users) => {
-    app.locals.existing = {};
-    users.forEach((user) => {
-      user.jwtToken = generateJwtToken(user, 'local');
-      app.locals.existing[[user.name]] = user;
+    return seed.createUsers(users).then((users) => {
+      app.locals.existing = {};
+      users.forEach((user) => {
+        user.jwtToken = generateJwtToken(user, 'local');
+        app.locals.existing[[user.name]] = user;
+      });
+      done();
     });
   });
 });

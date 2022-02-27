@@ -4816,6 +4816,7 @@ __metadata:
     passport-local: ^1.0.0
     sendgrid-template-helper: ^1.0.5
     sharp: ^0.28.3
+    superagent: ^7.1.1
     supertest: ^6.1.5
     typescript: ~4.0.0
     uuid: ^8.3.2
@@ -19478,7 +19479,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"superagent@npm:^7.1.0":
+"superagent@npm:^7.1.0, superagent@npm:^7.1.1":
   version: 7.1.1
   resolution: "superagent@npm:7.1.1"
   dependencies:
