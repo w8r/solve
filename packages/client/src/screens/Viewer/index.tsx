@@ -36,7 +36,7 @@ const Wrapper = ({
     setSelectedEdges,
     clearSelection
   } = useVis();
-  const { navigate } = useNavigation();
+  const { navigate, isFocused } = useNavigation();
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
@@ -178,7 +178,7 @@ const Wrapper = ({
     if (selectedNodes && selectedNodes.length > 1) createEdge();
   };
 
-  const onSave = () => setShowSaveDialog(true);
+  const onSave = () => isFocused && setShowSaveDialog(true);
 
   return (
     <>

@@ -69,7 +69,10 @@ export default function Dashboard() {
       setGraphs([]);
       setLoading(false);
     }
-  }, []);
+    return () => {
+      setRequested(false);
+    };
+  }, [isFocused]);
 
   return (
     <SafeAreaView style={styles.container}>
