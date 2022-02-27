@@ -13,6 +13,7 @@ module.exports.toHeader = (graph) => {
   return {
     id: graph.publicId,
     internalId: graph._id,
+    name: graph.name,
     nodes: graph.nodes.length,
     edges: graph.edges.length,
     data: graph.data,

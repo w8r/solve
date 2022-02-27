@@ -26,8 +26,8 @@ const HorizontalLine: FC<{}> = () => (
 const { height } = Dimensions.get('window');
 
 export enum DrawerState {
-  Open = height - 230,
-  Peek = 230,
+  Open = height - 100,
+  Peek = 100,
   Closed = 0
 }
 

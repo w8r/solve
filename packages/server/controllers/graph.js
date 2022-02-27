@@ -179,12 +179,14 @@ module.exports.getProposalGraphs = async (req, res) => {
 };
 
 const getPreviewData = (publicId) => {
-  return Graphs.findOne({ publicId: publicId }).then((graph) =>
-    graph
-      .populate('nodes', ['id', 'attributes'])
-      .populate('edges', ['source', 'target', 'attributes'])
-      .execPopulate()
-  );
+  return Graphs.findOne({ publicId: publicId })
+    .sort({ createdAt: -1 })
+    .then((graph) =>
+      graph
+        .populate('nodes', ['id', 'attributes'])
+        .populate('edges', ['source', 'target', 'attributes'])
+        .execPopulate()
+    );
 };
 
 const extractTags = (req) => {
