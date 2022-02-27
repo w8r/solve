@@ -6,30 +6,14 @@ import { VisProvider, useVis, Viewer } from '../../components/Viewer';
 import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
-import {
-  getCategoryColor,
-  Graph,
-  GraphEdge,
-  GraphNode
-} from '../../types/graph';
+import { getCategoryColor, Graph } from '../../types/graph';
 import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
 import { BackButton } from '../../components/BackButton';
 import { useNavigation } from '@react-navigation/native';
 import { SelectionDialog } from './SelectionDialog';
 import ConnectNodeDialog from '../../components/Dialog/ConnectNodeDialog';
-import _ from 'lodash';
-
-var splitPairs = function (arr: string[]) {
-  var pairs = [];
-  for (var i = 0; i < arr.length; i += 2) {
-    if (arr[i + 1] !== undefined) {
-      pairs.push([arr[i], arr[i + 1]]);
-    } else {
-      pairs.push([arr[i - 1], arr[i]]);
-    }
-  }
-  return pairs;
-};
+import { SaveGraphDialog } from './SaveGraphDialog';
+import { splitPairs } from '../../lib/utils';
 
 const Wrapper = ({
   width,
@@ -57,13 +41,12 @@ const Wrapper = ({
   const { navigate } = useNavigation();
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
-
-  const [selected, setSelected] = useState<Graph | null>(null);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   useEffect(() => {
     if (id !== null) {
       getGraph(id).then((response) => setGraph(response));
-    }
+    } else setGraph({ id: '', name: 'New graph', nodes: [], edges: [] });
     return () => {
       setSelectedNodes([]);
       setSelectedEdges([]);
@@ -208,6 +191,12 @@ const Wrapper = ({
     }
   };
 
+  const onCreateEdge = () => {
+    if (selectedNodes && selectedNodes.length > 1) createEdge();
+  };
+
+  const onSave = () => setShowSaveDialog(true);
+
   return (
     <>
       <Viewer width={width} height={height} graph={graph} />
@@ -219,12 +208,9 @@ const Wrapper = ({
         onSelectClear={onSelectClear}
         onRemove={removeSelected}
         onEdit={onEdit}
-        onCreateEdge={() => {
-          if (selectedNodes && selectedNodes.length > 1) {
-            createEdge();
-          }
-        }}
+        onCreateEdge={onCreateEdge}
         onShare={onShare}
+        onSave={onSave}
       />
       {nodeDialogVisible && !edgeDialogVisible ? (
         <CreateNodeDialog
@@ -240,6 +226,12 @@ const Wrapper = ({
           }
         />
       ) : null}
+      {showSaveDialog && (
+        <SaveGraphDialog
+          onCancel={() => setShowSaveDialog(false)}
+          onDone={() => setShowSaveDialog(false)}
+        />
+      )}
     </>
   );
 };

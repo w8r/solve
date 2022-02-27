@@ -79,6 +79,7 @@ export default function Dashboard() {
       {isLoading ? <Placeholder /> : showGraph()}
       <Fab
         style={styles.fab}
+        renderInPortal={false}
         onPress={() =>
           navigate('App', {
             screen: 'TabOne',

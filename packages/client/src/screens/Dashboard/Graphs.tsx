@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, FlatList, Image, Center } from 'native-base';
+import { Box, FlatList, Image, Text } from 'native-base';
 import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
@@ -30,13 +30,7 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
         renderItem={({ item: graph, index }) => {
           return (
             <TouchableOpacity onPress={() => onPress(index)}>
-              <Box
-                rounded="sm"
-                height="40"
-                minWidth="40"
-                marginRight="5"
-                marginBottom="5"
-              >
+              <Box rounded="sm" minWidth="40" marginRight="5" marginBottom="5">
                 <Image
                   style={styles.image}
                   alt={graph.id}
@@ -46,6 +40,7 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
                   width="40"
                   height="40"
                 />
+                <Text>{graph.name || 'Graph name'}</Text>
               </Box>
             </TouchableOpacity>
           );

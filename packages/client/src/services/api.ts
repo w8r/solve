@@ -137,7 +137,7 @@ export function getGraph(id: string) {
   return get<Graph>(`/api/graph/${id}/latest`);
 }
 
-export function saveGraph(id: string, graph: Graph) {
+export function saveGraph(id: string | null, graph: Graph) {
   if (id === null) return post<Graph>('/api/graph/', graph);
   return put<Graph>(`/api/graph/${id}`, graph);
 }

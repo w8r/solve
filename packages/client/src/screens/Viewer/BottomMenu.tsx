@@ -12,6 +12,7 @@ interface BottomMenuProps {
   onCreateEdge: () => void;
   onShare: () => void;
   onSelectClear: () => void;
+  onSave: () => void;
 }
 
 export const BottomMenu: FC<BottomMenuProps> = ({
@@ -21,9 +22,10 @@ export const BottomMenu: FC<BottomMenuProps> = ({
   onEdit,
   onCreateEdge,
   onShare,
-  onSelectClear
+  onSelectClear,
+  onSave
 }) => {
-  const { selectedEdges, selectedNodes } = useVis();
+  const { graph, selectedEdges, selectedNodes } = useVis();
 
   const menuItems = [
     {
@@ -67,6 +69,12 @@ export const BottomMenu: FC<BottomMenuProps> = ({
       onPress: onShare,
       text: 'Share',
       active: selectedNodes.length > 0
+    },
+    {
+      icon: 'save',
+      onPress: onSave,
+      text: 'Save',
+      active: graph.nodes.length + graph.edges.length > 0
     }
   ];
 
