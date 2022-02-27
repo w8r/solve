@@ -6,14 +6,12 @@ import { VisProvider, useVis, Viewer } from '../../components/Viewer';
 import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
-import { getCategoryColor, Graph } from '../../types/graph';
+import { getCategoryColor, Graph, GraphEdge } from '../../types/graph';
 import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
 import { BackButton } from '../../components/BackButton';
 import { useNavigation } from '@react-navigation/native';
-import { SelectionDialog } from './SelectionDialog';
-import ConnectNodeDialog from '../../components/Dialog/ConnectNodeDialog';
-import { SaveGraphDialog } from './SaveGraphDialog';
-import { splitPairs } from '../../lib/utils';
+import { SaveGraphDialog } from '../../components/SaveGraphDialog';
+import { createEdges } from '../../lib/graph';
 
 const Wrapper = ({
   width,
@@ -54,22 +52,7 @@ const Wrapper = ({
   }, []);
 
   const createEdge = () => {
-    const edgePairs = splitPairs(selectedNodes.map((node) => node.id));
-
-    const edges = edgePairs.map((pair) => {
-      return {
-        id: `${pair[0]}-${pair[1]}`,
-        _id: `${pair[0]}-${pair[1]}`,
-        source: pair[0],
-        target: pair[1],
-        attributes: {
-          width: 1,
-          color: '#000',
-          selected: false
-        }
-      };
-    });
-
+    const edges = createEdges(graph, selectedNodes);
     const updatedGraph = {
       ...graph,
       edges: [...graph.edges, ...edges]

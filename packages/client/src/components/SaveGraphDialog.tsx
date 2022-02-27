@@ -2,18 +2,20 @@ import React, { FC, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Modal, IconButton, Input, Spinner } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
-import { Graph } from '../../types/graph';
-import { useVis } from '../../components/Viewer';
-import { saveGraph } from '../../services/api';
+import { Graph } from '../types/graph';
+import { useVis } from './Viewer';
+import { saveGraph, shareGraph } from '../services/api';
 
 interface SaveGraphDialogProps {
   onCancel: () => void;
   onDone: () => void;
+  share?: boolean;
 }
 
 export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
   onCancel,
-  onDone
+  onDone,
+  share = false
 }) => {
   const { graph, setGraph } = useVis();
   const [value, setValue] = useState(graph.name || '');
@@ -24,7 +26,11 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
     graph.name = value;
     setGraph(graph);
     setLoading(true);
-    return saveGraph(graph.publicId ? graph.publicId : null, graph)
+    const request = share
+      ? shareGraph(graph, graph.id)
+      : saveGraph(graph.publicId ? graph.publicId : null, graph);
+
+    return request
       .then((resp) => {
         setGraph(resp);
         setTimeout(onDone, 500);

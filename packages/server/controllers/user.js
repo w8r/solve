@@ -11,6 +11,7 @@ module.exports.status = ({ user }, res, next) => {
 
 module.exports.toHeader = (graph) => ({
   id: graph.publicId,
+  name: graph.name,
   internalId: graph._id,
   nodes: graph.get('nodes').length,
   edges: graph.get('edges').length,
