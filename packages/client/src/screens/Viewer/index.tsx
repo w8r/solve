@@ -6,7 +6,12 @@ import { VisProvider, useVis, Viewer } from '../../components/Viewer';
 import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
-import { getCategoryColor, Graph, GraphEdge } from '../../types/graph';
+import {
+  getCategoryColor,
+  Graph,
+  GraphEdge,
+  GraphNode
+} from '../../types/graph';
 import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
 import { BackButton } from '../../components/BackButton';
 import { useNavigation } from '@react-navigation/native';
@@ -59,35 +64,27 @@ const Wrapper = ({
 
   const createEdge = () => {
     const edges = createEdges(graph, selectedNodes);
-    const updatedGraph = {
-      ...graph,
-      edges: [...graph.edges, ...edges]
-    };
-    setGraph(updatedGraph);
+    graph.edges = [...graph.edges, ...edges];
+    setGraph(graph);
   };
 
   const addNode = (name: string, category: string, size: number) => {
     if (!graph) return;
-    const updatedGraph: Graph = {
-      ...graph,
-      nodes: [
-        ...graph.nodes,
-        {
-          id: `${graph.nodes.length + 1}`,
-          _id: `${graph.nodes.length + 1}`,
-          attributes: {
-            r: size,
-            x: 0,
-            y: 0,
-            color: getCategoryColor(category),
-            text: name,
-            selected: false
-          },
-          data: { category }
-        }
-      ]
+    const newNode: GraphNode = {
+      id: `${graph.nodes.length + 1}`,
+      _id: `${graph.nodes.length + 1}`,
+      attributes: {
+        r: size,
+        x: 0,
+        y: 0,
+        color: getCategoryColor(category),
+        text: name,
+        selected: false
+      },
+      data: { category }
     };
-    setGraph(updatedGraph);
+    graph.nodes = [...graph.nodes, newNode];
+    setGraph(graph);
     setNodeDialogVisible(false);
   };
 
@@ -103,37 +100,31 @@ const Wrapper = ({
         existingNodeIds.includes(edge.target) &&
         !edgeIds.includes(edge._id)
     );
-    const updatedGraph = {
-      ...graph,
-      nodes,
-      edges
-    };
+    graph.nodes = nodes;
+    graph.edges = edges;
     setSelectedNodes([]);
     setSelectedEdges([]);
-    setGraph(updatedGraph);
+    setGraph(graph);
   };
 
   const editNode = (name: string, category: string, size: number) => {
     if (!selectedNodes || (selectedNodes && selectedNodes.length !== 1)) return;
-    const updatedGraph = {
-      ...graph,
-      nodes: graph.nodes.map((node) =>
-        node.id === selectedNodes[0].id
-          ? {
-              ...node,
-              attributes: {
-                ...node.attributes,
-                r: size,
-                text: name,
-                color: getCategoryColor(category)
-              },
-              data: { category }
-            }
-          : node
-      )
-    };
+    graph.nodes = graph.nodes.map((node) =>
+      node.id === selectedNodes[0].id
+        ? {
+            ...node,
+            attributes: {
+              ...node.attributes,
+              r: size,
+              text: name,
+              color: getCategoryColor(category)
+            },
+            data: { category }
+          }
+        : node
+    );
 
-    setGraph(updatedGraph);
+    setGraph(graph);
     setSelectedNodes([
       {
         ...selectedNodes[0],

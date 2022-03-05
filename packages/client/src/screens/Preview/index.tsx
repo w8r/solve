@@ -44,24 +44,21 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
 
   const editNode = (name: string, category: string, size: number) => {
     if (!selectedNodes || (selectedNodes && selectedNodes.length !== 1)) return;
-    const updatedGraph = {
-      ...graph,
-      nodes: graph.nodes.map((node) =>
-        node.id === selectedNodes[0].id
-          ? {
-              ...node,
-              attributes: {
-                ...node.attributes,
-                r: size,
-                text: name,
-                color: getCategoryColor(category)
-              },
-              data: { category }
-            }
-          : node
-      )
-    };
-    setGraph(updatedGraph);
+    graph.nodes = graph.nodes.map((node) =>
+      node.id === selectedNodes[0].id
+        ? {
+            ...node,
+            attributes: {
+              ...node.attributes,
+              r: size,
+              text: name,
+              color: getCategoryColor(category)
+            },
+            data: { category }
+          }
+        : node
+    );
+    setGraph(graph);
     setSelectedNodes([
       {
         ...selectedNodes[0],
