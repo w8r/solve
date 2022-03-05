@@ -1,19 +1,21 @@
 import React from 'react';
 import { Dimensions, StyleSheet } from 'react-native';
-import { Box, HStack } from 'native-base';
+import { Box, Center, HStack } from 'native-base';
 
 export default function Placeholder() {
   return (
-    <Box padding="5" flex={1} paddingTop={35}>
-      <HStack>
-        <Box bg="blueGray.200" rounded="sm" style={styles.box} />
-        <Box bg="blueGray.200" rounded="sm" style={styles.box} />
-      </HStack>
-      <HStack>
-        <Box bg="blueGray.200" rounded="sm" style={styles.box} />
-        <Box bg="blueGray.200" rounded="sm" style={styles.box} />
-      </HStack>
-    </Box>
+    <Center>
+      <Box padding="5" flex={1} paddingTop={35}>
+        <HStack>
+          <Box bg="blueGray.200" rounded="sm" style={styles.box} />
+          <Box bg="blueGray.200" rounded="sm" style={styles.box} />
+        </HStack>
+        <HStack>
+          <Box bg="blueGray.200" rounded="sm" style={styles.box} />
+          <Box bg="blueGray.200" rounded="sm" style={styles.box} />
+        </HStack>
+      </Box>
+    </Center>
   );
 }
 

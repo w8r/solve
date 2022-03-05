@@ -22,6 +22,7 @@ import {
   categoryArray
 } from '../../types/graph';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { isWeb } from '../../constants/device';
 
 const possibleSizes = [3, 3.5, 4, 5, 6, 7, 8, 9, 10, 12, 16, 20, 24];
 
@@ -88,7 +89,10 @@ export default function CreateNodeDialog({
       bottom="4"
       size="lg"
     >
-      <Modal.Content maxWidth="350" style={styles.bottomNavigationView}>
+      <Modal.Content
+        maxWidth={isWeb ? 500 : undefined}
+        style={styles.bottomNavigationView}
+      >
         <TouchableOpacity
           style={styles.closeButton}
           onPress={() => closeDialog()}
@@ -96,10 +100,10 @@ export default function CreateNodeDialog({
           <Text>Close</Text>
         </TouchableOpacity>
         <FormContainer>
-          <Heading size="md" fontWeight="400" color="coolGray.800">
-            {data ? 'Edit node' : 'Add a new node'}
-          </Heading>
           <VStack direction="column" space="2.5" mt="7">
+            <Heading size="md" fontWeight="400" color="coolGray.800">
+              {data ? 'Edit' : 'Add'}
+            </Heading>
             <FormControl>
               <FormControl.Label
                 _text={{

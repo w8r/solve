@@ -21,6 +21,7 @@ import {
 import { usePanResponder } from './usePanResponder';
 import { Graph, GraphNode, isNode } from '../../types/graph';
 import { useVis } from './context';
+import { isWeb } from '../../constants/device';
 
 export interface ViewerProps extends ViewProps {
   width?: number;
@@ -235,7 +236,9 @@ export function Viewer({
   };
 
   const onTap = ({ nativeEvent }: GestureResponderEvent) => {
-    const el = app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);
+    const el = isWeb
+      ? app.getElementAt(nativeEvent.pageX, nativeEvent.pageY)
+      : app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);
     if (el) {
       if (isNode(el)) selectNode(el.id);
       else selectEdge(el._id);
