@@ -1671,7 +1671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/browser-polyfill@npm:^0.1.0":
+"@expo/browser-polyfill@npm:^0.1.1":
   version: 0.1.1
   resolution: "@expo/browser-polyfill@npm:0.1.1"
   dependencies:
@@ -4611,13 +4611,13 @@ __metadata:
     expo-constants: 11.0.1
     expo-facebook: 11.3.1
     expo-font: 9.2.1
-    expo-gl: 9.2.0
+    expo-gl: ^9.2.0
     expo-google-app-auth: 8.2.5
     expo-linking: 2.3.1
     expo-random: 11.2.0
     expo-splash-screen: 0.11.2
     expo-status-bar: 1.0.4
-    expo-three: 5.5.1
+    expo-three: ^5.5.1
     expo-web-browser: 9.2.0
     expo-yarn-workspaces: 1.5.2
     formik: 2.2.9
@@ -9908,15 +9908,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-asset-utils@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "expo-asset-utils@npm:1.2.0"
+"expo-asset-utils@npm:~2.0.0":
+  version: 2.0.0
+  resolution: "expo-asset-utils@npm:2.0.0"
   peerDependencies:
     "@unimodules/core": "*"
-    expo-asset: ~4.0.0
-    expo-file-system: ~4.0.0
-    expo-font: ~4.0.0
-  checksum: 3bb26a7a93455e32b93ab3d3dd657a29e6cf9a673e3205b8b656b90c471468705daadcfa6dca2b2334afa5ff93a21b13e26c0fc29474e12e86339a5b3fab20e6
+    expo-asset: "*"
+    expo-file-system: "*"
+    expo-font: "*"
+    react-native: "*"
+  checksum: 6860b6ffe8ef02452e5ea21e5a4e2f941d2e589c580832ff70ebba93f68a941c23971dea922051fb10fc1632c53c1a0c663b4188a53561f877264e5d2c7fdbaa
   languageName: node
   linkType: hard
 
@@ -10039,7 +10040,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-gl@npm:9.2.0":
+"expo-gl@npm:^9.2.0":
   version: 9.2.0
   resolution: "expo-gl@npm:9.2.0"
   dependencies:
@@ -10157,19 +10158,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-three@npm:5.5.1":
-  version: 5.5.1
-  resolution: "expo-three@npm:5.5.1"
+"expo-three@npm:^5.5.1":
+  version: 5.7.0
+  resolution: "expo-three@npm:5.7.0"
   dependencies:
-    "@expo/browser-polyfill": ^0.1.0
-    expo-asset-utils: ^1.2.0
+    "@expo/browser-polyfill": ^0.1.1
+    expo-asset-utils: ~2.0.0
   peerDependencies:
     "@unimodules/core": "*"
     expo-asset: "*"
     expo-file-system: "*"
     react-native: "*"
-    three: ^0.117.1
-  checksum: a7cbbd6d22dfaca1f1fad092e646c3161c5b64d5ce20b89283999d2405c7c4eb86f694927be00ac3962fa8815b39d17ef6c3aa2ad9d4dd79264f3e88fee75640
+    three: ^0.127.0
+  checksum: 17cae87ba5974ba20aefe5486fde9cdfd15cb1830bc037bd6dbff72c0efd64b3c01efb62af75a8135f4000dd19229a90a07cf9ded9e0428647ec15e8834c7ace
   languageName: node
   linkType: hard
 
