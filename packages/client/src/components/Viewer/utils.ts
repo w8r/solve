@@ -96,29 +96,17 @@ export function getBoundsTransform(
   x1: number,
   y1: number,
   canvasWidth: number,
-  canvasHeight: number,
-  padding = 10
+  canvasHeight: number
 ) {
-  const w = x1 - x0 || 0;
-  const h = y1 - y0 || 0;
+  const w = Math.abs(x1 - x0) || 0;
+  const h = Math.abs(y1 - y0) || 0;
   const cx = (x0 + x1) / 2 || 0;
   const cy = (y0 + y1) / 2 || 0;
 
   if (isNaN(w) || isNaN(h)) return { x: 0, y: 0, k: 1 };
 
-  const hw = canvasWidth / 2;
-  const hh = canvasHeight / 2;
-
-  const scaleZoom =
-    w === 0 || h === 0 ? 8 : Math.min(canvasWidth / w, canvasHeight / h) / 4;
-
-  const t = zoomIdentity
-    .translate(hw, hh)
-    .scale(scaleZoom)
-    .translate(-cx, -cy)
-    .translate(-hw / scaleZoom, -0.85 * (hh / scaleZoom));
-
-  return { x: t.x, y: t.y, k: t.k };
+  const scale = 0.25 / Math.max(w / canvasWidth, h / canvasHeight);
+  return zoomIdentity.translate(-scale * cx, scale * cy).scale(scale);
 }
 
 export function mouseToThree(x: number, y: number, w: number, h: number) {

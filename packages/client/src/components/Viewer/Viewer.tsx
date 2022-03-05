@@ -52,6 +52,7 @@ interface ViewerState {
   initialY: number;
   dragOffsetX: number;
   dragOffsetY: number;
+  lastRelease: number;
 }
 
 export function Viewer({
@@ -62,16 +63,7 @@ export function Viewer({
   graph
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
-  const {
-    app,
-    isSelecting,
-    selectedNodes,
-    setSelectedNodes,
-    selectedEdges,
-    setSelectedEdges,
-    selectEdge,
-    selectNode
-  } = useVis();
+  const { app, isSelecting, selectEdge, selectNode } = useVis();
   const dppx = PixelRatio.get();
 
   const [state, setState] = useState<ViewerState>({
@@ -93,7 +85,8 @@ export function Viewer({
     initialY: 0,
     dragOffsetX: 0,
     dragOffsetY: 0,
-    initialDistance: 1
+    initialDistance: 1,
+    lastRelease: 0
   });
 
   useEffect(() => {
@@ -207,11 +200,13 @@ export function Viewer({
         // responder. This typically means a gesture has succeeded
         if (isSelecting) app.stopSelection();
         if (state.isMoving) app.setGraph(graph);
+
         setState({
           ...state,
           isMoving: false,
           isScaling: false,
-          isDragging: null
+          isDragging: null,
+          lastRelease: Date.now()
         });
       },
       onPanResponderTerminate: (evt, gestureState) => {},
@@ -236,6 +231,8 @@ export function Viewer({
   };
 
   const onTap = ({ nativeEvent }: GestureResponderEvent) => {
+    // on the web this helps suppressing selection after dragging
+    if (Date.now() - state.lastRelease < 100) return;
     const el = isWeb
       ? app.getElementAt(nativeEvent.pageX, nativeEvent.pageY)
       : app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);

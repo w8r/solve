@@ -33,7 +33,8 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
               <Box
                 rounded="sm"
                 minWidth="40"
-                marginRight={index % 2 === 0 ? 5 : 0}
+                maxWidth="40"
+                marginRight={(index + 1) % columns === 0 ? 0 : 5}
                 marginBottom="5"
               >
                 <Image

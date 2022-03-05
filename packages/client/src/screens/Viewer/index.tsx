@@ -220,7 +220,10 @@ const Wrapper = ({
       {showSaveDialog && (
         <SaveGraphDialog
           onCancel={() => setShowSaveDialog(false)}
-          onDone={() => setShowSaveDialog(false)}
+          onDone={() => {
+            onSelectClear();
+            setShowSaveDialog(false);
+          }}
         />
       )}
     </>

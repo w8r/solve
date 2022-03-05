@@ -37,7 +37,6 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
         setTimeout(onDone, 500);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   };
