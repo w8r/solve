@@ -23,7 +23,6 @@ const Wrapper = ({
   id: string | null;
 }) => {
   const {
-    app,
     graph,
     setGraph,
     setIsSelecting,

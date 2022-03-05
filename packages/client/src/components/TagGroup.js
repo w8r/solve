@@ -61,7 +61,6 @@ export default class TagGroup extends Component {
             ref={(ref) => {
               if (this.props.selected && this.props.selected === value) {
                 ref?.setSelected();
-                this.props.selected = null;
               }
               this._tags[index] = ref;
             }}
@@ -192,7 +191,6 @@ export class Tag extends Component {
 
   render() {
     const {
-      tintColor,
       tagStyle,
       activeTagStyle,
       textStyle,
@@ -218,15 +216,15 @@ export class Tag extends Component {
         style={[
           styles.tagBackground,
           {
-            borderColor: '#fff',
-            backgroundColor: getCategoryColor(this.props.text)
+            backgroundColor: '#fff',
+            borderColor: getCategoryColor(this.props.text)
           },
           tagStyle
         ].concat(
           this.state.selected
             ? activeTagStyle || {
-                backgroundColor: '#fff',
-                borderColor: getCategoryColor(this.props.text)
+                borderColor: '#fff',
+                backgroundColor: getCategoryColor(this.props.text)
               }
             : null
         )}
@@ -289,12 +287,12 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   textStyle: {
-    color: '#fff',
+    color: '#333',
     fontSize: 13,
     textAlign: 'center',
     textAlignVertical: 'center'
   },
   selectedTextStyle: {
-    color: '#333'
+    color: '#fff'
   }
 });
