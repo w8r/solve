@@ -12,7 +12,10 @@ import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
 const transport = axios.create({
   headers: {
     Accept: 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-cache',
+    Pragma: 'no-cache',
+    Expires: '0'
   },
   responseType: 'json',
   baseURL: AppConfig.apiUrl
@@ -50,9 +53,9 @@ function request<T>(
           data: method === 'get' ? undefined : data
         })
         .then((response) => resolve(response.data as unknown as T))
-        .catch((error) =>
-          reject(error && error.response ? error.response.data : null)
-        );
+        .catch((error) => {
+          reject(error && error.response ? error.response.data : null);
+        });
     });
   });
 }

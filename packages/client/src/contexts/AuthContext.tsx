@@ -56,6 +56,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
     api
       .googleAuth(data)
       .then(onAuthSuccess)
+      .catch(() => setLoading(false))
       .then(() => setLoading(false));
 
   const logout = () => {
