@@ -9,14 +9,18 @@ const { Types } = require('mongoose');
 const preview = require('../lib/preview');
 const { messages } = require('../config/constants');
 const { toHeader } = require('./user');
-const { LATEST_REVISION_AGGREGATOR } = require('../lib/dbHelper');
+const {
+  LATEST_REVISION_AGGREGATOR,
+  USER_LOOKUP_PROJECTION
+} = require('../lib/dbHelper');
 
 module.exports.searchByTag = async (req, res) => {
   try {
     const tag = req.params.tag || req.body.tag;
     const graph = await Graphs.aggregate([
       { $match: { $text: { $search: tag } } },
-      ...LATEST_REVISION_AGGREGATOR
+      ...LATEST_REVISION_AGGREGATOR,
+      ...USER_LOOKUP_PROJECTION
     ]);
     if (!graph || !tag) {
       throw new Error('Graph not found.');
@@ -166,15 +170,30 @@ module.exports.getProposalGraphs = async (req, res) => {
     if (!graph || !graphId) {
       throw new Error('Graph not found.');
     }
-    const forks = await Graphs.find({
-      'data.parentId': graphId,
-      user: { $ne: Types.ObjectId(`${req.user._id}`) }
-    })
-      .populate('user', ['name', '_id'])
-      .sort({ createdAt: -1 })
-      .exec();
+    const forks = await Graphs.aggregate([
+      {
+        $match: {
+          'data.parentId': graphId,
+          user: { $ne: Types.ObjectId(`${req.user._id}`) }
+        }
+      },
+      ...LATEST_REVISION_AGGREGATOR,
+      ...USER_LOOKUP_PROJECTION
+    ]);
+
     res.status(200).send({ ...graph.toJSON(), forks });
   } catch (err) {
+    console.log(err);
+    console.log([
+      {
+        $match: {
+          'data.parentId': graphId,
+          user: { $ne: Types.ObjectId(`${req.user._id}`) }
+        },
+        ...LATEST_REVISION_AGGREGATOR,
+        ...USER_LOOKUP_PROJECTION
+      }
+    ]);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };

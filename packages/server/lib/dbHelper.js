@@ -74,3 +74,33 @@ module.exports.LATEST_REVISION_AGGREGATOR = [
     }
   }
 ];
+
+module.exports.USER_LOOKUP_PROJECTION = [
+  {
+    $lookup: {
+      from: 'users',
+      localField: 'user',
+      foreignField: '_id',
+      as: 'users'
+    }
+  },
+  {
+    $addFields: {
+      user: {
+        $arrayElemAt: ['$users', 0]
+      }
+    }
+  },
+  {
+    $unset: [
+      'users',
+      'user.provider',
+      'user.password',
+      'user.status',
+      'user.__v',
+      'user.createdAt',
+      'user.updatedAt',
+      'user.email'
+    ]
+  }
+];
