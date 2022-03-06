@@ -183,17 +183,6 @@ module.exports.getProposalGraphs = async (req, res) => {
 
     res.status(200).send({ ...graph.toJSON(), forks });
   } catch (err) {
-    console.log(err);
-    console.log([
-      {
-        $match: {
-          'data.parentId': graphId,
-          user: { $ne: Types.ObjectId(`${req.user._id}`) }
-        },
-        ...LATEST_REVISION_AGGREGATOR,
-        ...USER_LOOKUP_PROJECTION
-      }
-    ]);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };
