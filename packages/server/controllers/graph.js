@@ -9,14 +9,15 @@ const { Types } = require('mongoose');
 const preview = require('../lib/preview');
 const { messages } = require('../config/constants');
 const { toHeader } = require('./user');
+const { LATEST_REVISION_AGGREGATOR } = require('../lib/dbHelper');
 
 module.exports.searchByTag = async (req, res) => {
   try {
     const tag = req.params.tag || req.body.tag;
-    const graph = await Graphs.find({ $text: { $search: tag } })
-      .sort({ createdAt: -1 })
-      .populate('user', ['name', '_id'])
-      .exec();
+    const graph = await Graphs.aggregate([
+      { $match: { $text: { $search: tag } } },
+      ...LATEST_REVISION_AGGREGATOR
+    ]);
     if (!graph || !tag) {
       throw new Error('Graph not found.');
     }
@@ -193,7 +194,7 @@ const extractTags = (req) => {
   const tags = [];
   for (const node of req.nodes) {
     if (node.data) {
-      for (const tag of Object.values(node.data)) {
+      for (const tag of Object.values(_.omit(node.data, ['', '']))) {
         tags.push(tag);
       }
     }
