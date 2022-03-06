@@ -3,7 +3,6 @@ const sharp = require('sharp');
 function svg({ nodes = [], edges = [] }) {
   const nodesMap = new Map();
   const bbox = [Infinity, Infinity, -Infinity, -Infinity];
-  const margin = 10;
 
   const nodeColor = '#404040';
   const edgeColor = '#909090';
@@ -36,10 +35,11 @@ function svg({ nodes = [], edges = [] }) {
     bbox[3] = Math.max(y + radius, bbox[3]);
   });
 
-  bbox[0] -= margin;
-  bbox[1] += margin;
-  bbox[2] += margin;
-  bbox[3] += margin;
+  const [x0, y0, x1, y1] = bbox;
+
+  const w = Math.abs(x1 - x0) || 0;
+  const h = Math.abs(y1 - y0) || 0;
+  const cx = (x0 + x1) / 2 || 0;
 
   const renderedNodes = nodes.map((node) => {
     nodesMap.set(node.id, node);
@@ -54,7 +54,7 @@ function svg({ nodes = [], edges = [] }) {
       : '';
 
     return `<circle
-      cx="${x}" cy="${bbox[3] - y - margin / 2}"
+      cx="${x}" cy="${bbox[3] - y}"
       r="${radius}" fill="${
       attrs.color || nodeColor
     }" ${strokeColor} ${strokeWidth} />`.replace(/\s+/g, ' ');
@@ -74,11 +74,13 @@ function svg({ nodes = [], edges = [] }) {
 
     return `<line
       x1="${sx}"
-      y1="${bbox[3] - sy - margin / 2}"
+      y1="${bbox[3] - sy}"
       x2="${tx}"
-      y2="${bbox[3] - ty - margin / 2}"
+      y2="${bbox[3] - ty}"
       stroke="${edgeColor}" />`;
   });
+
+  const s = Math.max(w * 1.2, h * 1.2);
 
   return Promise.resolve(
     `
@@ -86,7 +88,7 @@ function svg({ nodes = [], edges = [] }) {
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
-      viewBox="${bbox[0]} ${bbox[1]} ${bbox[2] - bbox[0]} ${bbox[3] - bbox[1]}"
+      viewBox="${cx - s / 2} ${-(s - h) / 2} ${s} ${s}"
       width="500" height="500">
       <g>
         <g>${renderedEdges.join('\n')}</g>

@@ -39,10 +39,10 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
   }
 
   const onAuthSuccess = ({ user: userData, token }: UserAndToken) => {
+    console.log('acquire token', token);
     setToken(token);
     setUser(userData);
     setAuthenticated(true);
-
     return AsyncStorage.setItem(TOKEN_KEY, token);
   };
 

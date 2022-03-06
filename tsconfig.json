@@ -3,6 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "typeRoots": ["src/types"],
-    "jsx": "react"
+    "jsx": "react",
+    "esModuleInterop": true
   }
 }

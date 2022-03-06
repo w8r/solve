@@ -21,11 +21,9 @@ export default function Dashboard() {
   const { navigate } = useNavigation();
 
   const showGraph = () => {
-    if (graphs.length > 0) {
-      return <Graphs graphs={graphs} />;
-    } else {
-      return <Text style={styles.textStyle}>No graph was found.</Text>;
-    }
+    if (!isFocused) return null;
+    if (graphs.length > 0) return <Graphs graphs={graphs} />;
+    return <Text style={styles.textStyle}>Nothing found.</Text>;
   };
 
   const handleSearch = (text: string) => {
@@ -34,12 +32,8 @@ export default function Dashboard() {
       setRequested(true);
       api
         .searchGraph(text)
-        .then((response) => {
-          setGraphs(response);
-        })
-        .catch((error) => {
-          setError(error);
-        })
+        .then((response) => setGraphs(response))
+        .catch((error) => setError(error))
         .finally(() => {
           setLoading(false);
           setRequested(false);
@@ -59,6 +53,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    console.log({ isFocused });
     if (isFocused && !requested && !isLoading) {
       setLoading(true);
       setRequested(true);
