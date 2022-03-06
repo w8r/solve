@@ -42,17 +42,18 @@ require('dotenv').config({
   }
 
   //do something when app is closing
-  process.on('exit', () => exitHandler({ cleanup: true }, 0));
+  process
+    .on('exit', () => exitHandler({ cleanup: true }, 0))
 
-  //catches ctrl+c event
-  process.on('SIGINT', () => exitHandler({ exit: true }));
+    //catches ctrl+c event
+    .on('SIGINT', () => exitHandler({ exit: true }))
 
-  // catches "kill pid" (for example: nodemon restart)
-  process.on('SIGUSR1', () => exitHandler({ exit: true }));
-  process.on('SIGUSR2', () => exitHandler({ exit: true }));
+    // catches "kill pid" (for example: nodemon restart)
+    .on('SIGUSR1', () => exitHandler({ exit: true }))
+    .on('SIGUSR2', () => exitHandler({ exit: true }))
 
-  //catches uncaught exceptions
-  process.on('uncaughtException', () => exitHandler({ exit: true }));
+    //catches uncaught exceptions
+    .on('uncaughtException', () => exitHandler({ exit: true }));
 
   try {
     tunnel = await localtunnel({

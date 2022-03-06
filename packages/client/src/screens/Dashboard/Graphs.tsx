@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, FlatList, Image, Text } from 'native-base';
+import { Badge, Box, FlatList, HStack, Icon, Image, Text } from 'native-base';
 import { StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
 import { getGraphPreviewURL } from '../../services/api';
+import { Feather as Icons } from '@expo/vector-icons';
 
 export default function Graphs({ graphs }: { graphs: Graph[] }) {
   const { navigate } = useNavigation();
@@ -11,6 +12,16 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
   const columns = width < 400 ? 2 : 4;
 
   const onPress = (index: number) => {
+    navigate('App', {
+      screen: 'TabOne',
+      params: {
+        screen: 'Viewer',
+        params: graphs[index] ? { graph: graphs[index].id } : undefined
+      }
+    });
+  };
+
+  const onBadgePress = (index: number) => {
     navigate('App', {
       screen: 'TabOne',
       params: {
@@ -28,7 +39,6 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
         data={graphs}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item: graph, index }) => {
-          console.log(graph);
           return (
             <TouchableOpacity onPress={() => onPress(index)}>
               <Box
@@ -47,7 +57,27 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
                   width="40"
                   height="40"
                 />
-                <Text maxWidth={40}>{graph.name || 'Graph name'}</Text>
+                <HStack
+                  marginTop="2"
+                  space="2"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Text flexShrink={1} maxWidth={40}>
+                    {graph.name || 'Graph name'}
+                  </Text>
+                  <TouchableOpacity onPress={() => onBadgePress(index)}>
+                    <Badge marginLeft="3" rounded="md" flexDirection="row">
+                      <Icon
+                        as={Icons}
+                        name="git-branch"
+                        size="3"
+                        marginRight="1"
+                      />
+                      {Math.round(Math.random() * 10)}
+                    </Badge>
+                  </TouchableOpacity>
+                </HStack>
               </Box>
             </TouchableOpacity>
           );
