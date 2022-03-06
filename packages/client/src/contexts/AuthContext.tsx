@@ -23,7 +23,8 @@ export const AuthContext = createContext<AuthState>({} as AuthState);
 export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  // true, because we first try to get the stored token
+  const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User | null>(null);
 
   function login(email: string, password: string) {
@@ -76,7 +77,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
         setAuthenticated(true);
         setUser(resp as User);
         setLoading(false);
-      }
+      } else setLoading(false);
     }
     loadStorageData();
   }, []);

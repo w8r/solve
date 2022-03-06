@@ -35,12 +35,17 @@ const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 const RootSwitch = createStackNavigator();
 function RootSwitchNavigator() {
-  const { authenticated } = useAuth();
+  const { authenticated, loading } = useAuth();
+  if (loading) return <AppLoading />;
   return (
-    <RootSwitch.Navigator headerMode="none">
+    <RootSwitch.Navigator
+      headerMode="none"
+      initialRouteName={authenticated ? 'App' : 'Auth'}
+    >
       {authenticated ? (
         <RootSwitch.Screen name="App" component={BottomTabNavigator} />
-      ) : (
+      ) : null}
+      {authenticated ? null : (
         <RootSwitch.Screen name="Auth" component={AuthNavigator} />
       )}
     </RootSwitch.Navigator>

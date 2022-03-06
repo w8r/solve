@@ -149,8 +149,11 @@ module.exports.getSubGraphs = async (req, res) => {
         'data.parentId': graph.publicId,
         user: { $ne: Types.ObjectId(`${req.user._id}`) }
       }).exec();
+      const graphData = graph.toJSON();
+      graphData.nodes = graphData.nodes.length;
+      graphData.edges = graphData.edges.length;
       graphsWithForkCount.push({
-        publicId: graph.publicId,
+        ...graphData,
         forks: forkCount
       });
     }

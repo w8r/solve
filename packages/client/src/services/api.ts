@@ -140,10 +140,9 @@ interface GraphProposals extends Graph {
   forks: Graph[];
 }
 
-export type SubgraphHeader = {
-  publicId: Id;
+export interface SubgraphHeader extends Exclude<Graph, 'nodes' | 'edges'> {
   forks: number;
-};
+}
 
 export function getGraph(id: string) {
   return get<Graph>(`/api/graph/${id}/latest`);
