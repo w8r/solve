@@ -53,13 +53,17 @@ require('dotenv').config({
   conf.tunnel = tunnel.url;
   fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
 
-  process.on('exit', () => {
-    clearInterval(intervalHandle);
+  const exitTunnel = () => {
+    console.log(chalk.yellow(' - Tunnel: '), chalk.gray('Closing tunnel.'));
     tunnel.close();
-  });
+    clearInterval(intervalHandle);
+    process.exit(0);
+  };
+
+  process.on('exit', exitTunnel);
 
   // Detect CTRL+C and close the tunnel
-  process.on('SIGINT', () => process.exit());
+  process.on('SIGINT', exitTunnel);
 
   tunnel.on('close', () => {
     conf.tunnel = null;
