@@ -150,7 +150,7 @@ module.exports.getSubGraphs = async (req, res) => {
         user: { $ne: Types.ObjectId(`${req.user._id}`) }
       }).exec();
       graphsWithForkCount.push({
-        ...graph.toJSON(),
+        publicId: graph.publicId,
         forks: forkCount
       });
     }
