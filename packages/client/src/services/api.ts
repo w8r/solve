@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppConfig from '../constants/config';
 import { TOKEN_KEY } from '../constants';
 import { isWeb } from '../constants/device';
-import { Graph, GraphEdge, GraphNode } from '../types/graph';
+import { Graph, GraphEdge, GraphNode, Id } from '../types/graph';
 import { UserAndToken } from '../types/user';
 
 import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
@@ -136,8 +136,25 @@ export function resetPassword(
   );
 }
 
+interface GraphProposals extends Graph {
+  forks: Graph[];
+}
+
+export type SubgraphHeader = {
+  publicId: Id;
+  forks: number;
+};
+
 export function getGraph(id: string) {
   return get<Graph>(`/api/graph/${id}/latest`);
+}
+
+export function getSubGraphs(id: string) {
+  return get<SubgraphHeader[]>(`/api/graph/${id}/subgraphs`);
+}
+
+export function getGraphProposals(id: string) {
+  return get<GraphProposals>(`/api/graph/${id}/proposals`);
 }
 
 export function saveGraph(id: string | null, graph: Graph) {

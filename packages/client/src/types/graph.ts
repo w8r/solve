@@ -68,7 +68,11 @@ export type Graph = {
   id: Id;
   publicId: Id;
   name?: string;
-  data?: Record<string, unknown>;
+  data?: {
+    shared?: boolean;
+    parentId?: string;
+    [key: string]: unknown;
+  };
   nodes: GraphNode[];
   edges: GraphEdge[];
 };

@@ -25,8 +25,8 @@ export default function Graphs({ graphs }: { graphs: Graph[] }) {
     navigate('App', {
       screen: 'TabOne',
       params: {
-        screen: 'Viewer',
-        params: graphs[index] ? { graph: graphs[index].id } : undefined
+        screen: 'Graph',
+        params: { graph: graphs[index].id }
       }
     });
   };

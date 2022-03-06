@@ -9,13 +9,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { BottomTabParamList, TabOneParamList, TabTwoParamList } from './types';
 import Dashboard from '../screens/Dashboard';
 import Profile from '../screens/Profile';
 import Viewer from '../screens/Viewer';
 import { Preview } from '../screens/Preview';
+import { GraphScreen } from '../screens/Graph';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -68,6 +68,7 @@ function TabOneNavigator() {
       <TabOneStack.Screen name="Dashboard" component={Dashboard} />
       <TabOneStack.Screen name="Viewer" component={Viewer} />
       <TabOneStack.Screen name="Preview" component={Preview} />
+      <TabOneStack.Screen name="Graph" component={GraphScreen} />
     </TabOneStack.Navigator>
   );
 }

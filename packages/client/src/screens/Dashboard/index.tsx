@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { Button, Fab, Text, View, Icon } from 'native-base';
+import { Fab, Text, Icon } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
 
 import { useIsFocused, useNavigation } from '@react-navigation/native';

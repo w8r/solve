@@ -4,8 +4,7 @@ import { StyleSheet, Linking, TouchableOpacity } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { useAuth } from '../hooks/useAuth';
-import { StackNavigationProps } from '../navigation/AppRoutes';
-import { RootStackParamList, TabOneProps } from '../navigation/types';
+import { TabOneProps } from '../navigation/types';
 
 export default function TabOneScreen({ navigation }: TabOneProps) {
   const { logout } = useAuth();

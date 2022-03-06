@@ -6,12 +6,7 @@ import { VisProvider, useVis, Viewer } from '../../components/Viewer';
 import { ProfileButton } from '../../components/Avatar';
 import { BottomMenu } from './BottomMenu';
 import { getGraph } from '../../services/api';
-import {
-  getCategoryColor,
-  Graph,
-  GraphEdge,
-  GraphNode
-} from '../../types/graph';
+import { getCategoryColor, Graph, GraphNode } from '../../types/graph';
 import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
 import { BackButton } from '../../components/BackButton';
 import { useNavigation } from '@react-navigation/native';

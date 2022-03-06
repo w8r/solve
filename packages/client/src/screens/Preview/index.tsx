@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import { StyleSheet, Dimensions, Text, View } from 'react-native';
-import { Link, useToast } from 'native-base';
+import { Dimensions } from 'react-native';
+import { useToast } from 'native-base';
 import { PreviewProps } from '../../navigation/types';
 
 import { VisProvider, useVis, Viewer } from '../../components/Viewer';
@@ -8,7 +8,6 @@ import { ProfileButton } from '../../components/Avatar';
 import { getCategoryColor, Graph, Id } from '../../types/graph';
 import { BottomMenu } from './BottomMenu';
 import { BackButton } from '../../components/BackButton';
-import { useNavigation } from '@react-navigation/native';
 import { SaveGraphDialog } from '../../components/SaveGraphDialog';
 import { SuccessModal } from './SuccessModal';
 import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';

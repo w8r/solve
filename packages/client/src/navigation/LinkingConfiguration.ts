@@ -23,7 +23,9 @@ export default {
                     parse: {
                       graph: (graph: string) => `${graph}`
                     }
-                  }
+                  },
+                  Preview: 'preview',
+                  Graph: 'graph/:graph'
                 }
               },
               TabTwo: {
