@@ -23,6 +23,8 @@ import EventEmitter from 'eventemitter3';
 import throttle from 'lodash.throttle';
 import inside from 'point-in-polygon';
 
+import { PointTextHelper } from '@jniac/three-point-text-helper';
+
 const FOV = 80;
 const LASSO_THROTTLE = 50;
 
@@ -234,6 +236,9 @@ export class App extends EventEmitter {
     const idToMesh = this.idToMesh;
     const idToNode = this.idToNode;
 
+    const pth = new PointTextHelper({ charMax: 12 });
+    scene.add(pth);
+
     this.nodeQ = quadtree<GraphNode>()
       .x((d) => d.attributes.x)
       .y((d) => d.attributes.y);
@@ -260,8 +265,8 @@ export class App extends EventEmitter {
       if (node.attributes.text) {
         const text = new Text();
 
-        text.renderOrder = 2;
-        // // Set properties to configure:
+        //text.renderOrder = 2;
+        // Set properties to configure:
         text.text = node.attributes.text;
         text.fontSize = 2;
         text.position.z = 0;
@@ -271,8 +276,15 @@ export class App extends EventEmitter {
         text.anchorY = 'top';
         text.color = new Color(0x000000);
 
+        pth.display({
+          position: { x, y: y - r, z: 0.0 },
+          text: 'text',
+          size: 0.5,
+          color: 'black'
+        });
+
         this.idToText.set(id, text);
-        scene.add(text);
+        //scene.add(text);
       }
       this.nodeMeshes.push(mesh);
       scene.add(mesh);
