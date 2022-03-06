@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Fab, Icon, Menu, Text, HStack } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
-import { useVis } from '../../components/Viewer';
+import { useVis } from '../../../../components/Viewer';
 
-interface BottomMenuProps {
+interface ProblemMenuProps {
   showDialog: () => void;
   onSelect: () => void;
   onRemove: () => void;
@@ -15,7 +15,7 @@ interface BottomMenuProps {
   onSave: () => void;
 }
 
-export const BottomMenu: FC<BottomMenuProps> = ({
+export const ProblemCtxMenu: FC<ProblemMenuProps> = ({
   showDialog,
   onSelect,
   onRemove,
