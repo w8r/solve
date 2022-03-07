@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useVis } from '../../../components/Viewer';
-import { ProblemCtxMenu } from './ContextMenu/Problem';
+import { ProblemMenu } from './Menu/Problem';
 import { getCategoryColor, Graph, GraphNode } from '../../../types/graph';
 import CreateNodeDialog from '../../../components/Dialog/CreateNodeDialog';
 import { SaveGraphDialog } from '../../../components/SaveGraphDialog';
@@ -149,7 +149,7 @@ export function ProblemTools({
 
   return (
     <>
-      <ProblemCtxMenu
+      <ProblemMenu
         showDialog={() => {
           setNodeDialogVisible(true);
         }}

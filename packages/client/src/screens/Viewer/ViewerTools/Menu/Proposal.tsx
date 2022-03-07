@@ -12,7 +12,7 @@ interface ProposalMenuProps {
   onAccept: () => void;
 }
 
-export const ProposalCtxMenu: FC<ProposalMenuProps> = ({
+export const ProposalMenu: FC<ProposalMenuProps> = ({
   onComment,
   onAccept
 }) => {

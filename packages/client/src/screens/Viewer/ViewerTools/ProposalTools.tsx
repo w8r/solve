@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useVis } from '../../../components/Viewer';
-import { ProposalCtxMenu } from './ContextMenu/Proposal';
+import { ProposalMenu } from './Menu/Proposal';
 
 export function ProposalTools({}: {}) {
   const { setGraph, setSelectedNodes, setSelectedEdges } = useVis();
@@ -11,7 +11,7 @@ export function ProposalTools({}: {}) {
 
   return (
     <>
-      <ProposalCtxMenu onAccept={() => {}} />
+      <ProposalMenu onAccept={() => {}} />
     </>
   );
 }

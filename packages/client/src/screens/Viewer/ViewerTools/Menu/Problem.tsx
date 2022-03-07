@@ -15,7 +15,7 @@ interface ProblemMenuProps {
   onSave: () => void;
 }
 
-export const ProblemCtxMenu: FC<ProblemMenuProps> = ({
+export const ProblemMenu: FC<ProblemMenuProps> = ({
   showDialog,
   onSelect,
   onRemove,
