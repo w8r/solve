@@ -57,17 +57,17 @@ require('dotenv').config({
 
   try {
     tunnel = await localtunnel({
-      port: process.env.PORT_HTTPS,
-      local_https: true,
-      local_cert: path.resolve(
-        __dirname,
-        '../packages/client/.expo/web/development/ssl/cert-localhost.pem'
-      ),
-      local_key: path.resolve(
-        __dirname,
-        '../packages/client/.expo/web/development/ssl/key-localhost.pem'
-      ),
-      allow_invalid_cert: true
+      port: process.env.PORT_HTTP
+      // local_https: true,
+      // local_cert: path.resolve(
+      //   __dirname,
+      //   '../packages/client/.expo/web/development/ssl/cert-localhost.pem'
+      // ),
+      // local_key: path.resolve(
+      //   __dirname,
+      //   '../packages/client/.expo/web/development/ssl/key-localhost.pem'
+      // ),
+      // allow_invalid_cert: true
     });
   } catch (err) {
     console.log(chalk.redBright('Tunnel connection failed:', err));

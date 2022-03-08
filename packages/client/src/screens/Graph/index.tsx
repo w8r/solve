@@ -37,9 +37,12 @@ export const GraphScreen: FC<GraphProps> = ({ route }) => {
       <BackButton />
       <ProfileButton />
       {graph ? (
-        <Center>
-          <Header graph={graph} />
-          {isLoading ? <Loading /> : <List graphs={subgraphs} />}
+        <Center style={styles.content}>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <List graphs={subgraphs} Header={() => <Header graph={graph} />} />
+          )}
         </Center>
       ) : (
         <Loading />
@@ -52,6 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  content: { flex: 1 },
   textStyle: {
     flex: 1,
     alignSelf: 'center',
