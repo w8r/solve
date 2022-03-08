@@ -101,9 +101,6 @@ export default function CreateNodeDialog({
         </TouchableOpacity>
         <FormContainer>
           <VStack direction="column" space="2.5" mt="7">
-            <Heading size="md" fontWeight="400" color="coolGray.800">
-              {data ? 'Edit' : 'Add'}
-            </Heading>
             <FormControl>
               <FormControl.Label
                 _text={{

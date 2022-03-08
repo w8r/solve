@@ -29,7 +29,10 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
       description:
         'You are in the preview mode. You can change things to remove everything that can be sensitive before sharing',
       duration: 2500,
-      placement: 'top'
+      placement: 'bottom',
+      marginBottom: 10,
+      marginX: 5,
+      padding: 10
     });
   }, []);
 
