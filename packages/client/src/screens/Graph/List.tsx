@@ -49,7 +49,12 @@ export const List: FC<{ graphs: SubgraphHeader[]; Header: FC }> = ({
                 />
               </View>
               <HStack style={styles.caption}>
-                <Icon as={Icons} name="share-2" size="xs" style={styles.icon} />
+                <Icon
+                  as={Icons}
+                  name="git-branch"
+                  size="xs"
+                  style={styles.icon}
+                />
                 <Text style={styles.nameText}>{graph.name}</Text>
               </HStack>
             </VStack>
