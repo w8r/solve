@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Badge, Icon } from 'native-base';
+import { Icon } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { isWeb } from '../constants/device';
 import { Feather as Icons } from '@expo/vector-icons';

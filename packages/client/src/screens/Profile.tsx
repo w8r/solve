@@ -15,15 +15,17 @@ import { useAuth } from '../hooks/useAuth';
 import { getShortName } from '../lib/user';
 import { ProfileProps } from '../navigation/types';
 import { BackButton } from '../components/BackButton';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Profile({ navigation }: ProfileProps) {
   const { user, logout } = useAuth();
+  const { navigate } = useNavigation();
   if (!user) return null;
   return (
     <>
       <BackButton />
       <ScrollView>
-        <Center>
+        <Center style={styles.container}>
           <Box>
             <Box style={styles.avatarContainer}>
               <Avatar size={32} bg="blueGray.700" style={styles.avatar}>
@@ -32,14 +34,14 @@ export default function Profile({ navigation }: ProfileProps) {
             </Box>
             <Divider />
             <Heading>{user.name}</Heading>
-            <Box style={styles.scoreContainer}>
+            {/* <Box style={styles.scoreContainer}>
               <Badge size={88} style={styles.scoreBadge}>
                 {user.score}
               </Badge>
-            </Box>
+            </Box> */}
             {/* <Paragraph>{JSON.stringify(user)}</Paragraph> */}
-            <VStack space="5">
-              <Button onPress={() => navigation.navigate('Dashboard')}>
+            <VStack space="5" style={styles.controls}>
+              <Button onPress={() => navigate('App', { screen: 'TabOne' })}>
                 Dashboard
               </Button>
               <Button onPress={() => logout()}>Logout</Button>
@@ -52,6 +54,9 @@ export default function Profile({ navigation }: ProfileProps) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginBottom: 100
+  },
   scoreContainer: {
     flex: 1,
     marginTop: 80,
@@ -59,10 +64,15 @@ const styles = StyleSheet.create({
     alignContent: 'flex-end'
   },
   avatarContainer: {
-    marginTop: 80
+    marginTop: 80,
+    alignItems: 'center',
+    marginBottom: 20
   },
   scoreBadge: {
     backgroundColor: '#cccccc'
+  },
+  controls: {
+    marginTop: 40
   },
   avatar: {
     marginTop: 100
