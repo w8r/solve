@@ -284,7 +284,7 @@ export class App extends EventEmitter {
         });
 
         this.idToText.set(id, text);
-        //scene.add(text);
+        // scene.add(text);
       }
       this.nodeMeshes.push(mesh);
       scene.add(mesh);

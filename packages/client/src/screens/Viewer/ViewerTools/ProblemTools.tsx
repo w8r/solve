@@ -33,8 +33,7 @@ export function ProblemTools({
 
   const createEdge = () => {
     const edges = createEdges(graph, selectedNodes);
-    graph.edges = [...graph.edges, ...edges];
-    setGraph(graph);
+    setGraph({ ...graph, edges: [...graph.edges, ...edges] });
   };
 
   const addNode = (name: string, category: string, size: number) => {
@@ -52,8 +51,7 @@ export function ProblemTools({
       },
       data: { category }
     };
-    graph.nodes = [...graph.nodes, newNode];
-    setGraph(graph);
+    setGraph({ ...graph, nodes: [...graph.nodes, newNode] });
     setNodeDialogVisible(false);
   };
 
@@ -69,16 +67,14 @@ export function ProblemTools({
         existingNodeIds.includes(edge.target) &&
         !edgeIds.includes(edge._id)
     );
-    graph.nodes = nodes;
-    graph.edges = edges;
     setSelectedNodes([]);
     setSelectedEdges([]);
-    setGraph(graph);
+    setGraph({ ...graph, nodes, edges });
   };
 
   const editNode = (name: string, category: string, size: number) => {
     if (!selectedNodes || (selectedNodes && selectedNodes.length !== 1)) return;
-    graph.nodes = graph.nodes.map((node) =>
+    const nodes = graph.nodes.map((node) =>
       node.id === selectedNodes[0].id
         ? {
             ...node,
@@ -93,7 +89,7 @@ export function ProblemTools({
         : node
     );
 
-    setGraph(graph);
+    setGraph({ ...graph, nodes });
     setSelectedNodes([
       {
         ...selectedNodes[0],
@@ -120,7 +116,7 @@ export function ProblemTools({
 
   const onSelectClear = () => {
     clearSelection();
-    setGraph(graph);
+    setGraph({ ...graph });
   };
 
   const onShare = () => {

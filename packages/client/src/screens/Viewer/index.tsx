@@ -39,6 +39,7 @@ const ViewWrapper = ({ id, width, height, viewerMode }: ViewWrapperProps) => {
       setSelectedEdges([]);
     };
   }, []);
+
   return (
     <>
       <Viewer width={width} height={height} graph={graph} />

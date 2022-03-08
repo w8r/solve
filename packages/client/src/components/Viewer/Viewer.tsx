@@ -100,7 +100,7 @@ export function Viewer({
       height * dppx
     );
     setState({ ...state, ...transform });
-  }, [graph]);
+  }, [graph.publicId]);
 
   const processPinch = (x1: number, y1: number, x2: number, y2: number) => {
     const distance = calcDistance(x1, y1, x2, y2);
