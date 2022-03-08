@@ -4764,6 +4764,7 @@ __metadata:
     react-native-web: ~0.13.12
     react-style-proptype: ^3.2.2
     rn-bottom-drawer: ^1.4.3
+    s-ago: ^2.2.0
     styled-components: ^5.3.0
     styled-system: ^5.1.5
     three: 0.137.5
@@ -18521,6 +18522,13 @@ __metadata:
   version: 4.0.8
   resolution: "rx-lite@npm:4.0.8"
   checksum: 9caeaa6d6dbb1256eaf0b5207a90c3d57d79fc13ddc8ca7303847c157259b1d5913a4408ea37b7b2799a00c0ec7ec3925b2612198103387e471e0b4f8ca6f8b2
+  languageName: node
+  linkType: hard
+
+"s-ago@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "s-ago@npm:2.2.0"
+  checksum: f665fef44d9d88322ce5a798ca3c49b40f96231ddc7bd46dc23c883e98215675aa422985760d45d3779faa3c0bc94edb2a50630bf15f54c239d11963e53d998c
   languageName: node
   linkType: hard
 

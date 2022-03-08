@@ -41,7 +41,16 @@ export default function Profile({ navigation }: ProfileProps) {
             </Box> */}
             {/* <Paragraph>{JSON.stringify(user)}</Paragraph> */}
             <VStack space="5" style={styles.controls}>
-              <Button onPress={() => navigate('App', { screen: 'TabOne' })}>
+              <Button
+                onPress={() =>
+                  navigate('App', {
+                    screen: 'TabOne',
+                    params: {
+                      screen: 'Dashboard'
+                    }
+                  })
+                }
+              >
                 Dashboard
               </Button>
               <Button onPress={() => logout()}>Logout</Button>

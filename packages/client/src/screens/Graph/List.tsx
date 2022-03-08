@@ -25,7 +25,9 @@ export const List: FC<{ graphs: SubgraphHeader[]; Header: FC }> = ({
     <SectionList
       style={styles.container}
       contentContainerStyle={styles.listContent}
-      sections={[{ title: 'Subgraphs', data: graphs }]}
+      sections={
+        graphs.length === 0 ? [] : [{ title: 'Subgraphs', data: graphs }]
+      }
       keyExtractor={(_, index) => index.toString()}
       renderSectionHeader={() => (
         <View style={styles.subHeader}>
@@ -33,7 +35,11 @@ export const List: FC<{ graphs: SubgraphHeader[]; Header: FC }> = ({
         </View>
       )}
       ListHeaderComponent={Header}
-      ListEmptyComponent={<Text style={styles.message}>No subgraphs yet</Text>}
+      ListEmptyComponent={() => (
+        <View style={styles.emptyMessage}>
+          <Text style={styles.messageText}>No subgraphs yet</Text>
+        </View>
+      )}
       renderItem={({ item: graph, index }) => {
         return (
           <TouchableOpacity onPress={() => onPress(index)}>
@@ -109,5 +115,11 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
 
-  message: {}
+  emptyMessage: {
+    paddingTop: 40
+  },
+
+  messageText: {
+    color: 'rgba(0,0,0,0.2)'
+  }
 });

@@ -75,6 +75,7 @@ export type Graph = {
   };
   nodes: GraphNode[];
   edges: GraphEdge[];
+  updatedAt?: string;
 };
 
 export type GraphHeader = {

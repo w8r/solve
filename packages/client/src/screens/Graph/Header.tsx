@@ -4,6 +4,7 @@ import { VStack, Text, Image } from 'native-base';
 import { Graph } from '../../types/graph';
 import { getGraphPreviewURL } from '../../services/api';
 import { useNavigation } from '@react-navigation/native';
+import ago from 's-ago';
 
 export const Header: FC<{ graph: Graph }> = ({ graph }) => {
   const { navigate } = useNavigation();
@@ -29,6 +30,9 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
             uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
           }}
         />
+        <Text fontSize="sm" color="#999">
+          {ago(new Date(graph.updatedAt as string))}
+        </Text>
       </TouchableOpacity>
     </VStack>
   );
