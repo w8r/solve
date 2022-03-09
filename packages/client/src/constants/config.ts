@@ -5,6 +5,8 @@ import { SERVER_PUBLIC_URL, API_URL } from '@env';
 // @ts-ignore
 const devMode = process.env.NODE_ENV !== 'development';
 
+console.log(tunnel, SERVER_PUBLIC_URL);
+
 export default {
   // App Details
   appName: 'Solve',

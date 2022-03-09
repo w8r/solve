@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Modal, Slider } from 'native-base';
+import { HStack, Modal, Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
 import { FormContainer } from '../FormContainer';
-import * as Validator from 'yup';
 import TagGroup from '../TagGroup';
 
 import {
@@ -93,14 +92,9 @@ export default function CreateNodeDialog({
         maxWidth={isWeb ? 500 : undefined}
         style={styles.bottomNavigationView}
       >
-        <TouchableOpacity
-          style={styles.closeButton}
-          onPress={() => closeDialog()}
-        >
-          <Text>Close</Text>
-        </TouchableOpacity>
+        <Modal.CloseButton />
         <FormContainer>
-          <VStack direction="column" space="2.5" mt="7">
+          <VStack direction="column" space="2.5">
             <FormControl>
               <FormControl.Label
                 _text={{
@@ -164,7 +158,7 @@ export default function CreateNodeDialog({
               </Slider>
             </FormControl>
             <Button
-              mt="2"
+              mt="8"
               colorScheme="indigo"
               _text={{ color: 'white' }}
               onPress={() => submitForm()}
@@ -183,12 +177,12 @@ const styles = StyleSheet.create({
   bottomNavigationView: {
     backgroundColor: '#fff',
     width: '100%',
-    height: 600,
     justifyContent: 'center'
   },
   // top right corner css
   closeButton: {
-    alignSelf: 'flex-end',
-    padding: 10
+    padding: 10,
+    borderWidth: 1,
+    alignSelf: 'flex-end'
   }
 });

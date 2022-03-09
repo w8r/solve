@@ -29,7 +29,7 @@ export const VisContext = createContext<VisState>({
 
 export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
   const [app, setApp] = useState<App | null>(null);
-  const [graph, setGraph] = useState<Graph>({ id: '', nodes: [], edges: [] });
+  const [graph, setGraph] = useState<Graph>({ id: '', publicId: '', nodes: [], edges: [] });
   const startSelection = (callback: (graph: Graph) => unknown) =>
     app?.startSelection(callback);
   const [selectedNodes, setSelectedNodes] = useState<GraphNode[]>([]);
