@@ -55,24 +55,25 @@ export default class TagGroup extends Component {
   render() {
     return (
       <View style={[styles.tagContainer].concat(this.props.style)}>
-        {this.props.source.map((value, index) => (
-          <Tag
-            key={index}
-            ref={(ref) => {
-              if (this.props.selected && this.props.selected === value) {
-                ref?.setSelected();
-              }
-              this._tags[index] = ref;
-            }}
-            text={value}
-            {...this.props}
-            tagStyle={[styles.tag, this.props.tagStyle]}
-            allowUnselect={
-              this.props.singleChoiceMode && this.state.tagFlags[index]
-            }
-            onSelectStateChange={() => this._onTagPress(index)}
-          />
-        ))}
+        {this.props.source.map((value, index) => {
+          return (
+            <Tag
+              key={index}
+              ref={(ref) => {
+                // if (this.props.selected && this.props.selected === value) {
+                //   ref?.setSelected();
+                // }
+                this._tags[index] = ref;
+              }}
+              text={value}
+              {...this.props}
+              selected={this.state.tagFlags[index]}
+              tagStyle={[styles.tag, this.props.tagStyle]}
+              allowUnselect={this.props.singleChoiceMode}
+              onSelectStateChange={() => this._onTagPress(index)}
+            />
+          );
+        })}
       </View>
     );
   }
@@ -171,21 +172,23 @@ export class Tag extends Component {
     // use TouchableOpacity instead of TouchableWithoutFeedback
     touchableOpacity: PropTypes.bool,
     // callback function when Tag is used as a button
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    selected: PropTypes.bool
   };
 
   static defaultProps = {
     text: 'Tag',
     onSelectStateChange: () => console.log('Tag onSelectStateChange not set.'),
     allowUnselect: false,
-    tintColor: '#FCDB29'
+    tintColor: '#FCDB29',
+    selected: false
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      selected: false
+      selected: props.selected || false
     };
   }
 
@@ -254,19 +257,19 @@ export class Tag extends Component {
     this.setState((state) => {
       this.props.onSelectStateChange();
 
-      if (this.props.allowUnselect) {
-        return { selected: true };
-      }
+      // if (this.props.allowUnselect) {
+      //   return { selected: true };
+      // }
       return { selected: !state.selected };
     });
   };
 
   clearState() {
-    this.state.selected && this.setState({ selected: false });
+    this.setState({ selected: false });
   }
 
   setSelected() {
-    !this.state.selected && this.setState({ selected: true });
+    this.setState({ selected: true });
   }
 }
 

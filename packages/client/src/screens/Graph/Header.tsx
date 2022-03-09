@@ -40,15 +40,12 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     width: '100%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   headerText: {
-    flex: 1,
     alignSelf: 'center',
     fontSize: 20,
-    top: 200,
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 10

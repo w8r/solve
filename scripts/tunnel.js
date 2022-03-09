@@ -56,7 +56,10 @@ require('dotenv').config({
     .on('SIGUSR2', () => exitHandler({ exit: true }))
 
     //catches uncaught exceptions
-    .on('uncaughtException', () => exitHandler({ exit: true }));
+    .on('uncaughtException', (e) => {
+      console.log(chalk.red('Uncaught Exception...'), e);
+      exitHandler({ exit: true });
+    });
 
   try {
     tunnel = await localtunnel({
