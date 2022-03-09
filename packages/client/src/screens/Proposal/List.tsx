@@ -5,9 +5,11 @@ import { Entypo as Icons } from '@expo/vector-icons';
 import { getGraphPreviewURL, GraphProposals } from '../../services/api';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import { Graph } from '../../types/graph';
 
-export const List: FC<{ proposals: GraphProposals; Header: FC }> = ({
+export const List: FC<{ proposals: GraphProposals; subgraph: string; Header: FC }> = ({
   proposals,
+  subgraph,
   Header
 }) => {
   const { navigate } = useNavigation();
@@ -18,7 +20,8 @@ export const List: FC<{ proposals: GraphProposals; Header: FC }> = ({
         screen: 'Viewer',
         params: {
           graph: proposals.forks[index].publicId,
-          viewerMode: 'proposal'
+          viewerMode: 'proposal',
+          subgraph: subgraph
         }
       }
     });

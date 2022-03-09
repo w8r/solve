@@ -51,7 +51,7 @@ export type PasswordChangedProps = StackScreenProps<
 
 export type AppRoutes = {
   Dashboard: undefined;
-  Viewer: { graph?: string; viewerMode?: 'problem' | 'proposal' } | undefined;
+  Viewer: { graph?: string; viewerMode?: 'problem' | 'proposal', subgraph?: string } | undefined;
   Graph: { graph: Id };
   Preview: { graph: Graph };
   Profile: undefined;

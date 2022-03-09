@@ -84,6 +84,27 @@ module.exports.getBulkGraphRevisions = async (req, res) => {
   }
 };
 
+module.exports.resolveGraph = async (req,res) => {
+  try {
+    const graphId = req.params.internalId || req.body.internalId;
+    const graph = await Graphs.findById(graphId);
+    if (!graph || !graphId) {
+      throw new Error('Graph not found.');
+    }
+    for (const key in req.body) {
+      graph[key] = req.body[key];
+      graph.markModified(key);
+    }
+    graph.resolved = true;
+    graph.markModified('resolved');
+    await graph.save();
+    res.status(200).send(graph.toJSON());
+  } catch (err) {
+    console.log(err)
+    res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
+  }
+};
+
 module.exports.updateGraph = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
@@ -105,7 +126,7 @@ module.exports.updateGraph = async (req, res) => {
     });
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());
-  } catch {
+  } catch (err) {
     res.status(400).send({ message: messages.GRAPH_UPDATE_FAILED, err });
   }
 };

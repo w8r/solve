@@ -10,8 +10,11 @@ require('dotenv').config({
 (async () => {
   let tunnel;
 
+  console.log(chalk.cyanBright('[*] Starting localtunnel...'));
+
+
   const intervalHandle = setInterval(() => {
-    console.log(chalk.green('Tunnel heartbeat.'));
+    console.log(chalk.green('[*] Tunnel heartbeat.'));
   }, 60000);
 
   const confPath = path.join(
@@ -26,18 +29,18 @@ require('dotenv').config({
 
   function exitHandler(options, exitCode) {
     if (exitCode || exitCode === 0) {
-      console.log(chalk.red('Exiting with code:', exitCode));
+      console.log(chalk.red('[*] Exiting with code:', exitCode));
     }
     if (options.exit) {
       process.exit(0);
     }
     if (options.cleanup) {
       if (tunnel) {
-        console.log(chalk.yellow(' - Tunnel: '), chalk.gray('Closing tunnel.'));
+        console.log(chalk.yellow('[*] Tunnel: '), chalk.gray('Closing tunnel.'));
         tunnel.close();
       }
       clearInterval(intervalHandle);
-      console.log(chalk.green('Cleaning up...'));
+      console.log(chalk.green('[*] Cleaning up...'));
     }
   }
 
@@ -70,7 +73,7 @@ require('dotenv').config({
       // allow_invalid_cert: true
     });
   } catch (err) {
-    console.log(chalk.redBright('Tunnel connection failed:', err));
+    console.log(chalk.redBright('[*] Tunnel connection failed:', err));
   }
 
   conf.tunnel = tunnel.url;
@@ -79,13 +82,13 @@ require('dotenv').config({
   tunnel.on('close', () => {
     conf.tunnel = null;
     fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
-    console.log(chalk.yellow(' - Tunnel: '), chalk.gray('Tunnel closed.'));
+    console.log(chalk.yellow('[*] Tunnel: '), chalk.gray('Tunnel closed.'));
   });
 
   // the assigned public url for your tunnel
   // i.e. https://abcdefgjhij.localtunnel.me
   console.log(
-    chalk.yellow(' - Tunnel: '),
+    chalk.yellow('[*] Tunnel: '),
     chalk.gray(process.env.SERVER_PUBLIC_URL),
     '=>',
     chalk.cyan(tunnel.url)

@@ -160,6 +160,10 @@ export function getGraphProposals(id: string) {
   return get<GraphProposals>(`/api/graph/${id}/proposals`);
 }
 
+export function resolveGraph(id: string, graph: Graph) {
+  return put<Graph>(`/api/graph/internal/${id}`, graph);
+}
+
 export function saveGraph(id: string | null, graph: Graph) {
   // graph.nodes.forEach((n) => (n.attributes.selected = false));
   // graph.edges.forEach((e) => (e.attributes.selected = false));

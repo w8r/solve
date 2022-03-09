@@ -15,8 +15,9 @@ interface ViewWrapperProps {
   width: number;
   height: number;
   viewerMode?: 'problem' | 'proposal';
+  subgraph?: string;
 }
-const ViewWrapper = ({ id, width, height, viewerMode }: ViewWrapperProps) => {
+const ViewWrapper = ({ id, width, height, subgraph, viewerMode }: ViewWrapperProps) => {
   const { navigate, isFocused } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
 
@@ -44,7 +45,7 @@ const ViewWrapper = ({ id, width, height, viewerMode }: ViewWrapperProps) => {
     <>
       <Viewer width={width} height={height} graph={graph} />
       {viewerMode === 'proposal' ? (
-        <ProposalTools />
+        <ProposalTools subgraph={subgraph} />
       ) : (
         <ProblemTools navigate={navigate} isFocused={isFocused} />
       )}
@@ -53,7 +54,7 @@ const ViewWrapper = ({ id, width, height, viewerMode }: ViewWrapperProps) => {
 };
 
 export default function ({ route }: ViewerProps) {
-  const { params: { graph: graphId, viewerMode } = {} } = route;
+  const { params: { graph: graphId, viewerMode, subgraph } = {} } = route;
   const { width, height } = Dimensions.get('window');
 
   return (
@@ -65,6 +66,7 @@ export default function ({ route }: ViewerProps) {
         width={width}
         height={height}
         viewerMode={viewerMode}
+        subgraph={subgraph}
       />
     </VisProvider>
   );

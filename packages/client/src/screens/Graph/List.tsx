@@ -60,7 +60,7 @@ export const List: FC<{
               <HStack style={styles.caption}>
                 <Icon
                   as={Icons}
-                  name="git-branch"
+                  name={graph.resolved ? 'check' : "git-branch"}
                   size="xs"
                   style={styles.icon}
                 />

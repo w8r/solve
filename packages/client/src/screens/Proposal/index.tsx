@@ -51,7 +51,7 @@ export const ProposalScreen: FC<ProposalProps> = ({ route }) => {
             <Loading />
           ) : (
             <List
-              proposals={proposals}
+              proposals={proposals} subgraph={subgraphId}
               Header={() => <Header graph={subgraph} />}
             />
           )}

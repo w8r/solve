@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/:publicId', auth, GraphController.getBulkGraphRevisions);
 router.post('/search/', auth, GraphController.searchByTag);
 router.get('/internal/:internalId', auth, GraphController.getGraphByInternalId);
+router.put('/internal/:internalId', auth, GraphController.resolveGraph);
 router.get('/:publicId/latest', auth, GraphController.getLatestGraphRevision);
 router.post('/', auth, GraphController.createGraph);
 router.put('/:publicId', auth, GraphController.updateGraph);
