@@ -1,24 +1,24 @@
 import React, { FC } from 'react';
 import { StyleSheet, SectionList, View } from 'react-native';
 import { VStack, Text, Image, Box, Icon, HStack } from 'native-base';
-import { Feather as Icons } from '@expo/vector-icons';
-import { getGraphPreviewURL, SubgraphHeader } from '../../services/api';
+import { Entypo as Icons } from '@expo/vector-icons';
+import { getGraphPreviewURL, GraphProposals } from '../../services/api';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
-export const List: FC<{
-  graphs: SubgraphHeader[];
-  Header: FC;
-}> = ({ graphs, Header }) => {
+export const List: FC<{ proposals: GraphProposals; Header: FC }> = ({
+  proposals,
+  Header
+}) => {
   const { navigate } = useNavigation();
   const onPress = (index: number) => {
     navigate('App', {
       screen: 'TabOne',
       params: {
-        screen: 'Proposal',
+        screen: 'Viewer',
         params: {
-          graph: graphs[index].data?.parentId,
-          subgraph: graphs[index].id
+          graph: proposals.forks[index].publicId,
+          viewerMode: 'proposal'
         }
       }
     });
@@ -29,18 +29,20 @@ export const List: FC<{
       style={styles.container}
       contentContainerStyle={styles.listContent}
       sections={
-        graphs.length === 0 ? [] : [{ title: 'Subgraphs', data: graphs }] // TODO: Add filtering to graphs
+        proposals.forks.length === 0
+          ? []
+          : [{ title: 'Proposals', data: proposals.forks }]
       }
       keyExtractor={(_, index) => index.toString()}
       renderSectionHeader={() => (
         <View style={styles.subHeader}>
-          <Icon as={Icons} name="arrow-down" />
+          <Icon as={Icons} name="flow-line" />
         </View>
       )}
       ListHeaderComponent={Header}
       ListEmptyComponent={() => (
         <View style={styles.emptyMessage}>
-          <Text style={styles.messageText}>No subgraphs yet</Text>
+          <Text style={styles.messageText}>No proposals yet</Text>
         </View>
       )}
       renderItem={({ item: graph, index }) => {
@@ -58,13 +60,8 @@ export const List: FC<{
                 />
               </View>
               <HStack style={styles.caption}>
-                <Icon
-                  as={Icons}
-                  name="git-branch"
-                  size="xs"
-                  style={styles.icon}
-                />
-                <Text style={styles.nameText}>{graph.name}</Text>
+                <Text style={styles.nameText}>Proposal: </Text>
+                <Text>{graph.name}</Text>
               </HStack>
             </VStack>
           </TouchableOpacity>
@@ -102,9 +99,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10
   },
-
-  nameText: {},
-
+  nameText: {
+    fontWeight: 'bold'
+  },
   image: {
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.2)'

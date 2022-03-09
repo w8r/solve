@@ -18,6 +18,7 @@ export type TabOneParamList = {
   Viewer: undefined;
   Preview: undefined;
   Graph: undefined;
+  Proposal: undefined;
 };
 export type TabOneProps = BottomTabScreenProps<BottomTabParamList, 'TabOne'>;
 
@@ -54,9 +55,11 @@ export type AppRoutes = {
   Graph: { graph: Id };
   Preview: { graph: Graph };
   Profile: undefined;
+  Proposal: { graph: string; subgraph: string };
 };
 
 export type GraphProps = StackScreenProps<AppRoutes, 'Graph'>;
+export type ProposalProps = StackScreenProps<AppRoutes, 'Proposal'>;
 export type ViewerProps = StackScreenProps<AppRoutes, 'Viewer'>;
 export type PreviewProps = StackScreenProps<AppRoutes, 'Preview'>;
 export type ProfileProps = StackScreenProps<AppRoutes, 'Profile'>;

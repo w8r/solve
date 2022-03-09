@@ -25,7 +25,8 @@ export default {
                     }
                   },
                   Preview: 'preview',
-                  Graph: 'graph/:graph'
+                  Graph: 'graph/:graph',
+                  Proposal: 'proposal/:graph'
                 }
               },
               TabTwo: {

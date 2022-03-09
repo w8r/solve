@@ -68,6 +68,7 @@ export type Graph = {
   id: Id;
   publicId: Id;
   name?: string;
+  resolved?: boolean;
   data?: {
     shared?: boolean;
     parentId?: string;

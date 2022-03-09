@@ -136,7 +136,7 @@ export function resetPassword(
   );
 }
 
-interface GraphProposals extends Graph {
+export interface GraphProposals extends Graph {
   forks: Graph[];
 }
 
@@ -146,6 +146,10 @@ export interface SubgraphHeader extends Exclude<Graph, 'nodes' | 'edges'> {
 
 export function getGraph(id: string) {
   return get<Graph>(`/api/graph/${id}/latest`);
+}
+
+export function getInternalGraph(id: string) {
+  return get<Graph>(`/api/graph/internal/${id}`);
 }
 
 export function getSubGraphs(id: string) {

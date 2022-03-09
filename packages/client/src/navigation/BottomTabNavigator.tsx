@@ -16,6 +16,7 @@ import Profile from '../screens/Profile';
 import Viewer from '../screens/Viewer';
 import { Preview } from '../screens/Preview';
 import { GraphScreen } from '../screens/Graph';
+import { ProposalScreen } from '../screens/Proposal';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -69,6 +70,7 @@ function TabOneNavigator() {
       <TabOneStack.Screen name="Viewer" component={Viewer} />
       <TabOneStack.Screen name="Preview" component={Preview} />
       <TabOneStack.Screen name="Graph" component={GraphScreen} />
+      <TabOneStack.Screen name="Proposal" component={ProposalScreen} />
     </TabOneStack.Navigator>
   );
 }

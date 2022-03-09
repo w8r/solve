@@ -22,8 +22,7 @@ export default function Dashboard() {
 
   const showGraph = () => {
     if (!isFocused) return null;
-    if (graphs.length > 0)
-      return <Graphs graphs={graphs.filter((graph) => !graph.data?.shared)} />;
+    if (graphs.length > 0) return <Graphs graphs={graphs} />;
     return <Text style={styles.textStyle}>Nothing found.</Text>;
   };
 
