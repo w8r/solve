@@ -136,7 +136,7 @@ export function resetPassword(
   );
 }
 
-export interface GraphProposals extends Graph {
+export interface GraphProposals extends Omit<Graph, 'forks'> {
   forks: Graph[];
 }
 
