@@ -77,7 +77,12 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
         setAuthenticated(true);
         setUser(resp as User);
         setLoading(false);
-      } else setLoading(false);
+      } else {
+        setToken(null);
+        setAuthenticated(false);
+        setUser(null);
+        setLoading(false);
+      }
     }
     loadStorageData();
   }, []);

@@ -94,7 +94,7 @@ export default function CreateNodeDialog({
       >
         <Modal.CloseButton />
         <FormContainer>
-          <VStack direction="column" space="2.5">
+          <VStack direction="column" mt="10" space="2.5">
             <FormControl>
               <FormControl.Label
                 _text={{

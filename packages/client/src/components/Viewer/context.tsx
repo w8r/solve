@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createContext, FC, useContext, useState } from 'react';
+import { createContext, FC, useContext, useState, useEffect } from 'react';
 import { App } from './App';
 import { Graph, GraphEdge, GraphNode, Id } from '../../types/graph';
 
@@ -29,13 +29,27 @@ export const VisContext = createContext<VisState>({
 
 export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
   const [app, setApp] = useState<App | null>(null);
-  const [graph, setGraph] = useState<Graph>({ id: '', publicId: '', nodes: [], edges: [] });
+  const [graph, setGraph] = useState<Graph>({
+    id: '',
+    publicId: '',
+    nodes: [],
+    edges: []
+  });
   const startSelection = (callback: (graph: Graph) => unknown) =>
     app?.startSelection(callback);
   const [selectedNodes, setSelectedNodes] = useState<GraphNode[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<GraphEdge[]>([]);
 
   const [isSelecting, setIsSelecting] = useState(false);
+
+  useEffect(() => {
+    console.log(
+      'new graph',
+      graph.nodes.map((n) => n.attributes.selected)
+    );
+    setSelectedNodes(graph.nodes.filter((node) => node.attributes.selected));
+    setSelectedEdges(graph.edges.filter((edge) => edge.attributes.selected));
+  }, [graph]);
 
   const selectNode = (id: string | string[]) => {
     // add array to the selection

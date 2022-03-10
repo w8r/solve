@@ -26,13 +26,19 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
     graph.name = value;
     setGraph(graph);
     setLoading(true);
+
+    console.log(
+      'Saving graph...',
+      graph.nodes.map((n) => n.attributes.selected)
+    );
+
     const request = share
       ? shareGraph(graph, graph.publicId)
       : saveGraph(graph.publicId ? graph.publicId : null, graph);
 
     return request
       .then((resp) => {
-        setGraph(resp);
+        setGraph({ ...resp, nodes: graph.nodes, edges: graph.edges });
         setTimeout(onDone, 500);
       })
       .catch((err) => {

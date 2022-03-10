@@ -99,6 +99,7 @@ export function Viewer({
       width * dppx,
       height * dppx
     );
+    if (graph.nodes.length === 0) transform.k = 40;
     setState({ ...state, ...transform });
   }, [graph.publicId]);
 

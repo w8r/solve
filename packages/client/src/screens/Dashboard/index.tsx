@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { Fab, Text, Icon } from 'native-base';
+import { Fab, Text, Icon, Center } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
 
 import { useIsFocused, useNavigation } from '@react-navigation/native';
@@ -22,8 +22,7 @@ export default function Dashboard() {
 
   const showGraph = () => {
     if (!isFocused) return null;
-    if (graphs.length > 0) return <Graphs graphs={graphs} />;
-    return <Text style={styles.textStyle}>Nothing found.</Text>;
+    return <Graphs graphs={graphs} />;
   };
 
   const handleSearch = (text: string) => {
@@ -95,28 +94,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  textStyle: {
-    flex: 1,
-    alignSelf: 'center',
-    fontSize: 20,
-    top: 200,
-    textAlign: 'center',
-    marginTop: 20
-  },
-  newGraphContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    flex: 1,
-    marginBottom: 20,
-    borderWidth: 1
+  content: {
+    flex: 1
   },
   newGraphButton: {
     borderWidth: 1,
     flex: 1
   },
   fab: {
-    flex: 1,
     position: 'absolute',
     bottom: 20,
     right: '50%',

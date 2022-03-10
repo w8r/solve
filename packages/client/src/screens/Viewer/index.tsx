@@ -36,6 +36,7 @@ const ViewWrapper = ({ id, width, height, subgraph, viewerMode }: ViewWrapperPro
         edges: []
       });
     return () => {
+      console.log('viewer kill');
       setSelectedNodes([]);
       setSelectedEdges([]);
     };

@@ -97,13 +97,14 @@ export function getBoundsTransform(
   y1: number,
   canvasWidth: number,
   canvasHeight: number
-) {
+): Transform {
   const w = Math.abs(x1 - x0) || 0;
   const h = Math.abs(y1 - y0) || 0;
   const cx = (x0 + x1) / 2 || 0;
   const cy = (y0 + y1) / 2 || 0;
 
-  if (isNaN(w) || isNaN(h)) return { x: 0, y: 0, k: 1 };
+  if (isNaN(w) || isNaN(h) || !isFinite(w) || !isFinite(h))
+    return { x: 0, y: 0, k: 1 };
 
   const scale = 0.25 / Math.max(w / canvasWidth, h / canvasHeight);
   return zoomIdentity.translate(-scale * cx, scale * cy).scale(scale);
