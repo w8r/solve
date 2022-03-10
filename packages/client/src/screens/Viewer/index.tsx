@@ -9,17 +9,37 @@ import { getGraph } from '../../services/api';
 import { ProblemTools } from './ViewerTools/ProblemTools';
 import { useNavigation } from '@react-navigation/native';
 import { ProposalTools } from './ViewerTools/ProposalTools';
+import { MergeTools } from './ViewerTools/MergeTools';
 
 interface ViewWrapperProps {
   id: string | undefined;
   width: number;
   height: number;
-  viewerMode?: 'problem' | 'proposal';
+  viewerMode?: 'problem' | 'proposal' | 'merge';
   subgraph?: string;
 }
-const ViewWrapper = ({ id, width, height, subgraph, viewerMode }: ViewWrapperProps) => {
+const ViewWrapper = ({
+  id,
+  width,
+  height,
+  subgraph,
+  viewerMode
+}: ViewWrapperProps) => {
   const { navigate, isFocused } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
+
+  const getTools = () => {
+    switch (viewerMode) {
+      case 'problem':
+        return <ProblemTools navigate={navigate} isFocused={isFocused} />;
+      case 'proposal':
+        return <ProposalTools subgraph={subgraph} />;
+      case 'merge':
+        return <MergeTools subgraph={subgraph} />;
+      default:
+        return null;
+    }
+  };
 
   // default mode
   if (!viewerMode) viewerMode = 'problem';

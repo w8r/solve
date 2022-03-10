@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { VStack, Text, Icon, Image } from 'native-base';
+import { VStack, Text, Icon, Image, Button } from 'native-base';
 import { MaterialCommunityIcons as Icons } from '@expo/vector-icons';
 import { Graph } from '../../types/graph';
 import { getGraphPreviewURL } from '../../services/api';
@@ -14,6 +14,15 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
       params: {
         screen: 'Viewer',
         params: { graph: graph.publicId }
+      }
+    });
+  };
+  const onMerge = () => {
+    navigate('App', {
+      screen: 'TabOne',
+      params: {
+        screen: 'Viewer',
+        params: { graph: graph.publicId, viewerMode: 'merge' }
       }
     });
   };
@@ -31,6 +40,11 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
             uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
           }}
         />
+        <>
+          <Button style={styles.buttonStyle} onPress={onMerge}>
+            <Text style={styles.buttonTextStyle}>Merge solution</Text>
+          </Button>
+        </>
         <>
           {
             <>
@@ -53,6 +67,27 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
 };
 
 const styles = StyleSheet.create({
+  // style for button half width of image green little below
+  buttonStyle: {
+    width: '50%',
+    marginTop: 10,
+    marginBottom: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: 10,
+    alignSelf: 'center',
+    backgroundColor: '#00b894',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#00b894'
+  },
+  // style for text half width of image
+  buttonTextStyle: {
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white'
+  },
   container: {
     flex: 1,
     width: '100%',

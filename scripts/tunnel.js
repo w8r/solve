@@ -68,7 +68,7 @@ require('dotenv').config({
 
   try {
     tunnel = await ngrok.connect({
-      authtoken: `1bEpS3hDAKjShP1Dvly4Rw5JYIo_5VyuvNdw3S27AfxDmh5Z8`,
+      authtoken: process.env.NGROK_TOKEN,
       addr: process.env.PORT_HTTP,
       onStatusChange: (status) => {
         if (status === 'closed') {
@@ -80,19 +80,6 @@ require('dotenv').config({
       }
     });
     console.log({ tunnel });
-    // tunnel = await localtunnel({
-    //   port: process.env.PORT_HTTP
-    // local_https: true,
-    // local_cert: path.resolve(
-    //   __dirname,
-    //   '../packages/client/.expo/web/development/ssl/cert-localhost.pem'
-    // ),
-    // local_key: path.resolve(
-    //   __dirname,
-    //   '../packages/client/.expo/web/development/ssl/key-localhost.pem'
-    // ),
-    // allow_invalid_cert: true
-    //});
   } catch (err) {
     console.log(chalk.redBright('[*] Tunnel connection failed:', err));
   }
@@ -100,14 +87,6 @@ require('dotenv').config({
   conf.tunnel = tunnel;
   fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
 
-  // tunnel.on('close', () => {
-  //   conf.tunnel = null;
-  //   fs.writeFileSync(confPath, JSON.stringify(conf, null, 2));
-  //   console.log(chalk.yellow('[*] Tunnel: '), chalk.gray('Tunnel closed.'));
-  // });
-
-  // the assigned public url for your tunnel
-  // i.e. https://abcdefgjhij.localtunnel.me
   console.log(
     chalk.yellow('[*] Tunnel: '),
     chalk.gray(process.env.SERVER_PUBLIC_URL),

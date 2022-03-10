@@ -84,7 +84,7 @@ module.exports.getBulkGraphRevisions = async (req, res) => {
   }
 };
 
-module.exports.resolveGraph = async (req,res) => {
+module.exports.resolveGraph = async (req, res) => {
   try {
     const graphId = req.params.internalId || req.body.internalId;
     const graph = await Graphs.findById(graphId);
@@ -100,7 +100,6 @@ module.exports.resolveGraph = async (req,res) => {
     await graph.save();
     res.status(200).send(graph.toJSON());
   } catch (err) {
-    console.log(err)
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };

@@ -15,7 +15,8 @@ const dataSchema = new Schema(
       default: false
     },
     parentId: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: 'Graph',
       default: null
     }
   },

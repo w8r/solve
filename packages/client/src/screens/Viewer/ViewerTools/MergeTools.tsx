@@ -3,34 +3,34 @@ import React, { useState } from 'react';
 import * as api from '../../../services/api';
 import { StyleSheet } from 'react-native';
 import { useVis } from '../../../components/Viewer';
-import { ProposalMenu } from './Menu/Proposal';
+import { MergeMenu } from './Menu/Merge';
 import { Icon, Text, View } from 'native-base';
 import { MaterialCommunityIcons as Icons } from '@expo/vector-icons';
 
-interface ProposalProps {
+interface MergeProps {
   subgraph?: string;
 }
-export function ProposalTools({ subgraph }: ProposalProps) {
+export function MergeTools({ subgraph }: MergeProps) {
   const { graph, setGraph } = useVis();
-  const [accepted, setAccepted] = useState(false);
+  const [merged, setMerged] = useState(false);
+  console.log(subgraph);
 
-  const onAccept = async () => {
-    console.log(subgraph);
+  const onMerge = async () => {
     await api.resolveGraph(subgraph!, { ...graph, resolved: true });
     setGraph({ ...graph, resolved: true });
-    setAccepted(true);
+    setMerged(true);
     setTimeout(() => {
-      setAccepted(false);
+      setMerged(false);
     }, 2500);
   };
 
   return (
     <>
-      <ProposalMenu onAccept={onAccept} />
-      {accepted && (
+      <MergeMenu onMerge={onMerge} />
+      {merged && (
         <View style={styles.container}>
-          <Icon as={Icons} color="green.700" name="check" size="xl" />
-          <Text style={styles.textStyle}>ACCEPTED</Text>
+          <Icon as={Icons} name="merge" size="xl" />
+          <Text style={styles.textStyle}>MERGED</Text>
         </View>
       )}
     </>
