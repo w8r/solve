@@ -18,7 +18,8 @@ module.exports.toHeader = (graph) => {
     edges: graph.edges.length,
     data: graph.data,
     tags: graph.tags,
-    user: graph.user
+    user: graph.user,
+    forks: graph.forks
   };
 };
 
@@ -49,6 +50,7 @@ module.exports.getUserGraphs = async (req, res) => {
     const graphs = await Graphs.findByUser(req.params.id ?? req.user._id);
     res.status(200).json(graphs.map(this.toHeader));
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       error: 'Error retrieving graphs',
       data: err

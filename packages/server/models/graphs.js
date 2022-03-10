@@ -15,8 +15,7 @@ const dataSchema = new Schema(
       default: false
     },
     parentId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Graph',
+      type: String,
       default: null
     }
   },
@@ -103,7 +102,36 @@ graphSchema.statics.findByUser = (userId) => {
         user: userId
       }
     },
-    ...LATEST_REVISION_AGGREGATOR
+    {
+      $lookup: {
+        from: 'graphs',
+        localField: 'data.parentId',
+        foreignField: 'publicId',
+        as: 'forks'
+      }
+    },
+    {
+      $project: {
+        forks: {
+          $size: '$forks'
+        },
+        _id: 1,
+        publicId: 1,
+        nodes: 1,
+        edges: 1,
+        isPublic: 1,
+        data: 1,
+        name: 1,
+        tags: 1,
+        resolved: 1,
+        user: 1
+      }
+    },
+    {
+      $sort: {
+        createdAt: -1
+      }
+    }
   ]);
 };
 

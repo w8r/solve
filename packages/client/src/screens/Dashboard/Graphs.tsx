@@ -85,7 +85,7 @@ export default function Graphs({
                       size="3"
                       marginRight="1"
                     />
-                    {Math.round(Math.random() * 10)}
+                    {graph.forks}
                   </Badge>
                 </TouchableOpacity>
               </HStack>

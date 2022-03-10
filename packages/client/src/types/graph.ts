@@ -77,6 +77,7 @@ export type Graph = {
   nodes: GraphNode[];
   edges: GraphEdge[];
   updatedAt?: string;
+  forks?: number;
 };
 
 export type GraphHeader = {
