@@ -248,6 +248,20 @@ const extractTags = (req) => {
   return tags;
 };
 
+// Use data.parentId to iterate until the root graph is found
+module.export.getRootNode = async (req, res) => {
+  try {
+    const graphId = req.params.publicId || req.body.publicId;
+    const graph = await Graphs.findOne({ publicId: graphId });
+
+    if (!graph || !graphId) {
+      throw new Error('Graph not found.');
+    }
+  } catch (err) {
+    res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
+  }
+};
+
 module.exports.preview = {
   svg: (req, res) => {
     getPreviewData(req.params.publicId)
