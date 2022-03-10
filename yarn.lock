@@ -15364,7 +15364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngrok@npm:^4.1.0":
+"ngrok@npm:^4.3.1":
   version: 4.3.1
   resolution: "ngrok@npm:4.3.1"
   dependencies:
@@ -19162,7 +19162,7 @@ __metadata:
   dependencies:
     "@expo/ngrok": ^4.1.0
     localtunnel: ^2.0.1
-    ngrok: ^4.1.0
+    ngrok: ^4.3.1
   languageName: unknown
   linkType: soft
 

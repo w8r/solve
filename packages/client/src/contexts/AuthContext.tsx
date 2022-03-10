@@ -43,8 +43,9 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
     console.log('acquire token', token);
     setToken(token);
     setUser(userData);
-    setAuthenticated(true);
-    return AsyncStorage.setItem(TOKEN_KEY, token);
+    return AsyncStorage.setItem(TOKEN_KEY, token).then(() =>
+      setAuthenticated(true)
+    );
   };
 
   const loginWithFacebook = (data: FacebookAuthUser) =>
