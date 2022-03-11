@@ -33,12 +33,13 @@ export const ProposalScreen: FC<ProposalProps> = ({ route }) => {
   useEffect(() => {
     api.getInternalGraph(subgraphId).then((response) => setSubGraph(response));
 
-    api
-      .getGraph(graphId)
-      .then((response) => setGraph(response))
-      .then(() => api.getGraphProposals(graphId))
-      .then((response) => setProposals(response))
-      .then(() => setLoading(false));
+    api.getInternalGraph(graphId).then((response) => {
+      setGraph(response);
+      api
+        .getGraphProposals(response.publicId)
+        .then((response) => setProposals(response))
+        .then(() => setLoading(false));
+    });
   }, []);
 
   return (
@@ -51,7 +52,8 @@ export const ProposalScreen: FC<ProposalProps> = ({ route }) => {
             <Loading />
           ) : (
             <List
-              proposals={proposals} subgraph={subgraphId}
+              proposals={proposals}
+              subgraph={subgraphId}
               Header={() => <Header graph={subgraph} />}
             />
           )}

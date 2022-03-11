@@ -207,7 +207,6 @@ module.exports.getProposalGraphs = async (req, res) => {
 
     res.status(200).send({ ...graph.toJSON(), forks });
   } catch (err) {
-    console.log(err);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };

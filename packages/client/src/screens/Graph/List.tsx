@@ -17,7 +17,7 @@ export const List: FC<{
       params: {
         screen: 'Proposal',
         params: {
-          graph: graphs[index].data?.parentId,
+          graph: graphs[index].id,
           subgraph: graphs[index].id
         }
       }
@@ -60,7 +60,7 @@ export const List: FC<{
               <HStack style={styles.caption}>
                 <Icon
                   as={Icons}
-                  name={graph.resolved ? 'check' : "git-branch"}
+                  name={graph.resolved ? 'check' : 'git-branch'}
                   size="xs"
                   style={styles.icon}
                 />

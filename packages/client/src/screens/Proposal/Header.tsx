@@ -29,7 +29,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
 
   return (
     <VStack style={styles.container}>
-      <Text style={styles.headerText}>Proposals for {graph.name}</Text>
+      <Text style={styles.headerText}>Subproblem: {graph.name}</Text>
       <TouchableOpacity onPress={onPress}>
         <Image
           style={styles.image}
@@ -61,6 +61,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
             </>
           }
         </>
+        <Text style={styles.proposalTitle}>Proposals</Text>
       </TouchableOpacity>
     </VStack>
   );
@@ -111,6 +112,16 @@ const styles = StyleSheet.create({
     top: 100,
     textAlign: 'center',
     marginBottom: 10
+  },
+  proposalTitle: {
+    flex: 1,
+    alignSelf: 'center',
+    flexDirection: 'column',
+    fontSize: 18,
+    top: 100,
+    textAlign: 'center',
+    marginBottom: 10,
+    fontWeight: 'bold'
   },
   headerText: {
     flex: 1,
