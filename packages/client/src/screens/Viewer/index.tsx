@@ -23,7 +23,7 @@ const ViewWrapper = ({
   width,
   height,
   subgraph,
-  viewerMode
+  viewerMode = 'problem'
 }: ViewWrapperProps) => {
   const { navigate, isFocused } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
@@ -40,9 +40,6 @@ const ViewWrapper = ({
         return null;
     }
   };
-
-  // default mode
-  if (!viewerMode) viewerMode = 'problem';
 
   useEffect(() => {
     if (id) {
