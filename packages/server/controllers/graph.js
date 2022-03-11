@@ -10,8 +10,9 @@ const preview = require('../lib/preview');
 const { messages } = require('../config/constants');
 const { toHeader } = require('./user');
 const {
-  LATEST_REVISION_AGGREGATOR_WITH_FORKS,
-  USER_LOOKUP_PROJECTION
+  LATEST_REVISION_AGGREGATOR,
+  USER_LOOKUP_PROJECTION,
+  FORK_COUNT_LATEST_REV_AGGREGATOR
 } = require('../lib/dbHelper');
 
 module.exports.searchByTag = async (req, res) => {
@@ -206,6 +207,7 @@ module.exports.getProposalGraphs = async (req, res) => {
 
     res.status(200).send({ ...graph.toJSON(), forks });
   } catch (err) {
+    console.log(err);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };
