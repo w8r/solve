@@ -22,6 +22,7 @@ import { LineMesh, basicMaterial, dashedMaterial } from './line-mesh-2d';
 import EventEmitter from 'eventemitter3';
 import throttle from 'lodash.throttle';
 import inside from 'point-in-polygon';
+import { TextMesh } from './TextMesh';
 
 import { PointTextHelper } from '@jniac/three-point-text-helper';
 
@@ -232,6 +233,9 @@ export class App extends EventEmitter {
     this.idToEdge.clear();
 
     const circle = new CircleGeometry(1, 32);
+    const textMaterial = new MeshBasicMaterial({
+      color: '#222222'
+    });
 
     const idToMesh = this.idToMesh;
     const idToNode = this.idToNode;
@@ -263,27 +267,19 @@ export class App extends EventEmitter {
       idToNode.set(id, node);
 
       if (node.attributes.text) {
-        const text = new Text();
-
-        //text.renderOrder = 2;
-        // Set properties to configure:
-        text.text = node.attributes.text;
-        text.fontSize = 2;
-        text.position.z = 0;
-        text.position.x = x;
-        text.position.y = y - r;
-        text.anchorX = 'center';
-        text.anchorY = 'top';
-        text.color = new Color(0x000000);
-
-        pth.display({
-          position: { x, y: y - r, z: 0.0 },
-          text: 'text',
-          size: 0.5,
-          color: 'black'
+        const textMesh = new TextMesh();
+        const fontSize = node.attributes.r * 0.5;
+        textMesh.material = textMaterial;
+        textMesh.update({
+          text: node.attributes.text,
+          size: fontSize,
+          height: 0
         });
 
-        this.idToText.set(id, text);
+        textMesh.position.x = x - textMesh.size.x / 2;
+        textMesh.position.y = y - r - textMesh.size.y * 1.5;
+
+        this.idToText.set(id, textMesh);
         // scene.add(text);
       }
       this.nodeMeshes.push(mesh);
@@ -426,8 +422,8 @@ export class App extends EventEmitter {
     });
     const textMesh = this.idToText.get(node.id);
     if (textMesh) {
-      textMesh.position.x = x;
-      textMesh.position.y = y - node.attributes.r;
+      textMesh.position.x = x - textMesh.size.x / 2;
+      textMesh.position.y = y - node.attributes.r - textMesh.size.y * 1.5;
     }
   }
 
