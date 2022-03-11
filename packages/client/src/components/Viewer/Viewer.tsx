@@ -63,7 +63,7 @@ export function Viewer({
   graph
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
-  const { app, isSelecting, selectEdge, selectNode } = useVis();
+  const { app, isSelecting, selectEdge, selectNode, clearSelection } = useVis();
   const dppx = PixelRatio.get();
 
   const [state, setState] = useState<ViewerState>({
@@ -241,6 +241,8 @@ export function Viewer({
       if (isNode(el)) selectNode(el.id);
       else selectEdge(el._id);
       app.setGraph(graph);
+    } else {
+      clearSelection();
     }
   };
 

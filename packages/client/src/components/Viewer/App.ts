@@ -280,7 +280,7 @@ export class App extends EventEmitter {
         textMesh.position.y = y - r - textMesh.size.y * 1.5;
 
         this.idToText.set(id, textMesh);
-        // scene.add(text);
+        scene.add(textMesh);
       }
       this.nodeMeshes.push(mesh);
       scene.add(mesh);
@@ -452,11 +452,12 @@ export class App extends EventEmitter {
       else return node;
     }
     for (let i = 0; i < this.edges.length; i++) {
+      const edge = this.edges[i];
       const {
         source,
         target,
         attributes: { width }
-      } = this.edges[i];
+      } = edge;
       const s = this.idToNode.get(source) as GraphNode;
       const t = this.idToNode.get(target) as GraphNode;
       const sx = s.attributes.x;
@@ -464,9 +465,7 @@ export class App extends EventEmitter {
       const tx = t.attributes.x;
       const ty = t.attributes.y;
 
-      if (isPointInLine(pos.x, pos.y, sx, sy, tx, ty, width)) {
-        return this.edges[i];
-      }
+      if (isPointInLine(pos.x, pos.y, sx, sy, tx, ty, width * 3)) return edge;
     }
     return node || null;
   }
