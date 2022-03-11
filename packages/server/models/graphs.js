@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const config = require('../config/development');
 const { messages } = require('../config/constants');
 const { v4: uuidv4 } = require('uuid');
-const { LATEST_REVISION_AGGREGATOR } = require('../lib/dbHelper');
+const { FORK_COUNT_LATEST_REV_AGGREGATOR } = require('../lib/dbHelper');
 
 const Vertex = require('./vertex');
 const Edge = require('./edge');
@@ -102,36 +102,7 @@ graphSchema.statics.findByUser = (userId) => {
         user: userId
       }
     },
-    {
-      $lookup: {
-        from: 'graphs',
-        localField: 'data.parentId',
-        foreignField: 'publicId',
-        as: 'forks'
-      }
-    },
-    {
-      $project: {
-        forks: {
-          $size: '$forks'
-        },
-        _id: 1,
-        publicId: 1,
-        nodes: 1,
-        edges: 1,
-        isPublic: 1,
-        data: 1,
-        name: 1,
-        tags: 1,
-        resolved: 1,
-        user: 1
-      }
-    },
-    {
-      $sort: {
-        createdAt: -1
-      }
-    }
+    ...FORK_COUNT_LATEST_REV_AGGREGATOR
   ]);
 };
 

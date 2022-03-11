@@ -1,7 +1,15 @@
-module.exports.LATEST_REVISION_AGGREGATOR = [
+module.exports.FORK_COUNT_LATEST_REV_AGGREGATOR = [
   {
     $sort: {
       createdAt: -1
+    }
+  },
+  {
+    $lookup: {
+      from: 'graphs',
+      localField: 'publicId',
+      foreignField: 'data.parentId',
+      as: 'forks'
     }
   },
   {
@@ -45,6 +53,9 @@ module.exports.LATEST_REVISION_AGGREGATOR = [
       },
       internalId: {
         $first: '$_id'
+      },
+      forks: {
+        $first: '$forks'
       }
     }
   },
@@ -65,7 +76,10 @@ module.exports.LATEST_REVISION_AGGREGATOR = [
       user: '$user',
       publicId: '$_id',
       internalId: '$internalId',
-      updatedAt: '$updatedAt'
+      updatedAt: '$updatedAt',
+      forks: {
+        $size: '$forks'
+      }
     }
   },
   {

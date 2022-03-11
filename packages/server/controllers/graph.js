@@ -10,7 +10,7 @@ const preview = require('../lib/preview');
 const { messages } = require('../config/constants');
 const { toHeader } = require('./user');
 const {
-  LATEST_REVISION_AGGREGATOR,
+  LATEST_REVISION_AGGREGATOR_WITH_FORKS,
   USER_LOOKUP_PROJECTION
 } = require('../lib/dbHelper');
 
@@ -19,7 +19,7 @@ module.exports.searchByTag = async (req, res) => {
     const tag = req.params.tag || req.body.tag;
     const graph = await Graphs.aggregate([
       { $match: { $text: { $search: tag } } },
-      ...LATEST_REVISION_AGGREGATOR,
+      ...FORK_COUNT_LATEST_REV_AGGREGATOR,
       ...USER_LOOKUP_PROJECTION
     ]);
     if (!graph || !tag) {
@@ -249,7 +249,8 @@ const extractTags = (req) => {
 };
 
 // Use data.parentId to iterate until the root graph is found
-module.export.getRootNode = async (req, res) => {
+// TODO Finish it
+module.exports.getRootNode = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
     const graph = await Graphs.findOne({ publicId: graphId });
