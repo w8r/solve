@@ -27,7 +27,9 @@ export function ProblemTools({
     setSelectedEdges,
     clearSelection
   } = useVis();
-  const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
+  const [nodeDialogVisible, setNodeDialogVisible] = useState(
+    graph.publicId === ''
+  );
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
 
@@ -160,6 +162,7 @@ export function ProblemTools({
       {nodeDialogVisible && !edgeDialogVisible ? (
         <CreateNodeDialog
           closeDialog={() => {
+            console.log('close');
             setNodeDialogVisible(false);
           }}
           addNode={addNode}

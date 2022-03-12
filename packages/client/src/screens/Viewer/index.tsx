@@ -53,7 +53,6 @@ const ViewWrapper = ({
         edges: []
       });
     return () => {
-      console.log('viewer kill');
       setSelectedNodes([]);
       setSelectedEdges([]);
     };

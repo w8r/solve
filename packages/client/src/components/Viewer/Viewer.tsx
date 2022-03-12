@@ -246,9 +246,21 @@ export function Viewer({
     }
   };
 
+  const onLongPress = ({ nativeEvent }: GestureResponderEvent) => {
+    if (isSelecting) return;
+    const el = isWeb
+      ? app.getElementAt(nativeEvent.pageX, nativeEvent.pageY)
+      : app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);
+    if (el) {
+      if (isNode(el)) selectNode(el.id);
+      else selectEdge(el._id);
+      app.setGraph(graph);
+    }
+  };
+
   return (
     <View style={styles.container} {...panResponder.panHandlers}>
-      <TouchableWithoutFeedback onPress={onTap}>
+      <TouchableWithoutFeedback onPress={onTap} onLongPress={onLongPress}>
         <Canvas
           ref={containerRef}
           style={styles.canvas}
