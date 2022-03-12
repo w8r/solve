@@ -10,14 +10,27 @@ import * as api from '../../services/api';
 import { ProfileButton } from '../../components/Avatar';
 
 import Placeholder from './Placeholder';
-import Graphs from './Graphs';
+import Graphs, { GraphsWithSections } from './Graphs';
 import { SearchText } from '../../components/SearchText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+function categorizeGraphs(graphs: Graph[]): GraphsWithSections[] {
+  const roots = graphs.filter((graph) => !graph.data?.parentId);
+  const forks = graphs.filter((graph) => graph.data?.parentId);
+  if (roots.length === 0 && forks.length === 0) {
+    return [];
+  }
+
+  return [
+    { title: 'Root Graphs', data: [{ graphs: roots }] },
+    { title: 'Subgraphs', data: [{ graphs: forks }] }
+  ];
+}
 
 export default function Dashboard() {
   const [isLoading, setLoading] = useState(false);
   const [requested, setRequested] = useState(false);
-  const [graphs, setGraphs] = useState<Graph[]>([]);
+  const [graphs, setGraphs] = useState<GraphsWithSections[]>([]);
   const [error, setError] = useState(null);
   const isFocused = useIsFocused();
   const { navigate } = useNavigation();
@@ -54,7 +67,7 @@ export default function Dashboard() {
       setRequested(true);
       api
         .searchGraph(text)
-        .then((response) => setGraphs(response))
+        .then((response) => setGraphs(categorizeGraphs(response)))
         .catch((error) => setError(error))
         .finally(() => {
           setLoading(false);
@@ -69,7 +82,7 @@ export default function Dashboard() {
   const getMyGraphs = () => {
     api
       .getUserGraphs()
-      .then((response) => isFocused && setGraphs(response))
+      .then((response) => isFocused && setGraphs(categorizeGraphs(response)))
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
   };
@@ -114,7 +127,9 @@ const styles = StyleSheet.create({
   },
   emptyContainer: {
     marginTop: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
   },
   textStyle: {},
   link: {

@@ -6,6 +6,7 @@ import {
   HStack,
   Icon,
   Image,
+  SectionList,
   Text,
   View
 } from 'native-base';
@@ -15,87 +16,122 @@ import { Graph } from '../../types/graph';
 import { getGraphPreviewURL } from '../../services/api';
 import { Feather as Icons } from '@expo/vector-icons';
 
+export interface GraphsWithSections {
+  title: 'Root Graphs' | 'Subgraphs';
+  data: Array<{ graphs: Graph[] }>;
+}
+
 export default function Graphs({
   graphs,
   emptyComponent
-}: PropsWithChildren<{ graphs: Graph[]; emptyComponent: ReactElement }>) {
+}: PropsWithChildren<{
+  graphs: GraphsWithSections[];
+  emptyComponent: ReactElement;
+}>) {
   const { navigate } = useNavigation();
   const { width } = Dimensions.get('window');
   const columns = width < 400 ? 2 : 4;
 
-  const onPress = (index: number) => {
+  // A method for renderItem prop of SectionList which returns a FlatList of Graphs
+  const renderItem = ({
+    index,
+    item: graph
+  }: {
+    index: number;
+    item: Graph;
+  }) => {
+    return (
+      <TouchableOpacity onPress={() => onPress(graph.id)}>
+        <Box
+          rounded="sm"
+          minWidth="40"
+          maxWidth="40"
+          marginRight={(index + 1) % columns === 0 ? 0 : 5}
+          marginBottom={index === graphs.length - 1 ? 100 : 5}
+        >
+          <Image
+            style={styles.image}
+            alt={graph.id}
+            source={{
+              uri: getGraphPreviewURL(graph.id) + `?${Date.now()}`
+            }}
+            width="40"
+            height="40"
+          />
+          <HStack
+            marginTop="2"
+            space="2"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Text flexShrink={1} maxWidth={40}>
+              {graph.name || 'Graph name'}
+            </Text>
+            <TouchableOpacity onPress={() => onBadgePress(graph.id)}>
+              <Badge marginLeft="3" rounded="md" flexDirection="row">
+                <Icon as={Icons} name="git-branch" size="3" marginRight="1" />
+                {graph.forks}
+              </Badge>
+            </TouchableOpacity>
+          </HStack>
+        </Box>
+      </TouchableOpacity>
+    );
+  };
+
+  // This function is used to render flatlist from renderItem prop of SectionList
+  const renderFlatList = ({
+    item,
+    index
+  }: {
+    item: { graphs: Graph[] };
+    index: number;
+  }) => {
+    return (
+      <FlatList
+        contentContainerStyle={styles.listContent}
+        data={item.graphs}
+        keyExtractor={(_, index) => index.toString()}
+        numColumns={columns}
+        renderItem={renderItem}
+        ListEmptyComponent={emptyComponent}
+      />
+    );
+  };
+
+  const onPress = (graphId: string) => {
     navigate('App', {
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: graphs[index]
-          ? { viewerMode: 'problem', graph: graphs[index].id }
-          : undefined
+        params: graphId ? { viewerMode: 'problem', graph: graphId } : undefined
       }
     });
   };
 
-  const onBadgePress = (index: number) => {
+  const onBadgePress = (graphId: string) => {
     navigate('App', {
       screen: 'TabOne',
       params: {
         screen: 'Graph',
-        params: { graph: graphs[index].id }
+        params: { graph: graphId }
       }
     });
   };
 
   return (
-    <FlatList
+    <SectionList
       contentContainerStyle={styles.listContent}
-      numColumns={columns}
-      data={graphs}
+      sections={graphs}
+      style={styles.list}
       ListEmptyComponent={emptyComponent}
+      renderSectionHeader={({ section }) =>
+        section.data.length > 0 ? (
+          <Text style={styles.sectionTitle}>{section.title}</Text>
+        ) : null
+      }
       keyExtractor={(_, index) => index.toString()}
-      renderItem={({ item: graph, index }) => {
-        return (
-          <TouchableOpacity onPress={() => onPress(index)}>
-            <Box
-              rounded="sm"
-              minWidth="40"
-              maxWidth="40"
-              marginRight={(index + 1) % columns === 0 ? 0 : 5}
-              marginBottom={index === graphs.length - 1 ? 100 : 5}
-            >
-              <Image
-                style={styles.image}
-                alt={graph.id}
-                source={{
-                  uri: getGraphPreviewURL(graph.id) + `?${Date.now()}`
-                }}
-                width="40"
-                height="40"
-              />
-              <HStack
-                marginTop="2"
-                space="2"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Text flexShrink={1} maxWidth={40}>
-                  {graph.name || 'Graph name'}
-                </Text>
-                <TouchableOpacity onPress={() => onBadgePress(index)}>
-                  <Badge marginLeft="3" rounded="md" flexDirection="row">
-                    <Icon
-                      as={Icons}
-                      name="git-branch"
-                      size="3"
-                      marginRight="1"
-                    />
-                    {graph.forks}
-                  </Badge>
-                </TouchableOpacity>
-              </HStack>
-            </Box>
-          </TouchableOpacity>
-        );
-      }}
+      renderItem={renderFlatList}
     />
   );
 }
@@ -104,18 +140,33 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     padding: 0,
-    paddingTop: 40,
-    borderWidth: 1
+    paddingTop: 40
+  },
+  list: {
+    flexWrap: 'wrap',
+    flex: 1,
+    width: '100%'
+  },
+  listContent: {
+    justifyContent: 'center',
+    margin: 0,
+    padding: 0,
+    flex: 1,
+    alignItems: 'center'
+  },
+  sectionTitle: {
+    marginTop: 20,
+    marginBottom: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: '#000',
+    textTransform: 'uppercase',
+    letterSpacing: 1
   },
   textStyle: {},
   image: {
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.1)'
-  },
-  listContent: {
-    margin: 0,
-    padding: 0,
-    flex: 1,
-    alignItems: 'center'
   }
 });

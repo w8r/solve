@@ -18,17 +18,31 @@ const {
 module.exports.searchByTag = async (req, res) => {
   try {
     const tag = req.params.tag || req.body.tag;
-    const graph = await Graphs.aggregate([
+    const graphs = await Graphs.aggregate([
       { $match: { $text: { $search: tag } } },
       ...FORK_COUNT_LATEST_REV_AGGREGATOR,
       ...USER_LOOKUP_PROJECTION
     ]);
+    const graphsId = graphs.map((graph) => graph.publicId);
+
+    const graph = graphs
+      .map((graph) => {
+        // return only the forks created by own user
+        const publicIds = graph.forks
+          .filter((fork) => String(fork.user) === String(req.user._id))
+          .map((fork) => fork.publicId);
+        graph.forks = new Set(publicIds).size;
+        return graph;
+      })
+      .filter((graph) => !graphsId.includes(graph.data.parentId));
+
     if (!graph || !tag) {
       throw new Error('Graph not found.');
     }
 
     res.status(200).send(graph.map(toHeader));
   } catch (err) {
+    console.log(err);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };
