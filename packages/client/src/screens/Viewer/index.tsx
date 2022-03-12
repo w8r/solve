@@ -7,7 +7,7 @@ import { BackButton } from '../../components/BackButton';
 import { getGraph } from '../../services/api';
 
 import { ProblemTools } from './ViewerTools/ProblemTools';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { ProposalTools } from './ViewerTools/ProposalTools';
 import { MergeTools } from './ViewerTools/MergeTools';
 
@@ -23,13 +23,12 @@ const ViewWrapper = ({
   width,
   height,
   subgraph,
-  viewerMode
+  viewerMode = 'problem'
 }: ViewWrapperProps) => {
-  const { navigate, isFocused } = useNavigation();
+  const { navigate } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
   const [isLoading, setIsLoading] = useState(true);
-
-  viewerMode = viewerMode || 'problem';
+  const isFocused = useIsFocused();
 
   const getTools = (viewerMode: 'problem' | 'proposal' | 'merge') => {
     switch (viewerMode) {
@@ -45,6 +44,7 @@ const ViewWrapper = ({
   };
 
   useEffect(() => {
+    console.log('request', id);
     // If mode is merge, we don't need to fetch the graph mergetools handle it
     if (id && viewerMode !== 'merge') {
       getGraph(id).then((response) => {
@@ -65,7 +65,7 @@ const ViewWrapper = ({
       setSelectedNodes([]);
       setSelectedEdges([]);
     };
-  }, []);
+  }, [id, isFocused]);
 
   if (isLoading) return null;
   return (

@@ -20,6 +20,7 @@ export const SuccessModal: FC<{ graph: Graph }> = ({ graph }) => {
   return (
     <Modal isOpen={true}>
       <Modal.Content>
+        <Modal.CloseButton />
         <Modal.Body>
           <Center>
             <VStack>

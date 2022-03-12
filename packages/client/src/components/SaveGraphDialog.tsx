@@ -5,6 +5,8 @@ import { Feather as Icons } from '@expo/vector-icons';
 import { Graph } from '../types/graph';
 import { useVis } from './Viewer';
 import { saveGraph, shareGraph } from '../services/api';
+import { useNavigation } from '@react-navigation/native';
+import { useAuth } from '../hooks/useAuth';
 
 interface SaveGraphDialogProps {
   onCancel: () => void;
@@ -18,8 +20,10 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
   share = false
 }) => {
   const { graph, setGraph } = useVis();
+  const { user } = useAuth();
   const [value, setValue] = useState(graph.name || '');
   const [isLoading, setLoading] = useState(false);
+  const navigation = useNavigation();
   const handleChange = (text: string) => setValue(text);
   // TODO: Add validation
   const onPressSave = () => {
@@ -32,13 +36,37 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
       graph.nodes.map((n) => n.attributes.selected)
     );
 
+    const graphToSave = {
+      ...graph,
+      nodes: graph.nodes.map((n) => {
+        n.attributes.selected = false;
+        return n;
+      }),
+      edges: graph.edges.map((e) => {
+        e.attributes.selected = false;
+        return e;
+      })
+    };
+
+    if (!share && graph.user!._id !== user.uuid) {
+      graphToSave.data!.parentId = graph.publicId;
+    }
+
     const request = share
-      ? shareGraph(graph, graph.publicId)
-      : saveGraph(graph.publicId ? graph.publicId : null, graph);
+      ? shareGraph(graphToSave, graph.publicId)
+      : saveGraph(
+          graph.publicId
+            ? graph.user!._id !== user.uuid
+              ? null
+              : graph.publicId
+            : null,
+          graphToSave
+        );
 
     return request
       .then((resp) => {
         setGraph({ ...resp, nodes: graph.nodes, edges: graph.edges });
+        navigation.setParams({ graph: resp.publicId });
         setTimeout(onDone, 500);
       })
       .catch((err) => {

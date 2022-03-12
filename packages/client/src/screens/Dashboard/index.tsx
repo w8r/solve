@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
   emptyContainer: {
     marginTop: 10,
     alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1
+    flex: 1,
+    marginBottom: 100
   },
   textStyle: {},
   link: {

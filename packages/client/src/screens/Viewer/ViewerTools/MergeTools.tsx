@@ -6,7 +6,8 @@ import { useVis } from '../../../components/Viewer';
 import { MergeMenu } from './Menu/Merge';
 import { Icon, Text, View } from 'native-base';
 import { MaterialCommunityIcons as Icons } from '@expo/vector-icons';
-import { GraphEdge, GraphNode } from '../../../types/graph';
+import { Graph, GraphEdge, GraphNode, Id } from '../../../types/graph';
+import { v4 as uuid } from 'uuid';
 
 interface MergeProps {
   subgraph?: string;
@@ -58,7 +59,9 @@ function mergeEdges(
   );
 
   sharedSubgraphEdges.forEach((edge) => {
-    const parentEdge = parentEdges.find((parent) => parent.id === edge.id);
+    const parentEdge = parentEdges.find(
+      (parentEdge) => parentEdge.id === edge.id
+    );
     const parentEdgeIndex = parentEdges.indexOf(parentEdge!);
     const subgraphEdge = subgraphEdges.find(
       (subgraph) => subgraph.id === edge.id
@@ -91,6 +94,58 @@ function mergeEdges(
     );
 }
 
+function getPremergeGraph(parent: Graph, child: Graph): Graph {
+  const result = { ...parent };
+  const originalNodes = result.nodes.reduce((acc, node) => {
+    acc.set(node.id, node);
+    return acc;
+  }, new Map<Id, GraphNode>());
+
+  // fix the subgraph topology to not depend on the parent
+  const nodeMap = new Map<string, GraphNode>();
+  child.nodes.forEach((node) => {
+    nodeMap.set(node.id, node);
+    node.data.originalId = node.id;
+    node.id = uuid();
+  });
+
+  child.edges.forEach((edge) => {
+    edge.data = edge.data || {};
+    edge.data.originalId = edge.id;
+    edge.data.originalSource = edge.source;
+    edge.data.originalTarget = edge.target;
+    edge.id = uuid();
+    edge._id = uuid();
+    edge.source = nodeMap.get(edge.source)!.id;
+    edge.target = nodeMap.get(edge.target)!.id;
+  });
+
+  child.nodes.forEach((childNode) => {
+    const parentNode = originalNodes.get(childNode.data.originalId as Id);
+    if (parentNode) {
+      child.edges.push({
+        id: uuid(),
+        _id: uuid(),
+        source: parentNode.id,
+        target: childNode.id,
+        data: {
+          virtual: true
+        },
+        attributes: {
+          width: 0.25,
+          color: '#dddddd'
+        }
+      });
+    }
+  });
+
+  return {
+    ...parent,
+    nodes: [...parent.nodes, ...child.nodes],
+    edges: [...parent.edges, ...child.edges]
+  };
+}
+
 export function MergeTools({ subgraph }: MergeProps) {
   const { graph, setGraph } = useVis();
   const [merged, setMerged] = useState(false);
@@ -109,20 +164,23 @@ export function MergeTools({ subgraph }: MergeProps) {
     api.getGraph(subgraph!).then((subgraph) => {
       console.log(subgraph);
       api.getGraph(subgraph.data?.parentId!).then((parent) => {
-        const mergedNodes = mergeNodes(subgraph.nodes, parent.nodes);
-        const mergedEdges = mergeEdges(
-          mergedNodes.map((node) => node.id),
-          subgraph.edges,
-          parent.edges
-        );
+        console.log({ parentGraph: parent });
 
-        const preMergeGraph = {
-          ...subgraph,
-          nodes: mergedNodes,
-          edges: mergedEdges
-        };
+        // const mergedNodes = mergeNodes(subgraph.nodes, parent.nodes);
+        // const mergedEdges = mergeEdges(
+        //   mergedNodes.map((node) => node.id),
+        //   subgraph.edges,
+        //   parent.edges
+        // );
 
-        console.log(preMergeGraph);
+        // const preMergeGraph = {
+        //   ...subgraph,
+        //   nodes: mergedNodes,
+        //   edges: mergedEdges
+        // };
+
+        const preMergeGraph = getPremergeGraph(parent, subgraph);
+        console.log({ preMergeGraph });
 
         setGraph(preMergeGraph);
       });

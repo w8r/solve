@@ -57,6 +57,7 @@ export type GraphEdge = {
     width: number;
     color: string;
   };
+  data?: Record<string, unknown>;
 };
 
 export function isNode(el: GraphNode | GraphEdge): el is GraphNode {
@@ -78,6 +79,10 @@ export type Graph = {
   edges: GraphEdge[];
   updatedAt?: string;
   forks?: number;
+  user?: {
+    name: string;
+    _id: string;
+  };
 };
 
 export type GraphHeader = {

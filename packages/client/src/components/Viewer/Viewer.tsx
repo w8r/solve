@@ -211,7 +211,7 @@ export function Viewer({
         });
 
         if (isSelecting) app.stopSelection();
-        if (isMoving) app.setGraph(graph);
+        if (isDragging) app.setGraph(graph);
         if (isDragging || isMoving) skipNextTap = true;
       },
       onPanResponderTerminate: (evt, gestureState) => {},

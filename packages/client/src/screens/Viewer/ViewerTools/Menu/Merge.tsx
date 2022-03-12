@@ -13,9 +13,9 @@ interface MergeMenuProps {
 export const MergeMenu: FC<MergeMenuProps> = ({ onMerge }) => {
   const menuItems = [
     {
-      icon: 'merge',
+      icon: 'check-circle',
       onPress: onMerge,
-      text: 'Merge',
+      text: 'Solve',
       active: true
     }
   ];

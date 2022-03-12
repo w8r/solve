@@ -39,7 +39,7 @@ export const Canvas = forwardRef(
     useEffect(() => {
       return () => {
         app?.destroy();
-        if (gl) GLView.destroyContextAsync(gl);
+        if (gl) GLView.destroyContextAsync(gl).then(() => setGl(null));
       };
     }, [gl]);
 

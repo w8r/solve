@@ -47,7 +47,7 @@ export default function Graphs({
           minWidth="40"
           maxWidth="40"
           marginRight={(index + 1) % columns === 0 ? 0 : 5}
-          marginBottom={index === graphs.length - 1 ? 100 : 5}
+          marginBottom={5}
         >
           <Image
             style={styles.image}
@@ -87,14 +87,14 @@ export default function Graphs({
     item: { graphs: Graph[] };
     index: number;
   }) => {
+    if (item.graphs.length === 0) return emptyComponent;
     return (
       <FlatList
-        contentContainerStyle={styles.listContent}
+        contentContainerStyle={{ ...styles.listContent, paddingBottom: 100 }}
         data={item.graphs}
         keyExtractor={(_, index) => index.toString()}
         numColumns={columns}
         renderItem={renderItem}
-        ListEmptyComponent={emptyComponent}
       />
     );
   };
@@ -121,10 +121,9 @@ export default function Graphs({
 
   return (
     <SectionList
-      contentContainerStyle={styles.listContent}
+      contentContainerStyle={styles.sectionContent}
       sections={graphs}
       style={styles.list}
-      ListEmptyComponent={emptyComponent}
       renderSectionHeader={({ section }) =>
         section.data.length > 0 ? (
           <Text style={styles.sectionTitle}>{section.title}</Text>
@@ -148,11 +147,16 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   listContent: {
-    justifyContent: 'center',
-    margin: 0,
     padding: 0,
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%'
+  },
+  sectionContent: {
+    padding: 0,
+    flex: 1,
+    alignItems: 'center',
+    width: '100%'
   },
   sectionTitle: {
     marginTop: 20,

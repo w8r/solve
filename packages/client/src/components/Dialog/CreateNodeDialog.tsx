@@ -144,7 +144,7 @@ export default function CreateNodeDialog({
                   fontWeight: 500
                 }}
               >
-                Node Size
+                Importance
               </FormControl.Label>
               <Slider
                 defaultValue={(data?.attributes.r || 3) * 10}

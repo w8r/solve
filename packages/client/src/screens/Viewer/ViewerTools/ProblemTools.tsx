@@ -12,7 +12,7 @@ export function ProblemTools({
   isFocused
 }: {
   navigate: any;
-  isFocused: () => boolean;
+  isFocused: boolean;
 }) {
   const {
     graph,
@@ -38,6 +38,7 @@ export function ProblemTools({
   };
 
   useEffect(() => {
+    console.log('ProblemTools: useEffect', graph.publicId);
     setNodeDialogVisible(graph.publicId === '');
   }, [graph.publicId]);
 
@@ -146,7 +147,7 @@ export function ProblemTools({
     if (selectedNodes && selectedNodes.length > 1) createEdge();
   };
 
-  const onSave = () => isFocused() && setShowSaveDialog(true);
+  const onSave = () => isFocused && setShowSaveDialog(true);
 
   return (
     <>
