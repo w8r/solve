@@ -86,14 +86,7 @@ module.exports.FORK_COUNT_LATEST_REV_AGGREGATOR = [
       from: 'graphs',
       localField: 'publicId',
       foreignField: 'data.parentId',
-      as: 'forks',
-      pipeline: [
-        {
-          $group: {
-            _id: '$publicId'
-          }
-        }
-      ]
+      as: 'forks'
     }
   },
   {
@@ -161,9 +154,7 @@ module.exports.FORK_COUNT_LATEST_REV_AGGREGATOR = [
       publicId: '$_id',
       internalId: '$internalId',
       updatedAt: '$updatedAt',
-      forks: {
-        $size: '$forks'
-      }
+      forks: '$forks'
     }
   },
   {

@@ -106,7 +106,20 @@ graphSchema.statics.findByUser = (userId) => {
       }
     },
     ...FORK_COUNT_LATEST_REV_AGGREGATOR
-  ]);
+  ]).then((graphs) => {
+    const graphsId = graphs.map((graph) => graph.publicId);
+
+    return graphs
+      .map((graph) => {
+        // return only the forks created by own user
+        const publicIds = graph.forks
+          .filter((fork) => String(fork.user) === String(userId))
+          .map((fork) => fork.publicId);
+        graph.forks = new Set(publicIds).size;
+        return graph;
+      })
+      .filter((graph) => !graphsId.includes(graph.data.parentId));
+  });
 };
 
 graphSchema.statics.findSubgraphs = (graphId, userId) => {
