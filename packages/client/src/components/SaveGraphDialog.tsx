@@ -48,7 +48,7 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
       })
     };
 
-    if (!share && graph.user!._id !== user.uuid) {
+    if (!share && graph.user && graph.user._id !== user.uuid) {
       graphToSave.data!.parentId = graph.publicId;
     }
 
@@ -56,7 +56,7 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
       ? shareGraph(graphToSave, graph.publicId)
       : saveGraph(
           graph.publicId
-            ? graph.user!._id !== user.uuid
+            ? graph.user && graph.user!._id !== user.uuid
               ? null
               : graph.publicId
             : null,
