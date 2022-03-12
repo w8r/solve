@@ -123,6 +123,7 @@ export default function Graphs({
     <SectionList
       contentContainerStyle={styles.sectionContent}
       sections={graphs}
+      ListEmptyComponent={emptyComponent}
       style={styles.list}
       renderSectionHeader={({ section }) =>
         section.data.length > 0 ? (
