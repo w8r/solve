@@ -29,6 +29,8 @@ const ViewWrapper = ({
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
   const [isLoading, setIsLoading] = useState(true);
 
+  viewerMode = viewerMode || 'problem';
+
   const getTools = (viewerMode: 'problem' | 'proposal' | 'merge') => {
     switch (viewerMode) {
       case 'problem':
