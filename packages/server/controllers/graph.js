@@ -19,7 +19,14 @@ module.exports.searchByTag = async (req, res) => {
   try {
     const tag = req.params.tag || req.body.tag;
     const graphs = await Graphs.aggregate([
-      { $match: { $text: { $search: tag } } },
+      {
+        $match: {
+          $text: { $search: tag },
+          'data.parentId': {
+            $ne: null
+          }
+        }
+      },
       ...FORK_COUNT_LATEST_REV_AGGREGATOR,
       ...USER_LOOKUP_PROJECTION
     ]);
