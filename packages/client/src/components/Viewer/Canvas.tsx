@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, useEffect } from 'react';
 import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
 import { StyleSheet, ViewProps } from 'react-native';
 import { App } from './App';
@@ -25,7 +24,9 @@ export const Canvas = forwardRef(
     const { app, setApp } = useVis();
 
     app?.setView(transform.x, transform.y, transform.k);
-    if (graph) app?.setGraph(graph);
+    useEffect(() => {
+      if (graph) app?.setGraph(graph);
+    }, [graph, app]);
 
     useEffect(() => {
       return () => {

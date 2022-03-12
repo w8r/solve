@@ -18,9 +18,10 @@ export const usePanResponder = (
   callbacks: PanResponderCallbacks,
   deps: any[] = []
 ): PanResponderInstance => {
-  // const panResponder = useMemo<PanResponderInstance>(
-  //   () => PanResponder.create({ ...defaultCallback, ...callbacks }),
-  //   deps
-  // );
+  const panResponder = useMemo<PanResponderInstance>(
+    () => PanResponder.create({ ...defaultCallback, ...callbacks }),
+    deps
+  );
+  return panResponder;
   return PanResponder.create({ ...defaultCallback, ...callbacks });
 };

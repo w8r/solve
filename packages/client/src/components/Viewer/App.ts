@@ -195,6 +195,7 @@ export class App extends EventEmitter {
     const mesh = new Mesh(geometry, material);
     this.lasso = mesh;
     this.scene.add(mesh);
+    this.frame();
   }, LASSO_THROTTLE);
 
   public stopSelection() {
@@ -204,6 +205,7 @@ export class App extends EventEmitter {
     }
     this.emit('selection', this.queryPolygon(this.selection));
     this.selection.length = 0;
+    this.frame();
   }
 
   queryPolygon(coords: [number, number][]) {
@@ -353,6 +355,7 @@ export class App extends EventEmitter {
 
     this.nodes = nodes;
     this.edges = edges;
+    this.frame();
   }
 
   selectNode() {}
@@ -362,6 +365,7 @@ export class App extends EventEmitter {
       // TODO: findout why this is not working
       const obj = this.idToMesh.get(id)?.material as MeshBasicMaterial;
     });
+    this.frame();
     return;
 
     if (graph === null) {
@@ -425,6 +429,7 @@ export class App extends EventEmitter {
       textMesh.position.x = x - textMesh.size.x / 2;
       textMesh.position.y = y - node.attributes.r - textMesh.size.y * 1.5;
     }
+    this.frame();
   }
 
   start() {
@@ -476,7 +481,7 @@ export class App extends EventEmitter {
     return { x, y };
   }
 
-  setView(x: number, y: number, k: number) {
+  setView = (x: number, y: number, k: number) => {
     if (!this.gl) return;
     this.x = x;
     this.y = y;
@@ -490,13 +495,14 @@ export class App extends EventEmitter {
       this.gl.drawingBufferHeight / this.dppx,
       FOV
     );
-  }
+    this.frame();
+  };
 
   frame = () => {
     if (!this.gl) return;
     this.renderer.render(this.scene, this.camera);
     this.gl.endFrameEXP();
-    this.frameTimer = requestAnimationFrame(this.frame);
+    //this.frameTimer = requestAnimationFrame(this.frame);
   };
 
   _frame = () => {

@@ -201,8 +201,7 @@ export function Viewer({
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
-        if (isSelecting) app.stopSelection();
-        if (state.isMoving) app.setGraph(graph);
+        const { isMoving } = state;
 
         setState({
           ...state,
@@ -211,6 +210,9 @@ export function Viewer({
           isDragging: null,
           lastRelease: Date.now()
         });
+
+        if (isSelecting) app.stopSelection();
+        if (isMoving) app.setGraph(graph);
       },
       onPanResponderTerminate: (evt, gestureState) => {},
       onShouldBlockNativeResponder: (evt, gestureState) => true
@@ -266,9 +268,9 @@ export function Viewer({
         <Canvas
           ref={containerRef}
           style={styles.canvas}
-          onWheel={onWheel}
           graph={graph}
           dppx={dppx}
+          onWheel={onWheel}
           transform={{ x: state.x, y: state.y, k: state.k }}
         />
       </TouchableWithoutFeedback>
