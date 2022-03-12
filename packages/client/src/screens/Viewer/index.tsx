@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { ViewerProps } from '../../navigation/types';
 import { useVis, Viewer, VisProvider } from '../../components/Viewer';
@@ -27,6 +27,7 @@ const ViewWrapper = ({
 }: ViewWrapperProps) => {
   const { navigate, isFocused } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
+  const [isLoading, setIsLoading] = useState(true);
 
   const getTools = () => {
     switch (viewerMode) {
@@ -43,8 +44,11 @@ const ViewWrapper = ({
 
   useEffect(() => {
     if (id) {
-      getGraph(id).then((response) => setGraph(response));
-    } else
+      getGraph(id).then((response) => {
+        setGraph(response);
+        setIsLoading(false);
+      });
+    } else {
       setGraph({
         id: '',
         publicId: '',
@@ -52,15 +56,23 @@ const ViewWrapper = ({
         nodes: [],
         edges: []
       });
+      setIsLoading(false);
+    }
     return () => {
       setSelectedNodes([]);
       setSelectedEdges([]);
     };
   }, []);
 
+  if (isLoading) return null;
   return (
     <>
-      <Viewer width={width} height={height} graph={graph} />
+      <Viewer
+        width={width}
+        height={height}
+        graph={graph}
+        onLongPress={(node) => console.log({ node })}
+      />
       {viewerMode === 'proposal' ? (
         <ProposalTools subgraph={subgraph} />
       ) : (

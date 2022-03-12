@@ -108,6 +108,7 @@ export default function CreateNodeDialog({
               <Input
                 onChange={(evt) => handleChange('name')(evt.nativeEvent.text)}
                 onBlur={() => handleBlur('name')}
+                placeholder="What is wrong?"
                 autoCompleteType="off"
                 value={values.name}
                 onSubmitEditing={() => nodeNameRef.current?.focus()}

@@ -43,10 +43,6 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
   const [isSelecting, setIsSelecting] = useState(false);
 
   useEffect(() => {
-    console.log(
-      'new graph',
-      graph.nodes.map((n) => n.attributes.selected)
-    );
     setSelectedNodes(graph.nodes.filter((node) => node.attributes.selected));
     setSelectedEdges(graph.edges.filter((edge) => edge.attributes.selected));
   }, [graph]);

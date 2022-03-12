@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet } from 'react-native';
-import { Fab, Text, Icon, Center } from 'native-base';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Fab, Text, Icon, HStack, VStack } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
 
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
+import { tintColorLight } from '../../constants/Colors';
 import * as api from '../../services/api';
 import { ProfileButton } from '../../components/Avatar';
 
 import Placeholder from './Placeholder';
 import Graphs from './Graphs';
 import { SearchText } from '../../components/SearchText';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Dashboard() {
   const [isLoading, setLoading] = useState(false);
@@ -20,9 +22,30 @@ export default function Dashboard() {
   const isFocused = useIsFocused();
   const { navigate } = useNavigation();
 
+  const createNewGraph = () =>
+    navigate('App', {
+      screen: 'TabOne',
+      params: {
+        screen: 'Viewer',
+        params: []
+      }
+    });
+
   const showGraph = () => {
     if (!isFocused) return null;
-    return <Graphs graphs={graphs} />;
+    return (
+      <Graphs
+        graphs={graphs}
+        emptyComponent={
+          <VStack style={styles.emptyContainer}>
+            <Text style={styles.textStyle}>Nothing here yet.</Text>
+            <TouchableOpacity onPress={createNewGraph}>
+              <Text style={styles.link}>Create new?</Text>
+            </TouchableOpacity>
+          </VStack>
+        }
+      />
+    );
   };
 
   const handleSearch = (text: string) => {
@@ -75,15 +98,7 @@ export default function Dashboard() {
       <Fab
         style={styles.fab}
         renderInPortal={false}
-        onPress={() =>
-          navigate('App', {
-            screen: 'TabOne',
-            params: {
-              screen: 'Viewer',
-              params: []
-            }
-          })
-        }
+        onPress={createNewGraph}
         icon={<Icon color="white" as={Icons} name="plus" size="4" />}
       />
     </SafeAreaView>
@@ -96,6 +111,14 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1
+  },
+  emptyContainer: {
+    marginTop: 10,
+    alignItems: 'center'
+  },
+  textStyle: {},
+  link: {
+    color: tintColorLight
   },
   newGraphButton: {
     borderWidth: 1,

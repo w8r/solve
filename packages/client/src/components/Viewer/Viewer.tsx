@@ -32,6 +32,7 @@ export interface ViewerProps extends ViewProps {
   canvasHeight?: number;
   canvasWidth?: number;
   onZoom?: (zoom: number) => void;
+  onLongPress?: (node: GraphNode | null) => void;
   graph: Graph;
 }
 
@@ -60,6 +61,7 @@ export function Viewer({
   height = 720,
   minScale = 0.0001,
   maxScale = 1000.0,
+  onLongPress = () => {},
   graph
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
@@ -99,7 +101,7 @@ export function Viewer({
       width * dppx,
       height * dppx
     );
-    if (graph.nodes.length === 0) transform.k = 40;
+    if (graph.nodes.length === 0 || graph.nodes.length === 1) transform.k = 20;
     setState({ ...state, ...transform });
   }, [graph.publicId]);
 
@@ -246,21 +248,21 @@ export function Viewer({
     }
   };
 
-  const onLongPress = ({ nativeEvent }: GestureResponderEvent) => {
+  const onLongTap = ({ nativeEvent }: GestureResponderEvent) => {
     if (isSelecting) return;
     const el = isWeb
       ? app.getElementAt(nativeEvent.pageX, nativeEvent.pageY)
       : app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);
     if (el) {
-      if (isNode(el)) selectNode(el.id);
-      else selectEdge(el._id);
-      app.setGraph(graph);
+      onLongPress(isNode(el) ? el : null);
+      // else selectEdge(el._id);
+      // app.setGraph(graph);
     }
   };
 
   return (
     <View style={styles.container} {...panResponder.panHandlers}>
-      <TouchableWithoutFeedback onPress={onTap} onLongPress={onLongPress}>
+      <TouchableWithoutFeedback onPress={onTap} onLongPress={onLongTap}>
         <Canvas
           ref={containerRef}
           style={styles.canvas}
