@@ -1,4 +1,5 @@
 import { Graph, GraphEdge, GraphNode } from '../types/graph';
+import { v4 as uuid } from 'uuid';
 // import { splitPairs } from "./utils";
 
 export function createEdges(graph: Graph, fromNodes: GraphNode[]): GraphEdge[] {
@@ -14,9 +15,10 @@ export function createEdges(graph: Graph, fromNodes: GraphNode[]): GraphEdge[] {
       const target = curr;
       const id = `${source}-${target}`;
       if (existingEdges.has(id)) return acc;
+      const newId = uuid();
       const edge: GraphEdge = {
-        id,
-        _id: id,
+        id: newId,
+        _id: newId,
         source: source,
         target: target,
         attributes: {

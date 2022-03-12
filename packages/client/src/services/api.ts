@@ -165,8 +165,6 @@ export function resolveGraph(id: string, graph: Graph) {
 }
 
 export function saveGraph(id: string | null, graph: Graph) {
-  // graph.nodes.forEach((n) => (n.attributes.selected = false));
-  // graph.edges.forEach((e) => (e.attributes.selected = false));
   if (id === null) return post<Graph>('/api/graph/', graph);
   return put<Graph>(`/api/graph/${id}`, graph);
 }

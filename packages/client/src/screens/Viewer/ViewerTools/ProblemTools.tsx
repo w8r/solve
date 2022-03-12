@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { v4 as uuid } from 'uuid';
 import { useVis } from '../../../components/Viewer';
 import { ProblemMenu } from './Menu/Problem';
 import { getCategoryColor, Graph, GraphNode } from '../../../types/graph';
@@ -44,9 +44,10 @@ export function ProblemTools({
 
   const addNode = (name: string, category: string, size: number) => {
     if (!graph) return;
+    const id = uuid();
     const newNode: GraphNode = {
-      id: `${graph.nodes.length + 1}`,
-      _id: `${graph.nodes.length + 1}`,
+      id,
+      _id: id,
       attributes: {
         r: size,
         x: 0,
@@ -116,6 +117,7 @@ export function ProblemTools({
     startSelection((selectedGraph) => {
       selectNode(selectedGraph.nodes.map((node) => node.id));
       selectEdge(selectedGraph.edges.map((edge) => edge._id));
+      setGraph({ ...graph });
       setIsSelecting(false);
     });
   };

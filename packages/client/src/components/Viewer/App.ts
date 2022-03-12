@@ -240,6 +240,9 @@ export class App extends EventEmitter {
     const textMaterial = new MeshBasicMaterial({
       color: '#222222'
     });
+    const transparentTextMaterial = new MeshBasicMaterial({
+      color: '#dddddd'
+    });
 
     const idToMesh = this.idToMesh;
     const idToNode = this.idToNode;
@@ -253,14 +256,16 @@ export class App extends EventEmitter {
     nodes.forEach((node, i) => {
       const {
         id,
-        attributes: { x, y, r, color: rgbColor }
+        attributes: { x, y, r, color: rgbColor, opacity }
       } = node;
 
       const material = new MeshBasicMaterial({
         color: new Color(node.attributes.selected ? 'cyan' : rgbColor),
-        transparent: true
+        transparent: true,
+        opacity: opacity || 1
       });
       const mesh = new Mesh(circle, material);
+
       mesh.position.x = x;
       mesh.position.y = y;
       mesh.position.z = 0;
@@ -269,10 +274,12 @@ export class App extends EventEmitter {
       idToMesh.set(id, mesh);
       idToNode.set(id, node);
 
+      const isOpaque = opacity === 1 || opacity === undefined;
+
       if (node.attributes.text) {
         const textMesh = new TextMesh();
         const fontSize = node.attributes.r * 0.5;
-        textMesh.material = textMaterial;
+        textMesh.material = isOpaque ? textMaterial : transparentTextMaterial;
         textMesh.update({
           text: node.attributes.text,
           size: fontSize,
@@ -284,7 +291,7 @@ export class App extends EventEmitter {
 
         this.idToText.set(id, textMesh);
 
-        textMesh.renderOrder = 2;
+        textMesh.renderOrder = isOpaque ? 2 : 3;
         scene.add(textMesh);
       }
       this.nodeMeshes.push(mesh);
@@ -303,7 +310,7 @@ export class App extends EventEmitter {
         _id: id,
         source,
         target,
-        attributes: { color: rgbColor, width }
+        attributes: { color: rgbColor, width, opacity }
       } = edge;
       const sourceNode = idToNode.get(source) as GraphNode;
       const targetNode = idToNode.get(target) as GraphNode;
@@ -320,8 +327,9 @@ export class App extends EventEmitter {
 
       const points = getEdgePoints(sourceNode, targetNode);
       const material = basicMaterial({
-        thickness: edge.attributes.width,
-        color
+        thickness: width,
+        color,
+        opacity: opacity || 1
       });
       //const dashMaterial = dashedMaterial({ thickness: 2 });
       const geometry = new LineMesh(points, {
@@ -339,7 +347,8 @@ export class App extends EventEmitter {
       // arrows
       const arrowMaterial = basicMaterial({
         thickness: (2 * edge.attributes.width) / 3,
-        color
+        color,
+        opacity: opacity || 1
       });
       const arrowPoints = getArrowPoints(
         sourceNode,

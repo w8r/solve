@@ -24,7 +24,9 @@ export default {
                       graph: (graph: string) => `${graph}`
                     }
                   },
-                  Preview: 'preview',
+                  Preview: {
+                    path: 'preview'
+                  },
                   Graph: 'graph/:graph',
                   Proposal: 'proposal/:graph'
                 }

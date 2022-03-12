@@ -1,3 +1,5 @@
+import { v4 as uuid } from 'uuid';
+
 export type Id = string;
 
 export type GraphNode = {
@@ -10,6 +12,7 @@ export type GraphNode = {
     color?: string;
     text?: string;
     selected: boolean;
+    opacity?: number;
   };
   data: Record<string, unknown>;
 };
@@ -56,6 +59,7 @@ export type GraphEdge = {
     selected?: boolean;
     width: number;
     color: string;
+    opacity?: number;
   };
   data?: Record<string, unknown>;
 };
@@ -96,4 +100,144 @@ export interface User {
   email: string;
   createdAt: string;
   uuid: string;
+}
+
+function ensureNoOverlap(node: GraphNode, originalNode?: GraphNode) {
+  if (!originalNode) return;
+  if (node.attributes.x === originalNode.attributes.x)
+    node.attributes.x += (Math.random() - 0.5) * 0.1;
+  if (node.attributes.y === originalNode.attributes.y)
+    node.attributes.y += (Math.random() - 0.5) * 0.1;
+}
+
+export function getPremergeGraph(parent: Graph, child: Graph): Graph {
+  const result = { ...parent };
+  const originalNodes = result.nodes.reduce((acc, node) => {
+    acc.set(node.id, node);
+    return acc;
+  }, new Map<Id, GraphNode>());
+  const originalEdges = result.edges.reduce((acc, edge) => {
+    acc.set(edge.id, edge);
+    return acc;
+  }, new Map<Id, GraphEdge>());
+
+  // fix the subgraph topology to not depend on the parent
+  const nodeMap = new Map<string, GraphNode>();
+  child.nodes.forEach((node) => {
+    nodeMap.set(node.id, node);
+    node.data.originalId = node.id;
+    node.id = node._id = uuid();
+    const originalNode = originalNodes.get(node.data.originalId as Id);
+    ensureNoOverlap(node, originalNode);
+  });
+
+  const gray = '#333333';
+  const transparent = 0.2;
+
+  parent.nodes.forEach((node) => {
+    node.attributes.opacity = transparent;
+    node.data.originalColor = node.attributes.color;
+    node.attributes.color = gray;
+  });
+  parent.edges.forEach((edge) => {
+    edge.attributes.opacity = transparent;
+    edge.data = edge.data || {};
+    edge.data.originalColor = edge.attributes.color;
+    edge.attributes.color = gray;
+  });
+
+  child.edges.forEach((edge) => {
+    edge.data = edge.data || {};
+    edge.data.originalId = edge.id;
+    edge.data.originalSource = edge.source;
+    edge.data.originalTarget = edge.target;
+    edge.id = uuid();
+    edge._id = edge.id;
+    edge.source = nodeMap.get(edge.source)!.id;
+    edge.target = nodeMap.get(edge.target)!.id;
+
+    const originalEdge = originalEdges.get(edge.data.originalId as Id);
+    if (originalEdge) {
+      edge.attributes.color = originalEdge.attributes.color;
+    }
+  });
+
+  child.nodes.forEach((childNode) => {
+    const parentNode = originalNodes.get(childNode.data.originalId as Id);
+    if (parentNode) {
+      const id = uuid();
+      child.edges.push({
+        id,
+        _id: id,
+        source: parentNode.id,
+        target: childNode.id,
+        data: {
+          invalid: true
+        },
+        attributes: {
+          width: 0.1,
+          color: '#dddddd'
+        }
+      });
+      parentNode.attributes.color = childNode.attributes.color;
+    }
+  });
+
+  return {
+    ...parent,
+    nodes: [...parent.nodes, ...child.nodes],
+    edges: [...parent.edges, ...child.edges]
+  };
+}
+
+export function mergeGraph(graph: Graph) {
+  console.log(graph);
+  const nodes = graph.nodes.reduce((acc, node) => {
+    acc.set(node.id, node);
+    return acc;
+  }, new Map<Id, GraphNode>());
+  const edges = graph.edges.reduce((acc, edge) => {
+    acc.set(edge.id, edge);
+    return acc;
+  }, new Map<Id, GraphEdge>());
+
+  graph.nodes.forEach((node) => {
+    if (node.data.originalId) {
+      const originalNode = nodes.get(node.data.originalId as Id);
+      if (originalNode) {
+        originalNode.data.invalid = true;
+        originalNode.data.replacedWith = node.id;
+      }
+    } else {
+      node.attributes.color = node.data.originalColor as string;
+      node.attributes.opacity = 1;
+    }
+  });
+
+  graph.edges.forEach((edge) => {
+    if (edge.data?.originalId) {
+      const originalEdge = edges.get(edge.data.originalId as Id);
+      if (originalEdge) {
+        originalEdge.data!.invalid = true;
+      }
+    } else {
+      edge.attributes.color = edge.data?.originalColor as string;
+      edge.attributes.opacity = 1;
+    }
+
+    const source = nodes.get(edge.source);
+    const target = nodes.get(edge.target);
+    if (source?.data.invalid) {
+      edge.source = source.data.replacedWith as Id;
+    }
+    if (target?.data.invalid) {
+      edge.target = target.data.replacedWith as Id;
+    }
+  });
+
+  return {
+    ...graph,
+    nodes: graph.nodes.filter((node) => !node.data.invalid),
+    edges: graph.edges.filter((edge) => !edge.data?.invalid)
+  };
 }

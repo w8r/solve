@@ -39,12 +39,10 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
     const graphToSave = {
       ...graph,
       nodes: graph.nodes.map((n) => {
-        n.attributes.selected = false;
-        return n;
+        return { ...n, attributes: { ...n.attributes, selected: false } };
       }),
       edges: graph.edges.map((e) => {
-        e.attributes.selected = false;
-        return e;
+        return { ...e, attributes: { ...e.attributes, selected: false } };
       })
     };
 
