@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Dimensions } from 'react-native';
 import { ViewerProps } from '../../navigation/types';
 import { useVis, Viewer, VisProvider } from '../../components/Viewer';
@@ -27,6 +27,7 @@ const ViewWrapper = ({
 }: ViewWrapperProps) => {
   const { navigate, isFocused } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
+  const [isLoading, setIsLoading] = useState(true);
 
   const getTools = (viewerMode: 'problem' | 'proposal' | 'merge') => {
     switch (viewerMode) {
@@ -42,9 +43,13 @@ const ViewWrapper = ({
   };
 
   useEffect(() => {
+    // If mode is merge, we don't need to fetch the graph mergetools handle it
     if (id && viewerMode !== 'merge') {
-      getGraph(id).then((response) => setGraph(response));
-    } else
+      getGraph(id).then((response) => {
+        setGraph(response);
+        setIsLoading(false);
+      });
+    } else {
       setGraph({
         id: '',
         publicId: '',
@@ -52,16 +57,23 @@ const ViewWrapper = ({
         nodes: [],
         edges: []
       });
+      setIsLoading(false);
+    }
     return () => {
-      console.log('viewer kill');
       setSelectedNodes([]);
       setSelectedEdges([]);
     };
   }, []);
 
+  if (isLoading) return null;
   return (
     <>
-      <Viewer width={width} height={height} graph={graph} />
+      <Viewer
+        width={width}
+        height={height}
+        graph={graph}
+        onLongPress={(node) => console.log({ node })}
+      />
       {getTools(viewerMode!)}
     </>
   );

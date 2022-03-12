@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { HStack, Modal, Slider } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Modal, Slider } from 'native-base';
 import { useFormik as useForm } from 'formik';
 import { FormContainer } from '../FormContainer';
 import TagGroup from '../TagGroup';
@@ -75,11 +75,10 @@ export default function CreateNodeDialog({
       }
     });
 
-  const [onChangeValue, setOnChangeValue] = React.useState(
-    data?.attributes.r || 10
-  );
+  const [onChangeValue, setOnChangeValue] = useState(data?.attributes.r || 10);
 
   const nodeNameRef = useRef<any>(null);
+
   return (
     <Modal
       avoidKeyboard={true}
@@ -87,6 +86,7 @@ export default function CreateNodeDialog({
       justifyContent="flex-end"
       bottom="4"
       size="lg"
+      onClose={closeDialog}
     >
       <Modal.Content
         maxWidth={isWeb ? 500 : undefined}
@@ -108,6 +108,8 @@ export default function CreateNodeDialog({
               <Input
                 onChange={(evt) => handleChange('name')(evt.nativeEvent.text)}
                 onBlur={() => handleBlur('name')}
+                placeholder="What is wrong?"
+                autoCompleteType="off"
                 value={values.name}
                 onSubmitEditing={() => nodeNameRef.current?.focus()}
               />
@@ -163,7 +165,7 @@ export default function CreateNodeDialog({
               _text={{ color: 'white' }}
               onPress={() => submitForm()}
             >
-              Done
+              {data ? 'Done' : 'Add'}
             </Button>
           </VStack>
           <Divider my="2" />

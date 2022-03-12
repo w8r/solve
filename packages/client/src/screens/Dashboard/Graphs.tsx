@@ -16,8 +16,9 @@ import { getGraphPreviewURL } from '../../services/api';
 import { Feather as Icons } from '@expo/vector-icons';
 
 export default function Graphs({
-  graphs
-}: PropsWithChildren<{ graphs: Graph[] }>) {
+  graphs,
+  emptyComponent
+}: PropsWithChildren<{ graphs: Graph[]; emptyComponent: ReactElement }>) {
   const { navigate } = useNavigation();
   const { width } = Dimensions.get('window');
   const columns = width < 400 ? 2 : 4;
@@ -47,7 +48,7 @@ export default function Graphs({
       contentContainerStyle={styles.listContent}
       numColumns={columns}
       data={graphs}
-      ListEmptyComponent={<Text style={styles.textStyle}>Nothing found.</Text>}
+      ListEmptyComponent={emptyComponent}
       keyExtractor={(_, index) => index.toString()}
       renderItem={({ item: graph, index }) => {
         return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useVis } from '../../../components/Viewer';
 import { ProblemMenu } from './Menu/Problem';
@@ -27,6 +27,7 @@ export function ProblemTools({
     setSelectedEdges,
     clearSelection
   } = useVis();
+
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
@@ -35,6 +36,10 @@ export function ProblemTools({
     const edges = createEdges(graph, selectedNodes);
     setGraph({ ...graph, edges: [...graph.edges, ...edges] });
   };
+
+  useEffect(() => {
+    setNodeDialogVisible(graph.publicId === '');
+  }, [graph.publicId]);
 
   const addNode = (name: string, category: string, size: number) => {
     if (!graph) return;
@@ -146,9 +151,7 @@ export function ProblemTools({
   return (
     <>
       <ProblemMenu
-        showDialog={() => {
-          setNodeDialogVisible(true);
-        }}
+        showDialog={() => setNodeDialogVisible(true)}
         onSelect={onSelect}
         onSelectClear={onSelectClear}
         onRemove={removeSelected}
@@ -159,9 +162,7 @@ export function ProblemTools({
       />
       {nodeDialogVisible && !edgeDialogVisible ? (
         <CreateNodeDialog
-          closeDialog={() => {
-            setNodeDialogVisible(false);
-          }}
+          closeDialog={() => setNodeDialogVisible(false)}
           addNode={addNode}
           editNode={editNode}
           data={
