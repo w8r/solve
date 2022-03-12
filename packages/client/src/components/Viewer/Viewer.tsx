@@ -53,8 +53,9 @@ interface ViewerState {
   initialY: number;
   dragOffsetX: number;
   dragOffsetY: number;
-  lastRelease: number;
 }
+
+let skipNextTap = false;
 
 export function Viewer({
   width = 1080,
@@ -87,8 +88,7 @@ export function Viewer({
     initialY: 0,
     dragOffsetX: 0,
     dragOffsetY: 0,
-    initialDistance: 1,
-    lastRelease: 0
+    initialDistance: 1
   });
 
   useEffect(() => {
@@ -207,12 +207,12 @@ export function Viewer({
           ...state,
           isMoving: false,
           isScaling: false,
-          isDragging: null,
-          lastRelease: Date.now()
+          isDragging: null
         });
 
         if (isSelecting) app.stopSelection();
         if (isMoving) app.setGraph(graph);
+        skipNextTap = true;
       },
       onPanResponderTerminate: (evt, gestureState) => {},
       onShouldBlockNativeResponder: (evt, gestureState) => true
@@ -236,8 +236,11 @@ export function Viewer({
   };
 
   const onTap = ({ nativeEvent }: GestureResponderEvent) => {
+    if (skipNextTap) {
+      skipNextTap = false;
+      return;
+    }
     // on the web this helps suppressing selection after dragging
-    if (Date.now() - state.lastRelease < 100) return;
     const el = isWeb
       ? app.getElementAt(nativeEvent.pageX, nativeEvent.pageY)
       : app.getElementAt(nativeEvent.locationX, nativeEvent.locationY);
