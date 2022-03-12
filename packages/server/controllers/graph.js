@@ -114,11 +114,14 @@ module.exports.resolveGraph = async (req, res) => {
       throw new Error('Graph not found.');
     }
     for (const key in req.body) {
-      graph[key] = req.body[key];
-      graph.markModified(key);
+      if (['nodes', 'edges', 'name', 'tags'].includes(key)) {
+        graph[key] = req.body[key];
+        graph.markModified(key);
+      }
     }
     graph.resolved = true;
     graph.markModified('resolved');
+
     await graph.save();
     res.status(200).send(graph.toJSON());
   } catch (err) {
