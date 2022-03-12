@@ -6,6 +6,7 @@ import { App } from './App';
 import { Transform } from './utils';
 import { Graph } from '../../types/graph';
 import { useVis } from './context';
+import { useIsFocused } from '@react-navigation/native';
 
 type CanvasProps = ViewProps & {
   onWheel?: (e: WheelEvent) => void;
@@ -22,11 +23,18 @@ export const Canvas = forwardRef(
     //const [app, setApp] = useState<App | null>(null);
     const [gl, setGl] = useState<ExpoWebGLRenderingContext | null>(null);
     const { app, setApp } = useVis();
+    const isFocused = useIsFocused();
 
     app?.setView(transform.x, transform.y, transform.k);
+
+    // @ts-ignore
     useEffect(() => {
-      if (graph) app?.setGraph(graph);
-    }, [graph, app]);
+      if (graph) {
+        app?.setGraph(graph);
+        app?.setView(transform.x, transform.y, transform.k);
+      }
+      app?.frame();
+    }, [graph, app, isFocused]);
 
     useEffect(() => {
       return () => {

@@ -103,6 +103,7 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
     graph.edges.forEach((e) => {
       e.attributes.selected = false;
     });
+    setGraph({ ...graph });
   };
 
   return (

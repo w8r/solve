@@ -126,7 +126,9 @@ export class App extends EventEmitter {
   private nodes: GraphNode[] = [];
   private edges: GraphEdge[] = [];
   // @ts-ignore;
-  private nodeQ: Quadtree<GraphNode>;
+  private nodeQ = quadtree<GraphNode>()
+    .x((d) => d.attributes.x)
+    .y((d) => d.attributes.y);
 
   private frameTimer = 0;
   private dppx = 1;
@@ -259,7 +261,6 @@ export class App extends EventEmitter {
         transparent: true
       });
       const mesh = new Mesh(circle, material);
-      mesh.renderOrder = 1;
       mesh.position.x = x;
       mesh.position.y = y;
       mesh.position.z = 0;
@@ -282,9 +283,13 @@ export class App extends EventEmitter {
         textMesh.position.y = y - r - textMesh.size.y * 1.5;
 
         this.idToText.set(id, textMesh);
+
+        textMesh.renderOrder = 2;
         scene.add(textMesh);
       }
       this.nodeMeshes.push(mesh);
+
+      mesh.renderOrder = 1;
       scene.add(mesh);
       this.nodeQ.add(node);
     });
@@ -323,8 +328,10 @@ export class App extends EventEmitter {
         distances: true
       });
       const mesh = new Mesh(geometry, material);
-      scene.add(mesh);
+
       mesh.renderOrder = 0;
+      scene.add(mesh);
+
       idToMesh.set(id, mesh);
       idToEdge.set(id, edge);
       this.edgeMeshes.push(mesh);
@@ -403,6 +410,7 @@ export class App extends EventEmitter {
   }
 
   moveNode(node: GraphNode, x: number, y: number) {
+    this.nodeQ.remove(node);
     node.attributes.x = x;
     node.attributes.y = y;
     const nodeMesh = this.idToMesh.get(node.id) as Mesh;
@@ -429,6 +437,7 @@ export class App extends EventEmitter {
       textMesh.position.x = x - textMesh.size.x / 2;
       textMesh.position.y = y - node.attributes.r - textMesh.size.y * 1.5;
     }
+    requestAnimationFrame(() => this.nodeQ.add(node));
     this.frame();
   }
 
@@ -448,7 +457,7 @@ export class App extends EventEmitter {
 
   getElementAt(x: number, y: number) {
     const pos = this.screenToWorld(x, y);
-    let node: GraphNode | null | undefined = this.nodeQ.find(pos.x, pos.y, 10);
+    let node: GraphNode | null | undefined = this.nodeQ.find(pos.x, pos.y, 30);
     if (node) {
       const dx = node.attributes.x - pos.x;
       const dy = node.attributes.y - pos.y;

@@ -55,7 +55,7 @@ export const ProblemMenu: FC<ProblemMenuProps> = ({
       icon: 'crop',
       onPress: onSelect,
       text: 'Select',
-      active: graph.nodes.length > 0
+      active: graph.nodes.length > 0 && !graph.data?.shared
     },
     {
       icon: 'crop',
@@ -67,7 +67,7 @@ export const ProblemMenu: FC<ProblemMenuProps> = ({
       icon: 'share',
       onPress: onShare,
       text: 'Share',
-      active: selectedNodes.length > 0
+      active: selectedNodes.length > 0 && !graph.data?.shared
     },
     {
       icon: 'save',

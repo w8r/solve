@@ -201,7 +201,7 @@ export function Viewer({
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
-        const { isMoving } = state;
+        const { isMoving, isDragging } = state;
 
         setState({
           ...state,
@@ -212,7 +212,7 @@ export function Viewer({
 
         if (isSelecting) app.stopSelection();
         if (isMoving) app.setGraph(graph);
-        skipNextTap = true;
+        if (isDragging || isMoving) skipNextTap = true;
       },
       onPanResponderTerminate: (evt, gestureState) => {},
       onShouldBlockNativeResponder: (evt, gestureState) => true
