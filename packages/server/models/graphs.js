@@ -1,8 +1,11 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 const config = require('../config/development');
 const { messages } = require('../config/constants');
 const { v4: uuidv4 } = require('uuid');
-const { FORK_COUNT_LATEST_REV_AGGREGATOR } = require('../lib/dbHelper');
+const {
+  FORK_COUNT_LATEST_REV_AGGREGATOR,
+  LATEST_REVISION_AGGREGATOR
+} = require('../lib/dbHelper');
 
 const Vertex = require('./vertex');
 const Edge = require('./edge');
@@ -103,6 +106,18 @@ graphSchema.statics.findByUser = (userId) => {
       }
     },
     ...FORK_COUNT_LATEST_REV_AGGREGATOR
+  ]);
+};
+
+graphSchema.statics.findSubgraphs = (graphId, userId) => {
+  return Graphs.aggregate([
+    {
+      $match: {
+        'data.parentId': graphId,
+        user: Types.ObjectId(userId)
+      }
+    },
+    ...LATEST_REVISION_AGGREGATOR
   ]);
 };
 

@@ -7,11 +7,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
 
-export const List: FC<{ proposals: GraphProposals; subgraph: string; Header: FC }> = ({
-  proposals,
-  subgraph,
-  Header
-}) => {
+export const List: FC<{
+  proposals: GraphProposals;
+  subgraph: string;
+  Header: FC;
+}> = ({ proposals, subgraph, Header }) => {
   const { navigate } = useNavigation();
   const onPress = (index: number) => {
     navigate('App', {

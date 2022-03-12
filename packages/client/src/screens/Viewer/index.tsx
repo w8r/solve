@@ -23,12 +23,12 @@ const ViewWrapper = ({
   width,
   height,
   subgraph,
-  viewerMode = 'problem'
+  viewerMode
 }: ViewWrapperProps) => {
   const { navigate, isFocused } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
 
-  const getTools = () => {
+  const getTools = (viewerMode: 'problem' | 'proposal' | 'merge') => {
     switch (viewerMode) {
       case 'problem':
         return <ProblemTools navigate={navigate} isFocused={isFocused} />;
@@ -42,7 +42,7 @@ const ViewWrapper = ({
   };
 
   useEffect(() => {
-    if (id) {
+    if (id && viewerMode !== 'merge') {
       getGraph(id).then((response) => setGraph(response));
     } else
       setGraph({
@@ -62,11 +62,7 @@ const ViewWrapper = ({
   return (
     <>
       <Viewer width={width} height={height} graph={graph} />
-      {viewerMode === 'proposal' ? (
-        <ProposalTools subgraph={subgraph} />
-      ) : (
-        <ProblemTools navigate={navigate} isFocused={isFocused} />
-      )}
+      {getTools(viewerMode!)}
     </>
   );
 };

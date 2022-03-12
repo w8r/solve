@@ -13,16 +13,21 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: { graph: graph.publicId }
+        params: { graph: graph.publicId, viewerMode: 'problem' }
       }
     });
   };
   const onMerge = () => {
+    console.log('merge', graph);
     navigate('App', {
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: { graph: graph.publicId, viewerMode: 'merge' }
+        params: {
+          graph: graph.publicId,
+          subgraph: graph.publicId,
+          viewerMode: 'merge'
+        }
       }
     });
   };

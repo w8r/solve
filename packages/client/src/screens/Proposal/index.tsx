@@ -33,7 +33,7 @@ export const ProposalScreen: FC<ProposalProps> = ({ route }) => {
   useEffect(() => {
     api.getInternalGraph(subgraphId).then((response) => setSubGraph(response));
 
-    api.getInternalGraph(graphId).then((response) => {
+    api.getGraph(graphId).then((response) => {
       setGraph(response);
       api
         .getGraphProposals(response.publicId)

@@ -12,12 +12,13 @@ export const List: FC<{
 }> = ({ graphs, Header }) => {
   const { navigate } = useNavigation();
   const onPress = (index: number) => {
+    console.log(graphs[index]);
     navigate('App', {
       screen: 'TabOne',
       params: {
         screen: 'Proposal',
         params: {
-          graph: graphs[index].id,
+          graph: graphs[index].publicId,
           subgraph: graphs[index].id
         }
       }

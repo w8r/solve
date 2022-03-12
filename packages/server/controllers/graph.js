@@ -153,13 +153,7 @@ module.exports.createGraph = async (req, res) => {
 module.exports.getSubGraphs = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
-    const graphs = await Graphs.find({
-      'data.parentId': graphId,
-      user: Types.ObjectId(`${req.user._id}`)
-    })
-      .populate('user', ['name', '_id'])
-      .sort({ createdAt: -1 })
-      .exec();
+    const graphs = await Graphs.findSubgraphs(graphId, req.user._id);
     if (!graphs || !graphId) {
       throw new Error('Graph not found.');
     }
@@ -170,16 +164,21 @@ module.exports.getSubGraphs = async (req, res) => {
         'data.parentId': graph.publicId,
         user: { $ne: Types.ObjectId(`${req.user._id}`) }
       }).exec();
-      const graphData = graph.toJSON();
-      graphData.nodes = graphData.nodes.length;
-      graphData.edges = graphData.edges.length;
+      const data = Object.assign({}, graph);
+
+      data.id = data.internalId;
+      delete data.internalId;
+      data.nodes = data.nodes.length;
+      data.edges = data.edges.length;
+
       graphsWithForkCount.push({
-        ...graphData,
+        ...data,
         forks: forkCount
       });
     }
     res.status(200).send(graphsWithForkCount);
   } catch (err) {
+    console.log(err);
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
   }
 };
@@ -198,7 +197,7 @@ module.exports.getProposalGraphs = async (req, res) => {
       {
         $match: {
           'data.parentId': graphId,
-          user: { $ne: Types.ObjectId(`${req.user._id}`) }
+          user: { $ne: Types.ObjectId(req.user._id) }
         }
       },
       ...LATEST_REVISION_AGGREGATOR,
