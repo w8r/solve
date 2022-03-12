@@ -28,7 +28,9 @@ export default function Graphs({
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: graphs[index] ? { graph: graphs[index].id } : undefined
+        params: graphs[index]
+          ? { viewerMode: 'problem', graph: graphs[index].id }
+          : undefined
       }
     });
   };

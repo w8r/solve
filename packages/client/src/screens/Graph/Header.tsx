@@ -13,7 +13,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: { graph: graph.publicId }
+        params: { graph: graph.publicId, viewerMode: 'problem' }
       }
     });
   };
@@ -41,7 +41,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   headerText: {
     alignSelf: 'center',
