@@ -13,7 +13,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: { graph: graph.publicId, viewerMode: 'problem' }
+        params: { graph: graph.publicId, mode: 'edit' }
       }
     });
   };

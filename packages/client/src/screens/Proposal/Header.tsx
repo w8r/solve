@@ -13,7 +13,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: { graph: graph.publicId, viewerMode: 'problem' }
+        params: { graph: graph.publicId, mode: 'edit' }
       }
     });
   };
@@ -26,7 +26,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
         params: {
           graph: graph.publicId,
           subgraph: graph.publicId,
-          viewerMode: 'merge'
+          mode: 'merge'
         }
       }
     });

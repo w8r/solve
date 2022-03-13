@@ -7,6 +7,7 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { Graph, Id } from '../types/graph';
+import { ViewerModes } from '../types/app';
 
 export type BottomTabParamList = {
   TabOne: undefined;
@@ -54,7 +55,7 @@ export type AppRoutes = {
   Viewer:
     | {
         graph?: string;
-        viewerMode?: 'problem' | 'proposal' | 'merge';
+        mode?: ViewerModes;
         subgraph?: string;
       }
     | undefined;

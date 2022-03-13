@@ -10,12 +10,13 @@ import { ProblemTools } from './ViewerTools/ProblemTools';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { ProposalTools } from './ViewerTools/ProposalTools';
 import { MergeTools } from './ViewerTools/MergeTools';
+import { ViewerModes } from '../../types/app';
 
 interface ViewWrapperProps {
   id: string | undefined;
   width: number;
   height: number;
-  viewerMode?: 'problem' | 'proposal' | 'merge';
+  mode?: ViewerModes;
   subgraph?: string;
 }
 const ViewWrapper = ({
@@ -23,18 +24,18 @@ const ViewWrapper = ({
   width,
   height,
   subgraph,
-  viewerMode = 'problem'
+  mode = 'edit'
 }: ViewWrapperProps) => {
   const { navigate } = useNavigation();
   const { graph, setGraph, setSelectedNodes, setSelectedEdges } = useVis();
   const [isLoading, setIsLoading] = useState(true);
   const isFocused = useIsFocused();
 
-  const getTools = (viewerMode: 'problem' | 'proposal' | 'merge') => {
+  const getTools = (viewerMode: ViewerModes) => {
     switch (viewerMode) {
-      case 'problem':
+      case 'edit':
         return <ProblemTools />;
-      case 'proposal':
+      case 'propose':
         return <ProposalTools subgraph={subgraph} />;
       case 'merge':
         return <MergeTools subgraph={subgraph!} />;
@@ -45,7 +46,7 @@ const ViewWrapper = ({
 
   useEffect(() => {
     // If mode is merge, we don't need to fetch the graph mergetools handle it
-    if (id && viewerMode !== 'merge') {
+    if (id && mode !== 'merge') {
       getGraph(id).then((response) => {
         setGraph(response);
         setIsLoading(false);
@@ -75,13 +76,13 @@ const ViewWrapper = ({
         graph={graph}
         onLongPress={(node) => console.log({ node })}
       />
-      {getTools(viewerMode!)}
+      {getTools(mode!)}
     </>
   );
 };
 
 export default function ({ route }: ViewerProps) {
-  const { params: { graph: graphId, viewerMode, subgraph } = {} } = route;
+  const { params: { graph: graphId, mode, subgraph } = {} } = route;
   const { width, height } = Dimensions.get('window');
   const { navigate } = useNavigation();
 
@@ -93,7 +94,7 @@ export default function ({ route }: ViewerProps) {
         id={graphId}
         width={width}
         height={height}
-        viewerMode={viewerMode}
+        mode={mode}
         subgraph={subgraph}
       />
     </VisProvider>

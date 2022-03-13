@@ -39,7 +39,11 @@ function svg({ nodes = [], edges = [] }) {
 
   const w = Math.abs(x1 - x0) || 0;
   const h = Math.abs(y1 - y0) || 0;
+
+  const viewSize = 500;
   const cx = (x0 + x1) / 2 || 0;
+
+  const ratio = ((Math.max(w, h) * 1.2) / viewSize) * 4;
 
   const renderedNodes = nodes.map((node) => {
     nodesMap.set(node.id, node);
@@ -55,7 +59,7 @@ function svg({ nodes = [], edges = [] }) {
 
     return `<circle
       cx="${x}" cy="${bbox[3] - y}"
-      r="${radius}" fill="${
+      r="${radius * ratio}" fill="${
       attrs.color || nodeColor
     }" ${strokeColor} ${strokeWidth} />`.replace(/\s+/g, ' ');
   });
@@ -89,7 +93,7 @@ function svg({ nodes = [], edges = [] }) {
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="${cx - s / 2} ${-(s - h) / 2} ${s} ${s}"
-      width="500" height="500">
+      width="${viewSize}" height="${viewSize} ">
       <g>
         <g>${renderedEdges.join('\n')}</g>
         <g>${renderedNodes.join('\n')}</g>

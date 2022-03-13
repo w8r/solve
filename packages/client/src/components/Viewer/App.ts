@@ -224,6 +224,8 @@ export class App extends EventEmitter {
   }
 
   setGraph({ nodes, edges }: Graph) {
+    // @ts-ignore
+    global.app = this;
     const { scene } = this;
     scene.clear();
 
@@ -371,10 +373,8 @@ export class App extends EventEmitter {
 
     this.nodes = nodes;
     this.edges = edges;
-    this.frame();
+    requestAnimationFrame(this.frame);
   }
-
-  selectNode() {}
 
   highlight(graph: Graph | null) {
     this.nodes.forEach(({ id }) => {
@@ -382,40 +382,6 @@ export class App extends EventEmitter {
       const obj = this.idToMesh.get(id)?.material as MeshBasicMaterial;
     });
     this.frame();
-    return;
-
-    if (graph === null) {
-      console.log(this.nodes, this.edges);
-      this.nodes.forEach(
-        ({ id }) =>
-          ((this.idToMesh.get(id)?.material as MeshBasicMaterial).opacity = 1)
-      );
-      this.edges.forEach(({ _id: id }) => {
-        console.log(id);
-        const mesh = this.idToMesh.get(id);
-        const arrowMesh = this.idToMesh.get(id + 'arrow');
-        if (mesh) {
-          // (mesh.material as ShaderMaterial).opacity = 1;
-          // if (arrowMesh) (arrowMesh.material as ShaderMaterial).opacity = 1;
-        }
-      });
-    } else {
-      const included = new Set(this.nodes.map((node) => node.id));
-      const set = new Set();
-      this.nodes.forEach((node) => {
-        if (!included.has(node.id)) {
-          (
-            this.idToMesh.get(node.id)?.material as MeshBasicMaterial
-          ).opacity = 0.15;
-        } else set.add(node.id);
-      });
-      this.edges
-        .filter((edge) => !set.has(edge.source) && !set.has(edge.target))
-        .forEach(
-          ({ id }) =>
-            ((this.idToMesh.get(id)?.material as ShaderMaterial).opacity = 0.15)
-        );
-    }
   }
 
   moveNode(node: GraphNode, x: number, y: number) {
@@ -451,7 +417,7 @@ export class App extends EventEmitter {
   }
 
   start() {
-    this.frame();
+    requestAnimationFrame(() => this.frame());
     return this;
   }
 

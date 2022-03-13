@@ -37,7 +37,7 @@ export default function Graphs({
       screen: 'TabOne',
       params: {
         screen: 'Viewer',
-        params: { graph: graphId, viewerMode: 'problem' }
+        params: { graph: graphId, mode: 'edit' }
       }
     });
   };
