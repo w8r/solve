@@ -5,11 +5,11 @@ const VertexSchema = new Schema(
   {
     _id: {
       type: String,
-      default: uuidv4
+      required: true
     },
     id: {
       type: String,
-      default: uuidv4
+      required: true
     },
     data: {
       type: Object,
