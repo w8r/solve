@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { v4 as uuid } from 'uuid';
+import uuid from '../../../lib/uuid';
 import { useVis } from '../../../components/Viewer';
 import { ProblemMenu } from './Menu/Problem';
 import { getCategoryColor, Graph, GraphNode } from '../../../types/graph';
