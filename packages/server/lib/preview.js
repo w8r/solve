@@ -43,12 +43,12 @@ function svg({ nodes = [], edges = [] }) {
   const viewSize = 500;
   const cx = (x0 + x1) / 2 || 0;
 
-  const ratio = ((Math.max(w, h) * 1.2) / viewSize) * 4;
+  const ratio = ((Math.max(w, h) * 1.2) / viewSize) * 8;
 
   const renderedNodes = nodes.map((node) => {
     nodesMap.set(node.id, node);
     const attrs = node.attributes || {};
-    const { x = 0, y = 0, radius = 5 } = attrs;
+    const { x = 0, y = 0, r: radius = 5 } = attrs;
 
     const strokeColor = attrs.strokeColor
       ? ` stroke="${attrs.strokeColor}"`
