@@ -298,7 +298,7 @@
    * Enable format on save.
    * Defaults to true.
    */
-  "editor.formatOnSave": false
+  "editor.formatOnSave": true,
   /**
    * Controls if the editor should allow to move selections via drag and drop.
    * Defaults to false.
@@ -428,5 +428,8 @@
   /**
    * Controls fading out of unused variables.
    */
-  // "editor.showUnused": true
+  // "editor.showUnused": true,
+  "[markdown]": {
+    "editor.formatOnSave": false
+  }
 }
