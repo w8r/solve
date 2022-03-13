@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "slidev",
-    "build": "slidev build -o ../../docs",
+    "build": "slidev build -o ../../docs --base /solve/",
     "export": "slidev export --output ../../docs/solve.pdf"
   },
   "dependencies": {
