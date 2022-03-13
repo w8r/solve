@@ -27,6 +27,8 @@ drawings:
 Distributed problem-solving app.
 
 Video?
+---
+
 # What is the problem?
 
 Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress. 
