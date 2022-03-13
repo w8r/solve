@@ -19,8 +19,7 @@ export const List: FC<{
         screen: 'Viewer',
         params: {
           graph: proposals.forks[index].publicId,
-          mode: 'propose',
-          subgraph: subgraph
+          mode: 'propose'
         }
       }
     });
