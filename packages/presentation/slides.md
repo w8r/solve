@@ -27,6 +27,18 @@ drawings:
 Distributed problem-solving app.
 
 Video?
+# What is the problem?
+
+Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress. 
+
+In order to understand the root cause of our issues and/or ask for help when needed, we should be able to state our problem and communicate it very clearly. For some cases, words alone can be enough to express ourselves. However, problems are not always simple enough to put clearly or to be solved without assistance.
+
+Good news is that with the aid of technology and a community, we can do much better!
+
+- Problems can be expressed visually as graphs: entities and relationships between them.
+- Human brain is amazing at finding and matching patterns.
+- Two hands are better than one: collaboration allows discovering different points of view to the same problem.
+
 ---
 
 # Where does the idea come from?
@@ -58,12 +70,17 @@ Video?
 # Reward and gamification
 
 Show the screenshot of the score bubble in the user interface.
-Explain the idea of experience points
+Every user has a score point. With each problem being solved and accepted, the user earns more points. 
+
 ---
 # Future plans
 
- * ML
+ * Machine Learning:
+ With the help of artificial intelligence, it is possible to propose solutions from preexisting data, assess performance and accelerate the process of problem solving.
+
  * Template marketplace
+Templates are amazing! 
+People like to create things when opportunity exists. Community members can create materials, problem sets and toolkits to address repetitive problems. Later on, material created by users can be sold in a market place using crypto assets or unlock them with their score points.
 
 ---
 
