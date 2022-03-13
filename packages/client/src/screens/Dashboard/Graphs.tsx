@@ -17,7 +17,7 @@ import { getGraphPreviewURL } from '../../services/api';
 import { Feather as Icons } from '@expo/vector-icons';
 
 export interface GraphsWithSections {
-  title: 'Root Graphs' | 'Subgraphs';
+  title: 'Problems' | 'Subproblems';
   data: Array<{ graphs: Graph[] }>;
 }
 
@@ -32,6 +32,16 @@ export default function Graphs({
   const { width } = Dimensions.get('window');
   const columns = width < 400 ? 2 : 4;
 
+  const viewGraph = (graphId: string) => {
+    navigate('App', {
+      screen: 'TabOne',
+      params: {
+        screen: 'Viewer',
+        params: { graph: graphId, viewerMode: 'problem' }
+      }
+    });
+  };
+
   // A method for renderItem prop of SectionList which returns a FlatList of Graphs
   const renderItem = ({
     index,
@@ -41,7 +51,10 @@ export default function Graphs({
     item: Graph;
   }) => {
     return (
-      <TouchableOpacity onPress={() => onPress(graph.id)}>
+      <TouchableOpacity
+        onLongPress={() => viewGraph(graph.publicId)}
+        onPress={() => onBadgePress(graph.id)}
+      >
         <Box
           rounded="sm"
           minWidth="40"

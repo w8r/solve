@@ -148,9 +148,10 @@ export default function CreateNodeDialog({
               </FormControl.Label>
               <Slider
                 defaultValue={(data?.attributes.r || 3) * 10}
-                onChange={(size) =>
-                  setOnChangeValue(getClosestSize(Math.floor(size / 5)))
-                }
+                onChange={(size) => {
+                  console.log({ size });
+                  setOnChangeValue(getClosestSize(Math.floor(size / 5)));
+                }}
                 colorScheme={categoryColor}
               >
                 <Slider.Track>

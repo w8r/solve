@@ -5,11 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import { isWeb } from '../constants/device';
 import { Feather as Icons } from '@expo/vector-icons';
 
-export const BackButton: FC = () => {
-  const { canGoBack, goBack } = useNavigation();
-  if (!canGoBack()) return null;
+export const BackButton: FC<{ fallback?: () => void }> = ({ fallback }) => {
+  let { canGoBack, goBack } = useNavigation();
+  if (!canGoBack())
+    if (fallback) goBack = fallback;
+    else return null;
   return (
-    <TouchableOpacity onPress={() => goBack()} style={styles.container}>
+    <TouchableOpacity onPress={goBack} style={styles.container}>
       <Icon as={Icons} name="arrow-left" style={styles.icon} />
     </TouchableOpacity>
   );

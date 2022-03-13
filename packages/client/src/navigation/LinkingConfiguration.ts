@@ -5,9 +5,10 @@
  */
 
 import * as Linking from 'expo-linking';
+import { Graph } from '../types/graph';
 
 export default {
-  prefixes: [Linking.makeUrl('/')],
+  prefixes: ['solve://', Linking.makeUrl('/')],
   config: {
     screens: {
       Root: {
@@ -25,7 +26,14 @@ export default {
                     }
                   },
                   Preview: {
-                    path: 'preview'
+                    path: 'preview/:graph',
+                    parse: {
+                      graph: (uri: string) =>
+                        JSON.parse(decodeURIComponent(uri))
+                    },
+                    stringify: {
+                      graph: (graph: Graph) => JSON.stringify(graph)
+                    }
                   },
                   Graph: 'graph/:graph',
                   Proposal: 'proposal/:graph'

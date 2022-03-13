@@ -25,6 +25,7 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
   const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
   const handleChange = (text: string) => setValue(text);
+
   // TODO: Add validation
   const onPressSave = () => {
     graph.name = value;
@@ -67,9 +68,7 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
         navigation.setParams({ graph: resp.publicId });
         setTimeout(onDone, 500);
       })
-      .catch((err) => {
-        setLoading(false);
-      });
+      .catch((err) => setLoading(false));
   };
   return (
     <Modal isOpen>

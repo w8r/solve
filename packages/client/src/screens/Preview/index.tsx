@@ -11,6 +11,7 @@ import { BackButton } from '../../components/BackButton';
 import { SaveGraphDialog } from '../../components/SaveGraphDialog';
 import { SuccessModal } from './SuccessModal';
 import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
+import { isWeb } from '../../constants/device';
 
 const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
   inputGraph,
@@ -29,7 +30,7 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
       description:
         'You are in the preview mode. You can change things to remove everything that can be sensitive before sharing',
       duration: 2500,
-      placement: 'bottom',
+      placement: isWeb ? 'top' : 'bottom',
       marginBottom: 10,
       marginX: 5,
       padding: 10
@@ -92,7 +93,12 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
           }}
         />
       )}
-      {showSuccessModal && <SuccessModal graph={graph} />}
+      {showSuccessModal && (
+        <SuccessModal
+          graph={graph}
+          onClose={() => setShowSuccessModal(false)}
+        />
+      )}
       {showNodeDialog ? (
         <CreateNodeDialog
           closeDialog={() => setShowNodeDialog(false)}
@@ -109,13 +115,19 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
   );
 };
 
-export const Preview: FC<PreviewProps> = ({ route }) => {
+export const Preview: FC<PreviewProps> = ({ route, navigation }) => {
   const { width, height } = Dimensions.get('window');
   const graph = route.params.graph;
 
   return (
     <VisProvider>
-      <BackButton />
+      <BackButton
+        fallback={() =>
+          navigation.navigate('Viewer', {
+            graph: graph.publicId
+          })
+        }
+      />
       <ProfileButton />
       <Wrapper inputGraph={graph} width={width} height={height} />
     </VisProvider>

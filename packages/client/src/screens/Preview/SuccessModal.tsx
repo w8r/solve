@@ -15,10 +15,13 @@ import { Graph } from '../../types/graph';
 import { getGraphPreviewURL } from '../../services/api';
 import { successColor } from '../../constants/Colors';
 
-export const SuccessModal: FC<{ graph: Graph }> = ({ graph }) => {
+export const SuccessModal: FC<{ graph: Graph; onClose: () => void }> = ({
+  graph,
+  onClose
+}) => {
   const { navigate } = useNavigation();
   return (
-    <Modal isOpen={true}>
+    <Modal isOpen={true} onClose={onClose}>
       <Modal.Content>
         <Modal.CloseButton />
         <Modal.Body>

@@ -22,8 +22,8 @@ function categorizeGraphs(graphs: Graph[]): GraphsWithSections[] {
   }
 
   return [
-    { title: 'Root Graphs', data: [{ graphs: roots }] },
-    { title: 'Subgraphs', data: [{ graphs: forks }] }
+    { title: 'Problems', data: [{ graphs: roots }] },
+    { title: 'Subproblems', data: [{ graphs: forks }] }
   ];
 }
 

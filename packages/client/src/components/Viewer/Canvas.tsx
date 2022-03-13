@@ -29,7 +29,7 @@ export const Canvas = forwardRef(
 
     // @ts-ignore
     useEffect(() => {
-      if (graph) {
+      if (graph && app) {
         app?.setGraph(graph);
         app?.setView(transform.x, transform.y, transform.k);
       }
@@ -39,7 +39,6 @@ export const Canvas = forwardRef(
     useEffect(() => {
       return () => {
         app?.destroy();
-        if (gl) GLView.destroyContextAsync(gl).then(() => setGl(null));
       };
     }, [gl]);
 

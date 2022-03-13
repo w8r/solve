@@ -6,14 +6,9 @@ import { getCategoryColor, Graph, GraphNode } from '../../../types/graph';
 import CreateNodeDialog from '../../../components/Dialog/CreateNodeDialog';
 import { SaveGraphDialog } from '../../../components/SaveGraphDialog';
 import { createEdges } from '../../../lib/graph';
+import { useNavigation } from '@react-navigation/native';
 
-export function ProblemTools({
-  navigate,
-  isFocused
-}: {
-  navigate: any;
-  isFocused: boolean;
-}) {
+export function ProblemTools() {
   const {
     graph,
     setGraph,
@@ -27,6 +22,7 @@ export function ProblemTools({
     setSelectedEdges,
     clearSelection
   } = useVis();
+  const { navigate, isFocused } = useNavigation();
 
   const [nodeDialogVisible, setNodeDialogVisible] = useState(false);
   const [edgeDialogVisible, setEdgeDialogVisible] = useState(false);
@@ -131,6 +127,7 @@ export function ProblemTools({
     const selectedGraph: Graph = {
       id: graph.id,
       publicId: graph.publicId,
+      name: `Part of "${graph.name}"`,
       nodes: [...JSON.parse(JSON.stringify(selectedNodes))],
       edges: [...JSON.parse(JSON.stringify(selectedEdges))]
     };
@@ -149,7 +146,7 @@ export function ProblemTools({
     if (selectedNodes && selectedNodes.length > 1) createEdge();
   };
 
-  const onSave = () => isFocused && setShowSaveDialog(true);
+  const onSave = () => isFocused() && setShowSaveDialog(true);
 
   return (
     <>

@@ -33,18 +33,17 @@ const ViewWrapper = ({
   const getTools = (viewerMode: 'problem' | 'proposal' | 'merge') => {
     switch (viewerMode) {
       case 'problem':
-        return <ProblemTools navigate={navigate} isFocused={isFocused} />;
+        return <ProblemTools />;
       case 'proposal':
         return <ProposalTools subgraph={subgraph} />;
       case 'merge':
-        return <MergeTools subgraph={subgraph} />;
+        return <MergeTools subgraph={subgraph!} />;
       default:
         return null;
     }
   };
 
   useEffect(() => {
-    console.log('request', id);
     // If mode is merge, we don't need to fetch the graph mergetools handle it
     if (id && viewerMode !== 'merge') {
       getGraph(id).then((response) => {
@@ -84,10 +83,11 @@ const ViewWrapper = ({
 export default function ({ route }: ViewerProps) {
   const { params: { graph: graphId, viewerMode, subgraph } = {} } = route;
   const { width, height } = Dimensions.get('window');
+  const { navigate } = useNavigation();
 
   return (
     <VisProvider>
-      <BackButton />
+      <BackButton fallback={() => navigate('Dashboard')} />
       <ProfileButton />
       <ViewWrapper
         id={graphId}
