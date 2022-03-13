@@ -31,7 +31,7 @@ Video?
 
 # What is the problem?
 
-Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress. 
+Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress.
 
 In order to understand the root cause of our issues and/or ask for help when needed, we should be able to state our problem and communicate it very clearly. For some cases, words alone can be enough to express ourselves. However, problems are not always simple enough to put clearly or to be solved without assistance.
 
@@ -49,6 +49,66 @@ Good news is that with the aid of technology and a community, we can do much bet
    - Mental health
    - Finance consulting
    - Relationship management
+
+---
+layout: center
+---
+
+# Log in from any device
+
+Web/iOS/Android
+
+![Platfforms](/screens/platforms.png)
+
+---
+
+<div class="columns-3">
+  <div>
+    <h1>Your projects</h1>
+    <br/>
+    <h3>Projects</h3>
+    <p>
+     This is the list of your current big life situations.
+     Imagine you are buying a flat, changing your job, or going through a depression?
+    </p>
+    <h3>Solutions</h3>
+    <p>It's the problems of other people, that you are helping them to solve</p>
+  </div>
+  <div><img src="/screens/login.png" alt="Login" /></div>
+  <div><img src="/screens/dashboard.png" alt="Login" /></div>
+</div>
+
+---
+
+<div class="columns-2">
+ <div>
+    <h1>Describe your problem</h1>
+    <br/>
+    <p>
+    Instead of using text, think of the entities and relationships between them.
+    </p>
+ </div>
+ <div class="justify-center">
+   <img src="/screens/viewer.gif" class="h-lg" />
+   <!-- <video controls autoplay class="h-lg">
+     <source src="/screens/viewer.mp4" type="video/mp4">
+   </video> -->
+ </div>
+</div>
+
+---
+layout: two-cols
+---
+
+# Left
+
+This shows on the left
+
+::right::
+
+# Right
+
+This shows on the right
 
 ---
 
@@ -72,7 +132,7 @@ Good news is that with the aid of technology and a community, we can do much bet
 # Reward and gamification
 
 Show the screenshot of the score bubble in the user interface.
-Every user has a score point. With each problem being solved and accepted, the user earns more points. 
+Every user has a score point. With each problem being solved and accepted, the user earns more points.
 
 ---
 # Future plans
@@ -81,7 +141,7 @@ Every user has a score point. With each problem being solved and accepted, the u
  With the help of artificial intelligence, it is possible to propose solutions from preexisting data, assess performance and accelerate the process of problem solving.
 
  * Template marketplace
-Templates are amazing! 
+Templates are amazing!
 People like to create things when opportunity exists. Community members can create materials, problem sets and toolkits to address repetitive problems. Later on, material created by users can be sold in a market place using crypto assets or unlock them with their score points.
 
 ---

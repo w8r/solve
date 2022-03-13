@@ -16,7 +16,7 @@ import { useFormik as useForm } from 'formik';
 
 import { SignupProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
-import { FormContainer } from '../components';
+import { FormContainer, Logo } from '../components';
 import * as api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { redirectTo } from '../navigation/LinkingUtils';
@@ -81,6 +81,7 @@ export default function Signup({ navigation }: SignupProps) {
 
   return (
     <FormContainer>
+      <Logo />
       <Heading size="lg" fontWeight="600" color="coolGray.800">
         Sign up
       </Heading>

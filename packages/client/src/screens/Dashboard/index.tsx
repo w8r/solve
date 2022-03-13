@@ -22,8 +22,8 @@ function categorizeGraphs(graphs: Graph[]): GraphsWithSections[] {
   }
 
   return [
-    { title: 'Problems', data: [{ graphs: roots }] },
-    { title: 'Subproblems', data: [{ graphs: forks }] }
+    { title: 'Projects', data: [{ graphs: roots }] },
+    { title: 'Solutions', data: [{ graphs: forks }] }
   ];
 }
 
@@ -127,9 +127,9 @@ const styles = StyleSheet.create({
   },
   emptyContainer: {
     marginTop: 10,
-    alignItems: 'center',
     flex: 1,
-    marginBottom: 100
+    maxHeight: 50,
+    marginBottom: 10
   },
   textStyle: {},
   link: {

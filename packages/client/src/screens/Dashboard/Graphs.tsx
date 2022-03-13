@@ -17,7 +17,7 @@ import { getGraphPreviewURL } from '../../services/api';
 import { Feather as Icons } from '@expo/vector-icons';
 
 export interface GraphsWithSections {
-  title: 'Problems' | 'Subproblems';
+  title: 'Projects' | 'Solutions';
   data: Array<{ graphs: Graph[] }>;
 }
 

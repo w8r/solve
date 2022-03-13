@@ -15,7 +15,7 @@ import * as Validator from 'yup';
 import { useFormik as useForm } from 'formik';
 import { LoginProps } from '../navigation/types';
 import { SocialLogin } from '../components/SocialLogin';
-import { FormContainer } from '../components';
+import { FormContainer, Logo } from '../components';
 import { useAuth } from '../hooks/useAuth';
 import { redirectTo } from '../navigation/LinkingUtils';
 
@@ -62,6 +62,7 @@ export default function Login({ navigation }: LoginProps) {
 
   return (
     <FormContainer>
+      <Logo />
       <Heading size="lg" fontWeight="600" color="coolGray.800">
         Login
       </Heading>
