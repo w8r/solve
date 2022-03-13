@@ -61,14 +61,14 @@ export const List: FC<{
                   }}
                 />
               </View>
-              <HStack style={styles.caption}>
+              <VStack style={styles.caption}>
                 {/* <Text style={styles.nameText}>Proposal: </Text> */}
                 <HStack style={styles.userInfo}>
                   <Icon as={FIcons} name="user" size="xs" style={styles.icon} />
                   <Text style={styles.nameText}>{graph.user?.name}</Text>
                 </HStack>
                 <Text>{graph.name}</Text>
-              </HStack>
+              </VStack>
             </VStack>
           </TouchableOpacity>
         );
@@ -83,10 +83,6 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   userInfo: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginRight: 5,
-    alignItems: 'center',
     flex: 1
   },
   listContent: {

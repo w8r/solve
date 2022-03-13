@@ -6,6 +6,7 @@ import {
   MaterialCommunityIcons as MCIcon,
   Feather as FeatherIcon
 } from '@expo/vector-icons';
+import { menuMargin } from '../../../../constants/Layout';
 
 interface ProposalMenuProps {
   onComment?: () => void;
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
     marginRight: -25
   },
   menu: {
-    marginBottom: 15
+    marginBottom: 15,
+    marginLeft: menuMargin
   }
 });

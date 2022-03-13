@@ -111,12 +111,13 @@ function ensureNoOverlap(node: GraphNode, originalNode?: GraphNode) {
 }
 
 export function getPremergeGraph(parent: Graph, child: Graph): Graph {
-  const result = { ...parent };
-  const originalNodes = result.nodes.reduce((acc, node) => {
+  parent = JSON.parse(JSON.stringify(parent));
+  child = JSON.parse(JSON.stringify(child));
+  const originalNodes = parent.nodes.reduce((acc, node) => {
     acc.set(node.id, node);
     return acc;
   }, new Map<Id, GraphNode>());
-  const originalEdges = result.edges.reduce((acc, edge) => {
+  const originalEdges = parent.edges.reduce((acc, edge) => {
     acc.set(edge.id, edge);
     return acc;
   }, new Map<Id, GraphEdge>());
@@ -132,13 +133,15 @@ export function getPremergeGraph(parent: Graph, child: Graph): Graph {
   });
 
   const gray = '#333333';
-  const transparent = 0.2;
+  const transparent = 0.4;
 
+  // all parent nodes: gray out
   parent.nodes.forEach((node) => {
     node.attributes.opacity = transparent;
     node.data.originalColor = node.attributes.color;
     node.attributes.color = gray;
   });
+  // all parent edges: gray out
   parent.edges.forEach((edge) => {
     edge.attributes.opacity = transparent;
     edge.data = edge.data || {};
@@ -176,7 +179,7 @@ export function getPremergeGraph(parent: Graph, child: Graph): Graph {
         },
         attributes: {
           width: 0.1,
-          color: '#dddddd'
+          color: '#bbbbbb'
         }
       });
       parentNode.attributes.color = childNode.attributes.color;

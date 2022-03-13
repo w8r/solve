@@ -293,7 +293,7 @@ export class App extends EventEmitter {
 
         this.idToText.set(id, textMesh);
 
-        textMesh.renderOrder = isOpaque ? 2 : 3;
+        textMesh.renderOrder = isOpaque ? 3 : 2;
         scene.add(textMesh);
       }
       this.nodeMeshes.push(mesh);

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Fab, Icon, Menu, Text, HStack } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
 import { useVis } from '../../../../components/Viewer';
+import { isWeb } from '../../../../constants/device';
 
 interface ProblemMenuProps {
   showDialog: () => void;
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
     marginRight: -25
   },
   menu: {
-    marginBottom: 15
+    marginBottom: 15,
+    marginLeft: isWeb ? -80 : 0
   }
 });

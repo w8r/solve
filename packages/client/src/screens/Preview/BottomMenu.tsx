@@ -3,6 +3,7 @@ import { Fab, Icon, Menu, Text, HStack } from 'native-base';
 import { Feather as Icons } from '@expo/vector-icons';
 import React, { FC } from 'react';
 import { useVis } from '../../components/Viewer';
+import { menuMargin } from '../../constants/Layout';
 
 interface BottomMenuProps {
   onEdit: () => void;
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
     marginRight: -25
   },
   menu: {
-    marginBottom: 15
+    marginBottom: 15,
+    marginLeft: menuMargin
   }
 });
