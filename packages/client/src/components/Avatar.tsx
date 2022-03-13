@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Avatar, Badge } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
@@ -12,8 +12,17 @@ export const ProfileButton: FC = () => {
   const { user } = useAuth();
   const { navigate } = useNavigation();
   const onUserPress = () => navigate('App', { screen: 'TabTwo' });
+  //const [score, setScore] = useState(100);
 
   if (!user) return null;
+
+  // useEffect(() => {
+  //   let timer = setInterval(() => {
+  //     console.log('timer');
+  //     setScore((score) => score + Math.floor(Math.random() * 50));
+  //   }, 1500);
+  //   return () => clearInterval(timer);
+  // }, []);
 
   return (
     <TouchableOpacity onPress={onUserPress} style={styles.container}>

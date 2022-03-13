@@ -21,34 +21,111 @@ drawings:
   persist: false
 ---
 
-<center>
-  <img src="public/logo.svg" alt="Solve" width="200" height="200" />
-</center>
-Distributed problem-solving app.
+<div class="columns-2">
+  <div>
+    <center>
+      <img src="/logo.svg" alt="Solve" width="200" height="200" />
+    </center>
+    <p>Distributed problem-solving app.</p>
+  </div>
+  <div>
+    <center>
+      <img class="h-lg" src="/screens/diff.gif" />
+    </center>
+  </div>
+</div>
 
-Video?
+---
+layout: center
 ---
 
 # What is the problem?
 
-Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress.
+<br/>
 
+<div class="w-md">
+  <p>
+  Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress.
+  </p>
+</div>
+
+
+---
+layout: center
+---
+# What is a problem?
+
+<br/>
+
+<div class="w-md">
+<p>
 In order to understand the root cause of our issues and/or ask for help when needed, we should be able to state our problem and communicate it very clearly. For some cases, words alone can be enough to express ourselves. However, problems are not always simple enough to put clearly or to be solved without assistance.
+</p>
+</div>
 
-Good news is that with the aid of technology and a community, we can do much better!
+---
+layout: center
+---
+# What is the problem?
+
+<br>
+<div class="w-md">
 
 - Problems can be expressed visually as graphs: entities and relationships between them.
 - Human brain is amazing at finding and matching patterns.
 - Two hands are better than one: collaboration allows discovering different points of view to the same problem.
 
+</div>
+
+---
+layout: center
 ---
 
 # Where does the idea come from?
 
- - Case studies:
-   - Mental health
-   - Finance consulting
-   - Relationship management
+<div class="w-md">
+
+  - you often cannot put your problems into words
+  - you keep on forgetting what you have already formulated
+  - you are not very good at seeing patterns in your problems
+  - but you can see them well in the problems of others
+  - you are often an "unreliable partner" to yourself
+
+</div>
+
+---
+layout: center
+---
+
+<div class="w-md">
+
+# You can see this pattern everywhere:
+
+ - mental health issues
+ - money management
+ - relationships problems
+ - long-lasting projects
+ - self-discovery
+
+</div>
+
+---
+layout: center
+---
+
+# How to solve problems?
+
+## We have designed an application that will help you to:
+
+<div class="p-12">
+
+ - identify and describe your problems with visualisations
+ - apply hierarchical thinking to solve your problems
+ - share your problems with others and work together to solve them
+ - help others by proposing your solutions
+ - share your ideas
+
+</div>
 
 ---
 layout: center
@@ -82,59 +159,316 @@ Web/iOS/Android
 
 <div class="columns-2">
  <div>
-    <h1>Describe your problem</h1>
+    <h1>Describe your situation</h1>
     <br/>
     <p>
     Instead of using text, think of the entities and relationships between them.
     </p>
+    <p>
+    Use meaningful and limited categories. Try these:
+    </p>
+    <ul>
+      <li>Health</li>
+      <li>Money</li>
+      <li>Happiness</li>
+      <li>Relationships</li>
+      <li>Meaning</li>
+    </ul>
+    <p>
+      You can change item sizes to show their impact on the problem. Lines are showing the causality.
+    </p>
  </div>
- <div class="justify-center">
-   <img src="/screens/viewer.gif" class="block h-lg" />
-   <!-- <video controls autoplay class="h-lg">
-     <source src="/screens/viewer.mp4" type="video/mp4">
-   </video> -->
+ <div class="justify-center justify-items-center">
+   <center>
+    <img src="/screens/viewer.gif" class="justify-self-center h-lg p-3" />
+   </center>
  </div>
 </div>
 
 ---
-layout: two-cols
+
+# Actually, you already know how to read it
+
+<div class="columns-3">
+  <div>
+    <img src="/screens/kaballah.jpg" />
+  </div>
+  <div>
+    <img src="/screens/lombardi-drawing.jpg" />
+  </div>
+  <div>
+    <img src="/screens/itinerary.webp" />
+  </div>
+</div>
+
 ---
 
-# Left
-
-This shows on the left
-
-::right::
-
-# Right
-
-This shows on the right
+<div class="columns-2">
+  <div>
+    <h1>Describe your situation</h1>
+    <br/>
+    <p>
+      You can get back to it when you want, where you want.
+    </p>
+    <p>
+      You can understand it almost immediately
+    </p>
+    <p>
+      You can leave hints and questions for yourself to continue next time
+    </p>
+  </div>
+  <div class="justify-center justify-items-center">
+    <center>
+      <img src="/screens/problem1.png" class="justify-self-center h-lg p-3" />
+    </center>
+  </div>
+</div>
 
 ---
 
-# Showcase
+<div class="columns-2">
+  <div>
+    <h1>Isolate problems</h1>
+    <br/>
+    <p>
+      The big picture can be overwhelming, but you can isolate parts of it.
+    </p>
+    <p>
+      Select a logical part of the problem and try to understand it.
+    </p>
+    <p>
+      It will be easier to solve it when you can focus on it.
+    </p>
+    <p>
+    You can then split nodes, add new ones, and re-arrange and re-connect them.
+    </p>
+  </div>
+  <div class="justify-center justify-items-center">
+    <center>
+      <img src="/screens/selection-2.gif" class="justify-self-center h-lg p-3" />
+    </center>
+  </div>
+</div>
 
- * Two screens
- * Two persons logging in, person A, person B
- * They have one problem each on their dashboards
- * Person A goes into his main problem
- * Person A creates some nodes
- * Person A creates some edges
- * Person A selects some part of his problem and shares it with a meaningful name
- * Person B sees that problem and joins it
- * Person B creates some nodes and edges
- * Person B saves the problem
- * Person A sees the proposal in his subgraph screen
- * Person A accepts the proposal
- * Person A attempts to merge the subproblem into his main view
- * Problem solved!
 ---
+
+<div class="columns-3">
+  <div>
+    <h1>Isolate problems</h1>
+    <br/>
+    <p>
+      Now you can work on it yours later, but you can also share it with other users.
+    </p>
+    <p>
+      Shared solutions will be available for the other users to pick up and work on.
+    </p>
+  </div>
+  <div class="justify-center justify-items-center">
+    <center>
+      <img src="/screens/problem1.png" class="justify-self-center h-lg p-3" />
+      <img src="/screens/problem-subproblem.png" class="justify-self-center h-lg p-3" />
+    </center>
+  </div>
+</div>
+
+---
+
+<div class="columns-3">
+  <div>
+    <h1>Share situations</h1>
+    <br/>
+    <p>
+      Shared parts of your projects will be available for the other users to pick up and work on.
+    </p>
+  </div>
+  <div>
+    <img src="/screens/problem-subproblem.png" class="justify-self-center h-md p-3" />
+    <div class="text-center">User A</div>
+  </div>
+  <div>
+    <img src="/screens/subproblem-search.png" class="justify-self-center h-md p-3" />
+    <div class="text-center">User B</div>
+  </div>
+</div>
+
+---
+
+<div class="columns-3">
+  <div>
+    <h1>Suggest solutions</h1>
+    <br/>
+    <p>
+      They will be able to add nodes and links to your visualisation, ask you questions, show you a different perspective on your problems and help you recognise patterns in your problems.
+    </p>
+    <p>
+    You can do it too with others' issues!
+    </p>
+  </div>
+  <div>
+    <img src="/screens/pick-up-subproblem.png" class="justify-self-center h-md p-3" />
+  </div>
+  <div>
+    <img src="/screens/subproblem-enhance.png" class="justify-self-center h-md p-3" />
+  </div>
+</div>
+
+---
+
+<div class="columns-3">
+  <div>
+    <h1>Suggest solutions</h1>
+    <br/>
+    <p>
+      Once users have proposed changes, you will be able to see them as proposals.
+    </p>
+    <p>
+      It's similar to Github's pull requests.
+    </p>
+  </div>
+  <div>
+    <img src="/screens/subproblem-enhance.png" class="justify-self-center h-md p-3" />
+    <div class="text-center">User B</div>
+  </div>
+  <div>
+    <img src="/screens/proposal.png" class="justify-self-center h-md p-3" />
+    <div class="text-center">User A</div>
+  </div>
+</div>
+
+---
+
+<div class="columns-3">
+  <div>
+    <h1>Accept solutions</h1>
+    <br/>
+    <p>
+      You can check out proposed solutions and see how they work.
+    </p>
+    <p>
+      Then you can decide if you want to accept them.
+    </p>
+    <p>
+      It will update your subproblem and you will be able to see the impact of your changes and the ones suggested by others.
+    </p>
+  </div>
+  <div>
+    <img src="/screens/proposal.png" class="justify-self-center h-md p-3" />
+  </div>
+  <div>
+    <img src="/screens/accept-proposal.png" class="justify-self-center h-md p-3" />
+  </div>
+</div>
+
+---
+
+<div class="columns-3">
+  <div>
+    <h1>Accept solutions</h1>
+    <br/>
+    <p>
+      Now that you worked on your subproblem and accepted the proposed changes, you can decide if it's solved and merge it back into the bigger picture.
+    </p>
+  </div>
+  <div>
+    <img src="/screens/proposal-accepted.png" class="justify-self-center h-md p-3" />
+  </div>
+  <div>
+    <img src="/screens/solved-subproblem.png" class="justify-self-center h-md p-3" />
+  </div>
+</div>
+
+---
+
+<div class="columns-3">
+  <div>
+    <h1>Merge solutions</h1>
+    <br/>
+    <p>
+      Choosing to merge the subproblem back into the bigger picture will show you how it fits back into the bigger picture.
+    </p>
+    <p>
+      It is a comparison view, where all the unrelated parts of the visualisation are grayed out and inactive.
+    </p>
+    <p>
+    The parts that are related to the subproblem are highlighted so that you can see the matches and how the elements are going to be replaced.
+    </p>
+  </div>
+  <div>
+    <img src="/screens/solved-subproblem.png" class="justify-self-center h-md p-3" />
+  </div>
+  <div>
+    <img src="/screens/diff.gif" class="justify-self-center h-md p-3" />
+  </div>
+</div>
+
+---
+
+<div class="columns-2">
+  <div>
+    <h1>Merge solutions</h1>
+    <br/>
+    <p>
+      You can move things around to find the best placement for the new elements.
+    </p>
+    <p>
+      You can make sure the picture remains readable after your merge.
+    </p>
+    <p>
+    Once you are done - you can consider it <strong>solved</strong>
+    </p>
+  </div>
+  <div>
+    <center>
+      <img src="/screens/diff.gif" class="justify-self-center h-md p-3" />
+    </center>
+  </div>
+</div>
+
+---
+
+<div class="columns-2">
+  <div>
+    <h1>The cycle once again:</h1>
+    <br/>
+    <ul>
+      <li>Describe your situation</li>
+      <li>Isolate parts that you want to work on</li>
+      <li>Enhance and solve them</li>
+      <li>If you can't now - share them with other users</li>
+      <li>They can work on them and propose solutions</li>
+      <li>Accept suggestions and mark subproblems as solved</li>
+      <li>Merge the subproblem back into the bigger picture</li>
+      <li>Continue and repeat</li>
+      <li>Solve your problems and help others!</li>
+    </ul>
+  </div>
+  <div>
+    <center>
+      <img src="/screens/solve.gif" class="justify-self-center h-md p-3" />
+    </center>
+  </div>
+</div>
+
+---
+
+<div class="columns-2">
+  <div>
+
 # Reward and gamification
+
+<br/>
 
 Show the screenshot of the score bubble in the user interface.
 Every user has a score point. With each problem being solved and accepted, the user earns more points.
 
+  </div>
+  <div>
+    <center><img height="488" class="p-3" src="/screens/score-update.gif" /></center>
+  </div>
+</div>
+
 ---
+
 # Future plans
 
  * Machine Learning:
@@ -144,99 +478,6 @@ Every user has a score point. With each problem being solved and accepted, the u
 Templates are amazing!
 People like to create things when opportunity exists. Community members can create materials, problem sets and toolkits to address repetitive problems. Later on, material created by users can be sold in a market place using crypto assets or unlock them with their score points.
 
----
-
-# Animations
-
-Animations are powered by [@vueuse/motion](https://motion.vueuse.org/).
-
-```html
-<div v-motion :initial="{ x: -80 }" :enter="{ x: 0 }">Slidev</div>
-```
-
-<div class="w-60 relative mt-6">
-  <div class="relative w-40 h-40">
-    <img
-      v-motion
-      :initial="{ x: 800, y: -100, scale: 1.5, rotate: -50 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-square.png"
-    />
-    <img
-      v-motion
-      :initial="{ y: 500, x: -100, scale: 2 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-circle.png"
-    />
-    <img
-      v-motion
-      :initial="{ x: 600, y: 400, scale: 2, rotate: 100 }"
-      :enter="final"
-      class="absolute top-0 left-0 right-0 bottom-0"
-      src="https://sli.dev/logo-triangle.png"
-    />
-  </div>
-
-  <div
-    class="text-5xl absolute top-14 left-40 text-[#2B90B6] -z-1"
-    v-motion
-    :initial="{ x: -80, opacity: 0}"
-    :enter="{ x: 0, opacity: 1, transition: { delay: 2000, duration: 1000 } }">
-    Slidev
-  </div>
-</div>
-
-<!-- vue script setup scripts can be directly used in markdown, and will only affects current page -->
-<script setup lang="ts">
-const final = {
-  x: 0,
-  y: 0,
-  rotate: 0,
-  scale: 1,
-  transition: {
-    type: 'spring',
-    damping: 10,
-    stiffness: 20,
-    mass: 2
-  }
-}
-</script>
-
-<div
-  v-motion
-  :initial="{ x:35, y: 40, opacity: 0}"
-  :enter="{ y: 0, opacity: 1, transition: { delay: 3500 } }">
-
-[Learn More](https://sli.dev/guide/animations.html#motion)
-
-</div>
-
----
-
-# Diagrams
-
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
-
-<div class="grid grid-cols-2 gap-10 pt-4 -mb-6">
-
-```mermaid {scale: 0.9}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
-```
-
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-</div>
-
-[Learn More](https://sli.dev/guide/syntax.html#diagrams)
 
 ---
 layout: center
