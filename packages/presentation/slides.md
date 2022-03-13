@@ -89,7 +89,7 @@ Web/iOS/Android
     </p>
  </div>
  <div class="justify-center">
-   <img src="/screens/viewer.gif" class="h-lg" />
+   <img src="/screens/viewer.gif" class="block h-lg" />
    <!-- <video controls autoplay class="h-lg">
      <source src="/screens/viewer.mp4" type="video/mp4">
    </video> -->

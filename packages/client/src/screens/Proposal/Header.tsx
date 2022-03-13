@@ -45,29 +45,23 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
             uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
           }}
         />
-        <>
-          <Button style={styles.buttonStyle} onPress={onMerge}>
-            <Text style={styles.buttonTextStyle}>Merge solution</Text>
-          </Button>
-        </>
-        <>
-          {
-            <>
-              <Icon
-                style={styles.iconStyle}
-                color={graph.resolved ? 'darkgreen' : 'black'}
-                as={Icons}
-                name={graph.resolved ? 'check' : 'clock-time-ten-outline'}
-                size="sm"
-              />
-              <Text style={styles.textStyle}>
-                {graph.resolved ? 'Solved' : 'Awaiting resolution'}
-              </Text>
-            </>
-          }
-        </>
-        <Text style={styles.proposalTitle}>Proposals</Text>
+        <Button style={styles.buttonStyle} onPress={onMerge}>
+          <Text style={styles.buttonTextStyle}>Merge solution</Text>
+        </Button>
       </TouchableOpacity>
+      <VStack>
+        <Icon
+          style={styles.iconStyle}
+          color={graph.resolved ? 'darkgreen' : 'black'}
+          as={Icons}
+          name={graph.resolved ? 'check' : 'clock-time-ten-outline'}
+          size="sm"
+        />
+        <Text style={styles.textStyle}>
+          {graph.resolved ? 'Solved' : 'Awaiting resolution'}
+        </Text>
+        <Text style={styles.proposalTitle}>Proposals</Text>
+      </VStack>
     </VStack>
   );
 };
@@ -75,15 +69,12 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
 const styles = StyleSheet.create({
   // style for button half width of image green little below
   buttonStyle: {
-    width: '50%',
-    marginTop: 10,
-    marginBottom: 'auto',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    marginTop: 15,
     alignSelf: 'center',
     backgroundColor: '#00b894',
     borderRadius: 10,
     borderWidth: 1,
+    alignContent: 'center',
     borderColor: '#00b894'
   },
   // style for text half width of image
@@ -94,44 +85,29 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   container: {
-    flex: 1,
     width: '100%',
     alignItems: 'center'
   },
   // style for icon and text in header next to each other on same line
   iconStyle: {
-    flex: 1,
     alignSelf: 'center',
-    flexDirection: 'column',
-    top: 200,
     textAlign: 'center',
     marginTop: 20
   },
   // style for text next to icon
   textStyle: {
-    flex: 1,
     alignSelf: 'center',
-    flexDirection: 'column',
     fontSize: 16,
-    top: 100,
-    textAlign: 'center',
     marginBottom: 10
   },
   proposalTitle: {
-    flex: 1,
-    alignSelf: 'center',
-    flexDirection: 'column',
     fontSize: 18,
-    top: 100,
     textAlign: 'center',
     marginBottom: 10,
     fontWeight: 'bold'
   },
   headerText: {
-    flex: 1,
-    alignSelf: 'center',
     fontSize: 20,
-    top: 200,
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 10
