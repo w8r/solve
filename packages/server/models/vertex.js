@@ -1,5 +1,4 @@
 const { Schema } = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
 
 const VertexSchema = new Schema(
   {

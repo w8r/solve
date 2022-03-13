@@ -25,24 +25,6 @@ const dataSchema = new Schema(
   { _id: false }
 );
 
-// number of subgraphs => number of graphs with same parentId but user is the same (dashboard)
-
-/* SUBGRAPHS SCREEN
-  graphs with same parentId but user is the same -> only publicId and number of forks
-  forks are same parentId but different user 
-
-
-  SUBGRAPH SCREEN
-  graphs with same parentId but different user -> only publicId and metadata (name, nr of edges/nodes etc)
-
-  FORK VIEWER
-  graph with user data (id and username)
-
-  * Accepting a fork creates a subgraph of mine
-
-  For forked and absorbed graphs -> add metadata which tells it forked from a user
-*/
-
 const graphSchema = new Schema(
   {
     isPublic: {
