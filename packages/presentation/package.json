@@ -3,12 +3,13 @@
   "private": true,
   "scripts": {
     "dev": "slidev",
-    "build": "slidev build",
-    "export": "slidev export"
+    "build": "slidev build -o ../../docs",
+    "export": "slidev export --output ../../docs/solve.pdf"
   },
   "dependencies": {
     "@slidev/cli": "latest",
     "@slidev/theme-default": "latest",
-    "@slidev/theme-seriph": "latest"
+    "@slidev/theme-seriph": "latest",
+    "playwright-chromium": "^1.19.2"
   }
 }
