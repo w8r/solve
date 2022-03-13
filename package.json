@@ -10,7 +10,8 @@
   "scripts": {
     "tunnel": "node scripts/tunnel.js",
     "client": "yarn workspace @solve/client start --https",
-    "server": "yarn workspace @solve/server start"
+    "server": "yarn workspace @solve/server start",
+    "presentation": "yarn workspace @solve/presentation dev"
   },
   "repository": {
     "type": "git",
