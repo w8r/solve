@@ -38,7 +38,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
       <TouchableOpacity onPress={onPress}>
         <Image
           style={styles.image}
-          alt={graph.id}
+          alt={String(graph.id)}
           resizeMode="cover"
           size="2xl"
           source={{

@@ -19,7 +19,8 @@ export const List: FC<{
         screen: 'Viewer',
         params: {
           graph: proposals.forks[index].publicId,
-          mode: 'propose'
+          mode: 'propose',
+          subgraph: subgraph
         }
       }
     });
@@ -53,7 +54,7 @@ export const List: FC<{
               <View>
                 <Image
                   style={styles.image}
-                  alt={graph.id}
+                  alt={String(graph.id)}
                   size="2xl"
                   source={{
                     uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
