@@ -49,7 +49,7 @@ export const ProblemMenu: FC<ProblemMenuProps> = ({
       icon: 'trash-2',
       onPress: onRemove,
       text: 'Remove',
-      active: selectedNodes.length > 0
+      active: selectedNodes.length > 0 || selectedEdges.length > 0
     },
     {
       icon: 'crop',
