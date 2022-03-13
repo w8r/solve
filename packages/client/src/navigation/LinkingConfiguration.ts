@@ -20,7 +20,7 @@ export default {
                 screens: {
                   Dashboard: 'dashboard',
                   Viewer: {
-                    path: 'viewer/:graph?/:mode?',
+                    path: 'viewer/:graph?/:mode?/:subgraph?',
                     parse: {
                       graph: (graph: string) => `${graph}`
                     }

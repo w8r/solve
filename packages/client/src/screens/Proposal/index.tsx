@@ -42,9 +42,19 @@ export const ProposalScreen: FC<ProposalProps> = ({ route }) => {
     });
   }, []);
 
+  const goToParentGraph = () => {
+    navigate('App', {
+      screen: 'TabOne',
+      params: {
+        screen: 'Viewer',
+        params: { graph: graphId, mode: 'edit' }
+      }
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <BackButton />
+      <BackButton fallback={goToParentGraph} />
       <ProfileButton />
       {graph && subgraph ? (
         <Center style={styles.content}>

@@ -24,7 +24,7 @@ export const ProposalMenu: FC<ProposalMenuProps> = ({
       active: false
     },
     {
-      icon: 'head-check',
+      icon: 'check',
       onPress: onAccept,
       text: 'Accept',
       active: true

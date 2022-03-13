@@ -52,7 +52,7 @@ export default function Graphs({
   }) => {
     return (
       <TouchableOpacity
-        onLongPress={() => viewGraph(graph.publicId)}
+        onLongPress={() => viewGraph(graph.id)}
         onPress={() => onBadgePress(graph.id)}
       >
         <Box

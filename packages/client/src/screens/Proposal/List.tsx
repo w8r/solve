@@ -19,7 +19,7 @@ export const List: FC<{
         screen: 'Viewer',
         params: {
           graph: proposals.forks[index].publicId,
-          mode: 'proposal',
+          mode: 'propose',
           subgraph: subgraph
         }
       }
@@ -62,12 +62,12 @@ export const List: FC<{
                 />
               </View>
               <HStack style={styles.caption}>
-                <Text style={styles.nameText}>Proposal: </Text>
-                <Text>{graph.name}</Text>
+                {/* <Text style={styles.nameText}>Proposal: </Text> */}
                 <HStack style={styles.userInfo}>
                   <Icon as={FIcons} name="user" size="xs" style={styles.icon} />
                   <Text style={styles.nameText}>{graph.user?.name}</Text>
                 </HStack>
+                <Text>{graph.name}</Text>
               </HStack>
             </VStack>
           </TouchableOpacity>
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10
   },
+
   nameText: {
     fontWeight: 'bold'
   },
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    marginRight: 8
+    marginRight: 2
   },
 
   emptyMessage: {

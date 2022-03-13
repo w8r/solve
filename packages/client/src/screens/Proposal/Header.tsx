@@ -34,7 +34,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
 
   return (
     <VStack style={styles.container}>
-      <Text style={styles.headerText}>Subproblem: {graph.name}</Text>
+      <Text style={styles.headerText}>{graph.name}</Text>
       <TouchableOpacity onPress={onPress}>
         <Image
           style={styles.image}
@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     marginBottom: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
-    padding: 10,
     alignSelf: 'center',
     backgroundColor: '#00b894',
     borderRadius: 10,

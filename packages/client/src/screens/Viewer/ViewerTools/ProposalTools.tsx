@@ -15,7 +15,6 @@ export function ProposalTools({ subgraph }: ProposalProps) {
   const [accepted, setAccepted] = useState(false);
 
   const onAccept = async () => {
-    console.log(subgraph);
     await api.resolveGraph(subgraph!, { ...graph, resolved: true });
     setGraph({ ...graph, resolved: true });
     setAccepted(true);
