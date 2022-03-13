@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
 import { StyleSheet, SectionList, View } from 'react-native';
 import { VStack, Text, Image, Box, Icon, HStack } from 'native-base';
-import { Entypo as Icons } from '@expo/vector-icons';
+import { Entypo as Icons, Feather as FIcons } from '@expo/vector-icons';
 import { getGraphPreviewURL, GraphProposals } from '../../services/api';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { Graph } from '../../types/graph';
-
 export const List: FC<{
   proposals: GraphProposals;
   subgraph: string;
@@ -65,6 +64,10 @@ export const List: FC<{
               <HStack style={styles.caption}>
                 <Text style={styles.nameText}>Proposal: </Text>
                 <Text>{graph.name}</Text>
+                <HStack style={styles.userInfo}>
+                  <Icon as={FIcons} name="user" size="xs" style={styles.icon} />
+                  <Text style={styles.nameText}>{graph.user?.name}</Text>
+                </HStack>
               </HStack>
             </VStack>
           </TouchableOpacity>
@@ -79,7 +82,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%'
   },
-
+  userInfo: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginRight: 5,
+    alignItems: 'center',
+    flex: 1
+  },
   listContent: {
     margin: 0,
     padding: 0,
