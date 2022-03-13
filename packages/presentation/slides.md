@@ -21,29 +21,49 @@ drawings:
   persist: false
 ---
 
-# Solve
-
+<center>
+  <img src="public/logo.svg" alt="Solve" width="200" height="200" />
+</center>
 Distributed problem-solving app.
 
+Video?
 ---
 
-# What is Solve?
+# Where does the idea come from?
 
----
-
-# Navigation
-
----
-
-# Code
-
----
-
-# Components
+ - Case studies:
+   - Mental health
+   - Finance consulting
+   - Relationship management
 
 ---
 
-# Themes
+# Showcase
+
+ * Two screens
+ * Two persons logging in, person A, person B
+ * They have one problem each on their dashboards
+ * Person A goes into his main problem
+ * Person A creates some nodes
+ * Person A creates some edges
+ * Person A selects some part of his problem and shares it with a meaningful name
+ * Person B sees that problem and joins it
+ * Person B creates some nodes and edges
+ * Person B saves the problem
+ * Person A sees the proposal in his subgraph screen
+ * Person A accepts the proposal
+ * Person A attempts to merge the subproblem into his main view
+ * Problem solved!
+---
+# Reward and gamification
+
+Show the screenshot of the score bubble in the user interface.
+Explain the idea of experience points
+---
+# Future plans
+
+ * ML
+ * Template marketplace
 
 ---
 
