@@ -1,4 +1,3 @@
-import { API_URL } from '@env';
 import React, { useEffect, useState } from 'react';
 import * as api from '../../../services/api';
 import { StyleSheet } from 'react-native';

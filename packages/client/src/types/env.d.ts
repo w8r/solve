@@ -18,10 +18,6 @@ declare module '@env' {
 
   export const NODE_ENV: string;
   export const PORT: string;
-  export const PUBLIC_IP_ADDRESS: string;
   export const SERVER_HOST: string;
-  export const SERVER_PORT: string;
   export const SERVER_PUBLIC_URL: string;
-
-  export const SENDGRID_API_KEY: string;
 }
