@@ -256,7 +256,7 @@ Web/iOS/Android
     <h1>Isolate problems</h1>
     <br/>
     <p>
-      Now you can work on it yours later, but you can also share it with other users.
+      Now you can work on it later yourself, but you can also share it with other users.
     </p>
     <p>
       Shared solutions will be available for the other users to pick up and work on.
