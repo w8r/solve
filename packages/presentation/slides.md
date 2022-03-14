@@ -474,6 +474,29 @@ layout: image-right
 image: /screens/general2.png
 ---
 
+# Versioning
+No data is lost.
+
+All changes made to the visualisations are stored as a copy of the data, connected to the previous version. With this simple solution we can travers full history of the visualisation and see how it was changed. We can also isolate areas and accept changes at different stages of the process.
+
+```mermaid {scale: 0.9}
+flowchart RL
+    Current --> Prev --> Head
+```
+
+```mermaid
+graph RL;
+    latest --> A;
+    latest --> B;
+    A(Version A) -->first;
+    B(Version B) -->A;
+```
+
+---
+layout: image-right
+image: /screens/general2.png
+---
+
 # Future plans
 
 ### Machine Learning:
