@@ -478,6 +478,20 @@ Every user has a score point. With each problem being solved and accepted, the u
 Templates are amazing!
 People like to create things when opportunity exists. Community members can create materials, problem sets and toolkits to address repetitive problems. Later on, material created by users can be sold in a market place using crypto assets or unlock them with their score points.
 
+---
+layout: center
+---
+
+# Technology
+
+ * Server
+   * Node.js / Express
+   * MongoDB / Mongoose / Passport
+   * SVG previews
+ * Client
+   * Expo / React Native
+   * React Native web
+   * Three.js
 
 ---
 layout: center

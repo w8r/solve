@@ -11,7 +11,8 @@
     "tunnel": "node scripts/tunnel.js",
     "client": "yarn workspace @solve/client start --https",
     "server": "yarn workspace @solve/server start",
-    "presentation": "yarn workspace @solve/presentation dev"
+    "presentation": "yarn workspace @solve/presentation dev",
+    "docs": "yarn workspace @solve/presentation build"
   },
   "repository": {
     "type": "git",
