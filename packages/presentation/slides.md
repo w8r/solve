@@ -19,6 +19,7 @@ info: |
 # persist drawings in exports and build
 drawings:
   persist: false
+
 ---
 
 <div class="columns-2">
@@ -36,32 +37,29 @@ drawings:
 </div>
 
 ---
-layout: center
+layout: section
 ---
 
 # What is the problem?
 
 <br/>
 
-<div class="w-md">
-  <p>
   Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress.
-  </p>
-</div>
+
 
 
 ---
-layout: center
+layout: section
 ---
 # What is a problem?
 
 <br/>
 
-<div class="w-md">
-<p>
-In order to understand the root cause of our issues and/or ask for help when needed, we should be able to state our problem and communicate it very clearly. For some cases, words alone can be enough to express ourselves. However, problems are not always simple enough to put clearly or to be solved without assistance.
-</p>
-</div>
+In order to understand the root cause of our issues and/or ask for help when needed, we should be able to state our problem and communicate it very clearly.
+
+For some cases, words alone can be enough to express ourselves.
+
+However, problems are not always simple enough to put clearly or to be solved without assistance.
 
 ---
 layout: center
@@ -110,12 +108,13 @@ layout: center
 </div>
 
 ---
-layout: center
+layout: image-right
+image: /screens/general2.png
 ---
 
 # How to solve problems?
 
-## We have designed an application that will help you to:
+### We have designed an application that will help you to:
 
 <div class="p-12">
 
@@ -458,8 +457,11 @@ Web/iOS/Android
 
 <br/>
 
-Show the screenshot of the score bubble in the user interface.
-Every user has a score point. With each problem being solved and accepted, the user earns more points.
+Every step taken in the app takes you closer to solving your problem. There are score points awarded for each action, and the type of action is taken into account. The app will then assess the experience you have acquired in different actions and fields and you can become an expert of it and your suggestions will be perceived as more valuable.
+
+If you don't want to be in that game, the score points are there just to keep you motivated and to keep track of your own activity.
+
+The point of it is that you never stop improving.
 
   </div>
   <div>
@@ -468,15 +470,30 @@ Every user has a score point. With each problem being solved and accepted, the u
 </div>
 
 ---
+layout: image-right
+image: /screens/general2.png
+---
 
 # Future plans
 
- * Machine Learning:
- With the help of artificial intelligence, it is possible to propose solutions from preexisting data, assess performance and accelerate the process of problem solving.
+### Machine Learning:
 
- * Template marketplace
-Templates are amazing!
-People like to create things when opportunity exists. Community members can create materials, problem sets and toolkits to address repetitive problems. Later on, material created by users can be sold in a market place using crypto assets or unlock them with their score points.
+The app stores structured data for problems and edits, as well as which solutions were accepted to which problems. This can be used as dataset for supervised NN training. With AI, it could be possible to find patterns and propose solutions data or toolkits for types of problems.
+
+---
+layout: image-right
+image: /screens/general2.png
+---
+
+# Future plans
+
+### Template marketplace
+
+We don't demonstrate this functionality because it will need a lot of research and design to finish it. It's about the tools to work with the visualisation itself depending on the context. Depending on the type of the problems, different tools will be available for resolving and untangling them.
+
+You would have a walkthrough tool that, as soon as you describe a problem node, would suggest you the steps to split, reformulate and resolve it.
+
+We want the users to be able to create these templates.
 
 ---
 layout: center
@@ -494,11 +511,16 @@ layout: center
    * Three.js
 
 ---
-layout: center
+layout: image-left
+image: /screens/general2.png
 ---
 
-# Learn More
+# Github repo
 
-## [GitHub](https://github.com/w8r/solve)
+<div class="p-6">
+<img src="/GitHub-Mark-64px.png" />
+</div>
+
+## [https://github.com/w8r/solve](https://github.com/w8r/solve)
 
 ---
