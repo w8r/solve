@@ -523,4 +523,6 @@ image: /screens/general2.png
 
 ## [https://github.com/w8r/solve](https://github.com/w8r/solve)
 
----
+ * [Alex Milevski](https://milevski.co)
+ * [Yiğit Akbulut](https://github.com/yigitakbulut)
+
