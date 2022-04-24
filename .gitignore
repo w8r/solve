@@ -9,6 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 .yarn/*
+!.yarn/releases
 .env
 .env.test
 __tests__
