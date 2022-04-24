@@ -2513,6 +2513,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@iconify-json/mdi@npm:^1.1.1":
+  version: 1.1.9
+  resolution: "@iconify-json/mdi@npm:1.1.9"
+  dependencies:
+    "@iconify/types": ^1.0.12
+  checksum: 7aed6492c9b84c6e4d2041ea3601402f6e41cf4f5d2d23ef25709ebf40c629bea36d7b16badc379e6ec1af3d1c5130b2db30b31794be095ed7c82ec3a253db86
+  languageName: node
+  linkType: hard
+
 "@iconify-json/ph@npm:^1.1.1":
   version: 1.1.1
   resolution: "@iconify-json/ph@npm:1.1.1"
@@ -5044,6 +5053,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@solve/presentation@workspace:packages/presentation"
   dependencies:
+    "@iconify-json/mdi": ^1.1.1
     "@slidev/cli": latest
     "@slidev/theme-default": latest
     "@slidev/theme-seriph": latest
