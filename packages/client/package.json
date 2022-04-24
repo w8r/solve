@@ -10,6 +10,9 @@
     "test": "jest --watchAll",
     "postinstall": "expo-yarn-workspaces postinstall"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "jest": {
     "preset": "jest-expo"
   },

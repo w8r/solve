@@ -9,7 +9,7 @@
     "test": "cross-env NODE_ENV=test mocha --timeout 20000 --recursive --exit"
   },
   "engines": {
-    "node": "14.x"
+    "node": ">=16.0.0"
   },
   "author": "Alex Milevski <alex@milevski.co>, Yigit Akbulut",
   "license": "MIT",
