@@ -12,7 +12,8 @@
     "server": "yarn workspace @solve/server dev",
     "presentation": "yarn workspace @solve/presentation dev",
     "build-web": "yarn workspace @solve/client build:web",
-    "docs": "yarn workspace @solve/presentation build"
+    "docs": "yarn workspace @solve/presentation build",
+    "publish:stage": "yarn workspace @solve/client publish:stage"
   },
   "repository": {
     "type": "git",
