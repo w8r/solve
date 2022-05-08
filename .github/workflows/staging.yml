@@ -1,6 +1,7 @@
-// .github/workflows/staging.yml
+# .github/workflows/staging.yml
 
 name: Expo Publish on Staging
+
 on:
   push:
     branches:
