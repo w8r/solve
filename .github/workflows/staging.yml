@@ -23,4 +23,4 @@ jobs:
           expo-cache: true
       - run: yarn
       - run: yarn postinstall
-      - run: expo publish --release-channel staging
+      - run: yarn workspace @solve/client publish:stage
