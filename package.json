@@ -15,6 +15,7 @@
     "client": "yarn workspace @solve/client start --https",
     "server": "yarn workspace @solve/server dev",
     "presentation": "yarn workspace @solve/presentation dev",
+    "build-web": "yarn workspace @solve/client build:web",
     "docs": "yarn workspace @solve/presentation build"
   },
   "repository": {
