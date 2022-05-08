@@ -7,11 +7,7 @@
   "workspaces": [
     "packages/*"
   ],
-  "engines": {
-    "node": "16.4.2"
-  },
   "scripts": {
-    "tunnel": "node scripts/tunnel.js",
     "client": "yarn workspace @solve/client start --https",
     "server": "yarn workspace @solve/server dev",
     "presentation": "yarn workspace @solve/presentation dev",
