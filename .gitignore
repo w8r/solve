@@ -20,3 +20,4 @@ __generated__
 .vscode/launch.json
 .pnp.*
 
+.vercel
