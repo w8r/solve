@@ -21,5 +21,13 @@ jobs:
           expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
           expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
           expo-cache: true
-      - run: yarn
-      - run: yarn workspace @solve/client publish:stage
+      - uses: amondnet/vercel-action@v20
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
+          # vercel-args: '--prod' #Optional
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID}} #Required
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} #Required
+          working-directory: ./packages/client/web-build
+      - run: yarn workspace @solve/client install
+      - run: yarn workspace @solve/client build:web
+      # - run: yarn workspace @solve/client publish:stage

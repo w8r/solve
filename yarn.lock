@@ -1812,7 +1812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/config-plugins@npm:3.1.0, @expo/config-plugins@npm:^3.0.0":
+"@expo/config-plugins@npm:3.1.0, @expo/config-plugins@npm:^3.0.0, @expo/config-plugins@npm:^3.0.6":
   version: 3.1.0
   resolution: "@expo/config-plugins@npm:3.1.0"
   dependencies:
@@ -1946,7 +1946,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/config@npm:5.0.9":
+"@expo/config@npm:5.0.9, @expo/config@npm:^5.0.6":
   version: 5.0.9
   resolution: "@expo/config@npm:5.0.9"
   dependencies:
@@ -2303,7 +2303,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/metro-config@npm:^0.1.70":
+"@expo/metro-config@npm:^0.1.70, @expo/metro-config@npm:^0.1.81":
   version: 0.1.84
   resolution: "@expo/metro-config@npm:0.1.84"
   dependencies:
@@ -5373,6 +5373,7 @@ __metadata:
     expo-splash-screen: ~0.11.2
     expo-status-bar: ~1.0.4
     expo-three: ^5.5.1
+    expo-updates: ~0.8.2
     expo-web-browser: ~9.2.0
     expo-yarn-workspaces: ^1.5.2
     formik: ^2.2.9
@@ -5404,6 +5405,7 @@ __metadata:
     troika-three-text: ^0.45.0
     typescript: ~4.0.0
     uuid: ^8.3.2
+    vercel: ^24.2.4
     yup: ^0.32.11
   languageName: unknown
   linkType: soft
@@ -6347,6 +6349,53 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vercel/build-utils@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@vercel/build-utils@npm:3.1.0"
+  checksum: 0613b1dac6680d82a94545eb9088dfb2adb7d97a01cc777fa0fc8324c960ded00075d448fcd2980f9801b2b683144de71d150816266c9e072468d7492711b4ca
+  languageName: node
+  linkType: hard
+
+"@vercel/go@npm:1.4.3":
+  version: 1.4.3
+  resolution: "@vercel/go@npm:1.4.3"
+  checksum: 4fa240d8b515b617b6f9c2b9ad1200a90af9d4a9b1b7acf3255969e2bea795c7709aeee607c1ca940d2760797a231fc6a7540044b5fda6d945996a7190475399
+  languageName: node
+  linkType: hard
+
+"@vercel/node-bridge@npm:2.2.2":
+  version: 2.2.2
+  resolution: "@vercel/node-bridge@npm:2.2.2"
+  checksum: a512cf631f82a27dee0a0addba0be13431980f97ef3e1733f0e6dd8a8e7cf55629fc520c9135a4d3859c1721db4929608fb4b6acc72a00b97560536bcc47a6df
+  languageName: node
+  linkType: hard
+
+"@vercel/node@npm:1.15.3":
+  version: 1.15.3
+  resolution: "@vercel/node@npm:1.15.3"
+  dependencies:
+    "@types/node": "*"
+    "@vercel/node-bridge": 2.2.2
+    ts-node: 8.9.1
+    typescript: 4.3.4
+  checksum: 4ac5da66b48aedc724772d1a9edcfd47636e3bd88a640209ca557548adf57729e65e9d5f37a4a4fe5aa0fef575e0d08e3db4721a89dcdbce51c82e9df33ac069
+  languageName: node
+  linkType: hard
+
+"@vercel/python@npm:2.3.3":
+  version: 2.3.3
+  resolution: "@vercel/python@npm:2.3.3"
+  checksum: 73b031ceb312b95581177a15d79d0dda4b16eaa815db7b902d6d2838688477fb6afa79de845ab6c4aef277e0a6a4f031cfb301e6b8e0ec93a7dae42a4a0a8bf1
+  languageName: node
+  linkType: hard
+
+"@vercel/ruby@npm:1.3.6":
+  version: 1.3.6
+  resolution: "@vercel/ruby@npm:1.3.6"
+  checksum: 4b56495acdb19871dc9195faede08fdf2d54c4b753004008e82d68beb15c674641af7c0909f503171c8dab487cf71bf0bb69fe9c0a5819b4a5bdbe84be5b5001
+  languageName: node
+  linkType: hard
+
 "@vitejs/plugin-vue@npm:^2.2.4":
   version: 2.2.4
   resolution: "@vitejs/plugin-vue@npm:2.2.4"
@@ -7222,6 +7271,13 @@ __metadata:
     delegates: ^1.0.0
     readable-stream: ^2.0.6
   checksum: 70d251719c969b2745bfe5ddf3ebaefa846a636e90a6d5212573676af5d6670e15457761d4725731e19cbebdce42c4ab0cbedf23ab047f2a08274985aa10a3c7
+  languageName: node
+  linkType: hard
+
+"arg@npm:^4.1.0":
+  version: 4.1.3
+  resolution: "arg@npm:4.1.3"
+  checksum: 544af8dd3f60546d3e4aff084d451b96961d2267d668670199692f8d054f0415d86fc5497d0e641e91546f0aa920e7c29e5250e99fc89f5552a34b5d93b77f43
   languageName: node
   linkType: hard
 
@@ -11162,6 +11218,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"diff@npm:^4.0.1":
+  version: 4.0.2
+  resolution: "diff@npm:4.0.2"
+  checksum: f2c09b0ce4e6b301c221addd83bf3f454c0bc00caa3dd837cf6c127d6edf7223aa2bbe3b688feea110b7f262adbfc845b757c44c8a9f8c0c5b15d8fa9ce9d20d
+  languageName: node
+  linkType: hard
+
 "diffie-hellman@npm:^5.0.0":
   version: 5.0.3
   resolution: "diffie-hellman@npm:5.0.3"
@@ -12520,6 +12583,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-structured-headers@npm:~1.1.1":
+  version: 1.1.1
+  resolution: "expo-structured-headers@npm:1.1.1"
+  checksum: eff5f938ba345693f7388ecde410b1e7680f1b1ab524fa5218dd3d1fe279aa53b833399e62abf4135f616d2f1bb71a49862bde8309c2f2441b320c8c4545fac4
+  languageName: node
+  linkType: hard
+
 "expo-three@npm:^5.5.1":
   version: 5.7.0
   resolution: "expo-three@npm:5.7.0"
@@ -12533,6 +12603,29 @@ __metadata:
     react-native: "*"
     three: ^0.127.0
   checksum: 17cae87ba5974ba20aefe5486fde9cdfd15cb1830bc037bd6dbff72c0efd64b3c01efb62af75a8135f4000dd19229a90a07cf9ded9e0428647ec15e8834c7ace
+  languageName: node
+  linkType: hard
+
+"expo-updates-interface@npm:~0.2.2":
+  version: 0.2.2
+  resolution: "expo-updates-interface@npm:0.2.2"
+  checksum: a0f403a65c568e34493ca651242297b55f21cc3c4c1ff20d9b7b0630950759d5b52705b767612397dede8846e00aef2735324ba41c7954b1db814217aeaf238d
+  languageName: node
+  linkType: hard
+
+"expo-updates@npm:~0.8.2":
+  version: 0.8.5
+  resolution: "expo-updates@npm:0.8.5"
+  dependencies:
+    "@expo/config": ^5.0.6
+    "@expo/config-plugins": ^3.0.6
+    "@expo/metro-config": ^0.1.81
+    expo-structured-headers: ~1.1.1
+    expo-updates-interface: ~0.2.2
+    fbemitter: ^2.1.1
+    resolve-from: ^5.0.0
+    uuid: ^3.4.0
+  checksum: e6b81e52399975c240a0a904816762485b93df311a595b3675f5d8355fb041713aa614590fbf9474d056288f0e42c8b937f0f8037e28228d55e401b04e8217dc
   languageName: node
   linkType: hard
 
@@ -17397,6 +17490,13 @@ __metadata:
   dependencies:
     semver: ^6.0.0
   checksum: 484200020ab5a1fdf12f393fe5f385fc8e4378824c940fba1729dcd198ae4ff24867bc7a5646331e50cead8abff5d9270c456314386e629acec6dff4b8016b78
+  languageName: node
+  linkType: hard
+
+"make-error@npm:^1.1.1":
+  version: 1.3.6
+  resolution: "make-error@npm:1.3.6"
+  checksum: b86e5e0e25f7f777b77fabd8e2cbf15737972869d852a22b7e73c17623928fccb826d8e46b9951501d3f20e51ad74ba8c59ed584f610526a48f8ccf88aaec402
   languageName: node
   linkType: hard
 
@@ -23268,7 +23368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12":
+"source-map-support@npm:^0.5.16, source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.6, source-map-support@npm:~0.5.12":
   version: 0.5.21
   resolution: "source-map-support@npm:0.5.21"
   dependencies:
@@ -24594,6 +24694,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-node@npm:8.9.1":
+  version: 8.9.1
+  resolution: "ts-node@npm:8.9.1"
+  dependencies:
+    arg: ^4.1.0
+    diff: ^4.0.1
+    make-error: ^1.1.1
+    source-map-support: ^0.5.17
+    yn: 3.1.1
+  peerDependencies:
+    typescript: ">=2.7"
+  bin:
+    ts-node: dist/bin.js
+    ts-node-script: dist/bin-script.js
+    ts-node-transpile-only: dist/bin-transpile.js
+    ts-script: dist/bin-script-deprecated.js
+  checksum: 59997e32cfb84323317f9fd33ff62d025b467ff36c296c3ad1ee54f08fd355c58fab37e096e2a63fd01fced929384b16b9d74bf324713a21844e527ddd5f6c17
+  languageName: node
+  linkType: hard
+
 "ts-pnp@npm:^1.1.6":
   version: 1.2.0
   resolution: "ts-pnp@npm:1.2.0"
@@ -24748,6 +24868,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:4.3.4":
+  version: 4.3.4
+  resolution: "typescript@npm:4.3.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 75e1f2769c7ff38c718523d05eaf1c2611dbf92c0ab0f85f603ead9bb23416af2009a5dac46e76ef6a207a8508fa53f51b43a41f2a91b1241b53cd744c16128c
+  languageName: node
+  linkType: hard
+
 "typescript@npm:4.6.2":
   version: 4.6.2
   resolution: "typescript@npm:4.6.2"
@@ -24765,6 +24895,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: ed3869f1001a1d3609bddaea3e53147dafc5ad5dc70dd836ae74a8a954e5000a7245448eb98923077be0d3953677d413303f7cdc52ccca9589c664d4060c00a7
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@4.3.4#~builtin<compat/typescript>":
+  version: 4.3.4
+  resolution: "typescript@patch:typescript@npm%3A4.3.4#~builtin<compat/typescript>::version=4.3.4&hash=bda367"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 6ccc2e1148e172da119ea4b72c66395a0c18a53884d21fb82bb4503a948a7169e9961defe24a359040a3d77bf5ff338945804296e0e27c87b5bd22ea1d25781b
   languageName: node
   linkType: hard
 
@@ -25132,6 +25272,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"update-notifier@npm:4.1.0":
+  version: 4.1.0
+  resolution: "update-notifier@npm:4.1.0"
+  dependencies:
+    boxen: ^4.2.0
+    chalk: ^3.0.0
+    configstore: ^5.0.1
+    has-yarn: ^2.1.0
+    import-lazy: ^2.1.0
+    is-ci: ^2.0.0
+    is-installed-globally: ^0.3.1
+    is-npm: ^4.0.0
+    is-yarn-global: ^0.3.0
+    latest-version: ^5.0.0
+    pupa: ^2.0.1
+    semver-diff: ^3.1.1
+    xdg-basedir: ^4.0.0
+  checksum: c5f839ab1b82d6686430f2573377180de010ba213cc9c9e3d0405fa594c9f345ef9c27bce77e36309634a5f1b474d8ef880a20d299f2437abf94d5aa5d2c6d65
+  languageName: node
+  linkType: hard
+
 "update-notifier@npm:^4.1.0":
   version: 4.1.3
   resolution: "update-notifier@npm:4.1.3"
@@ -25411,6 +25572,23 @@ __metadata:
   version: 1.0.4
   resolution: "vendors@npm:1.0.4"
   checksum: 4b16e0bc18dbdd7ac8dd745c776c08f6c73e9a7f620ffd9faf94a3d86a35feaf4c6cb1bbdb304d2381548a30d0abe69b83eeb1b7b1bf5bb33935e64b28812681
+  languageName: node
+  linkType: hard
+
+"vercel@npm:^24.2.4":
+  version: 24.2.4
+  resolution: "vercel@npm:24.2.4"
+  dependencies:
+    "@vercel/build-utils": 3.1.0
+    "@vercel/go": 1.4.3
+    "@vercel/node": 1.15.3
+    "@vercel/python": 2.3.3
+    "@vercel/ruby": 1.3.6
+    update-notifier: 4.1.0
+  bin:
+    vc: dist/index.js
+    vercel: dist/index.js
+  checksum: 9cb802433841f6c2256733df83fdf3b2d29e4e54d535e57f2f867483d25ef9a54cb66ee21bc07b35fd10c44e5ee8483e23fcd7c37776f1f4f67ba254717d501f
   languageName: node
   linkType: hard
 
@@ -26601,6 +26779,13 @@ __metadata:
   dependencies:
     buffer-crc32: ~0.2.3
   checksum: daec5154b5485d8621bfea359e905ddca0b2f068430a4aa0a802bf5d67391157a383e0c2767acccbf5964264851da643bc740155a9458e2d8dce55b94c1cc2ed
+  languageName: node
+  linkType: hard
+
+"yn@npm:3.1.1":
+  version: 3.1.1
+  resolution: "yn@npm:3.1.1"
+  checksum: 2c487b0e149e746ef48cda9f8bad10fc83693cd69d7f9dcd8be4214e985de33a29c9e24f3c0d6bcf2288427040a8947406ab27f7af67ee9456e6b84854f02dd6
   languageName: node
   linkType: hard
 
