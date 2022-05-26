@@ -30,7 +30,7 @@ jobs:
 
           yarn workspace @solve/client install
           yarn workspace @solve/client build:web
-          npx vercel --token ${VERCEL_TOKEN} $prodRun packages/client/web-build
+          npx vercel --token ${VERCEL_TOKEN} $prodRun --prebuilt packages/client/web-build
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
