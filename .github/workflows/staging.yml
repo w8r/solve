@@ -1,0 +1,37 @@
+name: 'Deploy'
+
+on:
+  release:
+    types:
+      - published
+  push:
+    branches:
+      - dev/deploy-to-heroku
+  workflow_dispatch:
+
+jobs:
+  vercel:
+    runs-on: ubuntu-latest
+    name: 'Deploy front-end'
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '16'
+          registry-url: https://registry.npmjs.org/
+
+      - name: 'Deploy to Vercel'
+        run: |
+          prodRun=""
+          if [[ ${GITHUB_REF} == "refs/heads/master" ]]; then
+            prodRun="--prod"
+          fi
+
+          yarn workspace @solve/client install
+          yarn workspace @solve/client build:web
+          npx vercel --token ${VERCEL_TOKEN} $prodRun packages/client/web-build
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
