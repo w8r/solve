@@ -14,7 +14,6 @@ jobs:
     name: Surge deployment
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to foo-bar.surge.sh
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
