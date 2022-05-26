@@ -23320,6 +23320,7 @@ __metadata:
     "@expo/ngrok": ^4.1.0
     localtunnel: ^2.0.1
     ngrok: ^4.3.1
+    vercel: ^24.2.4
   languageName: unknown
   linkType: soft
 
