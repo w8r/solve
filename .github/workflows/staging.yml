@@ -6,8 +6,7 @@ on:
       - published
   push:
     branches:
-      - develop
-      - master
+      - dev/deploy-to-heroku
   workflow_dispatch:
 
 jobs:
@@ -21,11 +20,11 @@ jobs:
           node-version: '16'
           registry-url: https://registry.npmjs.org/
       - run: |
-        domain=${{ secrets.SURGE_DOMAIN }}
-        if [[ ${GITHUB_REF} == "refs/heads/main" ]]; then
-          prodRun=${{ secrets.SURGE_DOMAIN }}
-        fi
-        yarn workspace @solve/client install
-        yarn workspace @solve/client build:web
-        cp -r ./packages/client/web-build/index.html ./packages/client/web-build/200.html
-        yarn surge packages/client/web-build $domain --token ${{ secrets.SURGE_TOKEN }}
+          domain=${{ secrets.SURGE_DOMAIN }}
+          if [[ ${GITHUB_REF} == "refs/heads/main" ]]; then
+            prodRun=${{ secrets.SURGE_DOMAIN }}
+          fi
+          yarn workspace @solve/client install
+          yarn workspace @solve/client build:web
+          cp -r ./packages/client/web-build/index.html ./packages/client/web-build/200.html
+          yarn surge packages/client/web-build $domain --token ${{ secrets.SURGE_TOKEN }}
