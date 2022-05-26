@@ -7,7 +7,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web --https",
     "eject": "expo eject",
-    "build:web": "expo build:web",
+    "build:web": "expo build:web --no-pwa",
     "test": "jest --watchAll",
     "postinstall": "expo-yarn-workspaces postinstall",
     "publish:stage": "expo publish --release-channel staging"
@@ -83,10 +83,10 @@
     "s-ago": "^2.2.0",
     "styled-components": "^5.3.0",
     "styled-system": "^5.1.5",
+    "surge": "^0.23.1",
     "three": "0.137.5",
     "troika-three-text": "^0.45.0",
     "uuid": "^8.3.2",
-    "vercel": "^24.2.4",
     "yup": "^0.32.11"
   },
   "devDependencies": {

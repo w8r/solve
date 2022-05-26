@@ -10,28 +10,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  vercel:
+  surge:
+    name: Surge deployment
     runs-on: ubuntu-latest
-    name: 'Deploy front-end'
-
     steps:
+      - name: Deploy to foo-bar.surge.sh
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: '16'
           registry-url: https://registry.npmjs.org/
-
-      - name: 'Deploy to Vercel'
-        run: |
-          prodRun=""
-          if [[ ${GITHUB_REF} == "refs/heads/master" ]]; then
-            prodRun="--prod"
-          fi
-
-          yarn workspace @solve/client install
-          yarn workspace @solve/client build:web
-          npx vercel --token ${VERCEL_TOKEN} $prodRun --prebuilt packages/client/web-build
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      - run: yarn workspace @solve/client install
+      - run: yarn workspace @solve/client build:web
+      - run: yarn surge packages/client/web-build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
