@@ -4,9 +4,7 @@ on:
   release:
     types:
       - published
-  push:
-    branches:
-      - dev/deploy-to-heroku
+  push
   workflow_dispatch:
 
 jobs:
@@ -20,7 +18,7 @@ jobs:
           node-version: '16'
           registry-url: https://registry.npmjs.org/
       - run: |
-          domain=${{ secrets.SURGE_DOMAIN }}
+          domain=${{ secrets.SURGE_DOMAIN_STAGE }}
           if [[ ${GITHUB_REF} == "refs/heads/main" ]]; then
             prodRun=${{ secrets.SURGE_DOMAIN }}
           fi
