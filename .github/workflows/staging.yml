@@ -21,4 +21,5 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: yarn workspace @solve/client install
       - run: yarn workspace @solve/client build:web
+      - run: cp -r ./packages/client/web-build/index.html ./packages/client/web-build/200.html
       - run: yarn surge packages/client/web-build ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
