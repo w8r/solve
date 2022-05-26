@@ -4,8 +4,11 @@ on:
   release:
     types:
       - published
-  push
-  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - develop
+      - 'dev/**'
 
 jobs:
   surge:
