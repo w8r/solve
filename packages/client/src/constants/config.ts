@@ -7,7 +7,8 @@ const devMode = process.env.NODE_ENV !== 'development';
 console.info(
   chalk.bgGrey('api url'),
   SERVER_PUBLIC_URL,
-  process.env.SERVER_PUBLIC_URL
+  process.env.SERVER_PUBLIC_URL,
+  process.env.SURGE_LOGIN
 );
 
 export default {
