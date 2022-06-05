@@ -1,9 +1,9 @@
-import { SERVER_PUBLIC_URL } from '@env';
+import { FACEBOOK_APP_ID, SERVER_PUBLIC_URL } from '@env';
 
 // @ts-ignore
 const devMode = process.env.NODE_ENV !== 'development';
 
-console.log('api url', SERVER_PUBLIC_URL);
+console.log('api url', SERVER_PUBLIC_URL, FACEBOOK_APP_ID);
 
 export default {
   // App Details
