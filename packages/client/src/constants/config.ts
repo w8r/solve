@@ -4,7 +4,7 @@ import chalk from 'chalk';
 // @ts-ignore
 const devMode = process.env.NODE_ENV !== 'development';
 
-console.info(chalk.bgGrey('api url'), SERVER_PUBLIC_URL);
+console.info(chalk.bgGrey('api url'), SERVER_PUBLIC_URL, devMode);
 
 export default {
   // App Details
