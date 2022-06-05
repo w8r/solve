@@ -1,9 +1,10 @@
-import { FACEBOOK_APP_ID, SERVER_PUBLIC_URL } from '@env';
+import { SERVER_PUBLIC_URL } from '@env';
+import chalk from 'chalk';
 
 // @ts-ignore
 const devMode = process.env.NODE_ENV !== 'development';
 
-console.log('api url', { FACEBOOK_APP_ID, v: process.env.NODE_ENV });
+console.info(chalk.bgGrey('api url'), SERVER_PUBLIC_URL);
 
 export default {
   // App Details
