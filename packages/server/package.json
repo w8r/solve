@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "tunnel": "lt --port 3001",
     "test": "cross-env NODE_ENV=test mocha --timeout 20000 --recursive --exit"
   },
-  "author": "",
+  "engines": {
+    "node": "16.4.2"
+  },
+  "author": "Alex Milevski <alex@milevski.co>, Yigit Akbulut",
   "license": "MIT",
   "dependencies": {
     "@nicokaiser/passport-apple": "0.2.1",

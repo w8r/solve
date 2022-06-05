@@ -69,7 +69,7 @@ require('dotenv').config({
   try {
     tunnel = await ngrok.connect({
       authtoken: process.env.NGROK_TOKEN,
-      addr: process.env.PORT_HTTP,
+      addr: process.env.PORT,
       onStatusChange: (status) => {
         if (status === 'closed') {
           console.log(chalk.red('[*] Tunnel: '), chalk.gray('Closed.'));

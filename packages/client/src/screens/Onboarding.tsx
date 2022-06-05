@@ -11,7 +11,7 @@ export default function Onboarding({ navigation }: OnboardingProps) {
       <VStack space="3" mt="10">
         <Center>
           <Logo />
-          <Text>Distributed problem solving</Text>
+          <Text>Distributed problem solving app</Text>
         </Center>
         <VStack space="2" marginTop="10">
           <TouchableOpacity onPress={() => navigation.navigate('Login')}>

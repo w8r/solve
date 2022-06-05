@@ -45,25 +45,33 @@ console.log(
 );
 
 const httpServer = http.createServer(app);
-const httpsServer = https.createServer(
-  {
-    key: fs.readFileSync(
-      path.resolve(
-        process.cwd(),
-        '../client/.expo/web/development/ssl/key-localhost.pem'
+if (process.env.NODE_ENV === 'development') {
+  const httpsServer = https.createServer(
+    {
+      key: fs.readFileSync(
+        path.resolve(
+          process.cwd(),
+          '../client/.expo/web/development/ssl/key-localhost.pem'
+        ),
+        'utf8'
       ),
-      'utf8'
-    ),
-    cert: fs.readFileSync(
-      path.resolve(
-        process.cwd(),
-        '../client/.expo/web/development/ssl/cert-localhost.pem'
-      ),
-      'utf8'
-    )
-  },
-  app
-);
+      cert: fs.readFileSync(
+        path.resolve(
+          process.cwd(),
+          '../client/.expo/web/development/ssl/cert-localhost.pem'
+        ),
+        'utf8'
+      )
+    },
+    app
+  );
+
+  httpsServer.listen(config.httpsPort, () => {
+    console.log(
+      chalk.cyanBright(`[*] Server listening on port ${config.httpsPort}`)
+    );
+  });
+}
 
 httpServer.listen(config.httpPort, () => {
   displayAllEndpoints(app);
@@ -72,11 +80,6 @@ httpServer.listen(config.httpPort, () => {
   );
 });
 
-httpsServer.listen(config.httpsPort, () => {
-  console.log(
-    chalk.cyanBright(`[*] Server listening on port ${config.httpsPort}`)
-  );
-});
 // error handler
 // no stracktrace sent to client
 app.use((err, req, res, next) => {
