@@ -47,10 +47,9 @@ jobs:
           node-version: '16'
           registry-url: https://registry.npmjs.org/
       - run: |
-          yarn plugin import workspace-tools
-          yarn workspaces focus @solve/server
+          yarn plugin import workspace-tools && yarn workspaces focus @solve/server
       - uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          app_name: ${{ secrets.HEROKU_APP_NAME }}
-          app_dir: packages/server
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          appdir: packages/server
