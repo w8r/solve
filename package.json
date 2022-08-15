@@ -23,7 +23,5 @@
   "bugs": {
     "url": "https://github.com/w8r/solve/issues"
   },
-  "homepage": "https://github.com/w8r/solve#readme",
-  "dependencies": {},
-  "devDependencies": {}
+  "homepage": "https://github.com/w8r/solve#readme"
 }
