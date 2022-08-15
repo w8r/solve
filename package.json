@@ -2,7 +2,6 @@
   "name": "solve",
   "version": "0.0.1",
   "description": "Solve app",
-  "main": "index.js",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -25,12 +24,6 @@
     "url": "https://github.com/w8r/solve/issues"
   },
   "homepage": "https://github.com/w8r/solve#readme",
-  "dependencies": {
-    "localtunnel": "^2.0.1"
-  },
-  "packageManager": "yarn@3.2.0",
-  "devDependencies": {
-    "surge": "^0.23.1",
-    "vercel": "^24.2.4"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }
