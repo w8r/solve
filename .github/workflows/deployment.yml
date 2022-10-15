@@ -37,3 +37,13 @@ jobs:
           yarn workspace @solve/client build:web
           cp -r ./packages/client/web-build/index.html ./packages/client/web-build/200.html
           yarn surge packages/client/web-build $domain --token ${{ secrets.SURGE_TOKEN }}
+
+    api:
+      name: Deploy to API Deta
+      - uses: actions/checkout@v2 #Be sure you check-out the repo first. Deta CLI needs access to the files
+      - uses: BogDAAAMN/deta-deploy-action@v1.0.1
+        with:
+          deta-access-token: ${{ secrets.DETA_TOKEN }} #Deta access token https://docs.deta.sh/docs/cli/auth
+          deta-name: 'solve-api' #Deta Micro name https://docs.deta.sh/docs/cli/commands/#deta-clone
+          deta-project: 'solve' #Optional: Deta project name https://docs.deta.sh/docs/cli/commands/#deta-clone
+          deta-project-dir: './packages/server' #Optional: directory to be deployed on Deta. Default is the root "."

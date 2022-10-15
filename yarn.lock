@@ -5316,6 +5316,7 @@ __metadata:
     compression: 1.7.4
     cors: 2.8.5
     cross-env: 7.0.3
+    deta: ^1.1.0
     dotenv: 10.0.0
     express: 4.17.1
     express-list-endpoints: 5.0.0
@@ -11052,6 +11053,15 @@ __metadata:
   version: 1.0.4
   resolution: "destroy@npm:1.0.4"
   checksum: da9ab4961dc61677c709da0c25ef01733042614453924d65636a7db37308fef8a24cd1e07172e61173d471ca175371295fbc984b0af5b2b4ff47cd57bd784c03
+  languageName: node
+  linkType: hard
+
+"deta@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "deta@npm:1.1.0"
+  dependencies:
+    node-fetch: ^2.6.7
+  checksum: 70b1366cf8b704ecfbf33e7ba1c12fa5eae77d1d93b25266bd27917dc526cf9e39db7a6db491ef81db5759a957cd8cc9555a0de1d8369045a7e160f30af74ee3
   languageName: node
   linkType: hard
 
@@ -18803,7 +18813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:2.6.7, node-fetch@npm:^2.2.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.5":
+"node-fetch@npm:2.6.7, node-fetch@npm:^2.2.0, node-fetch@npm:^2.6.0, node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.5, node-fetch@npm:^2.6.7":
   version: 2.6.7
   resolution: "node-fetch@npm:2.6.7"
   dependencies:
