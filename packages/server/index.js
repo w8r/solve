@@ -89,3 +89,5 @@ app.use((err, req, res, next) => {
 });
 
 global.app = app;
+
+module.exports = app;
