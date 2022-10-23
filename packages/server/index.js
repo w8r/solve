@@ -37,12 +37,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(require('./routes'));
 
 app.use(passport.initialize());
-console.log(
-  path.resolve(
-    process.cwd(),
-    '../client/.expo/web/development/ssl/key-localhost.pem'
-  )
-);
 
 const httpServer = http.createServer(app);
 if (process.env.NODE_ENV === 'development') {
