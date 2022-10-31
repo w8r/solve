@@ -28,7 +28,7 @@ jobs:
           fi
           touch .env
 
-          echo SERVER_PUBLIC_URL=${{ secrets.SERVER_PUBLIC_URL }} >> .env
+          echo SERVER_PUBLIC_URL=${{ secrets.SERVER_PUBLIC_URL2 }} >> .env
           echo FACEBOOK_APP_ID=${{ secrets.FACEBOOK_APP_ID }} >> .env
           echo GOOGLE_WEB_ID=${{ secrets.GOOGLE_WEB_ID }} >> .env
           echo GOOGLE_IOS_ID=${{ secrets.GOOGLE_IOS_ID }} >> .env

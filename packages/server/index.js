@@ -39,7 +39,7 @@ app.use(require('./routes'));
 app.use(passport.initialize());
 
 const httpServer = http.createServer(app);
-if (process.env.NODE_ENV === 'development') {
+if (false && process.env.NODE_ENV === 'development') {
   const httpsServer = https.createServer(
     {
       key: fs.readFileSync(
