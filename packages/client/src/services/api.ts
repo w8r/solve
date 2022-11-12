@@ -14,6 +14,7 @@ const transport = axios.create({
     Accept: 'application/json',
     'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',
+    'Access-Control-Allow-Origin': '*', // Required for CORS support to work
     Pragma: 'no-cache',
     Expires: '0'
   },
