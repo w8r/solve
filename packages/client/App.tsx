@@ -1,29 +1,23 @@
-import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NativeBaseProvider } from 'native-base';
-import { AuthProvider } from './src/contexts/AuthContext';
-
-import useCachedResources from './src/hooks/useCachedResources';
-import useColorScheme from './src/hooks/useColorScheme';
-import Navigation from './src/navigation';
-import SSRProvider from 'react-bootstrap/SSRProvider';
+import { StyleSheet, Text, View } from 'react-native';
+import { Provider as UIProvider } from 'react-native-paper';
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-  if (!isLoadingComplete) return null;
   return (
-    <SSRProvider>
-      <NativeBaseProvider>
-        <SafeAreaProvider>
-          <AuthProvider>
-            <Navigation />
-            <StatusBar />
-          </AuthProvider>
-        </SafeAreaProvider>
-      </NativeBaseProvider>
-    </SSRProvider>
+    <UIProvider>
+      <View style={styles.container}>
+        <Text>Don't open up Ap.tsx to start working on your app!</Text>
+        <StatusBar style="auto" />
+      </View>
+    </UIProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});

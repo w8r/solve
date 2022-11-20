@@ -15,10 +15,7 @@
     "docs": "yarn workspace @solve/presentation build",
     "publish:stage": "yarn workspace @solve/client publish:stage"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/w8r/solve.git"
-  },
+  "repository": "git+https://github.com/w8r/solve.git",
   "author": "Alexander Milevski <alex@milevski.co>",
   "license": "MIT",
   "bugs": {
