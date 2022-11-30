@@ -4,46 +4,63 @@ import {
   DefaultTheme,
   DarkTheme
 } from '@react-navigation/native';
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ColorSchemeName } from 'react-native';
+import { ColorSchemeName, View, Text } from 'react-native';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import { RootStackParamList } from './types';
-import BottomTabNavigator from './BottomTabNavigator';
+
 import LinkingConfiguration from './LinkingConfiguration';
 import { useAuth } from '../hooks/useAuth';
-import AuthNavigator from './AuthNavigator';
+//import BottomTabNavigator from './BottomTabNavigator';
+//import AuthNavigator from './AuthNavigator';
 
-export default function Navigation({
-  colorScheme
-}: {
-  colorScheme?: ColorSchemeName;
-}) {
+//SplashScreen.preventAutoHideAsync();
+
+export function Navigation({ colorScheme }: { colorScheme?: ColorSchemeName }) {
   const { loading } = useAuth();
+  const onLayoutRootView = React.useCallback(async () => {
+    if (loading) {
+      await SplashScreen.hideAsync();
+    }
+  }, [loading]);
   // TODO: Load resources
-  if (loading) return <AppLoading />;
-  return (
-    <NavigationContainer linking={LinkingConfiguration} theme={DefaultTheme}>
-      <RootNavigator />
-    </NavigationContainer>
-  );
+  if (loading) return null;
+  return <RootNavigator />;
 }
 
 // A root stack navigator is often used for displaying modals on top of all other content
 // Read more here: https://reactnavigation.org/docs/modal
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
+function AppNavigator() {
+  return (
+    <View>
+      <Text>App</Text>
+    </View>
+  );
+}
+
+function AuthNavigator() {
+  return (
+    <View>
+      <Text>Auth</Text>
+    </View>
+  );
+}
+
 const RootSwitch = createStackNavigator();
 function RootSwitchNavigator() {
   const { authenticated, loading } = useAuth();
-  if (loading) return <AppLoading />;
+  if (loading) return null;
   return (
-    <RootSwitch.Navigator
-      headerMode="none"
-      initialRouteName={authenticated ? 'App' : 'Auth'}
-    >
+    <RootSwitch.Navigator initialRouteName={authenticated ? 'App' : 'Auth'}>
       {authenticated ? (
-        <RootSwitch.Screen name="App" component={BottomTabNavigator} />
+        <RootSwitch.Screen
+          name="App"
+          component={AppNavigator}
+          options={{ headerMode: 'none' }}
+        />
       ) : null}
       {authenticated ? null : (
         <RootSwitch.Screen name="Auth" component={AuthNavigator} />
@@ -54,7 +71,7 @@ function RootSwitchNavigator() {
 
 function RootNavigator() {
   return (
-    <Navigator headerMode="none">
+    <Navigator>
       <Screen name="Root" component={RootSwitchNavigator} />
       <Screen
         name="NotFound"

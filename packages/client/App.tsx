@@ -5,6 +5,7 @@ import { Canvas, Circle, Group } from '@shopify/react-native-skia';
 import { NavigationContainer } from '@react-navigation/native';
 import { theme } from './theme';
 import { AuthProvider } from './src/contexts/AuthContext';
+import { Navigation } from './src/navigation';
 
 const HelloWorld = () => {
   const size = 256;
@@ -25,10 +26,8 @@ export default function App() {
     <NavigationContainer>
       <UIProvider theme={theme}>
         <AuthProvider>
-          <View style={styles.container}>
-            <HelloWorld />
-            <StatusBar style="auto" />
-          </View>
+          <Navigation />
+          <StatusBar style="auto" />
         </AuthProvider>
       </UIProvider>
     </NavigationContainer>
