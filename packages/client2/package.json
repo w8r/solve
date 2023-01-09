@@ -12,9 +12,6 @@
     "postinstall": "expo-yarn-workspaces postinstall",
     "publish:stage": "expo publish --release-channel staging"
   },
-  "engines": {
-    "node": "16.4.2"
-  },
   "jest": {
     "preset": "jest-expo"
   },
@@ -75,7 +72,7 @@
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
-    "react-native-svg": "12.1.1",
+    "react-native-svg": "12.1.0",
     "react-native-uuid": "^2.0.1",
     "react-native-web": "~0.13.12",
     "react-style-proptype": "^3.2.2",
