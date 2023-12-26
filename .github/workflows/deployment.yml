@@ -34,10 +34,10 @@ jobs:
           echo GOOGLE_IOS_ID=${{ secrets.GOOGLE_IOS_ID }} >> .env
           echo GOOGLE_EXPO_ID=${{ secrets.GOOGLE_EXPO_ID }} >> .env
 
-          yarn workspace @solve/client install
-          yarn workspace @solve/client build:web
+          npm run -w @solve/client install
+          npm run -w @solve/client build:web
           cp -r ./packages/client/web-build/index.html ./packages/client/web-build/200.html
-          yarn surge packages/client/web-build $domain --token ${{ secrets.SURGE_TOKEN }}
+          npx surge packages/client/web-build $domain --token ${{ secrets.SURGE_TOKEN }}
   api:
     name: Deploy to API Deta
     runs-on: ubuntu-latest
