@@ -8,12 +8,12 @@
     "packages/*"
   ],
   "scripts": {
-    "client": "yarn workspace @solve/client start --https",
-    "server": "yarn workspace @solve/server dev",
-    "presentation": "yarn workspace @solve/presentation dev",
-    "build-web": "yarn workspace @solve/client build:web",
-    "docs": "yarn workspace @solve/presentation build",
-    "publish:stage": "yarn workspace @solve/client publish:stage"
+    "client": "npm run -w @solve/client start --https",
+    "server": "npm run -w @solve/server dev",
+    "presentation": "npm run -w @solve/presentation dev",
+    "build-web": "npm run -w @solve/client build:web",
+    "docs": "npm run -w @solve/presentation build",
+    "publish:stage": "npm run -w @solve/client publish:stage"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,6 @@
   "dependencies": {
     "localtunnel": "^2.0.1"
   },
-  "packageManager": "yarn@3.2.0",
   "devDependencies": {
     "surge": "^0.23.1",
     "vercel": "^24.2.4"
