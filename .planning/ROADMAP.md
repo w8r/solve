@@ -54,14 +54,15 @@ Plans:
 1. Fastify server starts and responds to health check endpoint
 2. MongoDB connection works with separate collections for graphs, nodes, edges, operations
 3. Structured logging with Pino captures context objects for all requests
-4. Backend deployed to Vercel and accessible via HTTPS
+4. Backend deployed to Fly.io (Docker-based, portable to any container host)
 5. All graph mutations create operation log entries for future CRDT compatibility
-   **Plans**: TBD
+   **Plans**: 3 plans in 3 waves
 
 Plans:
 
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [ ] 02-01-PLAN.md — Server foundation, environment config, MongoDB connection (Wave 1)
+- [ ] 02-02-PLAN.md — Transaction utilities and operation logging pattern (Wave 2)
+- [ ] 02-03-PLAN.md — Dockerfile and Fly.io deployment configuration (Wave 3)
 
 ### Phase 3: Authentication
 
@@ -200,7 +201,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | Phase                     | Plans Complete | Status            | Completed |
 | ------------------------- | -------------- | ----------------- | --------- |
 | 1. Foundation & Setup     | 0/3            | Planning complete | -         |
-| 2. Backend Infrastructure | 0/?            | Not started       | -         |
+| 2. Backend Infrastructure | 0/3            | Planning complete | -         |
 | 3. Authentication         | 0/?            | Not started       | -         |
 | 4. Graph API              | 0/?            | Not started       | -         |
 | 5. Design System          | 0/?            | Not started       | -         |
@@ -211,4 +212,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 ---
 
 _Roadmap created: 2026-03-01_
-_Last updated: 2026-03-01 (Phase 1 planning complete)_
+_Last updated: 2026-03-01 (Phase 2 planning complete)_
