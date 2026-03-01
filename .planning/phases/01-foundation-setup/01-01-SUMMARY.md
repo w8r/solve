@@ -40,6 +40,7 @@ metrics:
 ## What Was Built
 
 Established clean npm workspaces monorepo foundation by:
+
 - Moving inactive legacy packages (server, client, presentation) from /packages/ to /legacy/ with git history preserved
 - Converting root package.json from Yarn 3.2.0 to npm workspaces with proper scripts
 - Removing all Yarn artifacts and verifying npm install works
@@ -48,6 +49,7 @@ Established clean npm workspaces monorepo foundation by:
 ## Implementation Details
 
 ### Task 1: Move Legacy Packages
+
 - Created /legacy/ directory at repo root
 - Used `git mv` to preserve Git blame/log history for:
   - packages/server → legacy/server
@@ -56,6 +58,7 @@ Established clean npm workspaces monorepo foundation by:
 - Created legacy/README.md documenting preservation date (2026-03-01), original locations, and usage restrictions
 
 ### Task 2: Convert to npm Workspaces
+
 - Removed `"packageManager": "yarn@3.2.0"` field
 - Added `"engines": { "node": ">=22.0.0" }` requirement
 - Updated scripts:
@@ -67,6 +70,7 @@ Established clean npm workspaces monorepo foundation by:
 - Created .nvmrc with content `22` for nvm users
 
 ### Task 3: Remove Yarn Artifacts
+
 - Removed yarn.lock (926KB)
 - Removed .yarnrc.yml
 - Removed .yarn/releases/yarn-3.2.0.cjs
@@ -78,19 +82,23 @@ Established clean npm workspaces monorepo foundation by:
 ## Key Files
 
 ### Created
+
 - **legacy/README.md** (1001 bytes) - Documentation for preserved legacy code
 - **.nvmrc** (2 bytes) - Node version 22 pinning
 - **package-lock.json** (544 bytes) - npm dependency lockfile
 
 ### Modified
+
 - **package.json** - Converted from Yarn to npm workspaces, updated engines and scripts
 
 ### Moved (182 files)
+
 - **legacy/server/** - Original Express.js backend (preserved for reference)
 - **legacy/client/** - Original React Native app (preserved for reference)
 - **legacy/presentation/** - Original Slidev presentation (preserved for reference)
 
 ### Deleted
+
 - yarn.lock (926KB)
 - .yarnrc.yml (65 bytes)
 - .yarn/releases/yarn-3.2.0.cjs (2.1MB)
@@ -107,6 +115,7 @@ All success criteria met:
 6. ✅ npm ls shows @solve/common linked to ./packages/common
 
 Command output:
+
 ```
 solve@0.0.1 /Users/amilevski/Projects/solve
 └── @solve/common@1.0.0 -> ./packages/common
@@ -127,33 +136,37 @@ None - plan executed exactly as written.
 ## Dependencies
 
 ### Requires
+
 - Git repository initialized
 - Existing packages structure at /packages/
 
 ### Provides
+
 - npm workspaces foundation for monorepo
 - Legacy code preservation system
 - Node version standardization (22)
 
 ### Affects
+
 - All future package development (must use npm, not yarn)
 - Developer environment setup (must use Node 22+)
 - Workspace script invocations (npm run -w syntax)
 
 ## Commits
 
-| Commit | Type | Description | Files |
-|--------|------|-------------|-------|
-| b22a4e6 | chore | Move legacy packages to /legacy/ directory | 183 files (182 renames + 1 create) |
-| 82d815a | chore | Convert to npm workspaces | 2 files (package.json, .nvmrc) |
-| c83309a | chore | Remove yarn artifacts and verify npm install | 4 files (3 deletions + 1 create) |
+| Commit  | Type  | Description                                  | Files                              |
+| ------- | ----- | -------------------------------------------- | ---------------------------------- |
+| b22a4e6 | chore | Move legacy packages to /legacy/ directory   | 183 files (182 renames + 1 create) |
+| 82d815a | chore | Convert to npm workspaces                    | 2 files (package.json, .nvmrc)     |
+| c83309a | chore | Remove yarn artifacts and verify npm install | 4 files (3 deletions + 1 create)   |
 
 ## Next Steps
 
 Ready for Plan 02 (TypeScript configuration):
+
 - Root tsconfig.json with strict mode
 - Shared base config for all workspaces
-- Path aliases for @solve/* packages
+- Path aliases for @solve/\* packages
 - Type checking scripts
 
 ## Self-Check: PASSED
@@ -161,6 +174,7 @@ Ready for Plan 02 (TypeScript configuration):
 All claimed files and commits verified:
 
 **Files exist:**
+
 ```
 FOUND: legacy/README.md
 FOUND: .nvmrc
@@ -168,6 +182,7 @@ FOUND: package-lock.json
 ```
 
 **Files removed:**
+
 ```
 CONFIRMED: yarn.lock does not exist
 CONFIRMED: .yarnrc.yml does not exist
@@ -175,6 +190,7 @@ CONFIRMED: .yarn/ directory does not exist
 ```
 
 **Commits exist:**
+
 ```
 FOUND: b22a4e6 chore(01-foundation-setup): move legacy packages to /legacy/ directory
 FOUND: 82d815a chore(01-foundation-setup): convert to npm workspaces
@@ -182,6 +198,7 @@ FOUND: c83309a chore(01-foundation-setup): remove yarn artifacts and verify npm 
 ```
 
 **Workspace linking verified:**
+
 ```
 solve@0.0.1 /Users/amilevski/Projects/solve
 └── @solve/common@1.0.0 -> ./packages/common

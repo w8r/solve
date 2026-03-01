@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from "react";
 
 import {
   Button,
@@ -9,22 +9,19 @@ import {
   Text,
   FormControl,
   Input,
-  Divider
-} from 'native-base';
-import * as Validator from 'yup';
-import { useFormik as useForm } from 'formik';
-import { LoginProps } from '../navigation/types';
-import { SocialLogin } from '../components/SocialLogin';
-import { FormContainer, Logo } from '../components';
-import { useAuth } from '../hooks/useAuth';
-import { redirectTo } from '../navigation/LinkingUtils';
+  Divider,
+} from "native-base";
+import * as Validator from "yup";
+import { useFormik as useForm } from "formik";
+import { LoginProps } from "../navigation/types";
+import { SocialLogin } from "../components/SocialLogin";
+import { FormContainer, Logo } from "../components";
+import { useAuth } from "../hooks/useAuth";
+import { redirectTo } from "../navigation/LinkingUtils";
 
 const LoginSchema = Validator.object().shape({
-  password: Validator.string()
-    .min(6, 'Too short')
-    .max(16, 'Too long')
-    .required('Required'),
-  email: Validator.string().email('Invalid email').required('Required')
+  password: Validator.string().min(6, "Too short").max(16, "Too long").required("Required"),
+  email: Validator.string().email("Invalid email").required("Required"),
 });
 
 export default function Login({ navigation }: LoginProps) {
@@ -32,30 +29,26 @@ export default function Login({ navigation }: LoginProps) {
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { handleChange, handleBlur, submitForm, values, errors, touched } =
-    useForm({
-      validationSchema: LoginSchema,
-      initialValues: { email: '', password: '' },
-      onSubmit: (values) => {
-        setIsLoading(true);
-        login(values.email, values.password).catch((err) => {
-          if (err && err.error) {
-            const {
-              error: { code, message }
-            } = err;
-            // TODO: store globally
+  const { handleChange, handleBlur, submitForm, values, errors, touched } = useForm({
+    validationSchema: LoginSchema,
+    initialValues: { email: "", password: "" },
+    onSubmit: (values) => {
+      setIsLoading(true);
+      login(values.email, values.password).catch((err) => {
+        if (err && err.error) {
+          const {
+            error: { code, message },
+          } = err;
+          // TODO: store globally
 
-            if (code === 'auth/wrong-password') errors.password = message;
-            if (
-              code === 'auth/email-unverified' ||
-              code === 'auth/user-not-found'
-            )
-              errors.email = message;
-          }
-          setIsLoading(false);
-        });
-      }
-    });
+          if (code === "auth/wrong-password") errors.password = message;
+          if (code === "auth/email-unverified" || code === "auth/user-not-found")
+            errors.email = message;
+        }
+        setIsLoading(false);
+      });
+    },
+  });
 
   const emailError = !!(errors.email && touched.email);
   const passwordError = !!(errors.password && touched.password);
@@ -71,17 +64,17 @@ export default function Login({ navigation }: LoginProps) {
           <FormControl.Label
             isDisabled={isLoading}
             _text={{
-              color: 'coolGray.800',
-              fontSize: 'xs',
-              fontWeight: 500
+              color: "coolGray.800",
+              fontSize: "xs",
+              fontWeight: 500,
             }}
           >
             Email
           </FormControl.Label>
           <Input
             isDisabled={isLoading}
-            onChange={(evt) => handleChange('email')(evt.nativeEvent.text)}
-            onBlur={handleBlur('email')}
+            onChange={(evt) => handleChange("email")(evt.nativeEvent.text)}
+            onBlur={handleBlur("email")}
             onSubmitEditing={() => passwordInputRef.current?.focus()}
           />
           <FormControl.ErrorMessage>{errors.email}</FormControl.ErrorMessage>
@@ -89,9 +82,9 @@ export default function Login({ navigation }: LoginProps) {
         <FormControl isInvalid={passwordError}>
           <FormControl.Label
             _text={{
-              color: 'coolGray.800',
-              fontSize: 'xs',
-              fontWeight: 500
+              color: "coolGray.800",
+              fontSize: "xs",
+              fontWeight: 500,
             }}
           >
             Password
@@ -100,20 +93,20 @@ export default function Login({ navigation }: LoginProps) {
             isDisabled={isLoading}
             type="password"
             ref={passwordInputRef}
-            onChange={(evt) => handleChange('password')(evt.nativeEvent.text)}
-            onBlur={handleBlur('password')}
+            onChange={(evt) => handleChange("password")(evt.nativeEvent.text)}
+            onBlur={handleBlur("password")}
             onSubmitEditing={() => submitForm()}
           />
           <FormControl.ErrorMessage>{errors.password}</FormControl.ErrorMessage>
           <Link
             _text={{
-              fontSize: 'xs',
-              fontWeight: '500',
-              color: 'indigo.500'
+              fontSize: "xs",
+              fontWeight: "500",
+              color: "indigo.500",
             }}
             alignSelf="flex-end"
             mt="1"
-            onPress={() => redirectTo('auth/reset-password')}
+            onPress={() => redirectTo("auth/reset-password")}
           >
             Forgot Password?
           </Link>
@@ -122,22 +115,22 @@ export default function Login({ navigation }: LoginProps) {
           isLoading={isLoading}
           mt="2"
           colorScheme="indigo"
-          _text={{ color: 'white' }}
+          _text={{ color: "white" }}
           onPress={() => submitForm()}
         >
           Sign in
         </Button>
         <HStack mt="6" justifyContent="center">
           <Text fontSize="sm" color="muted.700" fontWeight={400}>
-            I'm a new user.{' '}
+            I'm a new user.{" "}
           </Text>
           <Link
             _text={{
-              color: 'indigo.500',
-              fontWeight: 'medium',
-              fontSize: 'sm'
+              color: "indigo.500",
+              fontWeight: "medium",
+              fontSize: "sm",
             }}
-            onPress={() => redirectTo('auth/signup')}
+            onPress={() => redirectTo("auth/signup")}
           >
             Sign Up
           </Link>

@@ -1,4 +1,4 @@
-declare module '@env' {
+declare module "@env" {
   export const GOOGLE_ANDROID_ID: string;
   export const GOOGLE_EXPO_ID: string;
   export const GOOGLE_IOS_ID: string;

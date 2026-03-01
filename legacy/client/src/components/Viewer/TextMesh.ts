@@ -1,11 +1,8 @@
-import { Mesh, Vector3 } from 'three'; // 2.2.2-alpha.1
-import {
-  TextGeometry,
-  TextGeometryParameters
-} from 'three/examples/jsm/geometries/TextGeometry';
-import { Font, FontLoader } from 'three/examples/jsm/loaders/FontLoader'; // 2.2.2-alpha.1
+import { Mesh, Vector3 } from "three"; // 2.2.2-alpha.1
+import { TextGeometry, TextGeometryParameters } from "three/examples/jsm/geometries/TextGeometry";
+import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader"; // 2.2.2-alpha.1
 
-import font from 'three/examples/fonts/droid/droid_sans_regular.typeface.json';
+import font from "three/examples/fonts/droid/droid_sans_regular.typeface.json";
 
 /**
  * @property font — an instance of THREE.Font.
@@ -25,7 +22,7 @@ interface Params extends TextGeometryParameters {
 export { font };
 
 export class TextMesh extends Mesh {
-  params: Params = { text: '' } as Params;
+  params: Params = { text: "" } as Params;
   size = new Vector3();
 
   get text() {
@@ -45,15 +42,10 @@ export class TextMesh extends Mesh {
     this.params.font = this.params.font || this.loadFontFromJson(font);
 
     if (!this.params.font) {
-      console.warn(
-        'TextMesh.updateWithParams: font is required to create TextGeometry!'
-      );
+      console.warn("TextMesh.updateWithParams: font is required to create TextGeometry!");
       return;
     }
-    this.geometry = new TextGeometry(
-      this.params.text,
-      this.params as TextGeometryParameters
-    );
+    this.geometry = new TextGeometry(this.params.text, this.params as TextGeometryParameters);
     this.geometry.computeBoundingBox();
     this.geometry.computeVertexNormals();
     // update size so that we can position the text correctly

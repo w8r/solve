@@ -1,13 +1,13 @@
-import { Dimensions } from 'react-native';
-import { isWeb } from './device';
+import { Dimensions } from "react-native";
+import { isWeb } from "./device";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 export const menuMargin = isWeb ? -80 : 0;
 
 export default {
   window: {
     width,
-    height
+    height,
   },
-  isSmallDevice: width < 375
+  isSmallDevice: width < 375,
 };

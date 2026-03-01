@@ -1,11 +1,11 @@
-const sharp = require('sharp');
+const sharp = require("sharp");
 
 function svg({ nodes = [], edges = [] }) {
   const nodesMap = new Map();
   const bbox = [Infinity, Infinity, -Infinity, -Infinity];
 
-  const nodeColor = '#404040';
-  const edgeColor = '#909090';
+  const nodeColor = "#404040";
+  const edgeColor = "#909090";
 
   if (nodes.length === 0) {
     nodes = [
@@ -14,11 +14,11 @@ function svg({ nodes = [], edges = [] }) {
           x: 0,
           y: 0,
           radius: 10,
-          color: 'none',
+          color: "none",
           strokeWidth: 1,
-          strokeColor: nodeColor
-        }
-      }
+          strokeColor: nodeColor,
+        },
+      },
     ];
     bbox[0] = -100;
     bbox[1] = -100;
@@ -50,18 +50,14 @@ function svg({ nodes = [], edges = [] }) {
     const attrs = node.attributes || {};
     const { x = 0, y = 0, r: radius = 5 } = attrs;
 
-    const strokeColor = attrs.strokeColor
-      ? ` stroke="${attrs.strokeColor}"`
-      : '';
-    const strokeWidth = attrs.strokeWidth
-      ? ` stroke-width="${attrs.strokeWidth}"`
-      : '';
+    const strokeColor = attrs.strokeColor ? ` stroke="${attrs.strokeColor}"` : "";
+    const strokeWidth = attrs.strokeWidth ? ` stroke-width="${attrs.strokeWidth}"` : "";
 
     return `<circle
       cx="${x}" cy="${bbox[3] - y}"
       r="${radius * ratio}" fill="${
-      attrs.color || nodeColor
-    }" ${strokeColor} ${strokeWidth} />`.replace(/\s+/g, ' ');
+        attrs.color || nodeColor
+      }" ${strokeColor} ${strokeWidth} />`.replace(/\s+/g, " ");
   });
 
   const renderedEdges = edges.map((edge) => {
@@ -95,11 +91,11 @@ function svg({ nodes = [], edges = [] }) {
       viewBox="${cx - s / 2} ${-(s - h) / 2} ${s} ${s}"
       width="${viewSize}" height="${viewSize} ">
       <g>
-        <g>${renderedEdges.join('\n')}</g>
-        <g>${renderedNodes.join('\n')}</g>
+        <g>${renderedEdges.join("\n")}</g>
+        <g>${renderedNodes.join("\n")}</g>
       </g>
     </svg>
- `.trim()
+ `.trim(),
   );
 }
 

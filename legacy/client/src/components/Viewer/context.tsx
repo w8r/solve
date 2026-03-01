@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { createContext, FC, useContext, useState, useEffect } from 'react';
-import { App } from './App';
-import { Graph, GraphEdge, GraphNode, Id } from '../../types/graph';
+import * as React from "react";
+import { createContext, FC, useContext, useState, useEffect } from "react";
+import { App } from "./App";
+import { Graph, GraphEdge, GraphNode, Id } from "../../types/graph";
 
 export type VisState = {
   graph: Graph;
@@ -24,19 +24,18 @@ export type VisState = {
 };
 
 export const VisContext = createContext<VisState>({
-  graph: { nodes: [], edges: [] }
+  graph: { nodes: [], edges: [] },
 } as any as VisState);
 
 export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
   const [app, setApp] = useState<App | null>(null);
   const [graph, setGraph] = useState<Graph>({
-    id: '',
-    publicId: '',
+    id: "",
+    publicId: "",
     nodes: [],
-    edges: []
+    edges: [],
   });
-  const startSelection = (callback: (graph: Graph) => unknown) =>
-    app?.startSelection(callback);
+  const startSelection = (callback: (graph: Graph) => unknown) => app?.startSelection(callback);
   const [selectedNodes, setSelectedNodes] = useState<GraphNode[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<GraphEdge[]>([]);
 
@@ -125,7 +124,7 @@ export const VisProvider: FC<{ value?: VisState }> = ({ children }) => {
 
           selectNode,
           selectEdge,
-          clearSelection
+          clearSelection,
         } as VisState
       }
     >

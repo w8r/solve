@@ -20,6 +20,7 @@ The biggest risks are (1) naive canvas rendering causing performance collapse at
 Solve should use React Native/Expo for cross-platform mobile + web, with Skia for 60 FPS GPU-accelerated graph rendering. Skia communicates directly with the GPU via JSI (no bridge, no serialization), delivering 50% faster animations on iOS and 200% on Android versus traditional approaches. The backend uses Fastify (not Express) for 3x better performance and superior TypeScript support, critical for real-time graph operations. Real-time collaboration uses Socket.io with room-based broadcasting, with architecture designed for Yjs CRDT integration in M3. MongoDB provides the database with a hybrid storage model (metadata embedded, nodes/edges/operations in separate collections) to avoid the 16MB document limit while keeping query performance acceptable.
 
 **Core technologies:**
+
 - **React Native 0.83 + Expo SDK 55**: Cross-platform mobile/web with New Architecture, mature build/deployment via EAS
 - **Skia + Reanimated + Gesture Handler**: GPU-accelerated 2D rendering at 60 FPS, direct C++ integration via JSI, production-proven
 - **Fastify 5.6**: 3x faster than Express, native TypeScript support, plugin architecture, built-in validation with Zod
@@ -29,6 +30,7 @@ Solve should use React Native/Expo for cross-platform mobile + web, with Skia fo
 - **Yjs 13.6 (M3)**: Industry-standard CRDT framework for conflict-free collaborative editing, modular architecture
 
 **Critical version notes:**
+
 - Expo SDK 55 includes React 19.2 and RN 0.83, always runs on New Architecture (no opt-in needed)
 - Reanimated 3.17 integrates directly with Skia without `createAnimatedComponent` wrapper
 - MongoDB 6.0+ required for transactions, aggregation pipeline optimizations
@@ -39,6 +41,7 @@ Solve should use React Native/Expo for cross-platform mobile + web, with Skia fo
 Research reveals clear patterns across visual collaboration tools: real-time editing, infinite canvas, keyboard shortcuts, multi-format export, and granular permissions are baseline expectations in 2026. Users expect tools to feel instant (optimistic updates), support mobile gestures, and provide comment threads with @mentions. What differentiates products is intelligent features (AI-assisted generation), novel workflows (GitHub-style forking for graphs), and seamless integrations.
 
 **Must have (table stakes):**
+
 - Real-time collaboration with live cursors and conflict-free editing (Miro, Figma, Notion all have this)
 - Infinite canvas with zoom/pan (pinch, space+drag, smooth transforms at 60 FPS)
 - Keyboard shortcuts for power users (Tab for child, Enter for sibling, Delete, Undo/Redo)
@@ -49,6 +52,7 @@ Research reveals clear patterns across visual collaboration tools: real-time edi
 - Visual customization (colors, shapes, edge types without relying on color alone for accessibility)
 
 **Should have (competitive differentiators):**
+
 - GitHub-style fork/propose/merge workflow - UNIQUE TO SOLVE, no competitor offers this for graphs
 - Visual diff for merge proposals - show added/removed/modified nodes side-by-side (Figma has this for designs)
 - Subgraph selection and forking - extract part of problem to work independently
@@ -58,6 +62,7 @@ Research reveals clear patterns across visual collaboration tools: real-time edi
 - Activity timeline - Git-log-style history of forks, merges, proposals
 
 **Defer (v2+):**
+
 - AI-assisted node generation - nice to have but not core (defer to M4+)
 - Template library - wait for usage patterns to emerge
 - Integration with external tools (Notion, Jira, GitHub) - post-PMF
@@ -71,6 +76,7 @@ Research reveals clear patterns across visual collaboration tools: real-time edi
 The recommended architecture uses layered separation: presentation (React Native + Skia), state (Zustand stores for graphs/viewport/user), sync (WebSocket operation queue with offline support), and persistence (MongoDB + Redis). The critical pattern is operation-based architecture - every change becomes a discrete operation (not state snapshot), enabling CRDT compatibility, offline merge, and audit trails. Frontend uses infinite canvas with viewport transforms (single matrix for pan/zoom, not per-item positioning), viewport culling to render only visible nodes, and optimistic updates with rollback on server rejection. Backend uses Fastify plugin architecture with Socket.io rooms (one room per graph), structured logging with Pino, and BullMQ for background jobs like auto-save and snapshots.
 
 **Major components:**
+
 1. **Skia Canvas Layer** - GPU-accelerated rendering with viewport culling, dirty flag system, gesture handling, only draws visible nodes + buffer zone
 2. **Graph Store (Zustand)** - Operation-based state management, optimistic updates, operation queue for offline-first sync, per-user undo stacks
 3. **WebSocket Sync Layer** - Socket.io rooms for per-graph collaboration, operation broadcasting, presence tracking, reconnection with gap detection
@@ -79,6 +85,7 @@ The recommended architecture uses layered separation: presentation (React Native
 6. **Background Jobs (BullMQ)** - Auto-save every 5 min, periodic snapshots, future notifications, exponential backoff retries
 
 **Key architectural patterns:**
+
 - Infinite canvas with single transform matrix (hardware accelerated, scales to 1000s of nodes)
 - Operation-based sync (represent changes as discrete ops, not snapshots - smaller bandwidth, enables CRDT)
 - Room-based presence (Socket.io room per graph, auto-cleanup on disconnect)
@@ -101,6 +108,7 @@ Research identified pitfalls that cause rewrites (CRDT as afterthought), perform
 5. **Tombstone Memory Bloat in CRDTs** - Naive CRDT implementations accumulate deletion markers forever, causing 2-5x memory bloat after months. Prevention: implement tombstone compaction with version vectors, use bitmap optimization, set retention policies (compact tombstones > 30 days old after full sync).
 
 **Phase-specific warnings:**
+
 - M1: Must implement viewport culling, operation-based data model, hybrid storage, per-user undo from start - these cannot be retrofitted
 - M2: MongoDB `$graphLookup` too slow for deep graph traversal - add depth limits, pre-compute common queries, use client-side BFS/DFS
 - M3: Fastify WebSocket errors don't trigger standard error handlers - wrap all message handlers in try/catch with custom logging
@@ -111,11 +119,13 @@ Research identified pitfalls that cause rewrites (CRDT as afterthought), perform
 Based on research findings, Solve should be built in three major phases with a foundation-first approach that front-loads architectural decisions critical for later features. The research makes clear that certain patterns (operation-based state, hybrid storage, viewport culling) are expensive to retrofit but cheap to implement from the start.
 
 ### Phase 1: Foundation (M1)
+
 **Rationale:** Must establish operation-based architecture, GPU rendering with performance patterns, and auth before any collaborative features. Research shows CRDT-compatible data model must exist before implementing CRDT, not after. Embedded document model would cause M3 rewrite.
 
 **Delivers:** Single-user graph editor with infinite canvas, basic CRUD, optimistic updates, export to PNG/SVG/PDF
 
 **Core features from FEATURES.md:**
+
 - Infinite canvas with zoom/pan (pinch, space+drag)
 - Node/edge creation, editing, deletion
 - Selection and multi-select (shift-click, drag-box)
@@ -125,6 +135,7 @@ Based on research findings, Solve should be built in three major phases with a f
 - Auth (email + Google OAuth)
 
 **Architecture from ARCHITECTURE.md:**
+
 - Skia canvas with viewport culling (only render visible nodes + buffer)
 - Dirty flag system (track which nodes changed, partial redraws)
 - Zustand stores with operation-based state (every mutation = operation log entry)
@@ -133,6 +144,7 @@ Based on research findings, Solve should be built in three major phases with a f
 - Fastify backend with Zod validation, structured Pino logging
 
 **Avoids pitfalls from PITFALLS.md:**
+
 - Pitfall 1: Viewport culling + dirty flags prevent performance collapse at scale
 - Pitfall 2: Operation-based model from start avoids CRDT rewrite
 - Pitfall 3: Hybrid storage avoids 16MB document limit
@@ -141,6 +153,7 @@ Based on research findings, Solve should be built in three major phases with a f
 - Pitfall 12: Shape + color encoding (not color-only) for accessibility
 
 **Stack elements from STACK.md:**
+
 - React Native 0.83 + Expo SDK 55
 - Skia + Reanimated + Gesture Handler for rendering
 - Zustand for state management
@@ -149,11 +162,13 @@ Based on research findings, Solve should be built in three major phases with a f
 - JWT auth with @fastify/jwt
 
 ### Phase 2: Forking & Merge Workflow (M2)
+
 **Rationale:** The GitHub-style fork/propose/merge workflow is Solve's unique differentiator. Research shows no competitor offers this for graphs. Must implement before real-time collaboration (simpler to build fork/merge for single-user first, then add real-time in M3).
 
 **Delivers:** Version control for graphs - fork entire graph or subgraph, work independently, submit merge proposal with visual diff, review and merge changes
 
 **Core features from FEATURES.md:**
+
 - Graph forking (create independent copy with parent relationship)
 - Subgraph selection and extraction (select nodes/edges, fork as new graph)
 - Merge proposal creation (propose changes from fork to parent)
@@ -162,6 +177,7 @@ Based on research findings, Solve should be built in three major phases with a f
 - Activity timeline (history of forks, proposals, merges)
 
 **Architecture from ARCHITECTURE.md:**
+
 - Graph extraction algorithm (select subgraph, maintain edge integrity)
 - Three-way merge for graphs (base, fork, proposal)
 - Conflict detection (both users edited same node in different forks)
@@ -169,19 +185,23 @@ Based on research findings, Solve should be built in three major phases with a f
 - Permissions system (graph owner/editor/viewer roles)
 
 **Avoids pitfalls from PITFALLS.md:**
+
 - Pitfall 8: MongoDB `$graphLookup` too slow for deep traversal - implement depth limits, use client-side BFS/DFS for loaded graphs
 - No CRDT conflicts because forking is asynchronous (no real-time yet)
 
 **Stack elements from STACK.md:**
+
 - Same core stack as M1
 - No new dependencies (uses existing MongoDB, Fastify, Zustand)
 
 ### Phase 3: Real-time Collaboration (M3)
+
 **Rationale:** Real-time sync is table stakes per research but architecturally complex. Building on top of M1's operation-based model and M2's merge logic makes CRDT integration feasible. Research shows Yjs is the mature choice for 2026, with modular architecture and good React Native support via y-op-sqlite.
 
 **Delivers:** Live collaborative editing with conflict-free sync, presence awareness, per-user undo in real-time mode, offline editing with sync on reconnect
 
 **Core features from FEATURES.md:**
+
 - Real-time collaboration (multiple users editing same graph simultaneously)
 - Live cursors and presence awareness (see who's editing what)
 - Conflict-free editing (CRDTs via Yjs)
@@ -190,6 +210,7 @@ Based on research findings, Solve should be built in three major phases with a f
 - Offline editing with sync on reconnect
 
 **Architecture from ARCHITECTURE.md:**
+
 - Socket.io WebSocket plugin for Fastify
 - Socket.io rooms (one room per graph, join on open, leave on close)
 - Yjs CRDT integration (Y.Map for nodes, Y.Array for edges)
@@ -200,6 +221,7 @@ Based on research findings, Solve should be built in three major phases with a f
 - Reconnection with gap detection (fetch missing operations by version)
 
 **Avoids pitfalls from PITFALLS.md:**
+
 - Pitfall 2: Already using operation-based model from M1, CRDT integration is incremental not rewrite
 - Pitfall 4: Per-user undo stacks from M1 work correctly in collaborative mode
 - Pitfall 5: Tombstone compaction with version vectors, bitmap optimization for deletion markers
@@ -207,15 +229,18 @@ Based on research findings, Solve should be built in three major phases with a f
 - Pitfall 9: Custom WebSocket error handlers (Fastify WS errors don't trigger standard handlers)
 
 **Stack elements from STACK.md:**
+
 - Socket.io (fastify-socket.io plugin)
 - Redis for presence state and pub/sub
 - Yjs 13.6 + y-mongodb-provider + y-op-sqlite
 - BullMQ for background jobs (auto-save, snapshots)
 
 ### Phase 4: Advanced Features (M4+)
+
 **Rationale:** AI-assisted features, dependency tracking, and integrations are valuable but not essential for launch. Defer until core workflow (edit → fork → collaborate) is validated with users.
 
 **Potential features:**
+
 - AI-assisted node generation ("expand this problem" → LLM suggests sub-problems)
 - Dependency tracking (show critical path, detect cycles)
 - Task status tracking (open/in-progress/solved/verified)
@@ -266,12 +291,12 @@ Retrofitting operation log to mutation-based state requires rewriting all state 
 
 ## Confidence Assessment
 
-| Area | Confidence | Notes |
-|------|------------|-------|
-| Stack | HIGH | All versions verified via npm registry, official documentation for Expo SDK 55, Fastify, MongoDB, Skia. Production examples from 2026. |
-| Features | HIGH | Verified across multiple tools (Miro, Figma, Notion, MindNode, Whimsical), official docs, consistent patterns. Fork/merge uniqueness confirmed by absence in competitors. |
-| Architecture | HIGH | Fastify patterns from official docs, Socket.io rooms from documentation, Skia rendering from Shopify docs, MongoDB hybrid model from official guides. CRDT integration medium confidence (Yjs docs confirm graph support but integration complexity needs validation). |
-| Pitfalls | HIGH | Canvas rendering pitfalls from multiple graph visualization sources, CRDT undo/redo from academic research, MongoDB limits from official documentation, Fastify WebSocket from official docs. |
+| Area         | Confidence | Notes                                                                                                                                                                                                                                                                  |
+| ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stack        | HIGH       | All versions verified via npm registry, official documentation for Expo SDK 55, Fastify, MongoDB, Skia. Production examples from 2026.                                                                                                                                 |
+| Features     | HIGH       | Verified across multiple tools (Miro, Figma, Notion, MindNode, Whimsical), official docs, consistent patterns. Fork/merge uniqueness confirmed by absence in competitors.                                                                                              |
+| Architecture | HIGH       | Fastify patterns from official docs, Socket.io rooms from documentation, Skia rendering from Shopify docs, MongoDB hybrid model from official guides. CRDT integration medium confidence (Yjs docs confirm graph support but integration complexity needs validation). |
+| Pitfalls     | HIGH       | Canvas rendering pitfalls from multiple graph visualization sources, CRDT undo/redo from academic research, MongoDB limits from official documentation, Fastify WebSocket from official docs.                                                                          |
 
 **Overall confidence:** HIGH
 
@@ -294,6 +319,7 @@ Retrofitting operation log to mutation-based state requires rewriting all state 
 ### Primary (HIGH confidence)
 
 **Stack Research:**
+
 - Expo SDK 55 Changelog (official) - New Architecture, React 19.2, build improvements
 - Fastify TypeScript Reference (official) - Type providers, plugin architecture, WebSocket
 - React Native Skia (Shopify official) - GPU rendering, JSI integration, performance benchmarks
@@ -302,12 +328,14 @@ Retrofitting operation log to mutation-based state requires rewriting all state 
 - Yjs GitHub Repository - CRDT framework, Y.Map/Y.Array for graphs, network providers
 
 **Features Research:**
+
 - Miro Review 2026, Figma branching guide, MindNode features (official product docs)
 - Notion real-time collaboration, Whimsical AI-assisted mind mapping (official docs)
 - Eclipse GLSP real-time collaboration patterns (technical blog, architecture details)
 - Git fork/pull request workflow (Atlassian official tutorial)
 
 **Architecture Research:**
+
 - Socket.io Rooms Documentation (official)
 - Fastify WebSocket Plugin (official GitHub)
 - MongoDB aggregation pipeline optimization (OneUptime 2026-01 blog post)
@@ -315,6 +343,7 @@ Retrofitting operation log to mutation-based state requires rewriting all state 
 - Building infinite canvas with Skia (robcost.com technical article)
 
 **Pitfalls Research:**
+
 - MongoDB Limits and Thresholds (official documentation)
 - CRDT Undo/Redo (academic paper: Yu et al. DAIS 2015)
 - Canvas rendering optimization (MDN official, ag-grid blog)
@@ -324,22 +353,26 @@ Retrofitting operation log to mutation-based state requires rewriting all state 
 ### Secondary (MEDIUM confidence)
 
 **Stack Research:**
+
 - State Management in 2026: Redux vs Zustand (Medium article) - Zustand performance claims
 - MongoDB Native Driver vs Mongoose benchmarks (Jscrambler 2024) - Performance comparisons
 - React Native Gesture Handler with Skia (Shopify docs, integration guide)
 
 **Features Research:**
+
 - Best mind mapping software compared (Atlas Workspace AI 2026, Zapier, Creately)
 - Collaborative presence features (Flexum.io, Yjs awareness docs)
 - Task decomposition for AI agents (OneUptime blog, mbrenndoerfer.com)
 
 **Architecture Research:**
+
 - Building real-time collaboration: WebRTC, WebSockets, conflict resolution (Medium article)
 - Operational Transform vs CRDT (Tiny.cloud blog, comparison)
 - Zustand vs Redux performance (dev.to community article)
 - TypeScript monorepo with npm workspaces (YieldCode blog)
 
 **Pitfalls Research:**
+
 - CRDT tombstone management (decomposition.al technical blog)
 - Offline sync patterns and trade-offs (Sachith.co.uk architecture guide)
 - Graph visualization UX best practices (Cambridge Intelligence, UX Matters)
@@ -350,5 +383,6 @@ Retrofitting operation log to mutation-based state requires rewriting all state 
 None - all findings verified with multiple sources or official documentation. Single-source findings were flagged as gaps requiring validation.
 
 ---
-*Research completed: 2026-03-01*
-*Ready for roadmap: yes*
+
+_Research completed: 2026-03-01_
+_Ready for roadmap: yes_

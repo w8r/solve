@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { Fab, Text, Icon, HStack, VStack } from 'native-base';
-import { Feather as Icons } from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet, View } from "react-native";
+import { Fab, Text, Icon, HStack, VStack } from "native-base";
+import { Feather as Icons } from "@expo/vector-icons";
 
-import { useIsFocused, useNavigation } from '@react-navigation/native';
-import { Graph } from '../../types/graph';
-import { tintColorLight } from '../../constants/Colors';
-import * as api from '../../services/api';
-import { ProfileButton } from '../../components/Avatar';
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { Graph } from "../../types/graph";
+import { tintColorLight } from "../../constants/Colors";
+import * as api from "../../services/api";
+import { ProfileButton } from "../../components/Avatar";
 
-import Placeholder from './Placeholder';
-import Graphs, { GraphsWithSections } from './Graphs';
-import { SearchText } from '../../components/SearchText';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import Placeholder from "./Placeholder";
+import Graphs, { GraphsWithSections } from "./Graphs";
+import { SearchText } from "../../components/SearchText";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 function categorizeGraphs(graphs: Graph[]): GraphsWithSections[] {
   const roots = graphs.filter((graph) => !graph.data?.parentId);
@@ -22,8 +22,8 @@ function categorizeGraphs(graphs: Graph[]): GraphsWithSections[] {
   }
 
   return [
-    { title: 'Projects', data: [{ graphs: roots }] },
-    { title: 'Solutions', data: [{ graphs: forks }] }
+    { title: "Projects", data: [{ graphs: roots }] },
+    { title: "Solutions", data: [{ graphs: forks }] },
   ];
 }
 
@@ -36,12 +36,12 @@ export default function Dashboard() {
   const { navigate } = useNavigation();
 
   const createNewGraph = () =>
-    navigate('App', {
-      screen: 'TabOne',
+    navigate("App", {
+      screen: "TabOne",
       params: {
-        screen: 'Viewer',
-        params: []
-      }
+        screen: "Viewer",
+        params: [],
+      },
     });
 
   const showGraph = () => {
@@ -120,29 +120,29 @@ export default function Dashboard() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   content: {
-    flex: 1
+    flex: 1,
   },
   emptyContainer: {
     marginTop: 10,
     flex: 1,
     maxHeight: 50,
-    marginBottom: 10
+    marginBottom: 10,
   },
   textStyle: {},
   link: {
-    color: tintColorLight
+    color: tintColorLight,
   },
   newGraphButton: {
     borderWidth: 1,
-    flex: 1
+    flex: 1,
   },
   fab: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    right: '50%',
-    marginRight: -25
-  }
+    right: "50%",
+    marginRight: -25,
+  },
 });

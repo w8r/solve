@@ -42,16 +42,11 @@ export class LineMesh extends BufferGeometry {
     const attrMiter = this.getAttribute("lineMiter");
     const attrDistance = this.getAttribute("lineDistance");
     const attrIndex =
-      typeof this.getIndex === "function"
-        ? this.getIndex()
-        : this.getAttribute("index");
+      typeof this.getIndex === "function" ? this.getIndex() : this.getAttribute("index");
 
     const indexCount = Math.max(0, (path.length - 1) * 6);
     let count;
-    if (
-      !attrPosition.array ||
-      path.length !== attrPosition.array.length / 3 / VERTS_PER_POINT
-    ) {
+    if (!attrPosition.array || path.length !== attrPosition.array.length / 3 / VERTS_PER_POINT) {
       count = path.length * VERTS_PER_POINT;
       attrPosition.array = new Float32Array(count * 3);
       attrNormal.array = new Float32Array(count * 2);

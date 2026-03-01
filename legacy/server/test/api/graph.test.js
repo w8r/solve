@@ -1,52 +1,52 @@
-const request = require('supertest');
-const config = require('../../config/development');
-const { assert } = require('chai');
+const request = require("supertest");
+const config = require("../../config/development");
+const { assert } = require("chai");
 let token;
 let token2;
 
 const login = (username, password) => {
-  const user = { name: username || 'root', password: password || 'password' };
+  const user = { name: username || "root", password: password || "password" };
   return request(app)
-    .post('/api/auth/signin')
+    .post("/api/auth/signin")
     .send(user)
     .then(({ body: res }) => res.token);
 };
 
-describe('ENDPOINT: /api/graph/: Graph API', function () {
-  const endpoint = '/api/graph';
+describe("ENDPOINT: /api/graph/: Graph API", function () {
+  const endpoint = "/api/graph";
   let publicId;
   let internalId, internalId2;
   it(`POST ${endpoint} - Should create a new graph`, async () => {
     token = await login();
-    token2 = await login('anotherroot', 'password');
+    token2 = await login("anotherroot", "password");
     await request(app)
-      .post('/api/graph/')
+      .post("/api/graph/")
       .set(config.jwt.headerName, `Bearer ${token}`)
       .send({
-        name: 'Test graph',
+        name: "Test graph",
         nodes: [
           {
-            id: 'n0',
+            id: "n0",
             data: {
-              test: 'hello',
-              test2: 'whats up?'
-            }
+              test: "hello",
+              test2: "whats up?",
+            },
           },
           {
-            id: 'n1'
-          }
+            id: "n1",
+          },
         ],
         edges: [
           {
-            id: 'e0',
-            source: 'n0',
-            target: 'n1',
+            id: "e0",
+            source: "n0",
+            target: "n1",
             data: {
-              test: 'hmm',
-              test2: 'thats weird'
-            }
-          }
-        ]
+              test: "hmm",
+              test2: "thats weird",
+            },
+          },
+        ],
       })
       .expect(200)
       .expect(({ body: res }) => {
@@ -65,22 +65,22 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
       .put(`/api/graph/${publicId}`)
       .set(config.jwt.headerName, `Bearer ${token}`)
       .send({
-        name: 'Test graph 2',
+        name: "Test graph 2",
         nodes: [
           {
-            id: 'n0'
+            id: "n0",
           },
           {
-            id: 'n1'
-          }
+            id: "n1",
+          },
         ],
         edges: [
           {
-            id: 'e0',
-            source: 'n0',
-            target: 'n1'
-          }
-        ]
+            id: "e0",
+            source: "n0",
+            target: "n1",
+          },
+        ],
       })
       .expect(200)
       .expect(({ body: res }) => {
@@ -88,7 +88,7 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
         assert.isString(res.name);
         assert.isArray(res.nodes);
         assert.isArray(res.edges);
-        assert.deepEqual(res.name, 'Test graph 2');
+        assert.deepEqual(res.name, "Test graph 2");
         assert.deepEqual(res.publicId, publicId);
         assert.notDeepEqual(res.id, internalId);
         internalId2 = res.id;
@@ -106,7 +106,7 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
         assert.isString(res.name);
         assert.isArray(res.nodes);
         assert.isArray(res.edges);
-        assert.deepEqual(res.name, 'Test graph');
+        assert.deepEqual(res.name, "Test graph");
         assert.deepEqual(res.publicId, publicId);
         assert.deepEqual(res.id, internalId);
       });
@@ -123,7 +123,7 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
         assert.isString(res.name);
         assert.isArray(res.nodes);
         assert.isArray(res.edges);
-        assert.deepEqual(res.name, 'Test graph 2');
+        assert.deepEqual(res.name, "Test graph 2");
         assert.deepEqual(res.publicId, publicId);
         assert.deepEqual(res.id, internalId2);
       });
@@ -145,38 +145,38 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
     await request(app)
       .post(`/api/graph/search/`)
       .set(config.jwt.headerName, `Bearer ${token}`)
-      .send({ tag: 'hello' })
+      .send({ tag: "hello" })
       .expect(200)
       .expect(({ body: res }) => {
-        assert.deepEqual(res[0].tags.includes('hello'), true);
+        assert.deepEqual(res[0].tags.includes("hello"), true);
       });
   });
 
   const addGraphs = async (token, parent) => {
     return new Promise(async (resolve, reject) => {
       await request(app)
-        .post('/api/graph/')
+        .post("/api/graph/")
         .set(config.jwt.headerName, `Bearer ${token}`)
         .send({
           name: `Test graph ${parent}`,
           nodes: [
             {
-              id: 'n0'
+              id: "n0",
             },
             {
-              id: 'n1'
-            }
+              id: "n1",
+            },
           ],
           edges: [
             {
-              id: 'e0',
-              source: 'n0',
-              target: 'n1'
-            }
+              id: "e0",
+              source: "n0",
+              target: "n1",
+            },
           ],
           data: {
-            parentId: parent
-          }
+            parentId: parent,
+          },
         })
         .expect(200)
         .expect(({ body: res }) => {
@@ -191,7 +191,7 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
 
   let forkedSubGraphId;
 
-  it('GET /api/graph/:publicId/subgraphs - Should get subgraphs', async () => {
+  it("GET /api/graph/:publicId/subgraphs - Should get subgraphs", async () => {
     const publicSubGraph = await addGraphs(token, publicId);
     await addGraphs(token, publicId);
     await addGraphs(token2, publicSubGraph);
@@ -212,7 +212,7 @@ describe('ENDPOINT: /api/graph/: Graph API', function () {
   });
 
   // get forked graphs
-  it('GET /api/graph/:publicId/proposals - Should get proposal graphs', async () => {
+  it("GET /api/graph/:publicId/proposals - Should get proposal graphs", async () => {
     await request(app)
       .get(`/api/graph/${forkedSubGraphId}/proposals`)
       .set(config.jwt.headerName, `Bearer ${token}`)

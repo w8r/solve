@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { useState, useRef, useEffect } from 'react';
+import * as React from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   ViewProps,
   PanResponderGestureState,
@@ -7,21 +7,21 @@ import {
   TouchableWithoutFeedback,
   View,
   StyleSheet,
-  GestureResponderEvent
-} from 'react-native';
-import { Canvas } from './Canvas';
+  GestureResponderEvent,
+} from "react-native";
+import { Canvas } from "./Canvas";
 import {
   distance as calcDistance,
   center as calcCenter,
   clamp,
   bbox as graphBbox,
   getBoundsTransform,
-  zoomAround
-} from './utils';
-import { usePanResponder } from './usePanResponder';
-import { Graph, GraphNode, isNode } from '../../types/graph';
-import { useVis } from './context';
-import { isWeb } from '../../constants/device';
+  zoomAround,
+} from "./utils";
+import { usePanResponder } from "./usePanResponder";
+import { Graph, GraphNode, isNode } from "../../types/graph";
+import { useVis } from "./context";
+import { isWeb } from "../../constants/device";
 
 export interface ViewerProps extends ViewProps {
   width?: number;
@@ -63,7 +63,7 @@ export function Viewer({
   minScale = 0.0001,
   maxScale = 1000.0,
   onLongPress = () => {},
-  graph
+  graph,
 }: ViewerProps) {
   const containerRef = useRef<typeof Canvas>();
   const { app, isSelecting, selectEdge, selectNode, clearSelection } = useVis();
@@ -88,19 +88,12 @@ export function Viewer({
     initialY: 0,
     dragOffsetX: 0,
     dragOffsetY: 0,
-    initialDistance: 1
+    initialDistance: 1,
   });
 
   useEffect(() => {
     const { minX, minY, maxX, maxY } = graphBbox(graph);
-    const transform = getBoundsTransform(
-      minX,
-      minY,
-      maxX,
-      maxY,
-      width * dppx,
-      height * dppx
-    );
+    const transform = getBoundsTransform(minX, minY, maxX, maxY, width * dppx, height * dppx);
     if (graph.nodes.length === 0 || graph.nodes.length === 1) transform.k = 20;
     setState({ ...state, ...transform });
   }, [graph.publicId]);
@@ -119,7 +112,7 @@ export function Viewer({
         initialTop: state.y,
         initialLeft: state.x,
         initialZoom: state.k,
-        initialDistance: distance
+        initialDistance: distance,
       });
     } else {
       const delta = distance / state.initialDistance;
@@ -134,14 +127,7 @@ export function Viewer({
     }
   };
 
-  const processTouch = ({
-    dx,
-    dy,
-    x0,
-    y0,
-    moveX,
-    moveY
-  }: PanResponderGestureState) => {
+  const processTouch = ({ dx, dy, x0, y0, moveX, moveY }: PanResponderGestureState) => {
     if (!app) return;
     // if drawing a lasso, don't move the graph, update the lasso polygon
     if (isSelecting) {
@@ -167,14 +153,14 @@ export function Viewer({
         initialLeft: state.x,
         initialTop: state.y,
         initialX: x0,
-        initialY: y0
+        initialY: y0,
       });
     } else if (state.isMoving) {
       setState({
         ...state,
 
         x: state.x + dx,
-        y: state.y + dy
+        y: state.y + dy,
       });
     }
   };
@@ -207,7 +193,7 @@ export function Viewer({
           ...state,
           isMoving: false,
           isScaling: false,
-          isDragging: null
+          isDragging: null,
         });
 
         if (isSelecting) app.stopSelection();
@@ -215,9 +201,9 @@ export function Viewer({
         if (isDragging || isMoving) skipNextTap = true;
       },
       onPanResponderTerminate: (evt, gestureState) => {},
-      onShouldBlockNativeResponder: (evt, gestureState) => true
+      onShouldBlockNativeResponder: (evt, gestureState) => true,
     },
-    [state, app]
+    [state, app],
   );
 
   const onWheel = (evt: WheelEvent) => {
@@ -230,8 +216,8 @@ export function Viewer({
         { x: state.x, y: state.y, k: state.k },
         evt.pageX - width / 2,
         evt.pageY - height / 2,
-        newZoom
-      )
+        newZoom,
+      ),
     });
   };
 
@@ -283,9 +269,9 @@ export function Viewer({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   canvas: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });

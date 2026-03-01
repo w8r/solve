@@ -1,4 +1,4 @@
-import uuid from '../lib/uuid';
+import uuid from "../lib/uuid";
 
 export type Id = string;
 
@@ -18,37 +18,31 @@ export type GraphNode = {
 };
 
 export enum CategoryColors {
-  Health = 'red',
-  Money = 'green',
-  Relationship = 'blue',
-  Meaning = 'purple',
-  Happiness = 'orange'
+  Health = "red",
+  Money = "green",
+  Relationship = "blue",
+  Meaning = "purple",
+  Happiness = "orange",
 }
 
 export const getCategoryColor = (category: string) => {
   switch (category) {
-    case 'Health':
+    case "Health":
       return CategoryColors.Health;
-    case 'Money':
+    case "Money":
       return CategoryColors.Money;
-    case 'Relationship':
+    case "Relationship":
       return CategoryColors.Relationship;
-    case 'Meaning':
+    case "Meaning":
       return CategoryColors.Meaning;
-    case 'Happiness':
+    case "Happiness":
       return CategoryColors.Happiness;
     default:
       return CategoryColors.Health;
   }
 };
 
-export const categoryArray = [
-  'Money',
-  'Health',
-  'Relationship',
-  'Meaning',
-  'Happiness'
-];
+export const categoryArray = ["Money", "Health", "Relationship", "Meaning", "Happiness"];
 
 export type GraphEdge = {
   id: Id;
@@ -132,7 +126,7 @@ export function getPremergeGraph(parent: Graph, child: Graph): Graph {
     ensureNoOverlap(node, originalNode);
   });
 
-  const gray = '#333333';
+  const gray = "#333333";
   const transparent = 0.4;
 
   // all parent nodes: gray out
@@ -175,12 +169,12 @@ export function getPremergeGraph(parent: Graph, child: Graph): Graph {
         source: parentNode.id,
         target: childNode.id,
         data: {
-          invalid: true
+          invalid: true,
         },
         attributes: {
           width: 0.1,
-          color: '#bbbbbb'
-        }
+          color: "#bbbbbb",
+        },
       });
       parentNode.attributes.color = childNode.attributes.color;
     }
@@ -189,7 +183,7 @@ export function getPremergeGraph(parent: Graph, child: Graph): Graph {
   return {
     ...parent,
     nodes: [...parent.nodes, ...child.nodes],
-    edges: [...parent.edges, ...child.edges]
+    edges: [...parent.edges, ...child.edges],
   };
 }
 
@@ -241,6 +235,6 @@ export function mergeGraph(graph: Graph) {
   return {
     ...graph,
     nodes: graph.nodes.filter((node) => !node.data.invalid),
-    edges: graph.edges.filter((edge) => !edge.data?.invalid)
+    edges: graph.edges.filter((edge) => !edge.data?.invalid),
   };
 }

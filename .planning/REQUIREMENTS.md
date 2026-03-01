@@ -121,89 +121,91 @@ Deferred to future milestones. Tracked but not in M1 roadmap.
 
 Explicitly excluded. Documented to prevent scope creep.
 
-| Feature | Reason |
-|---------|--------|
-| Facebook OAuth | Low value, adds complexity |
-| Real-time sync | M3 - design for it in M1, build later |
-| Community/marketplace | M4 - need core product first |
-| Document attachments | M5 - images/files on nodes deferred |
-| Admin panel | M5 - after core features stable |
-| Promo website | M5 - marketing after product works |
-| Mobile push notifications | Post-MVP |
-| Paid expert solutions | Post-MVP |
+| Feature                   | Reason                                |
+| ------------------------- | ------------------------------------- |
+| Facebook OAuth            | Low value, adds complexity            |
+| Real-time sync            | M3 - design for it in M1, build later |
+| Community/marketplace     | M4 - need core product first          |
+| Document attachments      | M5 - images/files on nodes deferred   |
+| Admin panel               | M5 - after core features stable       |
+| Promo website             | M5 - marketing after product works    |
+| Mobile push notifications | Post-MVP                              |
+| Paid expert solutions     | Post-MVP                              |
 
 ## Traceability
 
 Which phases cover which requirements. Updated during roadmap creation.
 
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| INFRA-01 | Phase 1 | Pending |
-| INFRA-04 | Phase 1 | Pending |
-| INFRA-06 | Phase 1 | Complete |
-| DX-01 | Phase 1 | Pending |
-| DX-02 | Phase 1 | Pending |
-| DX-03 | Phase 1 | Complete |
-| DX-04 | Phase 1 | Complete |
-| DX-05 | Phase 1 | Complete |
-| DX-06 | Phase 1 | Pending |
-| INFRA-02 | Phase 2 | Pending |
-| INFRA-03 | Phase 2 | Pending |
-| INFRA-05 | Phase 2 | Pending |
-| AUTH-01 | Phase 3 | Pending |
-| AUTH-02 | Phase 3 | Pending |
-| AUTH-03 | Phase 3 | Pending |
-| AUTH-04 | Phase 3 | Pending |
-| AUTH-05 | Phase 3 | Pending |
-| AUTH-06 | Phase 3 | Pending |
-| GAPI-01 | Phase 4 | Pending |
-| GAPI-02 | Phase 4 | Pending |
-| GAPI-03 | Phase 4 | Pending |
-| GAPI-04 | Phase 4 | Pending |
-| GAPI-05 | Phase 4 | Pending |
-| GAPI-06 | Phase 4 | Pending |
-| GAPI-07 | Phase 4 | Pending |
-| GAPI-08 | Phase 4 | Pending |
-| GAPI-09 | Phase 4 | Pending |
-| GAPI-10 | Phase 4 | Pending |
-| GAPI-11 | Phase 4 | Pending |
-| DESIGN-01 | Phase 5 | Pending |
-| DESIGN-02 | Phase 5 | Pending |
-| DESIGN-03 | Phase 5 | Pending |
-| DESIGN-04 | Phase 5 | Pending |
-| DESIGN-05 | Phase 5 | Pending |
-| CLNT-01 | Phase 6 | Pending |
-| CLNT-02 | Phase 6 | Pending |
-| CLNT-03 | Phase 6 | Pending |
-| CLNT-04 | Phase 6 | Pending |
-| CLNT-05 | Phase 6 | Pending |
-| CLNT-06 | Phase 6 | Pending |
-| CLNT-07 | Phase 6 | Pending |
-| RNDR-01 | Phase 7 | Pending |
-| RNDR-02 | Phase 7 | Pending |
-| RNDR-03 | Phase 7 | Pending |
-| RNDR-04 | Phase 7 | Pending |
-| RNDR-05 | Phase 7 | Pending |
-| RNDR-06 | Phase 7 | Pending |
-| RNDR-07 | Phase 7 | Pending |
-| RNDR-08 | Phase 7 | Pending |
-| EDIT-01 | Phase 8 | Pending |
-| EDIT-02 | Phase 8 | Pending |
-| EDIT-03 | Phase 8 | Pending |
-| EDIT-04 | Phase 8 | Pending |
-| EDIT-05 | Phase 8 | Pending |
-| EDIT-06 | Phase 8 | Pending |
-| EDIT-07 | Phase 8 | Pending |
-| EDIT-08 | Phase 8 | Pending |
-| EDIT-09 | Phase 8 | Pending |
-| EDIT-10 | Phase 8 | Pending |
+| Requirement | Phase   | Status   |
+| ----------- | ------- | -------- |
+| INFRA-01    | Phase 1 | Pending  |
+| INFRA-04    | Phase 1 | Pending  |
+| INFRA-06    | Phase 1 | Complete |
+| DX-01       | Phase 1 | Pending  |
+| DX-02       | Phase 1 | Pending  |
+| DX-03       | Phase 1 | Complete |
+| DX-04       | Phase 1 | Complete |
+| DX-05       | Phase 1 | Complete |
+| DX-06       | Phase 1 | Pending  |
+| INFRA-02    | Phase 2 | Pending  |
+| INFRA-03    | Phase 2 | Pending  |
+| INFRA-05    | Phase 2 | Pending  |
+| AUTH-01     | Phase 3 | Pending  |
+| AUTH-02     | Phase 3 | Pending  |
+| AUTH-03     | Phase 3 | Pending  |
+| AUTH-04     | Phase 3 | Pending  |
+| AUTH-05     | Phase 3 | Pending  |
+| AUTH-06     | Phase 3 | Pending  |
+| GAPI-01     | Phase 4 | Pending  |
+| GAPI-02     | Phase 4 | Pending  |
+| GAPI-03     | Phase 4 | Pending  |
+| GAPI-04     | Phase 4 | Pending  |
+| GAPI-05     | Phase 4 | Pending  |
+| GAPI-06     | Phase 4 | Pending  |
+| GAPI-07     | Phase 4 | Pending  |
+| GAPI-08     | Phase 4 | Pending  |
+| GAPI-09     | Phase 4 | Pending  |
+| GAPI-10     | Phase 4 | Pending  |
+| GAPI-11     | Phase 4 | Pending  |
+| DESIGN-01   | Phase 5 | Pending  |
+| DESIGN-02   | Phase 5 | Pending  |
+| DESIGN-03   | Phase 5 | Pending  |
+| DESIGN-04   | Phase 5 | Pending  |
+| DESIGN-05   | Phase 5 | Pending  |
+| CLNT-01     | Phase 6 | Pending  |
+| CLNT-02     | Phase 6 | Pending  |
+| CLNT-03     | Phase 6 | Pending  |
+| CLNT-04     | Phase 6 | Pending  |
+| CLNT-05     | Phase 6 | Pending  |
+| CLNT-06     | Phase 6 | Pending  |
+| CLNT-07     | Phase 6 | Pending  |
+| RNDR-01     | Phase 7 | Pending  |
+| RNDR-02     | Phase 7 | Pending  |
+| RNDR-03     | Phase 7 | Pending  |
+| RNDR-04     | Phase 7 | Pending  |
+| RNDR-05     | Phase 7 | Pending  |
+| RNDR-06     | Phase 7 | Pending  |
+| RNDR-07     | Phase 7 | Pending  |
+| RNDR-08     | Phase 7 | Pending  |
+| EDIT-01     | Phase 8 | Pending  |
+| EDIT-02     | Phase 8 | Pending  |
+| EDIT-03     | Phase 8 | Pending  |
+| EDIT-04     | Phase 8 | Pending  |
+| EDIT-05     | Phase 8 | Pending  |
+| EDIT-06     | Phase 8 | Pending  |
+| EDIT-07     | Phase 8 | Pending  |
+| EDIT-08     | Phase 8 | Pending  |
+| EDIT-09     | Phase 8 | Pending  |
+| EDIT-10     | Phase 8 | Pending  |
 
 **Coverage:**
+
 - v1 requirements: 48 total
 - Mapped to phases: 48
 - Unmapped: 0
 
 **Phase breakdown:**
+
 - Phase 1 (Foundation & Setup): 9 requirements
 - Phase 2 (Backend Infrastructure): 3 requirements
 - Phase 3 (Authentication): 6 requirements
@@ -214,5 +216,6 @@ Which phases cover which requirements. Updated during roadmap creation.
 - Phase 8 (Graph Editing): 10 requirements
 
 ---
-*Requirements defined: 2026-03-01*
-*Last updated: 2026-03-01 after roadmap revision*
+
+_Requirements defined: 2026-03-01_
+_Last updated: 2026-03-01 after roadmap revision_

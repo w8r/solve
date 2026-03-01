@@ -1,15 +1,9 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Image } from 'native-base';
+import React from "react";
+import { StyleSheet } from "react-native";
+import { Image } from "native-base";
 
 export function Logo() {
-  return (
-    <Image
-      source={require('../../assets/images/logo.png')}
-      style={styles.image}
-      alt="logo"
-    />
-  );
+  return <Image source={require("../../assets/images/logo.png")} style={styles.image} alt="logo" />;
 }
 
 const styles = StyleSheet.create({
@@ -18,6 +12,6 @@ const styles = StyleSheet.create({
     height: 128,
     marginBottom: 12,
     flex: 1,
-    alignSelf: 'center'
-  }
+    alignSelf: "center",
+  },
 });

@@ -1,11 +1,8 @@
-import React, { FC } from 'react';
-import { StyleSheet } from 'react-native';
-import { Fab, Icon, Menu, Text, HStack } from 'native-base';
-import {
-  MaterialCommunityIcons as MCIcon,
-  Feather as FeatherIcon
-} from '@expo/vector-icons';
-import { menuMargin } from '../../../../constants/Layout';
+import React, { FC } from "react";
+import { StyleSheet } from "react-native";
+import { Fab, Icon, Menu, Text, HStack } from "native-base";
+import { MaterialCommunityIcons as MCIcon, Feather as FeatherIcon } from "@expo/vector-icons";
+import { menuMargin } from "../../../../constants/Layout";
 
 interface MergeMenuProps {
   onMerge: () => void;
@@ -14,11 +11,11 @@ interface MergeMenuProps {
 export const MergeMenu: FC<MergeMenuProps> = ({ onMerge }) => {
   const menuItems = [
     {
-      icon: 'check-circle',
+      icon: "check-circle",
       onPress: onMerge,
-      text: 'Solve',
-      active: true
-    }
+      text: "Solve",
+      active: true,
+    },
   ];
 
   return (
@@ -35,9 +32,7 @@ export const MergeMenu: FC<MergeMenuProps> = ({ onMerge }) => {
             size="sm"
             {...triggerProps}
             style={styles.fab}
-            icon={
-              <Icon color="white" as={FeatherIcon} name="circle" size="4" />
-            }
+            icon={<Icon color="white" as={FeatherIcon} name="circle" size="4" />}
           />
         );
       }}
@@ -50,7 +45,7 @@ export const MergeMenu: FC<MergeMenuProps> = ({ onMerge }) => {
               <Text>{item.text}</Text>
             </HStack>
           </Menu.Item>
-        ) : null
+        ) : null,
       )}
     </Menu>
   );
@@ -59,13 +54,13 @@ export const MergeMenu: FC<MergeMenuProps> = ({ onMerge }) => {
 const styles = StyleSheet.create({
   fab: {
     flex: 1,
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    right: '50%',
-    marginRight: -25
+    right: "50%",
+    marginRight: -25,
   },
   menu: {
     marginBottom: 15,
-    marginLeft: menuMargin
-  }
+    marginLeft: menuMargin,
+  },
 });

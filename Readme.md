@@ -1,4 +1,3 @@
-
 <img alt="Solve" width="250" src="https://raw.githubusercontent.com/w8r/solve/develop/packages/presentation/public/logo.svg">
 
 # Solve app • [presentation](https://milevski.co/solve/)

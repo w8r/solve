@@ -1,49 +1,49 @@
-const express = require('express');
-const { authStrategy } = require('../db/passport/utils');
-const { createRateLimiter } = require('../middleware/rateLimiter');
-const authController = require('../controllers/auth');
+const express = require("express");
+const { authStrategy } = require("../db/passport/utils");
+const { createRateLimiter } = require("../middleware/rateLimiter");
+const authController = require("../controllers/auth");
 
 const router = express.Router();
 
-const localAuthenticate = authStrategy('local');
+const localAuthenticate = authStrategy("local");
 
 const failRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 20,
-  skipSuccessfulRequests: true
+  skipSuccessfulRequests: true,
 });
 
 const successRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
   max: 5,
-  skipFailedRequests: true
+  skipFailedRequests: true,
 });
 
-router.post('/signup', successRateLimiter, authController.signupLocal);
-router.post('/logout', authController.logout);
+router.post("/signup", successRateLimiter, authController.signupLocal);
+router.post("/logout", authController.logout);
 
 router.post(
-  '/signin',
+  "/signin",
   failRateLimiter,
   authController.validateLocalSignInPayload,
   localAuthenticate,
-  authController.signIn
+  authController.signIn,
 );
 
 router.post(
-  '/facebook',
+  "/facebook",
   successRateLimiter,
   authController.validateFacebookPayload,
   authController.facebookSignIn,
-  authController.signIn
+  authController.signIn,
 );
 
 router.post(
-  '/google',
+  "/google",
   successRateLimiter,
   authController.validateGooglePayload,
   authController.googleSignIn,
-  authController.signIn
+  authController.signIn,
 );
 
 module.exports = router;

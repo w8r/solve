@@ -1,54 +1,54 @@
-const mongoose = require('mongoose');
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
-const FacebookTokenStrategy = require('passport-facebook-token');
-const config = require('../../config/development');
-const constants = require('../../config/constants');
-const { generateUsername } = require('./utils');
+const mongoose = require("mongoose");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const JwtStrategy = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
+const FacebookTokenStrategy = require("passport-facebook-token");
+const config = require("../../config/development");
+const constants = require("../../config/constants");
+const { generateUsername } = require("./utils");
 
-const Users = mongoose.model('Users');
+const Users = mongoose.model("Users");
 
-const { handleOAuth, handleAuthByCheckingUserStatus } = require('./utils');
-const { ERROR_CODES } = require('../../config/constants');
+const { handleOAuth, handleAuthByCheckingUserStatus } = require("./utils");
+const { ERROR_CODES } = require("../../config/constants");
 
 // Create local strategy
 const localStrategy = new LocalStrategy(
   {
-    usernameField: 'usernameOrEmail',
-    passwordField: 'password'
+    usernameField: "usernameOrEmail",
+    passwordField: "password",
   },
   (usernameOrEmail, password, done) => {
     Users.findOne({
-      $or: [{ name: usernameOrEmail }, { email: usernameOrEmail }]
+      $or: [{ name: usernameOrEmail }, { email: usernameOrEmail }],
     })
       .then((user) => {
         if (!user)
           return done(null, false, {
-            message: 'Username or email does not exist',
-            code: ERROR_CODES.AUTH_USER_NOT_FOUND
+            message: "Username or email does not exist",
+            code: ERROR_CODES.AUTH_USER_NOT_FOUND,
           });
 
         if (!user.provider.local)
           // not a local account (email and password)
           return done(null, false, {
-            message: 'Username or email does not exist',
-            code: ERROR_CODES.AUTH_USER_NOT_FOUND
+            message: "Username or email does not exist",
+            code: ERROR_CODES.AUTH_USER_NOT_FOUND,
           });
 
         user.comparePasswordAsync(password).then((isMatch) => {
           if (!isMatch)
             return done(null, false, {
-              message: 'Password is incorrect',
-              code: ERROR_CODES.AUTH_WRONG_PASSWORD
+              message: "Password is incorrect",
+              code: ERROR_CODES.AUTH_WRONG_PASSWORD,
             });
 
           handleAuthByCheckingUserStatus(user, done, constants.PROVIDER_LOCAL);
         });
       })
       .catch(done);
-  }
+  },
 );
 
 passport.use(localStrategy);
@@ -57,16 +57,16 @@ passport.use(localStrategy);
 const jwtStrategy = new JwtStrategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: config.jwt.secret
+    secretOrKey: config.jwt.secret,
   },
   (jwtPayload, done) => {
     Users.findById(jwtPayload.userId)
       .then((user) => {
-        if (!user) return done(null, false, { message: 'Invalid credentials' });
+        if (!user) return done(null, false, { message: "Invalid credentials" });
         handleAuthByCheckingUserStatus(user, done, jwtPayload.provider);
       })
       .catch(done);
-  }
+  },
 );
 
 passport.use(jwtStrategy);
@@ -75,7 +75,7 @@ passport.use(jwtStrategy);
 const facebookTokenStrategy = new FacebookTokenStrategy(
   {
     clientID: config.auth.facebookId,
-    clientSecret: config.auth.facebookSecret
+    clientSecret: config.auth.facebookSecret,
   },
   (accessToken, refreshToken, profile, done) => {
     const userProfile = {
@@ -87,13 +87,13 @@ const facebookTokenStrategy = new FacebookTokenStrategy(
         profile._json.email,
         profile._json.first_name,
         profile._json.last_name,
-        profile.id
+        profile.id,
       ),
-      picture: profile.photos[0].value
+      picture: profile.photos[0].value,
     };
 
     handleOAuth(userProfile, done, constants.PROVIDER_FACEBOOK);
-  }
+  },
 );
 passport.use(facebookTokenStrategy);
 

@@ -1,6 +1,6 @@
-import React from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
-import { Box, Center, HStack } from 'native-base';
+import React from "react";
+import { Dimensions, StyleSheet } from "react-native";
+import { Box, Center, HStack } from "native-base";
 
 export default function Placeholder() {
   return (
@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
     height: 160,
     minWidth: 160,
     marginRight: 20,
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 });

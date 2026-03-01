@@ -1,19 +1,19 @@
-const Graphs = require('../models/graphs');
-const Users = require('../models/users');
-const Vertex = require('../models/vertex');
-const Edge = require('../models/edge');
-const uuid = require('uuid');
-const _ = require('lodash');
-const { Types } = require('mongoose');
+const Graphs = require("../models/graphs");
+const Users = require("../models/users");
+const Vertex = require("../models/vertex");
+const Edge = require("../models/edge");
+const uuid = require("uuid");
+const _ = require("lodash");
+const { Types } = require("mongoose");
 
-const preview = require('../lib/preview');
-const { messages } = require('../config/constants');
-const { toHeader } = require('./user');
+const preview = require("../lib/preview");
+const { messages } = require("../config/constants");
+const { toHeader } = require("./user");
 const {
   LATEST_REVISION_AGGREGATOR,
   USER_LOOKUP_PROJECTION,
-  FORK_COUNT_LATEST_REV_AGGREGATOR
-} = require('../lib/dbHelper');
+  FORK_COUNT_LATEST_REV_AGGREGATOR,
+} = require("../lib/dbHelper");
 
 module.exports.searchByTag = async (req, res) => {
   try {
@@ -22,13 +22,13 @@ module.exports.searchByTag = async (req, res) => {
       {
         $match: {
           $text: { $search: tag },
-          'data.parentId': {
-            $ne: null
-          }
-        }
+          "data.parentId": {
+            $ne: null,
+          },
+        },
       },
       ...FORK_COUNT_LATEST_REV_AGGREGATOR,
-      ...USER_LOOKUP_PROJECTION
+      ...USER_LOOKUP_PROJECTION,
     ]);
     const graphsId = graphs.map((graph) => graph.publicId);
 
@@ -44,7 +44,7 @@ module.exports.searchByTag = async (req, res) => {
       .filter((graph) => !graphsId.includes(graph.data.parentId));
 
     if (!graph || !tag) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
 
     res.status(200).send(graph.map(toHeader));
@@ -58,11 +58,11 @@ module.exports.getLatestGraphRevision = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
     const graph = await Graphs.findOne({ publicId: graphId })
-      .populate('user', ['name', '_id'])
+      .populate("user", ["name", "_id"])
       .sort({ createdAt: -1 })
       .exec();
     if (!graph || !graphId) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
 
     res.status(200).send(graph.toJSON());
@@ -76,7 +76,7 @@ module.exports.getGraphByInternalId = async (req, res) => {
     const graphId = req.params.internalId || req.body.internalId;
     const graph = await Graphs.findById(graphId);
     if (!graph || !graphId) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
 
     res.status(200).send(graph.toJSON());
@@ -97,7 +97,7 @@ module.exports.getBulkGraphRevisions = async (req, res) => {
     graph = await graph.exec();
 
     if (!graph || !graphId) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
 
     res.status(200).send(graph);
@@ -111,16 +111,16 @@ module.exports.resolveGraph = async (req, res) => {
     const graphId = req.params.internalId || req.body.internalId;
     const graph = await Graphs.findById(graphId);
     if (!graph || !graphId) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
     for (const key in req.body) {
-      if (['nodes', 'edges', 'name', 'tags'].includes(key)) {
+      if (["nodes", "edges", "name", "tags"].includes(key)) {
         graph[key] = req.body[key];
         graph.markModified(key);
       }
     }
     graph.resolved = true;
-    graph.markModified('resolved');
+    graph.markModified("resolved");
 
     await graph.save();
     res.status(200).send(graph.toJSON());
@@ -134,7 +134,7 @@ module.exports.updateGraph = async (req, res) => {
     const graphId = req.params.publicId || req.body.publicId;
     const graph = await Graphs.findOne({ publicId: graphId });
     if (!graph || !graphId) {
-      throw new Error('Parent graph does not exist.');
+      throw new Error("Parent graph does not exist.");
     }
 
     const graphDoc = new Graphs({
@@ -143,10 +143,10 @@ module.exports.updateGraph = async (req, res) => {
       publicId: graphId,
       data: req.body.data,
       resolved: req.body.resolved,
-      name: req.body.name || '',
+      name: req.body.name || "",
       nodes: req.body.nodes,
       edges: req.body.edges,
-      tags: extractTags(req.body)
+      tags: extractTags(req.body),
     });
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());
@@ -160,12 +160,12 @@ module.exports.createGraph = async (req, res) => {
     const graphDoc = new Graphs({
       user: req.user,
       isPublic: req.body.nodes && req.body.data?.shared,
-      name: req.body.name || '',
+      name: req.body.name || "",
       data: req.body.data,
       resolved: req.body.resolved,
       nodes: req.body.nodes,
       edges: req.body.edges,
-      tags: extractTags(req.body)
+      tags: extractTags(req.body),
     });
     await graphDoc.save();
     res.status(200).send(graphDoc.toJSON());
@@ -179,14 +179,14 @@ module.exports.getSubGraphs = async (req, res) => {
     const graphId = req.params.publicId || req.body.publicId;
     const graphs = await Graphs.findSubgraphs(graphId, req.user._id);
     if (!graphs || !graphId) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
 
     const graphsWithForkCount = [];
     for (const graph of graphs) {
       const forkCount = await Graphs.countDocuments({
-        'data.parentId': graph.publicId,
-        user: { $ne: Types.ObjectId(`${req.user._id}`) }
+        "data.parentId": graph.publicId,
+        user: { $ne: Types.ObjectId(`${req.user._id}`) },
       }).exec();
       const data = Object.assign({}, graph);
 
@@ -197,7 +197,7 @@ module.exports.getSubGraphs = async (req, res) => {
 
       graphsWithForkCount.push({
         ...data,
-        forks: forkCount
+        forks: forkCount,
       });
     }
     res.status(200).send(graphsWithForkCount);
@@ -211,21 +211,21 @@ module.exports.getProposalGraphs = async (req, res) => {
   try {
     const graphId = req.params.publicId || req.body.publicId;
     const graph = await Graphs.findOne({ publicId: graphId })
-      .populate('user', ['name', '_id'])
+      .populate("user", ["name", "_id"])
       .sort({ createdAt: -1 })
       .exec();
     if (!graph || !graphId) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
     const forks = await Graphs.aggregate([
       {
         $match: {
-          'data.parentId': graphId,
-          user: { $ne: Types.ObjectId(req.user._id) }
-        }
+          "data.parentId": graphId,
+          user: { $ne: Types.ObjectId(req.user._id) },
+        },
       },
       ...LATEST_REVISION_AGGREGATOR,
-      ...USER_LOOKUP_PROJECTION
+      ...USER_LOOKUP_PROJECTION,
     ]);
 
     res.status(200).send({ ...graph.toJSON(), forks });
@@ -239,9 +239,9 @@ const getPreviewData = (publicId) => {
     .sort({ createdAt: -1 })
     .then((graph) =>
       graph
-        .populate('nodes', ['id', 'attributes'])
-        .populate('edges', ['source', 'target', 'attributes'])
-        .execPopulate()
+        .populate("nodes", ["id", "attributes"])
+        .populate("edges", ["source", "target", "attributes"])
+        .execPopulate(),
     );
 };
 
@@ -249,7 +249,7 @@ const extractTags = (req) => {
   const tags = [];
   for (const node of req.nodes) {
     if (node.data) {
-      for (const tag of Object.values(_.omit(node.data, ['', '']))) {
+      for (const tag of Object.values(_.omit(node.data, ["", ""]))) {
         tags.push(tag);
       }
     }
@@ -280,7 +280,7 @@ module.exports.getRootNode = async (req, res) => {
     const graph = await Graphs.findOne({ publicId: graphId });
 
     if (!graph || !graphId) {
-      throw new Error('Graph not found.');
+      throw new Error("Graph not found.");
     }
   } catch (err) {
     res.status(404).send({ message: messages.GRAPH_NOT_FOUND, err });
@@ -292,7 +292,7 @@ module.exports.preview = {
     getPreviewData(req.params.publicId)
       .then((graph) => {
         return preview.svg(graph).then((svg) => {
-          res.setHeader('content-type', 'image/svg+xml');
+          res.setHeader("content-type", "image/svg+xml");
           res.status(200).send(svg);
         });
       })
@@ -302,10 +302,10 @@ module.exports.preview = {
     getPreviewData(req.params.publicId)
       .then((graph) => {
         preview.png(graph).then((buffer) => {
-          res.setHeader('content-type', 'image/png');
+          res.setHeader("content-type", "image/png");
           res.status(200).send(buffer);
         });
       })
       .catch((message) => res.status(404).send({ message }));
-  }
+  },
 };

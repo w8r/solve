@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 //import Graph from './Graph';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text } from "react-native";
 
 export default function Canvas() {
   return (

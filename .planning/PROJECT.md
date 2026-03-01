@@ -17,6 +17,7 @@ Users can visually decompose any complex problem into manageable pieces and coll
 ### Active
 
 **M1: Foundation (current focus)**
+
 - [ ] Backend rewritten in TypeScript with proper types shared across packages
 - [ ] Backend has comprehensive test coverage
 - [ ] Backend deployed and working (Vercel or similar)
@@ -43,6 +44,7 @@ Users can visually decompose any complex problem into manageable pieces and coll
 ## Context
 
 ### Existing Codebase
+
 This is a brownfield project with ~3 years of existing code:
 
 - **packages/server/** — Legacy JavaScript Express backend. Auth works (local + Google + Facebook). Graph CRUD works. PR merging and graph queries are messy. Types not shared.
@@ -52,19 +54,23 @@ This is a brownfield project with ~3 years of existing code:
 - **packages/common/** — Shared types (incomplete)
 
 ### Current Graph Data Model
+
 ```
 Graph → { nodes: [Vertex], edges: [Edge], user, tags, publicId, revisions }
 Vertex → { id, data: {}, attributes: {} }
 Edge → { id, source, target, data: {}, attributes: {} }
 ```
+
 Embedded documents approach — works for small graphs, has scaling limits (16MB doc limit, can't query across graphs efficiently).
 
 ### Infrastructure
+
 - MongoDB Atlas — alive, working
 - Web deployment — dead (hosting company closed)
 - No CI/CD currently
 
 ### Core Workflows (to be rebuilt)
+
 1. **Create mode** — Fast, natural mind mapping. Classify problems, draw connections.
 2. **Solve mode** — GitHub for graphs. Fork subgraph → work on it → submit PR → owner merges.
 3. **Community mode** (future) — Post problems to community, experts pick up and solve, potentially paid.
@@ -80,14 +86,15 @@ Embedded documents approach — works for small graphs, has scaling limits (16MB
 
 ## Key Decisions
 
-| Decision | Rationale | Outcome |
-|----------|-----------|---------|
-| Skia over Three.js | Animations and feel are core to product experience | — Pending |
-| Fastify over Express | 3x performance, better TS support, plugin architecture | — Pending |
-| EAS for mobile builds | Official Expo build service, handles signing | — Pending |
-| CRDT-friendly data model | Enables real-time sync without rewrite | — Pending |
-| Drop Facebook OAuth | Low value, adds complexity | — Pending |
-| Embedded → hybrid graph model | Need to research efficient MongoDB graph patterns | — Pending |
+| Decision                      | Rationale                                              | Outcome   |
+| ----------------------------- | ------------------------------------------------------ | --------- |
+| Skia over Three.js            | Animations and feel are core to product experience     | — Pending |
+| Fastify over Express          | 3x performance, better TS support, plugin architecture | — Pending |
+| EAS for mobile builds         | Official Expo build service, handles signing           | — Pending |
+| CRDT-friendly data model      | Enables real-time sync without rewrite                 | — Pending |
+| Drop Facebook OAuth           | Low value, adds complexity                             | — Pending |
+| Embedded → hybrid graph model | Need to research efficient MongoDB graph patterns      | — Pending |
 
 ---
-*Last updated: 2026-03-01 after initialization*
+
+_Last updated: 2026-03-01 after initialization_

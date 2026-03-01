@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Icon } from 'native-base';
-import { useNavigation } from '@react-navigation/native';
-import { isWeb } from '../constants/device';
-import { Feather as Icons } from '@expo/vector-icons';
+import React, { FC } from "react";
+import { TouchableOpacity, StyleSheet } from "react-native";
+import { Icon } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { isWeb } from "../constants/device";
+import { Feather as Icons } from "@expo/vector-icons";
 
 export const BackButton: FC<{ fallback?: () => void }> = ({ fallback }) => {
   let { canGoBack, goBack } = useNavigation();
@@ -19,15 +19,15 @@ export const BackButton: FC<{ fallback?: () => void }> = ({ fallback }) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    position: "absolute",
     top: 20 + (isWeb ? 0 : 20),
     left: 20 + (isWeb ? 20 : 0),
-    alignContent: 'center',
-    alignItems: 'center',
-    zIndex: 1
+    alignContent: "center",
+    alignItems: "center",
+    zIndex: 1,
   },
   icon: {
     width: 32,
-    height: 32
-  }
+    height: 32,
+  },
 });

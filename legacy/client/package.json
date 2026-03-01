@@ -1,5 +1,6 @@
 {
   "name": "@solve/client",
+  "private": true,
   "main": "__generated__/AppEntry.js",
   "scripts": {
     "start": "expo start --https",
@@ -11,12 +12,6 @@
     "test": "jest --watchAll",
     "postinstall": "expo-yarn-workspaces postinstall",
     "publish:stage": "expo publish --release-channel staging"
-  },
-  "engines": {
-    "node": "16.4.2"
-  },
-  "jest": {
-    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.0",
@@ -96,5 +91,10 @@
     "jest-expo": "~41.0.0-beta.0",
     "typescript": "~4.0.0"
   },
-  "private": true
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "engines": {
+    "node": "16.4.2"
+  }
 }

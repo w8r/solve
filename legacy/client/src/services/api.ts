@@ -1,46 +1,44 @@
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import AppConfig from '../constants/config';
-import { TOKEN_KEY } from '../constants';
-import { isWeb } from '../constants/device';
-import { Graph, GraphEdge, GraphNode, Id } from '../types/graph';
-import { UserAndToken } from '../types/user';
+import AppConfig from "../constants/config";
+import { TOKEN_KEY } from "../constants";
+import { isWeb } from "../constants/device";
+import { Graph, GraphEdge, GraphNode, Id } from "../types/graph";
+import { UserAndToken } from "../types/user";
 
-import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
+import { FacebookAuthUser, GoogleAuthUser } from "../types/user";
 
 const transport = axios.create({
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-    'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-    Pragma: 'no-cache',
-    Expires: '0'
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "Cache-Control": "no-cache",
+    "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+    Pragma: "no-cache",
+    Expires: "0",
   },
-  responseType: 'json',
-  baseURL: AppConfig.apiUrl
+  responseType: "json",
+  baseURL: AppConfig.apiUrl,
 });
 
 export function setHeaderToken(token: string | undefined) {
   //transport.defaults.headers.common[TOKEN_KEY] = token;
-  transport.defaults.headers.common['authorization'] = token
-    ? `Bearer ${token}`
-    : undefined;
+  transport.defaults.headers.common["authorization"] = token ? `Bearer ${token}` : undefined;
 }
 
 function request<T>(
   path: string,
-  method: 'get' | 'post' | 'delete' | 'put' = 'get',
-  data: Record<string, unknown> = {}
+  method: "get" | "post" | "delete" | "put" = "get",
+  data: Record<string, unknown> = {},
 ): Promise<T> {
   return AsyncStorage.getItem(TOKEN_KEY).then((token) => {
     return new Promise((resolve, reject) => {
       console.log(
-        '%c api: ',
-        'color: white; background-color: blue',
+        "%c api: ",
+        "color: white; background-color: blue",
         method.toUpperCase(),
-        AppConfig.apiUrl + path
+        AppConfig.apiUrl + path,
       );
 
       transport
@@ -49,9 +47,9 @@ function request<T>(
           method,
           headers: {
             authorization: `Bearer ${token}`,
-            'Bypass-Tunnel-Reminder': true
+            "Bypass-Tunnel-Reminder": true,
           },
-          data: method === 'get' ? undefined : data
+          data: method === "get" ? undefined : data,
         })
         .then((response) => resolve(response.data as unknown as T))
         .catch((error) => {
@@ -62,86 +60,67 @@ function request<T>(
 }
 
 function get<T>(path: string, data?: Record<string, unknown>) {
-  return request<T>(path, 'get', data);
+  return request<T>(path, "get", data);
 }
 
 function post<T>(path: string, data?: Record<string, unknown>): Promise<T> {
-  return request<T>(path, 'post', data);
+  return request<T>(path, "post", data);
 }
 
 function put<T>(path: string, data: Record<string, unknown>) {
-  return request<T>(path, 'put', data);
+  return request<T>(path, "put", data);
 }
 
 export function status() {
-  return post('/api/user/status').catch((err) => {
+  return post("/api/user/status").catch((err) => {
     setHeaderToken(undefined);
-    return AsyncStorage.setItem(TOKEN_KEY, '');
+    return AsyncStorage.setItem(TOKEN_KEY, "");
   });
 }
 
 export function login(email: string, password: string): Promise<UserAndToken> {
-  return post<UserAndToken>('/api/auth/signin', { email, password });
+  return post<UserAndToken>("/api/auth/signin", { email, password });
 }
 
 export function logout() {
-  return post('/api/auth/logout');
+  return post("/api/auth/logout");
 }
 
-export function facebookAuth(
-  userData: FacebookAuthUser
-): Promise<UserAndToken> {
-  return post<UserAndToken>(
-    '/api/auth/facebook',
-    userData as any as Record<string, unknown>
-  );
+export function facebookAuth(userData: FacebookAuthUser): Promise<UserAndToken> {
+  return post<UserAndToken>("/api/auth/facebook", userData as any as Record<string, unknown>);
 }
 
 export function googleAuth(userData: GoogleAuthUser): Promise<UserAndToken> {
-  return post<UserAndToken>(
-    '/api/auth/google',
-    userData as any as Record<string, unknown>
-  );
+  return post<UserAndToken>("/api/auth/google", userData as any as Record<string, unknown>);
 }
 
-export function signup(
-  name: string,
-  email: string,
-  password: string,
-  passwordRepeat: string
-) {
-  return post<UserAndToken>('/api/auth/signup', {
+export function signup(name: string, email: string, password: string, passwordRepeat: string) {
+  return post<UserAndToken>("/api/auth/signup", {
     name,
     email,
     password,
     password2: passwordRepeat,
-    score: 100
+    score: 100,
   });
 }
 
 export function resetPasswordRequest(email: string) {
-  return post<{ message: string; success: boolean }>(
-    '/api/user/reset-password',
-    { email }
-  );
+  return post<{ message: string; success: boolean }>("/api/user/reset-password", { email });
 }
 
-export function resetPassword(
-  token: string,
-  password: string,
-  passwordRepeat: string
-) {
-  return post<{ message: string; success: boolean }>(
-    '/api/user/reset-password',
-    { password, passwordRepeat, token }
-  );
+export function resetPassword(token: string, password: string, passwordRepeat: string) {
+  return post<{ message: string; success: boolean }>("/api/user/reset-password", {
+    password,
+    passwordRepeat,
+    token,
+  });
 }
 
-export interface GraphProposals extends Omit<Graph, 'forks'> {
+export interface GraphProposals extends Omit<Graph, "forks"> {
   forks: Graph[];
 }
 
-export interface SubgraphHeader extends Exclude<Graph, 'nodes' | 'edges'> {
+export interface SubgraphHeader extends Exclude<Graph, "nodes" | "edges"> {
   forks: number;
 }
 
@@ -166,7 +145,7 @@ export function resolveGraph(id: string, graph: Graph) {
 }
 
 export function saveGraph(id: string | null, graph: Graph) {
-  if (id === null) return post<Graph>('/api/graph/', graph);
+  if (id === null) return post<Graph>("/api/graph/", graph);
   return put<Graph>(`/api/graph/${id}`, graph);
 }
 
@@ -176,24 +155,24 @@ export function shareGraph(graph: Graph, parentId: string) {
     data: {
       ...(graph.data || {}),
       parentId,
-      shared: true
-    }
+      shared: true,
+    },
   });
 }
 
 export function searchGraph(searchText: string) {
   return post<Graph[]>(`/api/graph/search`, {
-    tag: searchText
+    tag: searchText,
   });
 }
 
 export function getGraphPreviewURL(id: string) {
-  return AppConfig.apiUrl + `/api/graph/${id}/preview.${isWeb ? 'svg' : 'png'}`;
+  return AppConfig.apiUrl + `/api/graph/${id}/preview.${isWeb ? "svg" : "png"}`;
 }
 
 export function getUserGraphs(id?: string) {
   if (id !== undefined) return post<Graph[]>(`/api/user/${id}/graphs`);
-  return post<Graph[]>('/api/user/graphs'); // me
+  return post<Graph[]>("/api/user/graphs"); // me
 }
 
 export function createNode(graphId: string, node: GraphNode) {

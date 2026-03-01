@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
-import { StyleSheet, SectionList, View } from 'react-native';
-import { VStack, Text, Image, Box, Icon, HStack } from 'native-base';
-import { Entypo as Icons, Feather as FIcons } from '@expo/vector-icons';
-import { getGraphPreviewURL, GraphProposals } from '../../services/api';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
-import { Graph } from '../../types/graph';
+import React, { FC } from "react";
+import { StyleSheet, SectionList, View } from "react-native";
+import { VStack, Text, Image, Box, Icon, HStack } from "native-base";
+import { Entypo as Icons, Feather as FIcons } from "@expo/vector-icons";
+import { getGraphPreviewURL, GraphProposals } from "../../services/api";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { Graph } from "../../types/graph";
 export const List: FC<{
   proposals: GraphProposals;
   subgraph: string;
@@ -13,16 +13,16 @@ export const List: FC<{
 }> = ({ proposals, subgraph, Header }) => {
   const { navigate } = useNavigation();
   const onPress = (index: number) => {
-    navigate('App', {
-      screen: 'TabOne',
+    navigate("App", {
+      screen: "TabOne",
       params: {
-        screen: 'Viewer',
+        screen: "Viewer",
         params: {
           graph: proposals.forks[index].publicId,
-          mode: 'propose',
-          subgraph: subgraph
-        }
-      }
+          mode: "propose",
+          subgraph: subgraph,
+        },
+      },
     });
   };
 
@@ -30,11 +30,7 @@ export const List: FC<{
     <SectionList
       style={styles.container}
       contentContainerStyle={styles.listContent}
-      sections={
-        proposals.forks.length === 0
-          ? []
-          : [{ title: 'Proposals', data: proposals.forks }]
-      }
+      sections={proposals.forks.length === 0 ? [] : [{ title: "Proposals", data: proposals.forks }]}
       keyExtractor={(_, index) => index.toString()}
       renderSectionHeader={() => (
         <View style={styles.subHeader}>
@@ -57,7 +53,7 @@ export const List: FC<{
                   alt={String(graph.id)}
                   size="2xl"
                   source={{
-                    uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
+                    uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`,
                   }}
                 />
               </View>
@@ -80,55 +76,55 @@ export const List: FC<{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%'
+    width: "100%",
   },
   userInfo: {
-    flex: 1
+    flex: 1,
   },
   listContent: {
     margin: 0,
     padding: 0,
-    width: '100%',
+    width: "100%",
     paddingBottom: 60,
-    alignItems: 'center'
+    alignItems: "center",
   },
 
   subHeader: {
     marginTop: 25,
-    marginBottom: 25
+    marginBottom: 25,
   },
 
   card: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
 
   header: {
     marginTop: 20,
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   nameText: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   image: {
     borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)'
+    borderColor: "rgba(0,0,0,0.2)",
   },
 
   caption: {
-    paddingTop: 10
+    paddingTop: 10,
   },
 
   icon: {
-    marginRight: 2
+    marginRight: 2,
   },
 
   emptyMessage: {
-    paddingTop: 40
+    paddingTop: 40,
   },
 
   messageText: {
-    color: 'rgba(0,0,0,0.2)'
-  }
+    color: "rgba(0,0,0,0.2)",
+  },
 });

@@ -26,6 +26,7 @@ The packages in this directory were moved from their original locations:
 ## Active Development
 
 For current active packages, see `/packages/` directory:
+
 - `/packages/api/` - Fastify backend API
 - `/packages/app/` - React Native mobile app
 - `/packages/common/` - Shared utilities and types

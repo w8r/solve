@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
-import { useEffect } from 'react';
-import { useVis, VisProvider } from './context';
-import { Viewer } from './Viewer';
+import React, { FC } from "react";
+import { useEffect } from "react";
+import { useVis, VisProvider } from "./context";
+import { Viewer } from "./Viewer";
 
 export { VisProvider, Viewer, useVis };
 

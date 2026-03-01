@@ -1,8 +1,8 @@
-import { User } from '../types/user';
+import { User } from "../types/user";
 
 export function getShortName(user: User): string {
   return user?.name
-    .split(' ')
+    .split(" ")
     .map((s) => s[0].toUpperCase())
-    .join('');
+    .join("");
 }

@@ -2,6 +2,8 @@
   "name": "@solve/server",
   "version": "1.0.0",
   "description": "",
+  "license": "MIT",
+  "author": "Alex Milevski <alex@milevski.co>, Yigit Akbulut",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -9,11 +11,6 @@
     "tunnel": "lt --port 3001",
     "test": "cross-env NODE_ENV=test mocha --timeout 20000 --recursive --exit"
   },
-  "engines": {
-    "node": "16.4.2"
-  },
-  "author": "Alex Milevski <alex@milevski.co>, Yigit Akbulut",
-  "license": "MIT",
   "dependencies": {
     "@nicokaiser/passport-apple": "0.2.1",
     "@types/bcryptjs": "2.4.2",
@@ -65,5 +62,8 @@
   "devDependencies": {
     "localtunnel": "2.0.0",
     "typescript": "4.6.2"
+  },
+  "engines": {
+    "node": "16.4.2"
   }
 }

@@ -1,10 +1,10 @@
 export type OperationType =
-  | 'CREATE_NODE'
-  | 'UPDATE_NODE'
-  | 'DELETE_NODE'
-  | 'CREATE_EDGE'
-  | 'DELETE_EDGE'
-  | 'UPDATE_GRAPH';
+  | "CREATE_NODE"
+  | "UPDATE_NODE"
+  | "DELETE_NODE"
+  | "CREATE_EDGE"
+  | "DELETE_EDGE"
+  | "UPDATE_GRAPH";
 
 export interface IOperation {
   _id: string;

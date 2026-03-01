@@ -1,36 +1,28 @@
-import React, { ReactNode, useEffect, FC, useState } from 'react';
-import { Path, G } from 'react-native-svg';
-import { FontAwesome as Icons } from '@expo/vector-icons';
-import { maybeCompleteAuthSession } from 'expo-web-browser';
-import * as Facebook from 'expo-auth-session/providers/facebook';
-import * as Google from 'expo-auth-session/providers/google';
-import { ResponseType } from 'expo-auth-session';
+import React, { ReactNode, useEffect, FC, useState } from "react";
+import { Path, G } from "react-native-svg";
+import { FontAwesome as Icons } from "@expo/vector-icons";
+import { maybeCompleteAuthSession } from "expo-web-browser";
+import * as Facebook from "expo-auth-session/providers/facebook";
+import * as Google from "expo-auth-session/providers/google";
+import { ResponseType } from "expo-auth-session";
 
 import {
   FACEBOOK_APP_ID,
   GOOGLE_ANDROID_ID,
   GOOGLE_IOS_ID,
   GOOGLE_WEB_ID,
-  GOOGLE_EXPO_ID
-} from '@env';
+  GOOGLE_EXPO_ID,
+} from "@env";
 
-import transport from 'axios';
-import { useAuth } from '../hooks/useAuth';
-import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
+import transport from "axios";
+import { useAuth } from "../hooks/useAuth";
+import { FacebookAuthUser, GoogleAuthUser } from "../types/user";
 
-import {
-  Button,
-  Box,
-  useTheme,
-  Text,
-  Icon,
-  IButtonProps,
-  VStack
-} from 'native-base';
+import { Button, Box, useTheme, Text, Icon, IButtonProps, VStack } from "native-base";
 
 export enum SocialLoginType {
-  facebook = 'facebook',
-  google = 'google'
+  facebook = "facebook",
+  google = "google",
 }
 
 export const GoogleIcon = () => (
@@ -57,15 +49,15 @@ export const FacebookIcon = () => (
 
 const buttonProps = {
   [SocialLoginType.facebook]: {
-    icon: 'facebook',
-    text: 'Facebook',
-    color: '#3b5998'
+    icon: "facebook",
+    text: "Facebook",
+    color: "#3b5998",
   },
   [SocialLoginType.google]: {
-    icon: 'google',
-    text: 'Google',
-    color: '#EA4335'
-  }
+    icon: "google",
+    text: "Google",
+    color: "#EA4335",
+  },
 };
 
 export const SocialButton = ({
@@ -116,47 +108,41 @@ export const SocialLogin: FC = () => {
 
   const [fbRequest, fbResponse, fbPromptAsync] = Facebook.useAuthRequest({
     clientId: FACEBOOK_APP_ID,
-    responseType: ResponseType.Token
+    responseType: ResponseType.Token,
   });
 
-  const [googleRequest, googleResponse, googlePromptAsync] =
-    Google.useAuthRequest({
-      expoClientId: GOOGLE_EXPO_ID,
-      iosClientId: GOOGLE_IOS_ID,
-      androidClientId: GOOGLE_ANDROID_ID,
-      webClientId: GOOGLE_WEB_ID
-    });
+  const [googleRequest, googleResponse, googlePromptAsync] = Google.useAuthRequest({
+    expoClientId: GOOGLE_EXPO_ID,
+    iosClientId: GOOGLE_IOS_ID,
+    androidClientId: GOOGLE_ANDROID_ID,
+    webClientId: GOOGLE_WEB_ID,
+  });
 
   useEffect(() => {
-    if (fbResponse?.type === 'success') {
+    if (fbResponse?.type === "success") {
       const { access_token } = fbResponse.params;
       setIsLoading(true);
       transport
         .get(`https://graph.facebook.com/me`, {
           params: {
             access_token,
-            fields: [
-              'id',
-              'name',
-              'email',
-              'picture.height(500)',
-              'first_name',
-              'last_name'
-            ].join(',')
-          }
+            fields: ["id", "name", "email", "picture.height(500)", "first_name", "last_name"].join(
+              ",",
+            ),
+          },
         })
         .then(({ data }) => {
           loginWithFacebook(data as FacebookAuthUser);
         });
     }
-    if (googleResponse?.type === 'success') {
+    if (googleResponse?.type === "success") {
       const { access_token } = googleResponse.params;
       setIsLoading(true);
       transport
-        .get('https://www.googleapis.com/oauth2/v2/userinfo', {
+        .get("https://www.googleapis.com/oauth2/v2/userinfo", {
           headers: {
-            Authorization: `Bearer ${access_token}`
-          }
+            Authorization: `Bearer ${access_token}`,
+          },
         })
         .then(({ data }) => {
           loginWithGoogle(data as GoogleAuthUser);

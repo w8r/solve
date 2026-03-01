@@ -1,4 +1,4 @@
-require('./users');
-require('./graphs');
-require('./vertex');
-require('./edge');
+require("./users");
+require("./graphs");
+require("./vertex");
+require("./edge");

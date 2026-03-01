@@ -1,1 +1,1 @@
-export type ViewerModes = 'edit' | 'propose' | 'merge';
+export type ViewerModes = "edit" | "propose" | "merge";

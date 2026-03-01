@@ -1,35 +1,32 @@
-import React, { FC } from 'react';
-import { StyleSheet } from 'react-native';
-import { Fab, Icon, Menu, Text, HStack } from 'native-base';
+import React, { FC } from "react";
+import { StyleSheet } from "react-native";
+import { Fab, Icon, Menu, Text, HStack } from "native-base";
 import {
   Octicons as OctIcon,
   MaterialCommunityIcons as MCIcon,
-  Feather as FeatherIcon
-} from '@expo/vector-icons';
-import { menuMargin } from '../../../../constants/Layout';
+  Feather as FeatherIcon,
+} from "@expo/vector-icons";
+import { menuMargin } from "../../../../constants/Layout";
 
 interface ProposalMenuProps {
   onComment?: () => void;
   onAccept: () => void;
 }
 
-export const ProposalMenu: FC<ProposalMenuProps> = ({
-  onComment,
-  onAccept
-}) => {
+export const ProposalMenu: FC<ProposalMenuProps> = ({ onComment, onAccept }) => {
   const menuItems = [
     {
-      icon: 'comment',
+      icon: "comment",
       onPress: onComment,
-      text: 'Comment',
-      active: false
+      text: "Comment",
+      active: false,
     },
     {
-      icon: 'check',
+      icon: "check",
       onPress: onAccept,
-      text: 'Accept',
-      active: true
-    }
+      text: "Accept",
+      active: true,
+    },
   ];
 
   return (
@@ -46,9 +43,7 @@ export const ProposalMenu: FC<ProposalMenuProps> = ({
             size="sm"
             {...triggerProps}
             style={styles.fab}
-            icon={
-              <Icon color="white" as={FeatherIcon} name="circle" size="4" />
-            }
+            icon={<Icon color="white" as={FeatherIcon} name="circle" size="4" />}
           />
         );
       }}
@@ -57,15 +52,11 @@ export const ProposalMenu: FC<ProposalMenuProps> = ({
         item.active ? (
           <Menu.Item key={index} onPress={item.onPress}>
             <HStack space="3">
-              <Icon
-                as={item.icon === 'comment' ? OctIcon : MCIcon}
-                name={item.icon}
-                size="sm"
-              />
+              <Icon as={item.icon === "comment" ? OctIcon : MCIcon} name={item.icon} size="sm" />
               <Text>{item.text}</Text>
             </HStack>
           </Menu.Item>
-        ) : null
+        ) : null,
       )}
     </Menu>
   );
@@ -74,13 +65,13 @@ export const ProposalMenu: FC<ProposalMenuProps> = ({
 const styles = StyleSheet.create({
   fab: {
     flex: 1,
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    right: '50%',
-    marginRight: -25
+    right: "50%",
+    marginRight: -25,
   },
   menu: {
     marginBottom: 15,
-    marginLeft: menuMargin
-  }
+    marginLeft: menuMargin,
+  },
 });

@@ -1,10 +1,10 @@
-const passport = require('passport');
-const mongoose = require('mongoose');
-const createError = require('http-errors');
-const config = require('../../config/development');
-const constants = require('../../config/constants');
+const passport = require("passport");
+const mongoose = require("mongoose");
+const createError = require("http-errors");
+const config = require("../../config/development");
+const constants = require("../../config/constants");
 
-const Users = mongoose.model('Users');
+const Users = mongoose.model("Users");
 
 module.exports.authStrategy = (strategy) => (req, res, next) => {
   passport.authenticate(strategy, { session: false }, (err, user, info) => {
@@ -26,9 +26,9 @@ module.exports.googleSignInStrategy = (profile, done) => {
       profile.email,
       profile.given_name,
       profile.family_name,
-      profile.id
+      profile.id,
     ),
-    picture: profile.picture
+    picture: profile.picture,
   };
 
   handleOAuth(userProfile, done, constants.PROVIDER_GOOGLE);
@@ -44,9 +44,9 @@ module.exports.facebookSignInStrategy = (profile, done) => {
       profile.email,
       profile.first_name,
       profile.last_name,
-      profile.id
+      profile.id,
     ),
-    picture: profile.picture.data.url
+    picture: profile.picture.data.url,
   };
 
   handleOAuth(userProfile, done, constants.PROVIDER_FACEBOOK);
@@ -74,13 +74,13 @@ const generateRandomNumber = () => {
  * @returns {string} the username
  */
 const generateUsername = (userName, email, firstName, lastName, id) => {
-  let username = '';
+  let username = "";
   if (userName) {
     username = userName;
   } else if (firstName && lastName) {
     username = `${firstName}${lastName}${generateRandomNumber()}`;
   } else if (email) {
-    username = email.split('@')[0];
+    username = email.split("@")[0];
   } else if (id) {
     username = id;
   }
@@ -114,15 +114,15 @@ const updateOrInsert = (userProfile) => {
       { email: userProfile.email },
       {
         [`provider.${userProfile.provider}`]: {
-          userId: userProfile.userId
-        }
-      }
-    ]
+          userId: userProfile.userId,
+        },
+      },
+    ],
   };
 
   const provider = {
     userId: userProfile.userId,
-    picture: userProfile.picture
+    picture: userProfile.picture,
   };
 
   return Users.findOne(query).then((existingUser) => {
@@ -134,8 +134,8 @@ const updateOrInsert = (userProfile) => {
             name: availableUsername,
             status: constants.STATUS_ACTIVE,
             provider: {
-              [userProfile.provider]: provider
-            }
+              [userProfile.provider]: provider,
+            },
           });
           return user.save();
         })
@@ -157,20 +157,15 @@ const updateOrInsert = (userProfile) => {
  *
  * @returns
  */
-const handleAuthByCheckingUserStatus = (
-  user,
-  done,
-  provider = constants.PROVIDER_LOCAL
-) => {
+const handleAuthByCheckingUserStatus = (user, done, provider = constants.PROVIDER_LOCAL) => {
   // Make sure user exists
-  if (!user) return done(null, false, { message: 'User does not exist' });
+  if (!user) return done(null, false, { message: "User does not exist" });
 
   // authorized
   if (
     user.status === constants.STATUS_ACTIVE ||
     // unverified-email status should NOT block the user who signed in with Google or Facebook OAuth
-    (user.status === constants.STATUS_UNVERIFIED_EMAIL &&
-      provider !== constants.PROVIDER_LOCAL)
+    (user.status === constants.STATUS_UNVERIFIED_EMAIL && provider !== constants.PROVIDER_LOCAL)
   ) {
     user.signedInWithProvider = provider;
     return done(null, user);
@@ -179,19 +174,19 @@ const handleAuthByCheckingUserStatus = (
   // Before denying all other statuses, return helpful message where possible
 
   if (user.status === constants.STATUS_DISABLED) {
-    return done(null, false, { message: 'Account is disabled' });
+    return done(null, false, { message: "Account is disabled" });
   }
   console.log(config.auth.verifyEmail, provider, constants.PROVIDER_LOCAL);
   if (config.auth.verifyEmail && provider === constants.PROVIDER_LOCAL) {
     if (user.status === constants.STATUS_UNVERIFIED_EMAIL) {
       return done(null, false, {
-        message: 'Email is not verified',
-        code: constants.ERROR_CODES.AUTH_USER_EMAIL_UNVERIFIED
+        message: "Email is not verified",
+        code: constants.ERROR_CODES.AUTH_USER_EMAIL_UNVERIFIED,
       });
     }
   }
 
-  done(null, false, { message: 'Account status is invalid' });
+  done(null, false, { message: "Account status is invalid" });
 };
 module.exports.handleAuthByCheckingUserStatus = handleAuthByCheckingUserStatus;
 

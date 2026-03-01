@@ -1,195 +1,195 @@
 module.exports.LATEST_REVISION_AGGREGATOR = [
   {
     $sort: {
-      createdAt: -1
-    }
+      createdAt: -1,
+    },
   },
   {
     $group: {
-      _id: '$publicId',
+      _id: "$publicId",
       internalId: {
-        $first: '$_id'
+        $first: "$_id",
       },
       createdAt: {
-        $first: '$createdAt'
+        $first: "$createdAt",
       },
       updatedAt: {
-        $first: '$updatedAt'
+        $first: "$updatedAt",
       },
       data: {
-        $first: '$data'
+        $first: "$data",
       },
       edges: {
-        $first: '$edges'
+        $first: "$edges",
       },
       nodes: {
-        $first: '$nodes'
+        $first: "$nodes",
       },
       name: {
-        $first: '$name'
+        $first: "$name",
       },
       resolved: {
-        $first: '$resolved'
+        $first: "$resolved",
       },
       tags: {
-        $first: '$tags'
+        $first: "$tags",
       },
       user: {
-        $first: '$user'
+        $first: "$user",
       },
       isPublic: {
-        $first: '$isPublic'
+        $first: "$isPublic",
       },
       publicId: {
-        $first: '$publicId'
+        $first: "$publicId",
       },
       internalId: {
-        $first: '$_id'
-      }
-    }
+        $first: "$_id",
+      },
+    },
   },
   {
     $project: {
       _id: 0,
       name: {
-        $ifNull: ['$name', 'Untitled']
+        $ifNull: ["$name", "Untitled"],
       },
-      isPublic: '$isPublic',
-      resolved: '$resolved',
+      isPublic: "$isPublic",
+      resolved: "$resolved",
       createdAt: 1,
       updatedAt: 1,
-      tags: '$tags',
-      data: '$data',
-      nodes: '$nodes',
-      edges: '$edges',
-      user: '$user',
-      publicId: '$_id',
-      internalId: '$internalId',
-      updatedAt: '$updatedAt'
-    }
+      tags: "$tags",
+      data: "$data",
+      nodes: "$nodes",
+      edges: "$edges",
+      user: "$user",
+      publicId: "$_id",
+      internalId: "$internalId",
+      updatedAt: "$updatedAt",
+    },
   },
   {
     $sort: {
-      createdAt: -1
-    }
-  }
+      createdAt: -1,
+    },
+  },
 ];
 
 module.exports.FORK_COUNT_LATEST_REV_AGGREGATOR = [
   {
     $sort: {
-      createdAt: -1
-    }
+      createdAt: -1,
+    },
   },
   {
     $lookup: {
-      from: 'graphs',
-      localField: 'publicId',
-      foreignField: 'data.parentId',
-      as: 'forks'
-    }
+      from: "graphs",
+      localField: "publicId",
+      foreignField: "data.parentId",
+      as: "forks",
+    },
   },
   {
     $group: {
-      _id: '$publicId',
+      _id: "$publicId",
       internalId: {
-        $first: '$_id'
+        $first: "$_id",
       },
       createdAt: {
-        $first: '$createdAt'
+        $first: "$createdAt",
       },
       updatedAt: {
-        $first: '$updatedAt'
+        $first: "$updatedAt",
       },
       data: {
-        $first: '$data'
+        $first: "$data",
       },
       edges: {
-        $first: '$edges'
+        $first: "$edges",
       },
       nodes: {
-        $first: '$nodes'
+        $first: "$nodes",
       },
       name: {
-        $first: '$name'
+        $first: "$name",
       },
       resolved: {
-        $first: '$resolved'
+        $first: "$resolved",
       },
       tags: {
-        $first: '$tags'
+        $first: "$tags",
       },
       user: {
-        $first: '$user'
+        $first: "$user",
       },
       isPublic: {
-        $first: '$isPublic'
+        $first: "$isPublic",
       },
       publicId: {
-        $first: '$publicId'
+        $first: "$publicId",
       },
       internalId: {
-        $first: '$_id'
+        $first: "$_id",
       },
       forks: {
-        $first: '$forks'
-      }
-    }
+        $first: "$forks",
+      },
+    },
   },
   {
     $project: {
       _id: 0,
       name: {
-        $ifNull: ['$name', 'Untitled']
+        $ifNull: ["$name", "Untitled"],
       },
-      isPublic: '$isPublic',
-      resolved: '$resolved',
+      isPublic: "$isPublic",
+      resolved: "$resolved",
       createdAt: 1,
       updatedAt: 1,
-      tags: '$tags',
-      data: '$data',
-      nodes: '$nodes',
-      edges: '$edges',
-      user: '$user',
-      publicId: '$_id',
-      internalId: '$internalId',
-      updatedAt: '$updatedAt',
-      forks: '$forks'
-    }
+      tags: "$tags",
+      data: "$data",
+      nodes: "$nodes",
+      edges: "$edges",
+      user: "$user",
+      publicId: "$_id",
+      internalId: "$internalId",
+      updatedAt: "$updatedAt",
+      forks: "$forks",
+    },
   },
   {
     $sort: {
-      createdAt: -1
-    }
-  }
+      createdAt: -1,
+    },
+  },
 ];
 
 module.exports.USER_LOOKUP_PROJECTION = [
   {
     $lookup: {
-      from: 'users',
-      localField: 'user',
-      foreignField: '_id',
-      as: 'users'
-    }
+      from: "users",
+      localField: "user",
+      foreignField: "_id",
+      as: "users",
+    },
   },
   {
     $addFields: {
       user: {
-        $arrayElemAt: ['$users', 0]
-      }
-    }
+        $arrayElemAt: ["$users", 0],
+      },
+    },
   },
   {
     $unset: [
-      'users',
-      'user.provider',
-      'user.password',
-      'user.status',
-      'user.__v',
-      'user.createdAt',
-      'user.updatedAt',
-      'user.email'
-    ]
-  }
+      "users",
+      "user.provider",
+      "user.password",
+      "user.status",
+      "user.__v",
+      "user.createdAt",
+      "user.updatedAt",
+      "user.email",
+    ],
+  },
 ];

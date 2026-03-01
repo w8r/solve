@@ -1,14 +1,11 @@
-const Users = require('../models/users');
-const validateSignup = require('../validator/signup');
-const UserController = require('./user');
-const validate = require('joi');
-const createError = require('http-errors');
-const constants = require('../config/constants');
-const {
-  googleSignInStrategy,
-  facebookSignInStrategy
-} = require('../db/passport/utils');
-const { ERROR_CODES } = require('../config/constants');
+const Users = require("../models/users");
+const validateSignup = require("../validator/signup");
+const UserController = require("./user");
+const validate = require("joi");
+const createError = require("http-errors");
+const constants = require("../config/constants");
+const { googleSignInStrategy, facebookSignInStrategy } = require("../db/passport/utils");
+const { ERROR_CODES } = require("../config/constants");
 
 module.exports.signupLocal = async (req, res, next) => {
   const { errors, isValid } = validateSignup(req.body);
@@ -18,9 +15,9 @@ module.exports.signupLocal = async (req, res, next) => {
     if (existingUser)
       return next(
         createError(400, {
-          message: 'User with this email already exists',
-          code: ERROR_CODES.AUTH_USER_EXISTS
-        })
+          message: "User with this email already exists",
+          code: ERROR_CODES.AUTH_USER_EXISTS,
+        }),
       );
 
     const name = req.body.name ? req.body.name : req.body.email;
@@ -28,10 +25,10 @@ module.exports.signupLocal = async (req, res, next) => {
       name,
       email: req.body.email,
       password: req.body.password,
-      score: req.body.score
+      score: req.body.score,
     });
     user.provider[constants.PROVIDER_LOCAL] = {
-      userId: user._id
+      userId: user._id,
     };
 
     try {
@@ -39,9 +36,9 @@ module.exports.signupLocal = async (req, res, next) => {
     } catch (err) {
       return next(
         createError(500, {
-          message: 'Error sending verification email',
-          code: ERROR_CODES.AUTH_EMAIL_SEND_ERROR
-        })
+          message: "Error sending verification email",
+          code: ERROR_CODES.AUTH_EMAIL_SEND_ERROR,
+        }),
       );
     }
 
@@ -51,7 +48,7 @@ module.exports.signupLocal = async (req, res, next) => {
         user: user.toJSON(),
         // local auth
         token: user.generateJwtToken(user.signedInWithProvider).token,
-        signedInWith: user.signedInWithProvider
+        signedInWith: user.signedInWithProvider,
       });
     });
   });
@@ -62,7 +59,7 @@ module.exports.logout = ({ user, token }, res) => {
     .save()
     .catch((err) => res.status(400).send())
     .then(() => {
-      res.status(200).json({ message: 'Logged out ' });
+      res.status(200).json({ message: "Logged out " });
     });
 };
 
@@ -71,7 +68,7 @@ module.exports.signIn = (req, res, next) => {
     res.status(200).json({
       ...req.user.generateJwtToken(req.user.signedInWithProvider),
       signedInWith: req.user.signedInWithProvider,
-      user: req.user.toJSON()
+      user: req.user.toJSON(),
     });
   }
 };
@@ -85,17 +82,11 @@ const localSignInSchema = validate
       .string()
       .pattern(/^[a-zA-Z0-9.\@\-_]{4,30}$/)
       .messages(constants.messages.ERROR_MESSAGE_USERNAME),
-    email: validate
-      .string()
-      .email()
-      .messages(constants.messages.ERROR_MESSAGE_EMAIL),
-    password: validate
-      .string()
-      .required()
-      .messages(constants.messages.ERROR_MESSAGE_PASSWORD)
+    email: validate.string().email().messages(constants.messages.ERROR_MESSAGE_EMAIL),
+    password: validate.string().required().messages(constants.messages.ERROR_MESSAGE_PASSWORD),
   })
-  .xor('name', 'email')
-  .messages({ 'object.missing': 'Either username or email must be provided' });
+  .xor("name", "email")
+  .messages({ "object.missing": "Either username or email must be provided" });
 
 module.exports.validateLocalSignInPayload = (req, res, next) => {
   localSignInSchema
@@ -124,9 +115,9 @@ const facebookSchema = validate.object({
       url: validate.string().uri().required(),
       width: validate.number().required(),
       height: validate.number().required(),
-      is_silhouette: validate.boolean().required()
-    })
-  })
+      is_silhouette: validate.boolean().required(),
+    }),
+  }),
 });
 
 module.exports.validateFacebookPayload = (req, res, next) => {
@@ -148,17 +139,14 @@ module.exports.facebookSignIn = (req, res, next) => {
  * JOI schema for validating googleSignIn payload
  */
 const googleSignInSchema = validate.object({
-  email: validate
-    .string()
-    .email()
-    .messages(constants.messages.ERROR_MESSAGE_EMAIL),
+  email: validate.string().email().messages(constants.messages.ERROR_MESSAGE_EMAIL),
   family_name: validate.string().required(),
   given_name: validate.string().required(),
   id: validate.string().required(),
   locale: validate.string(),
   name: validate.string().required(),
   picture: validate.string(),
-  verified_email: validate.boolean()
+  verified_email: validate.boolean(),
 });
 
 /**

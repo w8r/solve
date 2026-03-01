@@ -2,9 +2,12 @@
   "name": "@solve/common",
   "version": "1.0.0",
   "description": "Shared types, constants, and algorithms for Solve",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -28,13 +31,10 @@
     "watch": "tsc --watch",
     "clean": "rm -rf dist"
   },
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "files": [
-    "dist"
-  ],
   "devDependencies": {
     "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

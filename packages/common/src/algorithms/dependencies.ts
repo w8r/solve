@@ -1,13 +1,9 @@
-import type { INode, IEdge } from '../types/index.js';
+import type { INode, IEdge } from "../types/index.js";
 
 /**
  * Find all nodes that depend on the given node (direct and transitive)
  */
-export function findDependents(
-  nodeId: string,
-  nodes: INode[],
-  edges: IEdge[]
-): string[] {
+export function findDependents(nodeId: string, nodes: INode[], edges: IEdge[]): string[] {
   const dependents: string[] = [];
   const visited = new Set<string>();
 
@@ -29,11 +25,7 @@ export function findDependents(
 /**
  * Find all nodes that the given node depends on (direct and transitive)
  */
-export function findDependencies(
-  nodeId: string,
-  nodes: INode[],
-  edges: IEdge[]
-): string[] {
+export function findDependencies(nodeId: string, nodes: INode[], edges: IEdge[]): string[] {
   const dependencies: string[] = [];
   const visited = new Set<string>();
 

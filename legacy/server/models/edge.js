@@ -1,33 +1,33 @@
-const { Schema } = require('mongoose');
-const { v4: uuidv4 } = require('uuid');
+const { Schema } = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
 const EdgeSchema = new Schema({
   _id: {
     type: String,
-    default: uuidv4
+    default: uuidv4,
   },
   id: {
     type: String,
-    default: uuidv4
+    default: uuidv4,
   },
   data: {
     type: Object,
     required: false,
-    default: {}
+    default: {},
   },
   attributes: {
     type: Object,
     required: false,
-    default: {}
+    default: {},
   },
   source: {
     type: Schema.Types.String,
-    required: true
+    required: true,
   },
   target: {
     type: Schema.Types.String,
-    required: true
-  }
+    required: true,
+  },
 });
 
 EdgeSchema.methods.toJSON = function () {

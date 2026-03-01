@@ -1,13 +1,8 @@
-import type { INode, IEdge } from '../types/index.js';
+import type { INode, IEdge } from "../types/index.js";
 
 type NodeVisitor = (node: INode) => void;
 
-export function dfs(
-  nodes: INode[],
-  edges: IEdge[],
-  startNodeId: string,
-  visit: NodeVisitor
-): void {
+export function dfs(nodes: INode[], edges: IEdge[], startNodeId: string, visit: NodeVisitor): void {
   const adjacency = buildAdjacencyMap(nodes, edges);
   const visited = new Set<string>();
 
@@ -15,7 +10,7 @@ export function dfs(
     if (visited.has(nodeId)) return;
     visited.add(nodeId);
 
-    const node = nodes.find(n => n._id === nodeId);
+    const node = nodes.find((n) => n._id === nodeId);
     if (node) visit(node);
 
     const neighbors = adjacency.get(nodeId) ?? [];
@@ -27,12 +22,7 @@ export function dfs(
   traverse(startNodeId);
 }
 
-export function bfs(
-  nodes: INode[],
-  edges: IEdge[],
-  startNodeId: string,
-  visit: NodeVisitor
-): void {
+export function bfs(nodes: INode[], edges: IEdge[], startNodeId: string, visit: NodeVisitor): void {
   const adjacency = buildAdjacencyMap(nodes, edges);
   const visited = new Set<string>();
   const queue: string[] = [startNodeId];
@@ -42,7 +32,7 @@ export function bfs(
     if (visited.has(nodeId)) continue;
     visited.add(nodeId);
 
-    const node = nodes.find(n => n._id === nodeId);
+    const node = nodes.find((n) => n._id === nodeId);
     if (node) visit(node);
 
     const neighbors = adjacency.get(nodeId) ?? [];

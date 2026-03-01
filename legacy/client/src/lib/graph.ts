@@ -1,12 +1,10 @@
-import { Graph, GraphEdge, GraphNode } from '../types/graph';
-import uuid from './uuid';
+import { Graph, GraphEdge, GraphNode } from "../types/graph";
+import uuid from "./uuid";
 // import { splitPairs } from "./utils";
 
 export function createEdges(graph: Graph, fromNodes: GraphNode[]): GraphEdge[] {
   //const edgePairs = splitPairs(selectedNodes.map((node) => node.id));
-  const existingEdges = new Set(
-    graph.edges.map(({ source, target }) => `${source}-${target}`)
-  );
+  const existingEdges = new Set(graph.edges.map(({ source, target }) => `${source}-${target}`));
   const edges = fromNodes
     .map((node) => node.id)
     .reduce((acc, curr, i, arr) => {
@@ -23,9 +21,9 @@ export function createEdges(graph: Graph, fromNodes: GraphNode[]): GraphEdge[] {
         target: target,
         attributes: {
           width: 0.25,
-          color: 'blue',
-          selected: false
-        }
+          color: "blue",
+          selected: false,
+        },
       };
       acc.push(edge);
       return acc;

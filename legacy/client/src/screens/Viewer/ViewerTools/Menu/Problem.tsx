@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Fab, Icon, Menu, Text, HStack } from 'native-base';
-import { Feather as Icons } from '@expo/vector-icons';
-import { useVis } from '../../../../components/Viewer';
-import { isWeb } from '../../../../constants/device';
+import React, { FC, useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
+import { Fab, Icon, Menu, Text, HStack } from "native-base";
+import { Feather as Icons } from "@expo/vector-icons";
+import { useVis } from "../../../../components/Viewer";
+import { isWeb } from "../../../../constants/device";
 
 interface ProblemMenuProps {
   showDialog: () => void;
@@ -24,58 +24,58 @@ export const ProblemMenu: FC<ProblemMenuProps> = ({
   onCreateEdge,
   onShare,
   onSelectClear,
-  onSave
+  onSave,
 }) => {
   const { graph, selectedEdges, selectedNodes } = useVis();
   const menuItems = [
     {
-      icon: 'plus-circle',
+      icon: "plus-circle",
       onPress: showDialog,
-      text: 'Add node',
-      active: selectedNodes.length === 0
+      text: "Add node",
+      active: selectedNodes.length === 0,
     },
     {
-      icon: 'copy',
+      icon: "copy",
       onPress: onCreateEdge,
-      text: 'Create edge(s)',
-      active: selectedNodes.length > 1
+      text: "Create edge(s)",
+      active: selectedNodes.length > 1,
     },
     {
-      icon: 'edit',
+      icon: "edit",
       onPress: onEdit,
-      text: 'Edit',
-      active: selectedNodes.length + selectedEdges.length === 1
+      text: "Edit",
+      active: selectedNodes.length + selectedEdges.length === 1,
     },
     {
-      icon: 'trash-2',
+      icon: "trash-2",
       onPress: onRemove,
-      text: 'Remove',
-      active: selectedNodes.length > 0 || selectedEdges.length > 0
+      text: "Remove",
+      active: selectedNodes.length > 0 || selectedEdges.length > 0,
     },
     {
-      icon: 'crop',
+      icon: "crop",
       onPress: onSelect,
-      text: 'Select',
-      active: graph.nodes.length > 0 && !graph.data?.shared
+      text: "Select",
+      active: graph.nodes.length > 0 && !graph.data?.shared,
     },
     {
-      icon: 'crop',
+      icon: "crop",
       onPress: onSelectClear,
-      text: 'Clear selection',
-      active: selectedNodes.length + selectedEdges.length > 0
+      text: "Clear selection",
+      active: selectedNodes.length + selectedEdges.length > 0,
     },
     {
-      icon: 'share',
+      icon: "share",
       onPress: onShare,
-      text: 'Share',
-      active: selectedNodes.length > 0 && !graph.data?.shared
+      text: "Share",
+      active: selectedNodes.length > 0 && !graph.data?.shared,
     },
     {
-      icon: 'save',
+      icon: "save",
       onPress: onSave,
-      text: 'Save',
-      active: graph.nodes.length + graph.edges.length > 0
-    }
+      text: "Save",
+      active: graph.nodes.length + graph.edges.length > 0,
+    },
   ];
 
   return (
@@ -105,7 +105,7 @@ export const ProblemMenu: FC<ProblemMenuProps> = ({
               <Text>{item.text}</Text>
             </HStack>
           </Menu.Item>
-        ) : null
+        ) : null,
       )}
     </Menu>
   );
@@ -114,13 +114,13 @@ export const ProblemMenu: FC<ProblemMenuProps> = ({
 const styles = StyleSheet.create({
   fab: {
     flex: 1,
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    right: '50%',
-    marginRight: -25
+    right: "50%",
+    marginRight: -25,
   },
   menu: {
     marginBottom: 15,
-    marginLeft: isWeb ? -80 : 0
-  }
+    marginLeft: isWeb ? -80 : 0,
+  },
 });

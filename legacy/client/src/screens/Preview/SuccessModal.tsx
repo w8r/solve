@@ -1,24 +1,12 @@
-import React, { FC } from 'react';
-import {
-  Modal,
-  VStack,
-  Center,
-  Icon,
-  Box,
-  Text,
-  Link,
-  Image
-} from 'native-base';
-import { Feather as Icons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { Graph } from '../../types/graph';
-import { getGraphPreviewURL } from '../../services/api';
-import { successColor } from '../../constants/Colors';
+import React, { FC } from "react";
+import { Modal, VStack, Center, Icon, Box, Text, Link, Image } from "native-base";
+import { Feather as Icons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { Graph } from "../../types/graph";
+import { getGraphPreviewURL } from "../../services/api";
+import { successColor } from "../../constants/Colors";
 
-export const SuccessModal: FC<{ graph: Graph; onClose: () => void }> = ({
-  graph,
-  onClose
-}) => {
+export const SuccessModal: FC<{ graph: Graph; onClose: () => void }> = ({ graph, onClose }) => {
   const { navigate } = useNavigation();
   return (
     <Modal isOpen={true} onClose={onClose}>
@@ -34,7 +22,7 @@ export const SuccessModal: FC<{ graph: Graph; onClose: () => void }> = ({
                 <Image
                   alt={graph.publicId}
                   source={{
-                    uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
+                    uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`,
                   }}
                   width="40"
                   height="40"
@@ -44,10 +32,10 @@ export const SuccessModal: FC<{ graph: Graph; onClose: () => void }> = ({
                 <Text>Saved!</Text>
                 <Link
                   _text={{
-                    color: 'indigo.500'
+                    color: "indigo.500",
                   }}
                   mt="1"
-                  onPress={() => navigate('Dashboard')}
+                  onPress={() => navigate("Dashboard")}
                 >
                   Go to dashboard
                 </Link>

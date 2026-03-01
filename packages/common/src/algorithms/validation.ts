@@ -1,17 +1,13 @@
-import type { IGraph, INode, IEdge } from '../types/index.js';
+import type { IGraph, INode, IEdge } from "../types/index.js";
 
 export interface ValidationResult {
   valid: boolean;
   errors: string[];
 }
 
-export function validateGraph(
-  graph: IGraph,
-  nodes: INode[],
-  edges: IEdge[]
-): ValidationResult {
+export function validateGraph(graph: IGraph, nodes: INode[], edges: IEdge[]): ValidationResult {
   const errors: string[] = [];
-  const nodeIds = new Set(nodes.map(n => n._id));
+  const nodeIds = new Set(nodes.map((n) => n._id));
 
   // Check for orphan edges (edges pointing to non-existent nodes)
   for (const edge of edges) {

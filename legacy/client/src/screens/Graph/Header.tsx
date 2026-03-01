@@ -1,20 +1,20 @@
-import React, { FC } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { VStack, Text, Image } from 'native-base';
-import { Graph } from '../../types/graph';
-import { getGraphPreviewURL } from '../../services/api';
-import { useNavigation } from '@react-navigation/native';
-import ago from 's-ago';
+import React, { FC } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { VStack, Text, Image } from "native-base";
+import { Graph } from "../../types/graph";
+import { getGraphPreviewURL } from "../../services/api";
+import { useNavigation } from "@react-navigation/native";
+import ago from "s-ago";
 
 export const Header: FC<{ graph: Graph }> = ({ graph }) => {
   const { navigate } = useNavigation();
   const onPress = () => {
-    navigate('App', {
-      screen: 'TabOne',
+    navigate("App", {
+      screen: "TabOne",
       params: {
-        screen: 'Viewer',
-        params: { graph: graph.publicId, mode: 'edit' }
-      }
+        screen: "Viewer",
+        params: { graph: graph.publicId, mode: "edit" },
+      },
     });
   };
   return (
@@ -27,7 +27,7 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
           resizeMode="cover"
           size="2xl"
           source={{
-            uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
+            uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`,
           }}
         />
         <Text fontSize="sm" color="#999">
@@ -40,18 +40,18 @@ export const Header: FC<{ graph: Graph }> = ({ graph }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    alignItems: 'center'
+    width: "100%",
+    alignItems: "center",
   },
   headerText: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 20,
-    marginBottom: 10
+    marginBottom: 10,
   },
   image: {
-    borderColor: 'rgba(0,0,0,0.2)',
-    borderWidth: 1
-  }
+    borderColor: "rgba(0,0,0,0.2)",
+    borderWidth: 1,
+  },
 });

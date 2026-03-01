@@ -1,26 +1,26 @@
-const { Schema, model } = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('../config/development');
-const constants = require('../config/constants');
-const { v4: uuidv4 } = require('uuid');
-const Graphs = require('./graphs');
+const { Schema, model } = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("../config/development");
+const constants = require("../config/constants");
+const { v4: uuidv4 } = require("uuid");
+const Graphs = require("./graphs");
 
 const providerDataSchema = new Schema({
   userId: {
     type: Schema.Types.String,
-    required: [true, 'Provider userId is required']
+    required: [true, "Provider userId is required"],
   },
   accessToken: {
-    type: Schema.Types.String
+    type: Schema.Types.String,
   },
   refreshToken: {
-    type: Schema.Types.String
+    type: Schema.Types.String,
   },
   picture: {
-    type: Schema.Types.String
-  }
+    type: Schema.Types.String,
+  },
 });
 
 const usersSchema = new Schema(
@@ -28,7 +28,7 @@ const usersSchema = new Schema(
     name: {
       type: Schema.Types.String,
       required: true,
-      maxlength: 100
+      maxlength: 100,
     },
     email: {
       type: Schema.Types.String,
@@ -37,29 +37,25 @@ const usersSchema = new Schema(
       required: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error('Invalid email format');
+          throw new Error("Invalid email format");
         }
-      }
+      },
     },
     password: {
       type: Schema.Types.String,
       required: false,
       minlength: 6,
-      trim: true
+      trim: true,
     },
     status: {
       type: Schema.Types.String,
-      enum: [
-        constants.STATUS_ACTIVE,
-        constants.STATUS_DISABLED,
-        constants.STATUS_UNVERIFIED_EMAIL
-      ],
+      enum: [constants.STATUS_ACTIVE, constants.STATUS_DISABLED, constants.STATUS_UNVERIFIED_EMAIL],
       default: constants.STATUS_UNVERIFIED_EMAIL,
-      index: true
+      index: true,
     },
     score: {
       type: Schema.Types.Number,
-      default: 0
+      default: 0,
     },
     // token for verification email or reset password purpose, NOT JWT token
     // Do NOT set directly, call user.setToken(tokenPurpose) user.clearToken()
@@ -67,34 +63,31 @@ const usersSchema = new Schema(
     token: { type: Schema.Types.String, index: true },
     tokenPurpose: {
       type: Schema.Types.String,
-      enum: [
-        constants.TOKEN_PURPOSE_VERIFY_EMAIL,
-        constants.TOKEN_PURPOSE_RESET_PASSWORD
-      ]
+      enum: [constants.TOKEN_PURPOSE_VERIFY_EMAIL, constants.TOKEN_PURPOSE_RESET_PASSWORD],
     },
     tokenExpiration: { type: Schema.Types.Date },
     provider: {
       apple: {
-        type: providerDataSchema
+        type: providerDataSchema,
       },
       facebook: {
-        type: providerDataSchema
+        type: providerDataSchema,
       },
       google: {
-        type: providerDataSchema
+        type: providerDataSchema,
       },
       local: {
-        type: providerDataSchema
-      }
-    }
+        type: providerDataSchema,
+      },
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
-usersSchema.pre('save', function (next) {
-  if (!this.isModified('password')) return next();
+usersSchema.pre("save", function (next) {
+  if (!this.isModified("password")) return next();
   return bcrypt
     .hash(this.password, config.saltRounds)
     .then((password) => {
@@ -110,9 +103,9 @@ usersSchema.statics.findByCredentials = ({ email, password }) => {
   return new Promise((resolve, reject) => {
     Users.findOne({ email }, (err, user) => {
       if (err) return reject(err);
-      if (!user) return reject('Not found');
+      if (!user) return reject("Not found");
       bcrypt.compare(password, user.password).then((isMatch) => {
-        if (!isMatch) return reject('Unable to login');
+        if (!isMatch) return reject("Unable to login");
         resolve(user);
       });
     });
@@ -170,20 +163,14 @@ usersSchema.methods.comparePasswordAsync = function (candidatePassword) {
  *
  * @returns {object} An object contains JWT token and expiresAt (seconds) property
  */
-usersSchema.methods.generateJwtToken = function (
-  provider = constants.PROVIDER_LOCAL
-) {
+usersSchema.methods.generateJwtToken = function (provider = constants.PROVIDER_LOCAL) {
   const expiresIn = config.jwt.expiresIn;
   const iat = Math.floor(Date.now() / 1000);
   const expiresAt = iat + expiresIn;
-  const token = jwt.sign(
-    { userId: this._id, iat, provider },
-    config.jwt.secret,
-    {
-      algorithm: config.jwt.algorithm,
-      expiresIn // seconds
-    }
-  );
+  const token = jwt.sign({ userId: this._id, iat, provider }, config.jwt.secret, {
+    algorithm: config.jwt.algorithm,
+    expiresIn, // seconds
+  });
   return { token, expiresAt };
 };
 
@@ -217,6 +204,6 @@ usersSchema.methods.clearToken = function () {
   this.tokenExpiration = undefined;
 };
 
-const Users = model('Users', usersSchema);
+const Users = model("Users", usersSchema);
 
 module.exports = Users;

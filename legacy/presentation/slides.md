@@ -3,9 +3,9 @@
 theme: seriph
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: '#fff'
+background: "#fff"
 # apply any windi css classes to the current slide
-class: 'text-center'
+class: "text-center"
 # https://sli.dev/custom/highlighters.html
 highlighter: shiki
 # show line numbers in code blocks
@@ -19,7 +19,6 @@ info: |
 # persist drawings in exports and build
 drawings:
   persist: false
-
 ---
 
 <div class="columns-2">
@@ -37,20 +36,19 @@ drawings:
 </div>
 
 ---
-layout: section
----
+
+## layout: section
 
 # What is the problem?
 
 <br/>
 
-  Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress.
-
-
+Everyone has problems: health, money, relationships or the meaning of life itself. Some of them are very hard. And they never stop repeating themselves. Problem is - we are often not very good at identifying and resolving them and it gets infinitely harder when we are ill, depressed or under a lot of stress.
 
 ---
-layout: section
----
+
+## layout: section
+
 # What is a problem?
 
 <br/>
@@ -62,8 +60,9 @@ For some cases, words alone can be enough to express ourselves.
 However, problems are not always simple enough to put clearly or to be solved without assistance.
 
 ---
-layout: center
----
+
+## layout: center
+
 # What is the problem?
 
 <br>
@@ -76,40 +75,42 @@ layout: center
 </div>
 
 ---
-layout: center
----
+
+## layout: center
 
 # Where does the idea come from?
 
 <div class="w-md">
 
-  - you often cannot put your problems into words
-  - you keep on forgetting what you have already formulated
-  - you are not very good at seeing patterns in your problems
-  - but you can see them well in the problems of others
-  - you are often an "unreliable partner" to yourself
+- you often cannot put your problems into words
+- you keep on forgetting what you have already formulated
+- you are not very good at seeing patterns in your problems
+- but you can see them well in the problems of others
+- you are often an "unreliable partner" to yourself
 
 </div>
 
 ---
-layout: center
----
+
+## layout: center
 
 <div class="w-md">
 
 # You can see this pattern everywhere:
 
- - mental health issues
- - money management
- - relationships problems
- - long-lasting projects
- - self-discovery
+- mental health issues
+- money management
+- relationships problems
+- long-lasting projects
+- self-discovery
 
 </div>
 
 ---
+
 layout: image-right
 image: /screens/general2.png
+
 ---
 
 # How to solve problems?
@@ -118,17 +119,17 @@ image: /screens/general2.png
 
 <div class="p-12">
 
- - identify and describe your problems with visualisations
- - apply hierarchical thinking to solve your problems
- - share your problems with others and work together to solve them
- - help others by proposing your solutions
- - share your ideas
+- identify and describe your problems with visualisations
+- apply hierarchical thinking to solve your problems
+- share your problems with others and work together to solve them
+- help others by proposing your solutions
+- share your ideas
 
 </div>
 
 ---
-layout: center
----
+
+## layout: center
 
 # Log in from any device
 
@@ -470,11 +471,14 @@ The point of it is that you never stop improving.
 </div>
 
 ---
+
 layout: image-right
 image: /screens/general2.png
+
 ---
 
 # Versioning
+
 No data is lost.
 
 All changes made to the visualisations are stored as a copy of the data, connected to the previous version. With this simple solution we can travers full history of the visualisation and see how it was changed. We can also isolate areas and accept changes at different stages of the process.
@@ -493,8 +497,10 @@ graph RL;
 ```
 
 ---
+
 layout: image-right
 image: /screens/general2.png
+
 ---
 
 # Future plans
@@ -504,8 +510,10 @@ image: /screens/general2.png
 The app stores structured data for problems and edits, as well as which solutions were accepted to which problems. This can be used as dataset for supervised NN training. With AI, it could be possible to find patterns and propose solutions data or toolkits for types of problems.
 
 ---
+
 layout: image-right
 image: /screens/general2.png
+
 ---
 
 # Future plans
@@ -519,23 +527,25 @@ You would have a walkthrough tool that, as soon as you describe a problem node, 
 We want the users to be able to create these templates.
 
 ---
-layout: center
----
+
+## layout: center
 
 # Technology
 
- * Server
-   * Node.js / Express
-   * MongoDB / Mongoose / Passport
-   * SVG previews
- * Client
-   * Expo / React Native
-   * React Native web
-   * Three.js
+- Server
+  - Node.js / Express
+  - MongoDB / Mongoose / Passport
+  - SVG previews
+- Client
+  - Expo / React Native
+  - React Native web
+  - Three.js
 
 ---
+
 layout: image-left
 image: /screens/general2.png
+
 ---
 
 # Github repo
@@ -546,6 +556,5 @@ image: /screens/general2.png
 
 ## [https://github.com/w8r/solve](https://github.com/w8r/solve)
 
- * [Alex Milevski](https://milevski.co)
- * [Yiğit Akbulut](https://github.com/yigitakbulut)
-
+- [Alex Milevski](https://milevski.co)
+- [Yiğit Akbulut](https://github.com/yigitakbulut)

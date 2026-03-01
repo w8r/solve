@@ -3,11 +3,11 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { NavigatorScreenParams } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { Graph, Id } from '../types/graph';
-import { ViewerModes } from '../types/app';
+import { NavigatorScreenParams } from "@react-navigation/native";
+import { StackScreenProps } from "@react-navigation/stack";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { Graph, Id } from "../types/graph";
+import { ViewerModes } from "../types/app";
 
 export type BottomTabParamList = {
   TabOne: undefined;
@@ -21,7 +21,7 @@ export type TabOneParamList = {
   Graph: undefined;
   Proposal: undefined;
 };
-export type TabOneProps = BottomTabScreenProps<BottomTabParamList, 'TabOne'>;
+export type TabOneProps = BottomTabScreenProps<BottomTabParamList, "TabOne">;
 
 export type TabTwoParamList = {
   Profile: undefined;
@@ -37,14 +37,11 @@ export type AuthRoutes = {
   PasswordChanged: undefined;
 };
 
-export type OnboardingProps = StackScreenProps<AuthRoutes, 'Onboarding'>;
-export type LoginProps = StackScreenProps<AuthRoutes, 'Login'>;
-export type SignupProps = StackScreenProps<AuthRoutes, 'Signup'>;
-export type ResetPasswordProps = StackScreenProps<AuthRoutes, 'ResetPassword'>;
-export type PasswordChangedProps = StackScreenProps<
-  AuthRoutes,
-  'PasswordChanged'
->;
+export type OnboardingProps = StackScreenProps<AuthRoutes, "Onboarding">;
+export type LoginProps = StackScreenProps<AuthRoutes, "Login">;
+export type SignupProps = StackScreenProps<AuthRoutes, "Signup">;
+export type ResetPasswordProps = StackScreenProps<AuthRoutes, "ResetPassword">;
+export type PasswordChangedProps = StackScreenProps<AuthRoutes, "PasswordChanged">;
 
 // @ts-ignore
 // const d: SignupProps = {};
@@ -65,18 +62,15 @@ export type AppRoutes = {
   Proposal: { graph: string; subgraph: string };
 };
 
-export type GraphProps = StackScreenProps<AppRoutes, 'Graph'>;
-export type ProposalProps = StackScreenProps<AppRoutes, 'Proposal'>;
-export type ViewerProps = StackScreenProps<AppRoutes, 'Viewer'>;
-export type PreviewProps = StackScreenProps<AppRoutes, 'Preview'>;
-export type ProfileProps = StackScreenProps<AppRoutes, 'Profile'>;
+export type GraphProps = StackScreenProps<AppRoutes, "Graph">;
+export type ProposalProps = StackScreenProps<AppRoutes, "Proposal">;
+export type ViewerProps = StackScreenProps<AppRoutes, "Viewer">;
+export type PreviewProps = StackScreenProps<AppRoutes, "Preview">;
+export type ProfileProps = StackScreenProps<AppRoutes, "Profile">;
 
 export type RootStackParamList = {
   Root: undefined | StackScreenProps<AuthRoutes & AppRoutes>;
   NotFound: undefined;
 };
 
-export type NotFoundScreenProps = StackScreenProps<
-  RootStackParamList,
-  'NotFound'
->;
+export type NotFoundScreenProps = StackScreenProps<RootStackParamList, "NotFound">;

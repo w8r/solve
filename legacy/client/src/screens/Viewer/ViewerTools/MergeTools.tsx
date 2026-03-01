@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import * as api from '../../../services/api';
-import { StyleSheet } from 'react-native';
-import { useVis } from '../../../components/Viewer';
-import { MergeMenu } from './Menu/Merge';
-import { Icon, Text, View } from 'native-base';
-import { MaterialCommunityIcons as Icons } from '@expo/vector-icons';
-import { getPremergeGraph, mergeGraph } from '../../../types/graph';
+import React, { useEffect, useState } from "react";
+import * as api from "../../../services/api";
+import { StyleSheet } from "react-native";
+import { useVis } from "../../../components/Viewer";
+import { MergeMenu } from "./Menu/Merge";
+import { Icon, Text, View } from "native-base";
+import { MaterialCommunityIcons as Icons } from "@expo/vector-icons";
+import { getPremergeGraph, mergeGraph } from "../../../types/graph";
 
 export function MergeTools({ subgraph }: { subgraph: string }) {
   const { graph, setGraph } = useVis();
@@ -45,34 +45,34 @@ export function MergeTools({ subgraph }: { subgraph: string }) {
 const styles = StyleSheet.create({
   // container is a white box with cute borders
   container: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 10,
     marginBottom: 10,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     transform: [{ translateX: -50 }, { translateY: -50 }],
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: 'green',
+    borderColor: "green",
     padding: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
   textStyle: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: 'green',
+    fontWeight: "bold",
+    color: "green",
     marginLeft: 10,
-    marginTop: -5
-  }
+    marginTop: -5,
+  },
 });

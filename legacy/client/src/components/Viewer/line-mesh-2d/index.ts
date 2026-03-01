@@ -3,18 +3,14 @@ import basicShader from "./material/Basic";
 import dashShader from "./material/Dashed";
 import { ShaderMaterial, DoubleSide, Color } from "three";
 
-export const basicMaterial = ({
-  thickness = 0.1,
-  color = new Color(0x5cd7ff),
-  opacity = 1.0,
-}) =>
+export const basicMaterial = ({ thickness = 0.1, color = new Color(0x5cd7ff), opacity = 1.0 }) =>
   new ShaderMaterial(
     basicShader({
       side: DoubleSide,
       diffuse: color,
       thickness,
       opacity,
-    })
+    }),
   );
 
 export const dashedMaterial = ({
@@ -32,5 +28,5 @@ export const dashedMaterial = ({
       diffuse: color,
       dashSteps,
       dashDistance,
-    })
+    }),
   );

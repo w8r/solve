@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
-import { Fab, Icon, Menu, Text, HStack } from 'native-base';
-import { Feather as Icons } from '@expo/vector-icons';
-import React, { FC } from 'react';
-import { useVis } from '../../components/Viewer';
-import { menuMargin } from '../../constants/Layout';
+import { StyleSheet } from "react-native";
+import { Fab, Icon, Menu, Text, HStack } from "native-base";
+import { Feather as Icons } from "@expo/vector-icons";
+import React, { FC } from "react";
+import { useVis } from "../../components/Viewer";
+import { menuMargin } from "../../constants/Layout";
 
 interface BottomMenuProps {
   onEdit: () => void;
@@ -15,17 +15,17 @@ export const BottomMenu: FC<BottomMenuProps> = ({ onEdit, onSave }) => {
 
   const menuItems = [
     {
-      icon: 'edit',
+      icon: "edit",
       onPress: onEdit,
-      text: 'Edit',
-      active: selectedNodes.length + selectedEdges.length === 1
+      text: "Edit",
+      active: selectedNodes.length + selectedEdges.length === 1,
     },
     {
-      icon: 'save',
+      icon: "save",
       onPress: onSave,
-      text: 'Save',
-      active: true
-    }
+      text: "Save",
+      active: true,
+    },
   ];
 
   return (
@@ -55,7 +55,7 @@ export const BottomMenu: FC<BottomMenuProps> = ({ onEdit, onSave }) => {
               <Text>{item.text}</Text>
             </HStack>
           </Menu.Item>
-        ) : null
+        ) : null,
       )}
     </Menu>
   );
@@ -64,13 +64,13 @@ export const BottomMenu: FC<BottomMenuProps> = ({ onEdit, onSave }) => {
 const styles = StyleSheet.create({
   fab: {
     flex: 1,
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
-    right: '50%',
-    marginRight: -25
+    right: "50%",
+    marginRight: -25,
   },
   menu: {
     marginBottom: 15,
-    marginLeft: menuMargin
-  }
+    marginLeft: menuMargin,
+  },
 });

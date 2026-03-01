@@ -1,7 +1,7 @@
-import { ZoomTransform } from 'd3-zoom';
-import { NumberKeyframeTrack, PerspectiveCamera, Vector3 } from 'three';
-import { Graph } from '../../types/graph';
-import { zoomIdentity } from 'd3-zoom';
+import { ZoomTransform } from "d3-zoom";
+import { NumberKeyframeTrack, PerspectiveCamera, Vector3 } from "three";
+import { Graph } from "../../types/graph";
+import { zoomIdentity } from "d3-zoom";
 export interface Point {
   x: number;
   y: number;
@@ -22,7 +22,7 @@ export function distance(x1: number, y1: number, x2: number, y2: number) {
 export function center(x1: number, y1: number, x2: number, y2: number) {
   return {
     x: (x1 + x2) / 2,
-    y: (y1 + y2) / 2
+    y: (y1 + y2) / 2,
   };
 }
 
@@ -46,10 +46,10 @@ export function getZFromScale(scale: number, fov: number, height: number) {
 
 export function positionThreeCamera(
   camera: PerspectiveCamera,
-  t: Pick<ZoomTransform, 'x' | 'y' | 'k'>,
+  t: Pick<ZoomTransform, "x" | "y" | "k">,
   w: number,
   h: number,
-  fov: number
+  fov: number,
 ) {
   const scale = t.k;
   const x = -t.x / scale;
@@ -62,13 +62,7 @@ export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
-export function pointOnLine(
-  sx: number,
-  sy: number,
-  ex: number,
-  ey: number,
-  t: number
-): Point {
+export function pointOnLine(sx: number, sy: number, ex: number, ey: number, t: number): Point {
   return { x: sx + t * (ex - sx), y: sy + t * (ey - sy) };
 }
 
@@ -96,15 +90,14 @@ export function getBoundsTransform(
   x1: number,
   y1: number,
   canvasWidth: number,
-  canvasHeight: number
+  canvasHeight: number,
 ): Transform {
   const w = Math.abs(x1 - x0) || 0;
   const h = Math.abs(y1 - y0) || 0;
   const cx = (x0 + x1) / 2 || 0;
   const cy = (y0 + y1) / 2 || 0;
 
-  if (isNaN(w) || isNaN(h) || !isFinite(w) || !isFinite(h))
-    return { x: 0, y: 0, k: 1 };
+  if (isNaN(w) || isNaN(h) || !isFinite(w) || !isFinite(h)) return { x: 0, y: 0, k: 1 };
 
   const scale = 0.25 / Math.max(w / canvasWidth, h / canvasHeight);
   return zoomIdentity.translate(-scale * cx, scale * cy).scale(scale);
@@ -115,46 +108,31 @@ export function mouseToThree(x: number, y: number, w: number, h: number) {
 }
 
 function scale(transform: Transform, k: number) {
-  return k === transform.k
-    ? transform
-    : { k: k, x: transform.x * k, y: transform.y * k };
+  return k === transform.k ? transform : { k: k, x: transform.x * k, y: transform.y * k };
 }
 
 function tr({ x, y, k }: Transform, dx: number, dy: number): Transform {
   return {
     x: x + dx * k,
     y: y + dy * k,
-    k
+    k,
   };
 }
 
-function translate(
-  transform: Transform,
-  p0x: number,
-  p0y: number,
-  p1x: number,
-  p1y: number
-) {
+function translate(transform: Transform, p0x: number, p0y: number, p1x: number, p1y: number) {
   var x = p0x - p1x * transform.k,
     y = p0y - p1y * transform.k;
-  return x === transform.x && y === transform.y
-    ? transform
-    : { k: transform.k, x, y };
+  return x === transform.x && y === transform.y ? transform : { k: transform.k, x, y };
 }
 
 function invert(transform: Transform, x: number, y: number) {
   return {
     x: (x - transform.x) / transform.k,
-    y: (y - transform.y) / transform.k
+    y: (y - transform.y) / transform.k,
   };
 }
 
-export function zoomAround(
-  transform: Transform,
-  x: number,
-  y: number,
-  zoom: number
-) {
+export function zoomAround(transform: Transform, x: number, y: number, zoom: number) {
   const { x: x1, y: y1 } = invert(transform, x, y);
   return translate(scale(transform, zoom), x, y, x1, y1);
 }
@@ -167,7 +145,7 @@ export function isPointInLine(
   x2: number,
   y2: number,
   width: number,
-  margin = 0
+  margin = 0,
 ): boolean {
   // http://math.stackexchange.com/questions/190111/how-to-check-if-a-point-is-inside-a-rectangle
   const len = distance(x1, y1, x2, y2),

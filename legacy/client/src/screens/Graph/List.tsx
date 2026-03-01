@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
-import { StyleSheet, SectionList, View } from 'react-native';
-import { VStack, Text, Image, Box, Icon, HStack } from 'native-base';
-import { Feather as Icons } from '@expo/vector-icons';
-import { getGraphPreviewURL, SubgraphHeader } from '../../services/api';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import React, { FC } from "react";
+import { StyleSheet, SectionList, View } from "react-native";
+import { VStack, Text, Image, Box, Icon, HStack } from "native-base";
+import { Feather as Icons } from "@expo/vector-icons";
+import { getGraphPreviewURL, SubgraphHeader } from "../../services/api";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
 export const List: FC<{
   graphs: SubgraphHeader[];
@@ -13,15 +13,15 @@ export const List: FC<{
   const { navigate } = useNavigation();
   const onPress = (index: number) => {
     console.log(graphs[index]);
-    navigate('App', {
-      screen: 'TabOne',
+    navigate("App", {
+      screen: "TabOne",
       params: {
-        screen: 'Proposal',
+        screen: "Proposal",
         params: {
           graph: graphs[index].publicId,
-          subgraph: graphs[index].id
-        }
-      }
+          subgraph: graphs[index].id,
+        },
+      },
     });
   };
 
@@ -30,7 +30,7 @@ export const List: FC<{
       style={styles.container}
       contentContainerStyle={styles.listContent}
       sections={
-        graphs.length === 0 ? [] : [{ title: 'Subgraphs', data: graphs }] // TODO: Add filtering to graphs
+        graphs.length === 0 ? [] : [{ title: "Subgraphs", data: graphs }] // TODO: Add filtering to graphs
       }
       keyExtractor={(_, index) => index.toString()}
       renderSectionHeader={() => (
@@ -54,14 +54,14 @@ export const List: FC<{
                   alt={graph.id}
                   size="2xl"
                   source={{
-                    uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`
+                    uri: getGraphPreviewURL(graph.publicId) + `?${Date.now()}`,
                   }}
                 />
               </View>
               <HStack style={styles.caption}>
                 <Icon
                   as={Icons}
-                  name={graph.resolved ? 'check' : 'git-branch'}
+                  name={graph.resolved ? "check" : "git-branch"}
                   size="xs"
                   style={styles.icon}
                 />
@@ -78,52 +78,52 @@ export const List: FC<{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: '100%'
+    width: "100%",
   },
 
   listContent: {
     margin: 0,
     padding: 0,
-    width: '100%',
+    width: "100%",
     paddingBottom: 60,
-    alignItems: 'center'
+    alignItems: "center",
   },
 
   subHeader: {
     marginTop: 25,
-    marginBottom: 25
+    marginBottom: 25,
   },
 
   card: {
     flex: 1,
-    padding: 10
+    padding: 10,
   },
 
   header: {
     marginTop: 20,
-    marginBottom: 10
+    marginBottom: 10,
   },
 
   nameText: {},
 
   image: {
     borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)'
+    borderColor: "rgba(0,0,0,0.2)",
   },
 
   caption: {
-    paddingTop: 10
+    paddingTop: 10,
   },
 
   icon: {
-    marginRight: 8
+    marginRight: 8,
   },
 
   emptyMessage: {
-    paddingTop: 40
+    paddingTop: 40,
   },
 
   messageText: {
-    color: 'rgba(0,0,0,0.2)'
-  }
+    color: "rgba(0,0,0,0.2)",
+  },
 });

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import uuid from '../../../lib/uuid';
-import { useVis } from '../../../components/Viewer';
-import { ProblemMenu } from './Menu/Problem';
-import { getCategoryColor, Graph, GraphNode } from '../../../types/graph';
-import CreateNodeDialog from '../../../components/Dialog/CreateNodeDialog';
-import { SaveGraphDialog } from '../../../components/SaveGraphDialog';
-import { createEdges } from '../../../lib/graph';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from "react";
+import uuid from "../../../lib/uuid";
+import { useVis } from "../../../components/Viewer";
+import { ProblemMenu } from "./Menu/Problem";
+import { getCategoryColor, Graph, GraphNode } from "../../../types/graph";
+import CreateNodeDialog from "../../../components/Dialog/CreateNodeDialog";
+import { SaveGraphDialog } from "../../../components/SaveGraphDialog";
+import { createEdges } from "../../../lib/graph";
+import { useNavigation } from "@react-navigation/native";
 
 export function ProblemTools() {
   const {
@@ -20,7 +20,7 @@ export function ProblemTools() {
     setSelectedNodes,
     selectedEdges,
     setSelectedEdges,
-    clearSelection
+    clearSelection,
   } = useVis();
   const { navigate, isFocused } = useNavigation();
 
@@ -34,8 +34,8 @@ export function ProblemTools() {
   };
 
   useEffect(() => {
-    console.log('ProblemTools: useEffect', graph.publicId);
-    setNodeDialogVisible(graph.publicId === '');
+    console.log("ProblemTools: useEffect", graph.publicId);
+    setNodeDialogVisible(graph.publicId === "");
   }, [graph.publicId]);
 
   const addNode = (name: string, category: string, size: number) => {
@@ -50,9 +50,9 @@ export function ProblemTools() {
         y: 0,
         color: getCategoryColor(category),
         text: name,
-        selected: false
+        selected: false,
       },
-      data: { category }
+      data: { category },
     };
     setGraph({ ...graph, nodes: [...graph.nodes, newNode] });
     setNodeDialogVisible(false);
@@ -68,7 +68,7 @@ export function ProblemTools() {
       (edge) =>
         existingNodeIds.includes(edge.source) &&
         existingNodeIds.includes(edge.target) &&
-        !edgeIds.includes(edge._id)
+        !edgeIds.includes(edge._id),
     );
     setSelectedNodes([]);
     setSelectedEdges([]);
@@ -85,11 +85,11 @@ export function ProblemTools() {
               ...node.attributes,
               r: size,
               text: name,
-              color: getCategoryColor(category)
+              color: getCategoryColor(category),
             },
-            data: { category }
+            data: { category },
           }
-        : node
+        : node,
     );
 
     setGraph({ ...graph, nodes });
@@ -101,9 +101,9 @@ export function ProblemTools() {
           ...selectedNodes[0].attributes,
           r: size,
           text: name,
-          color: getCategoryColor(category)
-        }
-      }
+          color: getCategoryColor(category),
+        },
+      },
     ]);
     setNodeDialogVisible(false);
   };
@@ -129,11 +129,11 @@ export function ProblemTools() {
       publicId: graph.publicId,
       name: `Part of "${graph.name}"`,
       nodes: [...JSON.parse(JSON.stringify(selectedNodes))],
-      edges: [...JSON.parse(JSON.stringify(selectedEdges))]
+      edges: [...JSON.parse(JSON.stringify(selectedEdges))],
     };
     selectedGraph.nodes.forEach((node) => (node.attributes.selected = false));
     selectedGraph.edges.forEach((edge) => (edge.attributes.selected = false));
-    navigate('Preview', { graph: selectedGraph });
+    navigate("Preview", { graph: selectedGraph });
   };
 
   const onEdit = () => {
@@ -165,11 +165,7 @@ export function ProblemTools() {
           closeDialog={() => setNodeDialogVisible(false)}
           addNode={addNode}
           editNode={editNode}
-          data={
-            selectedNodes && selectedNodes.length === 1
-              ? selectedNodes[0]
-              : null
-          }
+          data={selectedNodes && selectedNodes.length === 1 ? selectedNodes[0] : null}
         />
       ) : null}
       {showSaveDialog && (

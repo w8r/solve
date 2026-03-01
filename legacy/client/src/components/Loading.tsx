@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Spinner } from 'native-base';
+import React, { FC } from "react";
+import { View, StyleSheet } from "react-native";
+import { Spinner } from "native-base";
 
 export const Loading: FC = () => {
   return (
@@ -12,8 +12,8 @@ export const Loading: FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center', //Centered horizontally
-    alignItems: 'center', //Centered vertically
-    flex: 1
-  }
+    justifyContent: "center", //Centered horizontally
+    alignItems: "center", //Centered vertically
+    flex: 1,
+  },
 });

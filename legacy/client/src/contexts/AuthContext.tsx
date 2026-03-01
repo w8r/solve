@@ -1,10 +1,10 @@
-import React, { createContext, useState, useEffect, FC } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useState, useEffect, FC } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import * as api from '../services/api';
-import { UserAndToken, User } from '../types/user';
-import { TOKEN_KEY } from '../constants';
-import { FacebookAuthUser, GoogleAuthUser } from '../types/user';
+import * as api from "../services/api";
+import { UserAndToken, User } from "../types/user";
+import { TOKEN_KEY } from "../constants";
+import { FacebookAuthUser, GoogleAuthUser } from "../types/user";
 
 export type AuthState = {
   //token: string;
@@ -35,16 +35,14 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
       },
       (error) => {
         return Promise.reject(error);
-      }
+      },
     );
   }
 
   const onAuthSuccess = ({ user: userData, token }: UserAndToken) => {
     setToken(token);
     setUser(userData);
-    return AsyncStorage.setItem(TOKEN_KEY, token).then(() =>
-      setAuthenticated(true)
-    );
+    return AsyncStorage.setItem(TOKEN_KEY, token).then(() => setAuthenticated(true));
   };
 
   const loginWithFacebook = (data: FacebookAuthUser) =>
@@ -97,7 +95,7 @@ export const AuthProvider: FC<{ value?: AuthState }> = ({ children }) => {
         logout,
         loading,
         onAuthSuccess,
-        user: user as unknown as User
+        user: user as unknown as User,
       }}
     >
       {children}

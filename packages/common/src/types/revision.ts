@@ -1,4 +1,4 @@
-export type RevisionStatus = 'draft' | 'published' | 'archived';
+export type RevisionStatus = "draft" | "published" | "archived";
 
 export interface IRevision {
   _id: string;

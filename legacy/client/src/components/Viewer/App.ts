@@ -1,6 +1,6 @@
-import { ExpoWebGLRenderingContext, GLView } from 'expo-gl';
-import { Renderer } from 'expo-three';
-import { positionThreeCamera, pointOnLine, isPointInLine } from './utils';
+import { ExpoWebGLRenderingContext, GLView } from "expo-gl";
+import { Renderer } from "expo-three";
+import { positionThreeCamera, pointOnLine, isPointInLine } from "./utils";
 import {
   PerspectiveCamera,
   Scene,
@@ -11,20 +11,20 @@ import {
   Color,
   Vector3,
   Shape,
-  ShaderMaterial
-} from 'three';
+  ShaderMaterial,
+} from "three";
 
 // @ts-ignore
-import { Text } from 'troika-three-text';
-import { Quadtree, quadtree } from 'd3-quadtree';
-import type { Graph, GraphEdge, GraphNode } from '../../types/graph';
-import { LineMesh, basicMaterial, dashedMaterial } from './line-mesh-2d';
-import EventEmitter from 'eventemitter3';
-import throttle from 'lodash.throttle';
-import inside from 'point-in-polygon';
-import { TextMesh } from './TextMesh';
+import { Text } from "troika-three-text";
+import { Quadtree, quadtree } from "d3-quadtree";
+import type { Graph, GraphEdge, GraphNode } from "../../types/graph";
+import { LineMesh, basicMaterial, dashedMaterial } from "./line-mesh-2d";
+import EventEmitter from "eventemitter3";
+import throttle from "lodash.throttle";
+import inside from "point-in-polygon";
+import { TextMesh } from "./TextMesh";
 
-import { PointTextHelper } from '@jniac/three-point-text-helper';
+import { PointTextHelper } from "@jniac/three-point-text-helper";
 
 const FOV = 80;
 const LASSO_THROTTLE = 50;
@@ -39,7 +39,7 @@ function getEdgePoints(source: GraphNode, target: GraphNode) {
 
   return [
     [sx, sy, 0],
-    [tx, ty, 0]
+    [tx, ty, 0],
   ];
 
   // special case for the arrows and other stuff
@@ -59,11 +59,7 @@ function getEdgePoints(source: GraphNode, target: GraphNode) {
   // ];
 }
 
-function getArrowPoints(
-  source: GraphNode,
-  target: GraphNode,
-  arrowLength: number
-) {
+function getArrowPoints(source: GraphNode, target: GraphNode, arrowLength: number) {
   const sx = source.attributes.x;
   const sy = source.attributes.y;
   const tx = target.attributes.x;
@@ -97,7 +93,7 @@ function getArrowPoints(
   return [
     [v1x, v1y],
     [B.x, B.y],
-    [v2x, v2y]
+    [v2x, v2y],
   ];
 }
 
@@ -139,11 +135,7 @@ export class App extends EventEmitter {
 
   private selection: [number, number][] = [];
 
-  constructor(
-    gl: ExpoWebGLRenderingContext,
-    dppx: number,
-    sceneColor = 0xffffff
-  ) {
+  constructor(gl: ExpoWebGLRenderingContext, dppx: number, sceneColor = 0xffffff) {
     super();
     this.gl = gl;
     this.dppx = dppx;
@@ -155,12 +147,7 @@ export class App extends EventEmitter {
     const renderer = (this.renderer = new Renderer({ gl }));
     const scene = (this.scene = new Scene());
     const aspect = width / height;
-    const camera = (this.camera = new PerspectiveCamera(
-      FOV,
-      aspect,
-      1e-5,
-      1e6
-    ));
+    const camera = (this.camera = new PerspectiveCamera(FOV, aspect, 1e-5, 1e6));
 
     renderer.setSize(width, height);
     renderer.pixelRatio = dppx;
@@ -176,7 +163,7 @@ export class App extends EventEmitter {
   }
 
   public startSelection(cb: (Graph: Graph) => unknown) {
-    this.once('selection', cb);
+    this.once("selection", cb);
     this.selection.length = 0;
   }
 
@@ -187,12 +174,12 @@ export class App extends EventEmitter {
 
     const material = dashedMaterial({
       thickness: 0.5,
-      color: new Color('grey'),
+      color: new Color("grey"),
       opacity: 0.5,
-      dashSteps: this.selection.length
+      dashSteps: this.selection.length,
     });
     const geometry = new LineMesh(this.selection, {
-      distances: true
+      distances: true,
     });
     const mesh = new Mesh(geometry, material);
     this.lasso = mesh;
@@ -205,7 +192,7 @@ export class App extends EventEmitter {
       this.scene.remove(this.lasso);
       this.lasso?.remove();
     }
-    this.emit('selection', this.queryPolygon(this.selection));
+    this.emit("selection", this.queryPolygon(this.selection));
     this.selection.length = 0;
     this.frame();
   }
@@ -217,9 +204,7 @@ export class App extends EventEmitter {
       if (isIn) set.add(node.id);
       return isIn;
     });
-    const edges = this.edges.filter(
-      (edge) => set.has(edge.source) && set.has(edge.target)
-    );
+    const edges = this.edges.filter((edge) => set.has(edge.source) && set.has(edge.target));
     return { nodes, edges };
   }
 
@@ -240,10 +225,10 @@ export class App extends EventEmitter {
 
     const circle = new CircleGeometry(1, 32);
     const textMaterial = new MeshBasicMaterial({
-      color: '#222222'
+      color: "#222222",
     });
     const transparentTextMaterial = new MeshBasicMaterial({
-      color: '#dddddd'
+      color: "#dddddd",
     });
 
     const idToMesh = this.idToMesh;
@@ -258,13 +243,13 @@ export class App extends EventEmitter {
     nodes.forEach((node, i) => {
       const {
         id,
-        attributes: { x, y, r, color: rgbColor, opacity }
+        attributes: { x, y, r, color: rgbColor, opacity },
       } = node;
 
       const material = new MeshBasicMaterial({
-        color: new Color(node.attributes.selected ? 'cyan' : rgbColor),
+        color: new Color(node.attributes.selected ? "cyan" : rgbColor),
         transparent: true,
-        opacity: opacity || 1
+        opacity: opacity || 1,
       });
       const mesh = new Mesh(circle, material);
 
@@ -285,7 +270,7 @@ export class App extends EventEmitter {
         textMesh.update({
           text: node.attributes.text,
           size: fontSize,
-          height: 0
+          height: 0,
         });
 
         textMesh.position.x = x - textMesh.size.x / 2;
@@ -312,7 +297,7 @@ export class App extends EventEmitter {
         _id: id,
         source,
         target,
-        attributes: { color: rgbColor, width, opacity }
+        attributes: { color: rgbColor, width, opacity },
       } = edge;
       const sourceNode = idToNode.get(source) as GraphNode;
       const targetNode = idToNode.get(target) as GraphNode;
@@ -325,17 +310,17 @@ export class App extends EventEmitter {
       edgesByTarget.set(target, edgeSet);
       edgeSet.push(edge);
 
-      const color = new Color(edge.attributes.selected ? 'cyan' : rgbColor);
+      const color = new Color(edge.attributes.selected ? "cyan" : rgbColor);
 
       const points = getEdgePoints(sourceNode, targetNode);
       const material = basicMaterial({
         thickness: width,
         color,
-        opacity: opacity || 1
+        opacity: opacity || 1,
       });
       //const dashMaterial = dashedMaterial({ thickness: 2 });
       const geometry = new LineMesh(points, {
-        distances: true
+        distances: true,
       });
       const mesh = new Mesh(geometry, material);
 
@@ -350,20 +335,16 @@ export class App extends EventEmitter {
       const arrowMaterial = basicMaterial({
         thickness: (2 * edge.attributes.width) / 3,
         color,
-        opacity: opacity || 1
+        opacity: opacity || 1,
       });
-      const arrowPoints = getArrowPoints(
-        sourceNode,
-        targetNode,
-        targetNode.attributes.r
-      );
+      const arrowPoints = getArrowPoints(sourceNode, targetNode, targetNode.attributes.r);
 
       const arrowGeometry = new LineMesh(arrowPoints, {
-        distances: true
+        distances: true,
       });
       const arrowMesh = new Mesh(arrowGeometry, arrowMaterial);
       scene.add(arrowMesh);
-      idToMesh.set(id + 'arrow', arrowMesh);
+      idToMesh.set(id + "arrow", arrowMesh);
     });
 
     this.edgesBySource = edgesBySource;
@@ -394,7 +375,7 @@ export class App extends EventEmitter {
 
     const edgeSet = [
       ...(this.edgesBySource.get(node.id) || []),
-      ...(this.edgesByTarget.get(node.id) || [])
+      ...(this.edgesByTarget.get(node.id) || []),
     ];
     edgeSet?.forEach(({ _id: id, source, target }) => {
       const s = this.idToNode.get(source) as GraphNode;
@@ -402,7 +383,7 @@ export class App extends EventEmitter {
       const mesh = this.idToMesh.get(id) as Mesh<LineMesh>;
       const points = getEdgePoints(s, t);
 
-      const arrow = this.idToMesh.get(id + 'arrow') as Mesh<LineMesh>;
+      const arrow = this.idToMesh.get(id + "arrow") as Mesh<LineMesh>;
       const arrowPoints = getArrowPoints(s, t, t.attributes.r);
       arrow.geometry.update(arrowPoints);
       mesh.geometry.update(points);
@@ -445,7 +426,7 @@ export class App extends EventEmitter {
       const {
         source,
         target,
-        attributes: { width }
+        attributes: { width },
       } = edge;
       const s = this.idToNode.get(source) as GraphNode;
       const t = this.idToNode.get(target) as GraphNode;
@@ -477,7 +458,7 @@ export class App extends EventEmitter {
       { x, y, k },
       this.gl.drawingBufferWidth / this.dppx,
       this.gl.drawingBufferHeight / this.dppx,
-      FOV
+      FOV,
     );
     this.frame();
   };

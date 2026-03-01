@@ -1,29 +1,29 @@
-const { Schema } = require('mongoose');
+const { Schema } = require("mongoose");
 
 const VertexSchema = new Schema(
   {
     _id: {
       type: String,
-      required: true
+      required: true,
     },
     id: {
       type: String,
-      required: true
+      required: true,
     },
     data: {
       type: Object,
       required: false,
-      default: {}
+      default: {},
     },
     attributes: {
       type: Object,
       required: false,
-      default: {}
-    }
+      default: {},
+    },
   },
   {
-    _id: false
-  }
+    _id: false,
+  },
 );
 
 VertexSchema.methods.toJSON = function () {

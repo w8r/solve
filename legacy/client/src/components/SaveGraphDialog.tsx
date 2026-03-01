@@ -1,12 +1,12 @@
-import React, { FC, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Modal, IconButton, Input, Spinner } from 'native-base';
-import { Feather as Icons } from '@expo/vector-icons';
-import { Graph } from '../types/graph';
-import { useVis } from './Viewer';
-import { saveGraph, shareGraph } from '../services/api';
-import { useNavigation } from '@react-navigation/native';
-import { useAuth } from '../hooks/useAuth';
+import React, { FC, useState } from "react";
+import { StyleSheet } from "react-native";
+import { Modal, IconButton, Input, Spinner } from "native-base";
+import { Feather as Icons } from "@expo/vector-icons";
+import { Graph } from "../types/graph";
+import { useVis } from "./Viewer";
+import { saveGraph, shareGraph } from "../services/api";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../hooks/useAuth";
 
 interface SaveGraphDialogProps {
   onCancel: () => void;
@@ -14,14 +14,10 @@ interface SaveGraphDialogProps {
   share?: boolean;
 }
 
-export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
-  onCancel,
-  onDone,
-  share = false
-}) => {
+export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({ onCancel, onDone, share = false }) => {
   const { graph, setGraph } = useVis();
   const { user } = useAuth();
-  const [value, setValue] = useState(graph.name || '');
+  const [value, setValue] = useState(graph.name || "");
   const [isLoading, setLoading] = useState(false);
   const navigation = useNavigation();
   const handleChange = (text: string) => setValue(text);
@@ -33,8 +29,8 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
     setLoading(true);
 
     console.log(
-      'Saving graph...',
-      graph.nodes.map((n) => n.attributes.selected)
+      "Saving graph...",
+      graph.nodes.map((n) => n.attributes.selected),
     );
 
     const graphToSave = {
@@ -44,7 +40,7 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
       }),
       edges: graph.edges.map((e) => {
         return { ...e, attributes: { ...e.attributes, selected: false } };
-      })
+      }),
     };
 
     if (!share && graph.user && graph.user._id !== user.uuid) {
@@ -59,7 +55,7 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
               ? null
               : graph.publicId
             : null,
-          graphToSave
+          graphToSave,
         );
 
     return request
@@ -81,7 +77,7 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
             <Input
               onChangeText={handleChange}
               value={value}
-              placeholder={graph.name || 'Graph name'}
+              placeholder={graph.name || "Graph name"}
             />
           )}
         </Modal.Body>
@@ -89,12 +85,12 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
           <IconButton
             disabled={isLoading}
             onPress={onCancel}
-            _icon={{ as: Icons, name: 'x' }}
+            _icon={{ as: Icons, name: "x" }}
             style={styles.cancelButton}
           />
           <IconButton
             disabled={isLoading}
-            _icon={{ as: Icons, name: 'check' }}
+            _icon={{ as: Icons, name: "check" }}
             onPress={onPressSave}
           />
         </Modal.Footer>
@@ -106,6 +102,6 @@ export const SaveGraphDialog: FC<SaveGraphDialogProps> = ({
 const styles = StyleSheet.create({
   cancelButton: {
     flex: 1,
-    alignSelf: 'flex-start'
-  }
+    alignSelf: "flex-start",
+  },
 });

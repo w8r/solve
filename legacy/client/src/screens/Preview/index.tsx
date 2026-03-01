@@ -1,22 +1,22 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
-import { useToast } from 'native-base';
-import { PreviewProps } from '../../navigation/types';
+import React, { FC, useEffect, useState } from "react";
+import { Dimensions } from "react-native";
+import { useToast } from "native-base";
+import { PreviewProps } from "../../navigation/types";
 
-import { VisProvider, useVis, Viewer } from '../../components/Viewer';
-import { ProfileButton } from '../../components/Avatar';
-import { getCategoryColor, Graph, Id } from '../../types/graph';
-import { BottomMenu } from './BottomMenu';
-import { BackButton } from '../../components/BackButton';
-import { SaveGraphDialog } from '../../components/SaveGraphDialog';
-import { SuccessModal } from './SuccessModal';
-import CreateNodeDialog from '../../components/Dialog/CreateNodeDialog';
-import { isWeb } from '../../constants/device';
+import { VisProvider, useVis, Viewer } from "../../components/Viewer";
+import { ProfileButton } from "../../components/Avatar";
+import { getCategoryColor, Graph, Id } from "../../types/graph";
+import { BottomMenu } from "./BottomMenu";
+import { BackButton } from "../../components/BackButton";
+import { SaveGraphDialog } from "../../components/SaveGraphDialog";
+import { SuccessModal } from "./SuccessModal";
+import CreateNodeDialog from "../../components/Dialog/CreateNodeDialog";
+import { isWeb } from "../../constants/device";
 
 const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
   inputGraph,
   width,
-  height
+  height,
 }) => {
   const { graph, setGraph, selectedNodes, setSelectedNodes } = useVis();
   const [showSaveDialog, setShowSaveDialog] = useState(false);
@@ -28,12 +28,12 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
     setGraph(inputGraph);
     toast.show({
       description:
-        'You are in the preview mode. You can change things to remove everything that can be sensitive before sharing',
+        "You are in the preview mode. You can change things to remove everything that can be sensitive before sharing",
       duration: 2500,
-      placement: isWeb ? 'top' : 'bottom',
+      placement: isWeb ? "top" : "bottom",
       marginBottom: 10,
       marginX: 5,
-      padding: 10
+      padding: 10,
     });
   }, []);
 
@@ -55,11 +55,11 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
               ...node.attributes,
               r: size,
               text: name,
-              color: getCategoryColor(category)
+              color: getCategoryColor(category),
             },
-            data: { category }
+            data: { category },
           }
-        : node
+        : node,
     );
     setGraph(graph);
     setSelectedNodes([
@@ -70,9 +70,9 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
           ...selectedNodes[0].attributes,
           r: size,
           text: name,
-          color: getCategoryColor(category)
-        }
-      }
+          color: getCategoryColor(category),
+        },
+      },
     ]);
     setShowNodeDialog(false);
   };
@@ -94,21 +94,14 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
         />
       )}
       {showSuccessModal && (
-        <SuccessModal
-          graph={graph}
-          onClose={() => setShowSuccessModal(false)}
-        />
+        <SuccessModal graph={graph} onClose={() => setShowSuccessModal(false)} />
       )}
       {showNodeDialog ? (
         <CreateNodeDialog
           closeDialog={() => setShowNodeDialog(false)}
           addNode={() => {}}
           editNode={editNode}
-          data={
-            selectedNodes && selectedNodes.length === 1
-              ? selectedNodes[0]
-              : null
-          }
+          data={selectedNodes && selectedNodes.length === 1 ? selectedNodes[0] : null}
         />
       ) : null}
     </>
@@ -116,15 +109,15 @@ const Wrapper: FC<{ inputGraph: Graph; width: number; height: number }> = ({
 };
 
 export const Preview: FC<PreviewProps> = ({ route, navigation }) => {
-  const { width, height } = Dimensions.get('window');
+  const { width, height } = Dimensions.get("window");
   const graph = route.params.graph;
 
   return (
     <VisProvider>
       <BackButton
         fallback={() =>
-          navigation.navigate('Viewer', {
-            graph: graph.publicId
+          navigation.navigate("Viewer", {
+            graph: graph.publicId,
           })
         }
       />

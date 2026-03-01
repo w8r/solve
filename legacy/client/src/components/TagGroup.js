@@ -2,34 +2,25 @@
  * Created by aJIEw on 20/5/6.
  */
 
-import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  TouchableOpacity
-} from 'react-native';
+import React, { Component } from "react";
+import { View, Text, StyleSheet, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 
-import PropTypes from 'prop-types';
-import { CategoryColors, getCategoryColor } from '../types/graph';
-const propStyle = require('react-style-proptype');
+import PropTypes from "prop-types";
+import { CategoryColors, getCategoryColor } from "../types/graph";
+const propStyle = require("react-style-proptype");
 
 export default class TagGroup extends Component {
   static defaultProps = {
-    onSelectedTagChange: () =>
-      console.log('TagGroup onSelectedTagChange not set.'),
+    onSelectedTagChange: () => console.log("TagGroup onSelectedTagChange not set."),
     singleChoiceMode: false,
-    tagColors: CategoryColors
+    tagColors: CategoryColors,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      tagFlags: props.source.map((value) =>
-        props.selected ? props.selected === value : false
-      )
+      tagFlags: props.source.map((value) => (props.selected ? props.selected === value : false)),
     };
 
     this._tags = [];
@@ -41,8 +32,8 @@ export default class TagGroup extends Component {
     if (nextProps.source.length !== this.props.source.length) {
       this.setState({
         tagFlags: nextProps.source.map((value) =>
-          nextProps.selected ? nextProps.selected === value : false
-        )
+          nextProps.selected ? nextProps.selected === value : false,
+        ),
       });
       for (let i = 0; i < nextProps.source.length; i++) {
         this._tags[i] && this._tags[i].clearState();
@@ -92,17 +83,13 @@ export default class TagGroup extends Component {
           this.props.onSelectedTagChange(this.props.source[index], index);
         }
         return {
-          tagFlags: state.tagFlags.map(
-            (value, tagFlagIndex) => index === tagFlagIndex
-          )
+          tagFlags: state.tagFlags.map((value, tagFlagIndex) => index === tagFlagIndex),
         };
       }
 
       let copy = state.tagFlags;
       copy[index] = !copy[index];
-      let selectedTags = this.props.source.filter(
-        (value, index) => copy[index]
-      );
+      let selectedTags = this.props.source.filter((value, index) => copy[index]);
       this.props.onSelectedTagChange(selectedTags);
       return { tagFlags: copy };
     });
@@ -173,41 +160,33 @@ export class Tag extends Component {
     touchableOpacity: PropTypes.bool,
     // callback function when Tag is used as a button
     onPress: PropTypes.func,
-    selected: PropTypes.bool
+    selected: PropTypes.bool,
   };
 
   static defaultProps = {
-    text: 'Tag',
-    onSelectStateChange: () => console.log('Tag onSelectStateChange not set.'),
+    text: "Tag",
+    onSelectStateChange: () => console.log("Tag onSelectStateChange not set."),
     allowUnselect: false,
-    tintColor: '#FCDB29',
-    selected: false
+    tintColor: "#FCDB29",
+    selected: false,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      selected: props.selected || false
+      selected: props.selected || false,
     };
   }
 
   render() {
-    const {
-      tagStyle,
-      activeTagStyle,
-      textStyle,
-      activeTextStyle,
-      onPress,
-      touchableOpacity
-    } = this.props;
+    const { tagStyle, activeTagStyle, textStyle, activeTextStyle, onPress, touchableOpacity } =
+      this.props;
 
     const textComponent = (
       <Text
         style={[styles.textStyle, textStyle].concat(
-          this.state.selected
-            ? activeTextStyle || styles.selectedTextStyle
-            : null
+          this.state.selected ? activeTextStyle || styles.selectedTextStyle : null,
         )}
       >
         {this.props.text}
@@ -219,32 +198,24 @@ export class Tag extends Component {
         style={[
           styles.tagBackground,
           {
-            backgroundColor: '#fff',
-            borderColor: getCategoryColor(this.props.text)
+            backgroundColor: "#fff",
+            borderColor: getCategoryColor(this.props.text),
           },
-          tagStyle
+          tagStyle,
         ].concat(
           this.state.selected
             ? activeTagStyle || {
-                borderColor: '#fff',
-                backgroundColor: getCategoryColor(this.props.text)
+                borderColor: "#fff",
+                backgroundColor: getCategoryColor(this.props.text),
               }
-            : null
+            : null,
         )}
       >
-        {tagStyle && activeTagStyle ? (
-          <View>{textComponent}</View>
-        ) : (
-          textComponent
-        )}
+        {tagStyle && activeTagStyle ? <View>{textComponent}</View> : textComponent}
       </View>
     );
     if (touchableOpacity) {
-      return (
-        <TouchableOpacity onPress={onPress || this._onTagPress}>
-          {content}
-        </TouchableOpacity>
-      );
+      return <TouchableOpacity onPress={onPress || this._onTagPress}>{content}</TouchableOpacity>;
     }
     return (
       <TouchableWithoutFeedback onPress={onPress || this._onTagPress}>
@@ -275,27 +246,27 @@ export class Tag extends Component {
 
 const styles = StyleSheet.create({
   tagContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   tag: {
     marginRight: 8,
-    marginBottom: 8
+    marginBottom: 8,
   },
 
   tagBackground: {
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
-    borderWidth: 1
+    borderWidth: 1,
   },
   textStyle: {
-    color: '#333',
+    color: "#333",
     fontSize: 13,
-    textAlign: 'center',
-    textAlignVertical: 'center'
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   selectedTextStyle: {
-    color: '#fff'
-  }
+    color: "#fff",
+  },
 });
