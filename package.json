@@ -1,15 +1,22 @@
 {
   "name": "solve",
   "version": "0.0.1",
-  "description": "Solve app - distributed problem-solving with graph visualization. Import aliasing convention: Use descriptive aliases for non-descriptive library names (e.g., import { z as Schema } from 'zod').",
-  "main": "index.js",
   "private": true,
+  "description": "Solve app - distributed problem-solving with graph visualization. Import aliasing convention: Use descriptive aliases for non-descriptive library names (e.g., import { z as Schema } from 'zod').",
+  "homepage": "https://github.com/w8r/solve#readme",
+  "bugs": {
+    "url": "https://github.com/w8r/solve/issues"
+  },
+  "license": "MIT",
+  "author": "Alexander Milevski <alex@milevski.co>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w8r/solve.git"
+  },
   "workspaces": [
     "packages/*"
   ],
-  "engines": {
-    "node": ">=22.0.0"
-  },
+  "main": "index.js",
   "scripts": {
     "dev": "npm run dev -w @solve/api",
     "build": "npm run build --workspaces",
@@ -17,16 +24,11 @@
     "format": "oxfmt .",
     "format:check": "oxfmt --check ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/w8r/solve.git"
+  "devDependencies": {
+    "oxfmt": "^0.35.0",
+    "oxlint": "^1.50.0"
   },
-  "author": "Alexander Milevski <alex@milevski.co>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/w8r/solve/issues"
-  },
-  "homepage": "https://github.com/w8r/solve#readme",
-  "dependencies": {},
-  "devDependencies": {}
+  "engines": {
+    "node": ">=22.0.0"
+  }
 }
