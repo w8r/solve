@@ -85,9 +85,9 @@ Requirements for M1: Foundation. Each maps to roadmap phases.
 
 - [ ] **DX-01**: oxlint configured for all packages
 - [ ] **DX-02**: oxfmt configured for all packages
-- [ ] **DX-03**: Monorepo uses npm workspaces with shared configs
+- [x] **DX-03**: Monorepo uses npm workspaces with shared configs
 - [ ] **DX-04**: Shared tsconfig.json base across packages
-- [ ] **DX-05**: Import aliasing convention enforced (descriptive names for libraries)
+- [x] **DX-05**: Import aliasing convention enforced (descriptive names for libraries)
 - [ ] **DX-06**: CI runs lint, format check, and tests on PR
 
 ## v2 Requirements
@@ -143,9 +143,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-06 | Phase 1 | Pending |
 | DX-01 | Phase 1 | Pending |
 | DX-02 | Phase 1 | Pending |
-| DX-03 | Phase 1 | Pending |
+| DX-03 | Phase 1 | Complete |
 | DX-04 | Phase 1 | Pending |
-| DX-05 | Phase 1 | Pending |
+| DX-05 | Phase 1 | Complete |
 | DX-06 | Phase 1 | Pending |
 | INFRA-02 | Phase 2 | Pending |
 | INFRA-03 | Phase 2 | Pending |
