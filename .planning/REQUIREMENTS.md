@@ -9,7 +9,7 @@ Requirements for M1: Foundation. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: TypeScript Fastify server with structured error handling and logging
+- [x] **INFRA-01**: TypeScript Fastify server with structured error handling and logging
 - [ ] **INFRA-02**: MongoDB connection with hybrid storage pattern (metadata embedded, nodes/edges in separate collections)
 - [ ] **INFRA-03**: Operation-based data model designed for future CRDT compatibility
 - [ ] **INFRA-04**: Local development works with local MongoDB instance
@@ -83,12 +83,12 @@ Requirements for M1: Foundation. Each maps to roadmap phases.
 
 ### Developer Experience
 
-- [ ] **DX-01**: oxlint configured for all packages
-- [ ] **DX-02**: oxfmt configured for all packages
+- [x] **DX-01**: oxlint configured for all packages
+- [x] **DX-02**: oxfmt configured for all packages
 - [x] **DX-03**: Monorepo uses npm workspaces with shared configs
 - [x] **DX-04**: Shared tsconfig.json base across packages
 - [x] **DX-05**: Import aliasing convention enforced (descriptive names for libraries)
-- [ ] **DX-06**: CI runs lint, format check, and tests on PR
+- [x] **DX-06**: CI runs lint, format check, and tests on PR
 
 ## v2 Requirements
 
@@ -138,15 +138,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase   | Status   |
 | ----------- | ------- | -------- |
-| INFRA-01    | Phase 1 | Pending  |
+| INFRA-01    | Phase 1 | Complete |
 | INFRA-04    | Phase 1 | Pending  |
 | INFRA-06    | Phase 1 | Complete |
-| DX-01       | Phase 1 | Pending  |
-| DX-02       | Phase 1 | Pending  |
+| DX-01       | Phase 1 | Complete |
+| DX-02       | Phase 1 | Complete |
 | DX-03       | Phase 1 | Complete |
 | DX-04       | Phase 1 | Complete |
 | DX-05       | Phase 1 | Complete |
-| DX-06       | Phase 1 | Pending  |
+| DX-06       | Phase 1 | Complete |
 | INFRA-02    | Phase 2 | Pending  |
 | INFRA-03    | Phase 2 | Pending  |
 | INFRA-05    | Phase 2 | Pending  |
