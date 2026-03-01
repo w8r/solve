@@ -1,3 +1,3 @@
-export * from "./traversal.js";
-export * from "./validation.js";
-export * from "./dependencies.js";
+export * from "./traversal";
+export * from "./validation";
+export * from "./dependencies";

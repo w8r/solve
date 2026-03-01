@@ -1,0 +1,21 @@
+# Build outputs
+**/dist/**
+**/build/**
+
+# Legacy code
+legacy/**
+
+# Dependencies
+node_modules/**
+
+# Generated files
+*.min.js
+
+# Planning docs
+.planning/**
+
+# Scripts
+scripts/**
+
+# Lock files
+package-lock.json

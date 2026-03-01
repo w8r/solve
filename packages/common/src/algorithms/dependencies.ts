@@ -1,4 +1,4 @@
-import type { INode, IEdge } from "../types/index.js";
+import type { INode, IEdge } from "../types";
 
 /**
  * Find all nodes that depend on the given node (direct and transitive)

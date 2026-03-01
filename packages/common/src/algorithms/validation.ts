@@ -1,4 +1,4 @@
-import type { IGraph, INode, IEdge } from "../types/index.js";
+import type { IGraph, INode, IEdge } from "../types";
 
 export interface ValidationResult {
   valid: boolean;

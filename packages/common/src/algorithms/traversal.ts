@@ -1,4 +1,4 @@
-import type { INode, IEdge } from "../types/index.js";
+import type { INode, IEdge } from "../types";
 
 type NodeVisitor = (node: INode) => void;
 

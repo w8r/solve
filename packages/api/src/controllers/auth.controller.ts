@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { authService } from "../services/auth.service.js";
-import { RegisterInput, LoginInput, RefreshTokenInput } from "../schemas/auth.schema.js";
+import { authService } from "../services/auth.service";
+import { RegisterInput, LoginInput, RefreshTokenInput } from "../schemas/auth.schema";
 
 export class AuthController {
   /**
