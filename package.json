@@ -1,19 +1,21 @@
 {
   "name": "solve",
   "version": "0.0.1",
-  "description": "Solve app",
+  "description": "Solve app - distributed problem-solving with graph visualization. Import aliasing convention: Use descriptive aliases for non-descriptive library names (e.g., import { z as Schema } from 'zod').",
   "main": "index.js",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
-    "client": "yarn workspace @solve/client start --https",
-    "server": "yarn workspace @solve/server dev",
-    "presentation": "yarn workspace @solve/presentation dev",
-    "build-web": "yarn workspace @solve/client build:web",
-    "docs": "yarn workspace @solve/presentation build",
-    "publish:stage": "yarn workspace @solve/client publish:stage"
+    "dev": "npm run dev -w @solve/api",
+    "build": "npm run build --workspaces",
+    "lint": "oxlint .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check ."
   },
   "repository": {
     "type": "git",
@@ -25,12 +27,6 @@
     "url": "https://github.com/w8r/solve/issues"
   },
   "homepage": "https://github.com/w8r/solve#readme",
-  "dependencies": {
-    "localtunnel": "^2.0.1"
-  },
-  "packageManager": "yarn@3.2.0",
-  "devDependencies": {
-    "surge": "^0.23.1",
-    "vercel": "^24.2.4"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }
