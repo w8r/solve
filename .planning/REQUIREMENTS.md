@@ -14,7 +14,7 @@ Requirements for M1: Foundation. Each maps to roadmap phases.
 - [ ] **INFRA-03**: Operation-based data model designed for future CRDT compatibility
 - [ ] **INFRA-04**: Local development works with local MongoDB instance
 - [ ] **INFRA-05**: Deployment to Vercel (or similar) working
-- [ ] **INFRA-06**: Shared TypeScript types across packages (@solve/common)
+- [x] **INFRA-06**: Shared TypeScript types across packages (@solve/common)
 
 ### Authentication
 
@@ -86,7 +86,7 @@ Requirements for M1: Foundation. Each maps to roadmap phases.
 - [ ] **DX-01**: oxlint configured for all packages
 - [ ] **DX-02**: oxfmt configured for all packages
 - [x] **DX-03**: Monorepo uses npm workspaces with shared configs
-- [ ] **DX-04**: Shared tsconfig.json base across packages
+- [x] **DX-04**: Shared tsconfig.json base across packages
 - [x] **DX-05**: Import aliasing convention enforced (descriptive names for libraries)
 - [ ] **DX-06**: CI runs lint, format check, and tests on PR
 
@@ -140,11 +140,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | INFRA-01 | Phase 1 | Pending |
 | INFRA-04 | Phase 1 | Pending |
-| INFRA-06 | Phase 1 | Pending |
+| INFRA-06 | Phase 1 | Complete |
 | DX-01 | Phase 1 | Pending |
 | DX-02 | Phase 1 | Pending |
 | DX-03 | Phase 1 | Complete |
-| DX-04 | Phase 1 | Pending |
+| DX-04 | Phase 1 | Complete |
 | DX-05 | Phase 1 | Complete |
 | DX-06 | Phase 1 | Pending |
 | INFRA-02 | Phase 2 | Pending |
