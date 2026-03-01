@@ -26,11 +26,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 ### Phase 1: Foundation & Setup
 **Goal**: Clean project foundation with modern tooling, CI/CD, and legacy code preserved
 **Depends on**: Nothing (first phase)
-**Requirements**: INFRA-01, INFRA-04, INFRA-06, DX-01, DX-02, DX-03, DX-04, DX-05, DX-06
+**Requirements**: INFRA-01, INFRA-06, DX-01, DX-02, DX-03, DX-04, DX-05, DX-06
 **Success Criteria** (what must be TRUE):
   1. Legacy code from packages/server, packages/client, packages/presentation moved to /legacy directory
   2. Monorepo structure works with npm workspaces and shared @solve/common package
-  3. Developer can run npm install and start local development with local MongoDB
+  3. Developer can run npm install and start local development
   4. GitHub Actions CI runs lint, format check, and tests on every PR
   5. All packages use oxlint and oxfmt with consistent formatting
 **Plans**: 3 plans in 3 waves
@@ -43,7 +43,7 @@ Plans:
 ### Phase 2: Backend Infrastructure
 **Goal**: TypeScript Fastify server with hybrid MongoDB storage and operation-based data model
 **Depends on**: Phase 1
-**Requirements**: INFRA-02, INFRA-03, INFRA-05
+**Requirements**: INFRA-02, INFRA-03, INFRA-04, INFRA-05
 **Success Criteria** (what must be TRUE):
   1. Fastify server starts and responds to health check endpoint
   2. MongoDB connection works with separate collections for graphs, nodes, edges, operations
