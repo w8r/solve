@@ -28,16 +28,17 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Depends on**: Nothing (first phase)
 **Requirements**: INFRA-01, INFRA-04, INFRA-06, DX-01, DX-02, DX-03, DX-04, DX-05, DX-06
 **Success Criteria** (what must be TRUE):
-  1. Legacy code from packages/server, packages/client, packages/api moved to /legacy directory
+  1. Legacy code from packages/server, packages/client, packages/presentation moved to /legacy directory
   2. Monorepo structure works with npm workspaces and shared @solve/common package
   3. Developer can run npm install and start local development with local MongoDB
   4. GitHub Actions CI runs lint, format check, and tests on every PR
   5. All packages use oxlint and oxfmt with consistent formatting
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Legacy migration and npm workspace setup (Wave 1)
+- [ ] 01-02-PLAN.md — TypeScript configuration and @solve/common structure (Wave 2)
+- [ ] 01-03-PLAN.md — @solve/api package, linting, and CI/CD setup (Wave 3)
 
 ### Phase 2: Backend Infrastructure
 **Goal**: TypeScript Fastify server with hybrid MongoDB storage and operation-based data model
@@ -173,7 +174,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Setup | 0/? | Not started | - |
+| 1. Foundation & Setup | 0/3 | Planning complete | - |
 | 2. Backend Infrastructure | 0/? | Not started | - |
 | 3. Authentication | 0/? | Not started | - |
 | 4. Graph API | 0/? | Not started | - |
@@ -184,4 +185,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 ---
 *Roadmap created: 2026-03-01*
-*Last updated: 2026-03-01*
+*Last updated: 2026-03-01 (Phase 1 planning complete)*
