@@ -116,6 +116,10 @@ import fastify from "fastify";
 import { describe, it, expect } from "vitest";
 ```
 
+## Code Style
+
+- Do not ever use recursion in codebase (e.g. for graph traversal) — use iterative approaches with explicit stacks/queues instead to avoid call stack limits and improve readability.
+
 ## Success Criteria Mapping
 
 | Criteria                      | How We'll Achieve It                                  |

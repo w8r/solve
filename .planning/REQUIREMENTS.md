@@ -13,7 +13,7 @@ Requirements for M1: Foundation. Each maps to roadmap phases.
 - [ ] **INFRA-02**: MongoDB connection with hybrid storage pattern (metadata embedded, nodes/edges in separate collections)
 - [ ] **INFRA-03**: Operation-based data model designed for future CRDT compatibility
 - [ ] **INFRA-04**: Local development works with local MongoDB instance
-- [ ] **INFRA-05**: Deployment to Vercel (or similar) working
+- [ ] **INFRA-05**: Deployment to Fly.io working (Docker-based, portable)
 - [x] **INFRA-06**: Shared TypeScript types across packages (@solve/common)
 
 ### Authentication

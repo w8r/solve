@@ -2,7 +2,7 @@
   "name": "solve",
   "version": "0.0.1",
   "private": true,
-  "description": "Solve app - distributed problem-solving with graph visualization. Import aliasing convention: Use descriptive aliases for non-descriptive library names (e.g., import { z as Schema } from 'zod').",
+  "description": "Solve app - distributed problem-solving with graph visualization.",
   "homepage": "https://github.com/w8r/solve#readme",
   "bugs": {
     "url": "https://github.com/w8r/solve/issues"
